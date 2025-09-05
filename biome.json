@@ -1,0 +1,25 @@
+{
+    "linter": {
+        "rules": {
+            "style": {
+                "noUselessElse": "off",
+                "noNonNullAssertion": "off"
+            }
+        }
+    },
+    "formatter": {
+        "useEditorconfig": true
+    },
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "files": {
+        "ignore": [
+            "./packages/support/FuzzedDataProvider.ts",
+            "./packages/inference/**",
+            "./packages/worker-sys/index.js"
+        ]
+    }
+}

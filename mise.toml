@@ -1,0 +1,72 @@
+[tools]
+node = '24.6.0'
+bun = 'latest'
+rust = '1.89'
+python = '3.13.2'
+
+[env]
+_.python.venv = { path = ".venv", create = true }
+
+[settings]
+experimental = true
+
+[tasks.setup]
+run = [
+  "pip install -r requirements.txt",
+  "bun i",
+  "cargo install --locked cargo-workspace-version cargo-deny cargo-about",
+]
+
+[tasks.test]
+run = [
+  "cd packages/inference && bun test",
+  "cd packages/worker && bun test",
+  "cargo test"
+]
+
+[tasks.setup-projects]
+description = "Download and build all benchmarks"
+run = "python ./benchmarks/setup.py"
+
+[tasks.build]
+description = "Build the fuzzer and associated tools"
+run = """
+  bun i # install dependencies
+
+  # always build the workspace in release mode
+  cargo build --release
+
+  cd packages/worker-sys
+  bun run build
+  cd ../..
+
+  bunx tsc -b # build js parts
+  bun i # install built binaries to node_modules/.bin
+"""
+
+[tasks.fix]
+description = "Format and lint"
+run = [
+  "bunx biome format --write .",
+  "bunx biome lint --error-on-warnings --write .",
+  "cargo fmt",
+  "cargo clippy"
+]
+
+[tasks.show]
+description = "Visualize a graph"
+run = """
+  TMP_FILE=$(mktemp)
+  cargo run --release --bin viz -- {{cwd}}/{{arg(name="file")}} > $TMP_FILE
+  dot -Tpng $TMP_FILE -o "$TMP_FILE.png"
+  xdg-open "$TMP_FILE.png"
+"""
+
+[tasks.crunch]
+description = "Collect all metrics from an evaluation run into an sqlite database"
+run = 'cargo run --release --bin makedb -- {{cwd}}/{{arg(name="file")}}'
+
+[tasks.publish]
+run = """
+./scripts/publish.sh {{arg(name="version")}}
+"""

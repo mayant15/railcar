@@ -1,0 +1,20 @@
+{
+    "extends": "@tsconfig/node24",
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist",
+        "allowJs": false,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "declaration": true,
+        "composite": true,
+        "alwaysStrict": true,
+        "sourceMap": true
+    },
+    "references": [
+        { "path": "./packages/worker" },
+        { "path": "./packages/inference" },
+        { "path": "./packages/support" }
+    ],
+    "exclude": ["benchmarks/projects/**/*", "scripts/**/*", "dist/**/*"]
+}

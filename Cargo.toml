@@ -1,0 +1,13 @@
+[workspace]
+resolver = "2"
+members = [
+  "packages/cli",
+  "packages/metrics",
+  "packages/graph",
+  "packages/worker-sys",
+  "packages/tools"
+]
+
+[workspace.dependencies]
+log = "0.4.27"
+env_logger = "0.11.7"

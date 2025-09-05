@@ -1,0 +1,20 @@
+# REUSE copyright and license notices.
+# Spec: https://reuse.software
+# Tool: https://github.com/fsfe/reuse-tool (version 5.1.0)
+# Run `reuse spdx` to generate per-file information
+
+version = 1
+
+# Catch-all, files may have more specific annotations
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = "2025 Mayant Mukul"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# @railcar/support is Apache-2.0
+[[annotations]]
+path = [
+  "packages/support/**",
+]
+SPDX-FileCopyrightText = "2025 Mayant Mukul"
+SPDX-License-Identifier = "Apache-2.0"

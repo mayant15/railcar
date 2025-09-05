@@ -1,0 +1,22 @@
+{
+    "name": "@railcar/inference",
+    "description": "Type inference for graph fuzz drivers",
+    "license": "GPL-3.0-or-later",
+    "bin": {
+        "railcar-infer": "dist/cli.js"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "dependencies": {
+        "typescript": "^5.8.2",
+        "yargs": "^17.7.2"
+    },
+    "devDependencies": {
+        "@types/yargs": "^17.0.32"
+    },
+    "files": [
+        "dist",
+        "!dist/tsconfig.tsbuildinfo"
+    ],
+    "version": "0.1.7"
+}

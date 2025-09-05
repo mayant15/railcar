@@ -1,0 +1,25 @@
+{
+    "name": "@railcar/worker-sys",
+    "description": "Native APIs for @railcar/worker",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "napi": {
+        "name": "worker-sys",
+        "triples": {}
+    },
+    "license": "GPL-3.0-or-later",
+    "devDependencies": {
+        "@napi-rs/cli": "^2.18.4"
+    },
+    "optionalDependencies": {
+        "@railcar/worker-sys-linux-x64-gnu": "0.1.7"
+    },
+    "engines": {
+        "node": ">= 10"
+    },
+    "scripts": {
+        "build": "napi build --platform --release"
+    },
+    "files": ["index.d.ts", "index.js"],
+    "version": "0.1.7"
+}

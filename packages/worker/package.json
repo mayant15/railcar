@@ -1,0 +1,21 @@
+{
+    "name": "@railcar/worker",
+    "description": "JS-side implementation for Railcar",
+    "license": "GPL-3.0-or-later",
+    "bin": {
+        "railcar-worker": "dist/worker.js"
+    },
+    "dependencies": {
+        "@babel/core": "^7.26.10",
+        "@msgpack/msgpack": "^3.1.1",
+        "@railcar/inference": "0.1.7",
+        "@railcar/worker-sys": "0.1.7",
+        "istanbul-lib-hook": "^3.0.0"
+    },
+    "devDependencies": {
+        "@types/babel__core": "^7.20.5",
+        "@types/istanbul-lib-hook": "^2.0.4"
+    },
+    "files": ["dist", "!dist/tsconfig.tsbuildinfo"],
+    "version": "0.1.7"
+}

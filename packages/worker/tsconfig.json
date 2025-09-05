@@ -1,0 +1,20 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "rootDir": ".",
+        "outDir": "dist"
+    },
+    "references": [
+        {
+            "path": "../inference"
+        }
+    ],
+    "files": [
+        "./worker.ts",
+        "./config.ts",
+        "./graph.ts",
+        "./bytes.ts",
+        "./common.ts",
+        "./instrument.ts"
+    ]
+}

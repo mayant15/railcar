@@ -1,0 +1,9 @@
+{
+    "name": "@railcar/support",
+    "description": "Utilities for libraries using Railcar",
+    "license": "Apache-2.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": ["dist", "!dist/tsconfig.tsbuildinfo"],
+    "version": "0.1.7"
+}

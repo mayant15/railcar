@@ -1,0 +1,19 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "rootDir": ".",
+        "outDir": "dist"
+    },
+    "references": [],
+    "files": [
+        "./config.ts",
+        "./schema.ts",
+        "./cli.ts",
+        "./common.ts",
+        "./typescript.ts",
+        "./index.ts",
+        "./derive.ts",
+        "./reflection.ts"
+    ],
+    "exclude": ["./derive.test.ts"]
+}

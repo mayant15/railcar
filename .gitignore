@@ -1,0 +1,42 @@
+node_modules/
+.venv
+target/
+
+schema.json
+metrics.json
+corpus/
+crashes/
+
+# Coverage
+coverage
+*.lcov
+.nyc_output
+
+# debug files
+debug/
+*.dot
+connecting.json
+export-deps.json
+function-deps.json
+scratch.js
+
+# Fuzzer reports
+**/crash-*
+**/oom-*
+**/timeout-*
+
+benchmarks/*results*
+results-*.tar.xz
+
+# Compiled
+build
+cmake-build-*
+out
+dist
+*.tsbuildinfo
+
+# Logs
+*.log
+
+.env
+.DS_Store

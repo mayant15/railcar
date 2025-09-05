@@ -1,0 +1,24 @@
+{
+    "name": "railcar",
+    "description": "Fuzz testing for JavaScript libraries",
+    "license": "GPL-3.0-or-later",
+    "workspaces": [
+        "packages/worker",
+        "packages/worker-sys",
+        "packages/inference",
+        "packages/support"
+    ],
+    "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "@jazzer.js/core": "^2.1.0",
+        "@jazzer.js/fuzzer": "^2.1.0",
+        "@napi-rs/cli": "^2.18.4",
+        "@tsconfig/node24": "^24.0.1",
+        "@types/bun": "^1.2.21",
+        "@types/node": "^22.10.2",
+        "nyc": "17.1.0",
+        "prebuild": "^13.0.1",
+        "typescript": "^5.7.2"
+    },
+    "version": "0.1.7"
+}

@@ -1,0 +1,20 @@
+{
+    "name": "@railcar/cli-linux-x64-gnu",
+    "os": ["linux"],
+    "cpu": ["x64"],
+    "bin": {
+        "railcar": "railcar"
+    },
+    "files": ["railcar", "third-party.html"],
+    "license": "GPL-3.0-or-later",
+    "engines": {
+        "node": ">= 10"
+    },
+    "libc": ["glibc"],
+    "version": "0.1.7",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mayant15/railcar.git",
+        "directory": "packages/cli/npm/linux-x64-gnu"
+    }
+}

@@ -1,0 +1,7 @@
+disallowed-types = [
+  { path = "std::collections::HashMap", reason = "If you're going to iterate over this, use BTreeMap for deterministic order instead" }
+]
+
+disallowed-methods = [
+  { path = "rmp_serde::to_vec", reason = "to_vec does not serialize field names. Use to_vec_named instead" }
+]

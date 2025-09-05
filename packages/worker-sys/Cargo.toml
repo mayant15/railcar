@@ -1,0 +1,16 @@
+[package]
+edition = "2021"
+name = "railcar_worker_sys"
+version = "0.1.7"
+license = "GPL-3.0-or-later"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+napi = { version = "2.16.13", features = ["serde-json"] }
+napi-derive = "2.16.13"
+libafl_bolts = "=0.15.1"
+
+[build-dependencies]
+napi-build = "2.1.4"
