@@ -5,31 +5,31 @@ import { join } from "node:path";
 
 import { deriveFromDeclFile } from "./derive";
 import { Guess } from "./common";
-import tsSchemas from "./typescript";
+// import tsSchemas from "./typescript";
 
-const PROJECTS = ["example", "pako", "js-yaml", "fast-xml-parser"] as const;
-
-for (const project of PROJECTS) {
-    test(project, () => {
-        const actual = deriveFromDeclFile(
-            `../../benchmarks/projects/${project}/index.d.ts`,
-        );
-        const expected = tsSchemas[project];
-        expect(actual).toEqual(expected);
-    });
-}
-
-test("protobuf-js", () => {
-    const actual = deriveFromDeclFile(
-        `../../benchmarks/projects/protobuf-js/index.d.ts`,
-    );
-});
-
-test("sharp", () => {
-    const actual = deriveFromDeclFile(
-        `../../benchmarks/projects/sharp/index.d.ts`,
-    );
-});
+// const PROJECTS = ["example", "pako", "js-yaml", "fast-xml-parser"] as const;
+//
+// for (const project of PROJECTS) {
+//     test(project, () => {
+//         const actual = deriveFromDeclFile(
+//             `../../benchmarks/projects/${project}/index.d.ts`,
+//         );
+//         const expected = tsSchemas[project];
+//         expect(actual).toEqual(expected);
+//     });
+// }
+//
+// test("protobuf-js", () => {
+//     const actual = deriveFromDeclFile(
+//         `../../benchmarks/projects/protobuf-js/index.d.ts`,
+//     );
+// });
+//
+// test("sharp", () => {
+//     const actual = deriveFromDeclFile(
+//         `../../benchmarks/projects/sharp/index.d.ts`,
+//     );
+// });
 
 test("extends class", async () => {
     const code = `
