@@ -12,7 +12,7 @@
         "@napi-rs/cli": "^2.18.4"
     },
     "optionalDependencies": {
-        "@railcar/worker-sys-linux-x64-gnu": "0.1.7"
+        "@railcar/worker-sys-linux-x64-gnu": "0.1.8"
     },
     "engines": {
         "node": ">= 10"
@@ -20,6 +20,9 @@
     "scripts": {
         "build": "napi build --platform --release"
     },
-    "files": ["index.d.ts", "index.js"],
-    "version": "0.1.7"
+    "files": [
+        "index.d.ts",
+        "index.js"
+    ],
+    "version": "0.1.8"
 }

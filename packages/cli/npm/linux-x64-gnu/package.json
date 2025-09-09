@@ -1,17 +1,26 @@
 {
     "name": "@railcar/cli-linux-x64-gnu",
-    "os": ["linux"],
-    "cpu": ["x64"],
+    "os": [
+        "linux"
+    ],
+    "cpu": [
+        "x64"
+    ],
     "bin": {
         "railcar": "railcar"
     },
-    "files": ["railcar", "third-party.html"],
+    "files": [
+        "railcar",
+        "third-party.html"
+    ],
     "license": "AGPL-3.0-or-later",
     "engines": {
         "node": ">= 10"
     },
-    "libc": ["glibc"],
-    "version": "0.1.7",
+    "libc": [
+        "glibc"
+    ],
+    "version": "0.1.8",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/mayant15/railcar.git",

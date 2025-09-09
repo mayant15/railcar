@@ -16,10 +16,11 @@
         "useIgnoreFile": true
     },
     "files": {
-        "ignore": [
-            "./packages/support/FuzzedDataProvider.ts",
-            "./packages/inference/**",
-            "./packages/worker-sys/index.js"
+        "includes": [
+            "**",
+            "!./packages/support/FuzzedDataProvider.ts",
+            "!./packages/inference",
+            "!./packages/worker-sys/index.js"
         ]
     }
 }

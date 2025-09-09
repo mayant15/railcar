@@ -3,14 +3,16 @@
     "description": "npm package for Railcar CLI",
     "license": "AGPL-3.0-or-later",
     "optionalDependencies": {
-        "@railcar/cli-linux-x64-gnu": "0.1.7"
+        "@railcar/cli-linux-x64-gnu": "0.1.8"
     },
     "dependencies": {
-        "@railcar/worker": "0.1.7"
+        "@railcar/worker": "0.1.8"
     },
     "engines": {
         "node": ">= 10"
     },
-    "files": ["package.json"],
-    "version": "0.1.7"
+    "files": [
+        "package.json"
+    ],
+    "version": "0.1.8"
 }
