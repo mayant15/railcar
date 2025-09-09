@@ -38,6 +38,6 @@ mise build
 ```
 
 ## License
-Railcar is distributed under [GPL-3.0-or-later](https://spdx.org/licenses/GPL-3.0-or-later.html).
+Railcar is distributed under [AGPL-3.0-or-later](https://spdx.org/licenses/AGPL-3.0-or-later.html).
 The package `@railcar/support` (code in `packages/support`) is distributed under [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html).
 See `REUSE.toml` for details.

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 use libafl::{
     corpus::Testcase,
     schedulers::{testcase_score::CorpusWeightTestcaseScore, TestcaseScore, WeightedScheduler},

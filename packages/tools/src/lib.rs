@@ -1,5 +1,7 @@
 #![expect(clippy::disallowed_types)]
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 use std::collections::HashMap;
 use std::fmt::Write;
 use std::hash::Hash;

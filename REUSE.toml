@@ -9,7 +9,7 @@ version = 1
 [[annotations]]
 path = "**"
 SPDX-FileCopyrightText = "2025 Mayant Mukul"
-SPDX-License-Identifier = "GPL-3.0-or-later"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 # @railcar/support is Apache-2.0
 [[annotations]]

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 use clap::{Parser, ValueEnum};
 use libafl::inputs::{HasMutatorBytes, Input};
 use railcar_graph::{ConstantValue, Graph, HasSchema, Node, NodePayload, ParametricGraph};

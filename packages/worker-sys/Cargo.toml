@@ -2,7 +2,7 @@
 edition = "2021"
 name = "railcar_worker_sys"
 version = "0.1.7"
-license = "GPL-3.0-or-later"
+license = "AGPL-3.0-or-later"
 
 [lib]
 crate-type = ["cdylib"]

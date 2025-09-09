@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 use static_assertions::const_assert;
 
 pub const MAX_COMPLETION_ITER: usize = 70;

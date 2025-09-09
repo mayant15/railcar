@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 use std::time::Duration;
 
 use libafl::monitors::{ClientStats, CombinedMonitor, Monitor, MultiMonitor, UserStatsValue};

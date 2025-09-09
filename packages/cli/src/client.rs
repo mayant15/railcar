@@ -1,5 +1,7 @@
 #![allow(static_mut_refs)]
 
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 use std::{path::PathBuf, time::Duration};
 
 use anyhow::{bail, Result};

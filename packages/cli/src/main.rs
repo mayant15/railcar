@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 use std::{path::PathBuf, str::FromStr, time::Duration};
 
 use anyhow::Result;

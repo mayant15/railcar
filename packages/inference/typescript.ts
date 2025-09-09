@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import assert from "node:assert";
 import { addStd, type BenchmarkSchemas, Types, Guess, mkClass } from "./common";
 import type { Schema, SignatureGuess, Type, TypeGuess } from "./schema";

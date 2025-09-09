@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 //! parse and do stuff with lcov
 //! thanks to https://github.com/gifnksm/lcov/ for reference with the lcov format
 
