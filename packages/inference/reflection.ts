@@ -165,7 +165,7 @@ function isConstructor(fn: Fn): boolean {
 
     // try calling with new
     try {
-        // @ts-ignore
+        // @ts-expect-error
         const maybePromise = new fn();
         if (maybePromise instanceof Promise) {
             maybePromise.catch(() => {});

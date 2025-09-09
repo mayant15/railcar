@@ -1,11 +1,17 @@
 {
+    "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
     "linter": {
         "rules": {
             "style": {
                 "noUselessElse": "off",
                 "noNonNullAssertion": "off"
             }
-        }
+        },
+        "includes": [
+            "**",
+            "!**/packages/support/FuzzedDataProvider.ts",
+            "!**/packages/inference/**"
+        ]
     },
     "formatter": {
         "useEditorconfig": true
@@ -14,13 +20,5 @@
         "enabled": true,
         "clientKind": "git",
         "useIgnoreFile": true
-    },
-    "files": {
-        "includes": [
-            "**",
-            "!./packages/support/FuzzedDataProvider.ts",
-            "!./packages/inference",
-            "!./packages/worker-sys/index.js"
-        ]
     }
 }

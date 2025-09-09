@@ -10,7 +10,7 @@ export enum ExitKind {
 export function withOracle<I>(
     fuzz: (_: I) => void | Promise<void>,
     ignored: string[],
-    logError = false,
+    _logError: boolean = false,
 ): (_: I) => Promise<ExitKind> {
     return async (data: I) => {
         try {
@@ -33,7 +33,7 @@ export function withOracle<I>(
                       : undefined;
 
             if (message) {
-                if (ignoredError(message, ignored, (err as Error).stack)) {
+                if (ignoredError(message, ignored)) {
                     return ExitKind.Invalid;
                 }
 
@@ -49,7 +49,7 @@ export function withOracle<I>(
     };
 }
 
-function ignoredError(error: string, ignored: string[], stack?: string) {
+function ignoredError(error: string, ignored: string[]) {
     const ignore = !!ignored.find(
         (message) =>
             message === "RAILCAR_IGNORE_ALL" || error.indexOf(message) !== -1,

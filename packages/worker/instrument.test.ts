@@ -7,7 +7,6 @@ import { expect, describe, test } from "bun:test";
 import { codeCoverage } from "./instrument";
 import { transformSync } from "@babel/core";
 import {
-    type Statement,
     type IfStatement,
     isIfStatement,
     type BlockStatement,
