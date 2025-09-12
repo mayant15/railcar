@@ -11,6 +11,19 @@ path = "**"
 SPDX-FileCopyrightText = "2025 Mayant Mukul"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
+# Example projects include Apache-2.0 fuzz drivers from OSS-Fuzz
+# See individual files may have more specific annotations
+[[annotations]]
+path = "examples/**"
+SPDX-FileCopyrightText = "2025 Mayant Mukul"
+SPDX-License-Identifier = "Apache-2.0"
+
+# These are OSS-Fuzz test cases that have crashed in the past
+[[annotations]]
+path = "examples/**/testcases/**"
+SPDX-License-Identifier = "CC0-1.0"
+SPDX-FileCopyrightText = "2025"
+
 # @railcar/support is Apache-2.0
 [[annotations]]
 path = [

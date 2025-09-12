@@ -10,7 +10,8 @@
         "includes": [
             "**",
             "!**/packages/support/FuzzedDataProvider.ts",
-            "!**/packages/inference/**"
+            "!**/packages/inference/**",
+            "!examples/**"
         ]
     },
     "formatter": {
