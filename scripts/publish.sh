@@ -14,6 +14,7 @@ fd package.json | bun ./scripts/bump-version.ts "$VERSION"
 # Sanity checks
 
 mise fix
+bun audit
 cargo deny check
 reuse lint
 
