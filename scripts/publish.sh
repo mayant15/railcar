@@ -14,7 +14,13 @@ fd package.json | bun ./scripts/bump-version.ts "$VERSION"
 # Sanity checks
 
 mise fix
-bun audit
+
+# we don't care about problems in examples
+if $(bun audit | rg "›" | rg -v examples); then
+  bun audit # print results
+  exit 1
+fi
+
 cargo deny check
 reuse lint
 

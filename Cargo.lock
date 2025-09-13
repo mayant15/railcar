@@ -1215,7 +1215,7 @@ dependencies = [
 
 [[package]]
 name = "metrics"
-version = "0.1.8"
+version = "0.1.9"
 dependencies = [
  "serde",
  "serde_json",
@@ -1588,7 +1588,7 @@ checksum = "69cdb34c158ceb288df11e18b4bd39de994f6657d83847bdffdbd7f346754b0f"
 
 [[package]]
 name = "railcar"
-version = "0.1.8"
+version = "0.1.9"
 dependencies = [
  "anyhow",
  "clap",
@@ -1608,7 +1608,7 @@ dependencies = [
 
 [[package]]
 name = "railcar_graph"
-version = "0.1.8"
+version = "0.1.9"
 dependencies = [
  "libafl",
  "libafl_bolts",
@@ -1622,7 +1622,7 @@ dependencies = [
 
 [[package]]
 name = "railcar_tools"
-version = "0.1.8"
+version = "0.1.9"
 dependencies = [
  "anyhow",
  "clap",
@@ -1641,7 +1641,7 @@ dependencies = [
 
 [[package]]
 name = "railcar_worker_sys"
-version = "0.1.8"
+version = "0.1.9"
 dependencies = [
  "libafl_bolts",
  "napi",
