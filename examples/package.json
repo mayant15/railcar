@@ -1,0 +1,9 @@
+{
+    "name": "@railcar/examples",
+    "private": true,
+    "description": "Usage examples for Railcar",
+    "devDependencies": {
+        "@jazzer.js/core": "^2.1.0",
+        "prebuild": "^13.0.1"
+    }
+}

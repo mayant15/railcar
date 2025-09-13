@@ -6,10 +6,15 @@ if [ ! -d "$SRC" ]; then
 
   pushd "$SRC"
 
-  git checkout 42712223112bcdf3b198b4573ca86489cd4d2c5c
+  git checkout 7e74b4ff519b230ee1c0059ce1d5c7efd359f2c7
 
   echo "[*] Building..."
+
+  # TODO: there's a post-install script somewhere in there that requires interactive
+  # confirmation. Doing it twice works though.
   npm install
+  npm install
+
   npm run bundle
 
   popd
