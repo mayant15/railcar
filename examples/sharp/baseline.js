@@ -22,12 +22,12 @@ module.exports.fuzz = function (data) {
         density: provider.consumeIntegralInRange(1, 100001),
         ignoreicc: provider.consumeBoolean(),
         pages: provider
-        .consumeIntegrals(
-            provider.consumeIntegralInRange(1, 10),
-            provider.consumeIntegralInRange(1, 2),
-            provider.consumeBoolean(),
-        )
-        .push(-1),
+            .consumeIntegrals(
+                provider.consumeIntegralInRange(1, 10),
+                provider.consumeIntegralInRange(1, 2),
+                provider.consumeBoolean(),
+            )
+            .push(-1),
         page: provider.consumeIntegralInRange(1, 1000),
         subifd: provider.consumeIntegralInRange(-1, 1000),
         level: provider.consumeIntegralInRange(0, 1000),
@@ -177,9 +177,8 @@ module.exports.fuzz = function (data) {
                 .toBuffer((_err, _out) => {});
             break;
     }
-
-}
+};
 
 function pickFromArray(array) {
-	return array[Math.floor(Math.random() * array.length)];
+    return array[Math.floor(Math.random() * array.length)];
 }

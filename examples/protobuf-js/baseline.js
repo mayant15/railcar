@@ -7,129 +7,141 @@ const fs = require("fs");
 const ProtoBuf = require("protobufjs");
 
 module.exports.fuzz = function (data) {
-		const provider = new FuzzedDataProvider(data);
-		if (provider._remainingBytes < 512) {
-			return;
-		}
-		const root = new ProtoBuf.Root();
-		const filePath = "fuzz.proto";
-		fs.writeFileSync(
-			filePath,
-			Buffer.from(
-				provider.consumeBytes(provider.consumeIntegralInRange(1, 512)),
-			),
-		);
+    const provider = new FuzzedDataProvider(data);
+    if (provider._remainingBytes < 512) {
+        return;
+    }
+    const root = new ProtoBuf.Root();
+    const filePath = "fuzz.proto";
+    fs.writeFileSync(
+        filePath,
+        Buffer.from(
+            provider.consumeBytes(provider.consumeIntegralInRange(1, 512)),
+        ),
+    );
 
-		// Load the protobuf schema from the temporary file
-		root.loadSync(filePath);
+    // Load the protobuf schema from the temporary file
+    root.loadSync(filePath);
 
-		fuzzLoadSync(root, provider);
-		fuzzDefine(root, provider);
-		fuzzLookupType(root, provider);
-		fuzzEncode(root, provider);
-		fuzzDecode(root, provider);
+    fuzzLoadSync(root, provider);
+    fuzzDefine(root, provider);
+    fuzzLookupType(root, provider);
+    fuzzEncode(root, provider);
+    fuzzDecode(root, provider);
 
-		fs.unlinkSync(filePath);
-}
+    fs.unlinkSync(filePath);
+};
 
 // Fuzz the Root#loadSync method
 function fuzzLoadSync(root, provider) {
-	const filePath = provider.consumeString(provider.consumeIntegralInRange(1, 64));
-	root.loadSync(filePath);
+    const filePath = provider.consumeString(
+        provider.consumeIntegralInRange(1, 64),
+    );
+    root.loadSync(filePath);
 }
 
 // Fuzz the Root#define method
 function fuzzDefine(root, provider) {
-	const length = provider.consumeIntegralInRange(1, 64);
-	const typeName = provider.consumeString(length);
-	const definition = provider.consumeString(
-		provider.consumeIntegralInRange(1, 64),
-	);
-	root.define(typeName, definition);
+    const length = provider.consumeIntegralInRange(1, 64);
+    const typeName = provider.consumeString(length);
+    const definition = provider.consumeString(
+        provider.consumeIntegralInRange(1, 64),
+    );
+    root.define(typeName, definition);
 }
 
 // Fuzz the Root#lookupType method
 function fuzzLookupType(root, provider) {
-	const typeName = provider.consumeString(
-		provider.consumeIntegralInRange(1, 64),
-	);
-	root.lookupType(typeName);
+    const typeName = provider.consumeString(
+        provider.consumeIntegralInRange(1, 64),
+    );
+    root.lookupType(typeName);
 }
 
 // Fuzz the Message#encode method
 function fuzzEncode(root, provider) {
-	const typeName = provider.consumeString(provider.consumeIntegralInRange(1, 64));
-	const message = root.create(typeName);
+    const typeName = provider.consumeString(
+        provider.consumeIntegralInRange(1, 64),
+    );
+    const message = root.create(typeName);
 
-	// Construct the input for the message instance manually
-	const input = constructInputForEncode(message.$type, provider);
-	message.set(input);
+    // Construct the input for the message instance manually
+    const input = constructInputForEncode(message.$type, provider);
+    message.set(input);
 
-	message.encode();
+    message.encode();
 }
 
 // Construct the input for the message instance manually
 function constructInputForEncode(type, provider) {
-	const input = {};
+    const input = {};
 
-	for (const field of type.fieldsArray) {
-		const fieldName = field.name;
-		const fieldType = field.resolvedType;
+    for (const field of type.fieldsArray) {
+        const fieldName = field.name;
+        const fieldType = field.resolvedType;
 
-		if (fieldType && fieldType instanceof ProtoBuf.Type && !field.repeated) {
-			// Recursively construct input for nested message types
-			const nestedInput = constructInputForEncode(fieldType, provider);
-			input[fieldName] = nestedInput;
-		} else {
-			// Consume a value from the provider for non-nested fields
-			const value = consumeValueForField(field, provider);
-			input[fieldName] = value;
-		}
-	}
+        if (
+            fieldType &&
+            fieldType instanceof ProtoBuf.Type &&
+            !field.repeated
+        ) {
+            // Recursively construct input for nested message types
+            const nestedInput = constructInputForEncode(fieldType, provider);
+            input[fieldName] = nestedInput;
+        } else {
+            // Consume a value from the provider for non-nested fields
+            const value = consumeValueForField(field, provider);
+            input[fieldName] = value;
+        }
+    }
 
-	return input;
+    return input;
 }
 
 // Consume a value from the provider for non-nested fields
 function consumeValueForField(field, provider) {
-	switch (field.type) {
-		case "double":
-		case "float":
-			return provider.consumeFloat();
-		case "int32":
-		case "uint32":
-		case "sint32":
-		case "fixed32":
-		case "sfixed32":
-			return provider.consumeIntegral(
-				provider.consumeIntegralInRange(0, 4),
-				provider.consumeBool(),
-			);
-		case "int64":
-		case "uint64":
-		case "sint64":
-		case "fixed64":
-		case "sfixed64":
-			return provider.consumeBigIntegral(
-				provider.consumeIntegralInRange(0, 4),
-				provider.consumeBool(),
-			);
-		case "bool":
-			return provider.consumeBool();
-		case "string":
-			return provider.consumeString(provider.consumeIntegralInRange(0, 64));
-		case "bytes":
-			return provider.consumeBytes(provider.consumeIntegralInRange(0, 64));
-		default:
-			return null;
-	}
+    switch (field.type) {
+        case "double":
+        case "float":
+            return provider.consumeFloat();
+        case "int32":
+        case "uint32":
+        case "sint32":
+        case "fixed32":
+        case "sfixed32":
+            return provider.consumeIntegral(
+                provider.consumeIntegralInRange(0, 4),
+                provider.consumeBool(),
+            );
+        case "int64":
+        case "uint64":
+        case "sint64":
+        case "fixed64":
+        case "sfixed64":
+            return provider.consumeBigIntegral(
+                provider.consumeIntegralInRange(0, 4),
+                provider.consumeBool(),
+            );
+        case "bool":
+            return provider.consumeBool();
+        case "string":
+            return provider.consumeString(
+                provider.consumeIntegralInRange(0, 64),
+            );
+        case "bytes":
+            return provider.consumeBytes(
+                provider.consumeIntegralInRange(0, 64),
+            );
+        default:
+            return null;
+    }
 }
 
 // Fuzz the Message#decode method
 function fuzzDecode(root, provider) {
-	const typeName = provider.consumeString(
-		provider.consumeIntegralInRange(0, 64),
-	);
-	const buffer = provider.consumeRemainingAsBytes();
-	root.lookupType(typeName).decode(buffer);
+    const typeName = provider.consumeString(
+        provider.consumeIntegralInRange(0, 64),
+    );
+    const buffer = provider.consumeRemainingAsBytes();
+    root.lookupType(typeName).decode(buffer);
 }

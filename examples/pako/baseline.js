@@ -42,4 +42,4 @@ module.exports.fuzz = function (data) {
         pako.inflate(gzip);
         pako.inflateRaw(gzip);
     }
-}
+};
