@@ -3,9 +3,11 @@
     "private": true,
     "description": "Usage examples for Railcar",
     "devDependencies": {
+        "@jazzer.js/core": "2.1.0",
         "fast-xml-parser": "5.2.5",
         "js-yaml": "4.1.0",
-        "@jazzer.js/core": "2.1.0",
-        "prebuild": "13.0.1"
+        "pako": "2.1.0",
+        "prebuild": "13.0.1",
+        "protobufjs": "6.11.4"
     }
 }
