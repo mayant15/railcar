@@ -1,10 +1,9 @@
 // SPDX-FileCopyrightText: 2023 Google LLC
 // SPDX-License-Identifier: Apache-2.0
+// Imports modified to integrate with Railcar's examples file tree
 
 const { FuzzedDataProvider } = require("@jazzer.js/core");
-const XMLParser = require("../src/src/xmlparser/XMLParser");
-const XMLBuilder = require("../src/src/xmlbuilder/json2xml");
-const XMLValidator = require("../src/src/fxp").XMLValidator;
+const { XMLParser, XMLBuilder, XMLValidator } = require("../src");
 
 module.exports.fuzz = (data) => {
     try {
