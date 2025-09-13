@@ -3,7 +3,7 @@
 // Imports modified to integrate with Railcar's examples file tree
 
 const { FuzzedDataProvider } = require("@jazzer.js/core");
-const yaml = require("../src");
+const yaml = require("js-yaml");
 
 module.exports.fuzz = function (data) {
     const provider = new FuzzedDataProvider(data);

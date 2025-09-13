@@ -3,7 +3,7 @@
 // Modified to support Railcar instead of Jazzer.js
 
 const { FuzzedDataProvider } = require("@railcar/support");
-const { XMLParser, XMLBuilder, XMLValidator } = require("../src");
+const { XMLParser, XMLBuilder, XMLValidator } = require("fast-xml-parser");
 
 module.exports.fuzz = (data) => {
     const provider = new FuzzedDataProvider(data);

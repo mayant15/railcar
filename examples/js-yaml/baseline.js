@@ -3,7 +3,7 @@
 // Modified to support Railcar instead of Jazzer.js
 
 const { FuzzedDataProvider } = require("@railcar/support");
-const yaml = require("../src");
+const yaml = require("js-yaml");
 
 module.exports.fuzz = function (data) {
     const provider = new FuzzedDataProvider(data);

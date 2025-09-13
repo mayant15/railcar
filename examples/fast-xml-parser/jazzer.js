@@ -3,7 +3,7 @@
 // Imports modified to integrate with Railcar's examples file tree
 
 const { FuzzedDataProvider } = require("@jazzer.js/core");
-const { XMLParser, XMLBuilder, XMLValidator } = require("../src");
+const { XMLParser, XMLBuilder, XMLValidator } = require("fast-xml-parser");
 
 module.exports.fuzz = (data) => {
     try {
