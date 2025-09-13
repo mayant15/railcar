@@ -10,7 +10,7 @@ export enum ExitKind {
 export function withOracle<I>(
     fuzz: (_: I) => void | Promise<void>,
     ignored: string[],
-    _logError: boolean = false,
+    logError: boolean = false,
 ): (_: I) => Promise<ExitKind> {
     return async (data: I) => {
         try {
@@ -42,7 +42,10 @@ export function withOracle<I>(
                 }
             }
 
-            console.error("[RAILCAR_ERROR]", err);
+            if (logError) {
+                console.error("[RAILCAR_ERROR]", err);
+            }
+
             return ExitKind.Crash;
         }
         return ExitKind.Ok;
