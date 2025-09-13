@@ -217,7 +217,7 @@ where
 
 fn main() -> Result<()> {
     env_logger::builder()
-        .filter(None, log::LevelFilter::Warn)
+        .filter(None, log::LevelFilter::Info)
         .filter(
             Some("railcar_cli"),
             if cfg!(debug_assertions) {
