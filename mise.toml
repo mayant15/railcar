@@ -24,10 +24,6 @@ run = [
   "cargo test"
 ]
 
-[tasks.setup-projects]
-description = "Download and build all benchmarks"
-run = "python ./benchmarks/setup.py"
-
 [tasks.build]
 description = "Build the fuzzer and associated tools"
 run = """
