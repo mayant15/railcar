@@ -5,7 +5,6 @@ use std::{path::PathBuf, str::FromStr, time::Duration};
 use anyhow::Result;
 use clap::Parser;
 use client::{FuzzerConfig, FuzzerMode, RestartingManager, State, ToFuzzerInput};
-use config::METRICS_BUFFER_SIZE;
 use libafl::{
     events::{EventConfig, Launcher},
     inputs::BytesInput,
@@ -21,7 +20,6 @@ use serde::Deserialize;
 
 mod client;
 mod config;
-mod events;
 mod feedback;
 mod monitor;
 mod mutation;
@@ -85,7 +83,7 @@ struct Arguments {
     #[arg(long)]
     schema: Option<String>,
 
-    /// Path to log fuzzer metrics
+    /// Path to log fuzzer metrics.
     #[arg(long)]
     metrics: Option<String>,
 
@@ -260,15 +258,6 @@ fn main() -> Result<()> {
         ConfigFileOptions::default()
     };
 
-    // write to a temporary file if no user-provided path
-    let metrics = args.metrics.unwrap_or_else(|| {
-        let temp_dir = std::env::temp_dir();
-        let metrics = temp_dir.join("railcar-metrics.json");
-        std::fs::write(&metrics, b"").unwrap();
-        metrics.into_os_string().into_string().unwrap()
-    });
-    metrics::init(metrics.as_str(), Some(METRICS_BUFFER_SIZE));
-
     let config = client::FuzzerConfig {
         mode: args.mode.clone(),
         timeout: Duration::from_secs(args.timeout),
@@ -305,13 +294,13 @@ fn main() -> Result<()> {
     //     .title("railcar")
     //     .version("0.1.0")
     //     .build();
-    let monitor = create_monitor(|msg| {
+    let monitor = create_monitor(args.metrics, |msg| {
         if msg.contains("Client Heartbeat") {
             log::info!("{msg}")
         } else {
             log::debug!("{msg}")
         }
-    });
+    })?;
 
     if config.replay_input.is_some() {
         match config.mode {

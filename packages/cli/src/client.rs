@@ -25,7 +25,6 @@ use libafl_bolts::{
     shmem::{MmapShMem, MmapShMemProvider, ShMemProvider},
     tuples::tuple_list,
 };
-use metrics::bump;
 use railcar_graph::{EndpointName, Graph, HasSchema, ParametricGraph, RailcarError, Schema};
 use serde::{Deserialize, Serialize};
 
@@ -126,7 +125,6 @@ fn handle_exit_code(code: u8) -> ExitKind {
             ExitKind::Ok // don't save expected crashes to crashes dir
         }
         3 => {
-            bump!("fuzzerPanic");
             panic!("fuzzer requested an abort for input");
         }
         _ => {
@@ -152,8 +150,6 @@ impl ToFuzzerInput for ParametricGraph {
         {
             Ok(graph) => graph,
             Err(e) => {
-                #[cfg(debug_assertions)]
-                bump!("serializationFail");
                 bail!("failed to create graph from bytes {}", e);
             }
         };

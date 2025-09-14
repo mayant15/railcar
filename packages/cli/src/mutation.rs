@@ -26,7 +26,6 @@ use libafl_bolts::{
     HasLen, Named,
 };
 
-use metrics::bump;
 use railcar_graph::{
     choose,
     rng::{context_byte_seq, extend_context_byte_seq, string, BytesRand},
@@ -35,14 +34,11 @@ use railcar_graph::{
     TrySample, Type, TypeGuess, TypeKind,
 };
 
-use crate::{
-    config::{
-        MAX_CONTEXT_MUTATION_ITERATIONS_LOG2, MAX_SCHEMA_MUTATION_ARGC,
-        MAX_SCHEMA_MUTATION_TYPE_GUESS_CLASSES_COUNT,
-        MAX_SCHEMA_MUTATION_TYPE_GUESS_PROPERTIES_COUNT, MUTATE_SCHEMA_ARGC_FILL_WITH_ANY,
-        MUTATE_SCHEMA_CREATE_ANY_GUESS_RATE, MUTATE_SCHEMA_PRESERVE_CLASS_STRUCTURE,
-    },
-    events::*,
+use crate::config::{
+    MAX_CONTEXT_MUTATION_ITERATIONS_LOG2, MAX_SCHEMA_MUTATION_ARGC,
+    MAX_SCHEMA_MUTATION_TYPE_GUESS_CLASSES_COUNT, MAX_SCHEMA_MUTATION_TYPE_GUESS_PROPERTIES_COUNT,
+    MUTATE_SCHEMA_ARGC_FILL_WITH_ANY, MUTATE_SCHEMA_CREATE_ANY_GUESS_RATE,
+    MUTATE_SCHEMA_PRESERVE_CLASS_STRUCTURE,
 };
 
 macro_rules! mutation {
@@ -77,42 +73,21 @@ macro_rules! mutation {
                 {
                     log::debug!("Applying {} to {}", self.name(), input.generate_name(None));
                 }
-                let name = self.name().to_string();
-                let input_id = input.generate_name(None);
-                self.perform(state, input)
-                    .map(|result| match result {
-                        MutationResult::Undo => {
-                            *input = clone;
-
-                            #[cfg(debug_assertions)]
-                            fire_mutation_undo_event(name.clone(), input_id.clone());
-
-                            LibAflMutationResult::Skipped
+                self.perform(state, input).map(|result| match result {
+                    MutationResult::Undo => {
+                        *input = clone;
+                        LibAflMutationResult::Skipped
+                    }
+                    MutationResult::Skipped => LibAflMutationResult::Skipped,
+                    MutationResult::Mutated => {
+                        #[cfg(debug_assertions)]
+                        {
+                            log::debug!("  result: {}", input.generate_name(None));
+                            input.is_valid();
                         }
-                        MutationResult::Skipped => {
-                            #[cfg(debug_assertions)]
-                            fire_mutation_skip_event(name.clone(), input_id.clone());
-
-                            LibAflMutationResult::Skipped
-                        }
-                        MutationResult::Mutated => {
-                            #[cfg(debug_assertions)]
-                            {
-                                log::debug!("  result: {}", input.generate_name(None));
-                                input.is_valid();
-
-                                let output_id = input.generate_name(None);
-                                if output_id == input_id {
-                                    fire_mutation_noop_event(name.clone(), input_id.clone());
-                                }
-                            }
-                            LibAflMutationResult::Mutated
-                        }
-                    })
-                    .map_err(|error| {
-                        fire_mutation_error_event(name, input_id);
-                        error
-                    })
+                        LibAflMutationResult::Mutated
+                    }
+                })
             }
         }
     };
@@ -268,12 +243,7 @@ impl<S: HasRand> ReversibleMutator<S, Graph> for Truncate {
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("TruncateAttempts");
-
         let Some((src_id, out_idx)) = self.pick(state.rand_mut(), input) else {
-            #[cfg(debug_assertions)]
-            bump!("TruncateFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -314,12 +284,7 @@ impl<S: HasRand> ReversibleMutator<S, Graph> for Extend {
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("ExtendAttempts");
-
         let Some(id) = self.pick(state.rand_mut(), input) else {
-            #[cfg(debug_assertions)]
-            bump!("ExtendFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -334,8 +299,6 @@ impl<S: HasRand> ReversibleMutator<S, Graph> for Extend {
                 callconv: None,
             },
         ) else {
-            #[cfg(debug_assertions)]
-            bump!("ExtendFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -407,13 +370,8 @@ impl<S: HasRand> ReversibleMutator<S, Graph> for SpliceIn {
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("SpliceInAttempts");
-
         let Some((from_id, name, sig, ports)) = self.pick(state.rand_mut(), input) else {
             // did not find an edge to splice in
-            #[cfg(debug_assertions)]
-            bump!("SpliceInFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -533,12 +491,7 @@ where
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("SpliceOutAttempts");
-
         let Some((node_id, inc_idx, out_idx)) = SpliceOut::pick(state.rand_mut(), input) else {
-            #[cfg(debug_assertions)]
-            bump!("SpliceOutFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -627,9 +580,6 @@ where
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("CrossoverAttempts");
-
         let mut other = {
             let id = random_corpus_id_with_disabled!(state.corpus(), state.rand_mut());
             let mut other_testcase = state.corpus().get_from_all(id)?.borrow_mut();
@@ -640,8 +590,6 @@ where
         let Some(((src, out_edge_idx), (dst, in_edge_idx))) =
             self.pick(state.rand_mut(), input, &other)
         else {
-            #[cfg(debug_assertions)]
-            bump!("CrossoverFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -746,12 +694,7 @@ where
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("ContextAttempts");
-
         let Some(id) = self.pick(state.rand_mut(), input) else {
-            #[cfg(debug_assertions)]
-            bump!("ContextFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -862,12 +805,7 @@ where
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("SwapAttempts");
-
         let Some((id, name, signature, ports)) = self.pick(state.rand_mut(), input) else {
-            #[cfg(debug_assertions)]
-            bump!("SwapFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -926,12 +864,7 @@ impl<S: HasRand> ReversibleMutator<S, Graph> for Priority {
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("PriorityAttempts");
-
         let Some(id) = self.pick(state.rand_mut(), input) else {
-            #[cfg(debug_assertions)]
-            bump!("PriorityFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -985,12 +918,7 @@ impl<S: HasRand> ReversibleMutator<S, Graph> for TruncateDestructor {
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("TruncateDestructorAttempts");
-
         let Some((src_id, dst_id)) = self.pick(state.rand_mut(), input) else {
-            #[cfg(debug_assertions)]
-            bump!("TruncateDestructorFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -1050,12 +978,7 @@ impl<S: HasRand> ReversibleMutator<S, Graph> for ExtendDestructor {
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("ExtendDestructorAttempts");
-
         let Some((id, name, sig, ports)) = self.pick(state.rand_mut(), input) else {
-            #[cfg(debug_assertions)]
-            bump!("ExtendDestructorFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -1118,12 +1041,7 @@ impl<S: HasRand> ReversibleMutator<S, Graph> for TruncateConstructor {
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("TruncateConstructorAttempts");
-
         let Some((src_id, dst_id)) = self.pick(state.rand_mut(), input) else {
-            #[cfg(debug_assertions)]
-            bump!("TruncateConstructorFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -1175,12 +1093,7 @@ impl<S: HasRand> ReversibleMutator<S, Graph> for ExtendConstructor {
         state: &mut S,
         input: &mut Graph,
     ) -> Result<MutationResult, libafl::Error> {
-        #[cfg(debug_assertions)]
-        bump!("ExtendConstructorAttempts");
-
         let Some((id, name, sig)) = self.pick(state.rand_mut(), input) else {
-            #[cfg(debug_assertions)]
-            bump!("ExtendConstructorFailures");
             return Ok(MutationResult::Skipped);
         };
 
@@ -1260,7 +1173,6 @@ where
 
 fn apply_schema_mutation<R, F, I>(
     rand: &mut R,
-    name: &str,
     input: &mut I,
     mutate: F,
 ) -> Result<MutationResult, libafl::Error>
@@ -1269,16 +1181,8 @@ where
     F: Fn(&mut R, &mut SignatureGuess) -> Result<MutationResult, libafl::Error>,
     I: HasSchema,
 {
-    #[cfg(debug_assertions)]
-    {
-        let event_name = format!("{}Attempts", name);
-        bump!(&event_name);
-    }
-
     let endpoints: Vec<String> = input.schema().keys().cloned().collect();
     if endpoints.is_empty() {
-        let event_name = format!("{}Failures", name);
-        bump!(&event_name);
         return Ok(MutationResult::Skipped);
     }
 
@@ -1291,12 +1195,6 @@ where
     };
 
     let result = mutate(rand, guess)?;
-
-    #[cfg(debug_assertions)]
-    if matches!(result, MutationResult::Skipped) {
-        let event_name = format!("{}Failures", name);
-        bump!(&event_name);
-    }
 
     Ok(result)
 }
@@ -1368,7 +1266,7 @@ where
 {
     fn perform(&mut self, state: &mut S, input: &mut I) -> Result<MutationResult, libafl::Error> {
         let classes = input.schema().classes();
-        apply_schema_mutation(state.rand_mut(), self.name(), input, |rand, guess| {
+        apply_schema_mutation(state.rand_mut(), input, |rand, guess| {
             Self::mutate_argc(rand, guess, &classes)
         })
     }
@@ -1422,7 +1320,7 @@ where
     I: HasSchema + Input,
 {
     fn perform(&mut self, state: &mut S, input: &mut I) -> Result<MutationResult, libafl::Error> {
-        apply_schema_mutation(state.rand_mut(), self.name(), input, Self::mutate_weights)
+        apply_schema_mutation(state.rand_mut(), input, Self::mutate_weights)
     }
 }
 
@@ -1483,6 +1381,6 @@ where
     I: HasSchema + Input,
 {
     fn perform(&mut self, state: &mut S, input: &mut I) -> Result<MutationResult, libafl::Error> {
-        apply_schema_mutation(state.rand_mut(), self.name(), input, Self::make_nullable)
+        apply_schema_mutation(state.rand_mut(), input, Self::make_nullable)
     }
 }

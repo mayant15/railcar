@@ -22,6 +22,4 @@ const_assert!(MUTATE_SCHEMA_CREATE_ANY_GUESS_RATE <= 1.0);
 
 pub const COVERAGE_MAP_SIZE: usize = 1 << 16;
 
-pub const METRICS_BUFFER_SIZE: usize = 128;
-
 pub const CORPUS_CACHE_SIZE: usize = 512;

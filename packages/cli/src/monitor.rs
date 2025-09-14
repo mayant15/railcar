@@ -1,24 +1,30 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use std::time::Duration;
+use anyhow::Result;
+use std::{path::Path, time::Duration};
 
 use libafl::monitors::{ClientStats, CombinedMonitor, Monitor, MultiMonitor, UserStatsValue};
 use libafl_bolts::current_time;
 
-use crate::events::fire_heartbeat_event;
+use metrics::{HeartbeatEvent, Metrics};
 
-#[derive(Clone)]
-pub struct HeartbeatMonitor {
+#[derive(Clone)] // Required by libafl::events::launcher::Launcher::launch()
+pub struct MetricsMonitor {
     client_stats: Vec<ClientStats>,
     start_time: Duration,
+    metrics: Metrics,
 }
 
-impl HeartbeatMonitor {
-    fn new() -> Self {
-        Self {
+impl MetricsMonitor {
+    fn new<P: AsRef<Path>>(path: Option<P>) -> Result<Self> {
+        let metrics = Metrics::new(path)?;
+        metrics.init_for_event::<HeartbeatEvent>()?;
+
+        Ok(Self {
             start_time: current_time(),
             client_stats: Vec::new(),
-        }
+            metrics,
+        })
     }
 
     fn coverage(&self) -> u64 {
@@ -65,7 +71,7 @@ impl HeartbeatMonitor {
     }
 }
 
-impl Monitor for HeartbeatMonitor {
+impl Monitor for MetricsMonitor {
     fn client_stats_mut(&mut self) -> &mut Vec<ClientStats> {
         &mut self.client_stats
     }
@@ -85,22 +91,27 @@ impl Monitor for HeartbeatMonitor {
     fn display(&mut self, event_msg: &str, _sender_id: libafl_bolts::ClientId) {
         if event_msg == "Client Heartbeat" {
             let coverage = self.coverage();
-            fire_heartbeat_event(
+            if let Err(err) = self.metrics.record(HeartbeatEvent {
                 coverage,
-                self.total_execs(),
-                self.valid_execs(),
-                self.valid_corpus(),
-                self.corpus_size(),
-            );
+                execs: self.total_execs(),
+                valid_execs: self.valid_execs(),
+                valid_corpus: self.valid_corpus(),
+                corpus: self.corpus_size(),
+            }) {
+                panic!("{}", err);
+            };
         }
     }
 }
 
-pub type StdMonitor<F> = CombinedMonitor<MultiMonitor<F>, HeartbeatMonitor>;
+pub type StdMonitor<F> = CombinedMonitor<MultiMonitor<F>, MetricsMonitor>;
 
-pub fn create_monitor<F>(print_fn: F) -> StdMonitor<F>
+pub fn create_monitor<F, P: AsRef<Path>>(path: Option<P>, print_fn: F) -> Result<StdMonitor<F>>
 where
     F: FnMut(&str),
 {
-    StdMonitor::new(MultiMonitor::new(print_fn), HeartbeatMonitor::new())
+    Ok(StdMonitor::new(
+        MultiMonitor::new(print_fn),
+        MetricsMonitor::new(path)?,
+    ))
 }

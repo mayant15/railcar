@@ -16,7 +16,6 @@ use libafl::{
     state::DEFAULT_MAX_SIZE,
 };
 use libafl_bolts::{rands::Rand, HasLen};
-use metrics::bump;
 use serde::{Deserialize, Serialize};
 
 use crate::config::{MAX_COMPLETE_WITH_ENDPOINTS, MAX_COMPLETION_ITER};
@@ -78,8 +77,6 @@ impl Schema {
         let candidates = self.filter(&query);
 
         if candidates.is_empty() {
-            #[cfg(debug_assertions)]
-            bump!("concretizationFailures");
             return None;
         }
 
@@ -91,7 +88,6 @@ impl Schema {
         let name = name.to_string();
         let Ok(signature) = Self::patch(rand, &query, signature, ports) else {
             // TODO: do I need to propagate this error up?
-            bump!("patchFailure");
             return None;
         };
 

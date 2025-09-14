@@ -2,96 +2,150 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use std::{
-    fs::File,
-    io::{BufWriter, Write},
-};
+use anyhow::Result;
+use chrono::{DateTime, Utc};
+use duckdb::{params, Connection};
 
-use serde::Serialize;
+use std::path::Path;
 
-static mut METRICS: Option<Metrics> = None;
-
-struct Metrics {
-    writer: BufWriter<File>,
+/// DuckDB-backed metrics database. Call `Metrics::init_for_event()` for every
+/// event type you expect to receive.
+pub struct Metrics {
+    conn: Connection,
 }
 
-pub fn init(path: &str, size: Option<usize>) {
-    let file = std::fs::File::create(path).expect("failed to create metrics file");
-    let writer = if let Some(size) = size {
-        BufWriter::with_capacity(size, file)
-    } else {
-        BufWriter::new(file)
-    };
-    let instance = Metrics { writer };
-    unsafe { METRICS = Some(instance) };
-}
-
-pub fn bump(name: &str) {
-    fire(BumpEvent {
-        name: name.to_owned(),
-    });
-}
-
-pub fn flush() {
-    if let Some(metrics) = unsafe { &mut METRICS } {
-        metrics.writer.flush().expect("failed to flush events");
-    } else {
-        panic!("failed to flush metrics: uninitialized");
+// Required by libafl::events::launcher::Launcher::launch()
+impl Clone for Metrics {
+    fn clone(&self) -> Self {
+        Metrics::new(self.conn.path()).unwrap()
     }
 }
 
-fn flatten_event<E: Event>(event: &E) -> serde_json::Value {
-    let mut payload = serde_json::to_value(event).unwrap();
-    let Some(object) = payload.as_object_mut() else {
-        panic!("event payload is not an object");
-    };
-    object.insert(
-        "event_name".to_owned(),
-        serde_json::Value::String(event.name().to_owned()),
-    );
-    let timestamp = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .unwrap()
-        .as_secs_f64()
-        .floor();
-    let timestamp: u64 = unsafe { timestamp.to_int_unchecked() };
-    object.insert("timestamp".to_owned(), timestamp.into());
-    payload
-}
+impl Metrics {
+    pub fn new<P: AsRef<Path>>(path: Option<P>) -> Result<Self> {
+        let conn = if let Some(path) = path {
+            Connection::open(path)?
+        } else {
+            Connection::open_in_memory()?
+        };
+        Ok(Self { conn })
+    }
 
-pub fn fire<E: Event>(event: E) {
-    let payload = flatten_event(&event);
-    let mut payload = serde_json::to_string(&payload).expect("failed to serialize event payload");
-    payload.push('\n');
-    if let Some(metrics) = unsafe { &mut METRICS } {
-        metrics
-            .writer
-            .write_all(payload.as_bytes())
-            .expect("failed to write event to logs");
-        flush();
-    } else {
-        panic!("failed to fire metrics event: uninitialized");
+    pub fn init_for_event<E: Event>(&self) -> Result<()> {
+        E::init(&self.conn)
+    }
+
+    pub fn record<E: Event>(&self, event: E) -> Result<()> {
+        event.append(&self.conn)
     }
 }
 
-#[macro_export]
-macro_rules! bump {
-    ($x:expr) => {
-        $crate::bump($x)
-    };
+pub trait Event {
+    fn init(conn: &Connection) -> Result<()>;
+    fn append(&self, conn: &Connection) -> Result<()>;
 }
 
-pub trait Event: Serialize {
-    fn name(&self) -> &str;
+pub struct HeartbeatEvent {
+    pub coverage: u64,
+    pub execs: u64,
+    pub valid_execs: u64,
+    pub valid_corpus: u64,
+    pub corpus: u64,
 }
 
-#[derive(Serialize)]
-struct BumpEvent {
-    name: String,
+impl Event for HeartbeatEvent {
+    fn init(conn: &Connection) -> Result<()> {
+        static CREATE_SQL: &str = "
+        CREATE TABLE heartbeat (
+            timestamp TIMESTAMP_S PRIMARY KEY,
+            coverage UINT32 NOT NULL,
+            execs UINT32 NOT NULL,
+            valid_execs UINT32 NOT NULL,
+            valid_corpus UINT32 NOT NULL,
+            corpus UINT32 NOT NULL
+        )";
+
+        static CHECK_SQL: &str = "
+        SELECT table_name from duckdb_tables
+        WHERE table_name = 'heartbeat'
+        ";
+
+        let rows = conn.execute(CHECK_SQL, params![])?;
+        assert!(rows <= 1);
+
+        if rows == 0 {
+            _ = conn.execute(CREATE_SQL, params![])?;
+        }
+
+        Ok(())
+    }
+
+    fn append(&self, conn: &Connection) -> Result<()> {
+        static SQL: &str = "INSERT INTO heartbeat VALUES (?, ?, ?, ?, ?, ?);";
+
+        let now: DateTime<Utc> = std::time::SystemTime::now().into();
+
+        let changed = conn.execute(
+            SQL,
+            params![
+                format!("{}", now.format("%+")),
+                self.coverage,
+                self.execs,
+                self.valid_execs,
+                self.valid_corpus,
+                self.corpus
+            ],
+        )?;
+        debug_assert!(changed == 1);
+        Ok(())
+    }
+}
+
+/// Bumps a counter tagged with a given name
+pub struct BumpEvent {
+    name: &'static str,
 }
 
 impl Event for BumpEvent {
-    fn name(&self) -> &str {
-        "bump"
+    fn init(conn: &Connection) -> Result<()> {
+        static CREATE_SQL: &str = "
+        CREATE TABLE bump (
+            timestamp TIMESTAMP_S UNIQUE NOT NULL,
+            name STRING PRIMARY KEY,
+            count UINT32 NOT NULL
+        )";
+
+        static CHECK_SQL: &str = "
+        SELECT table_name from duckdb_tables
+        WHERE table_name = 'bump'
+        ";
+
+        let rows = conn.execute(CHECK_SQL, params![])?;
+        assert!(rows <= 1);
+
+        if rows == 0 {
+            _ = conn.execute(CREATE_SQL, params![])?;
+        }
+
+        Ok(())
+    }
+
+    fn append(&self, conn: &Connection) -> Result<()> {
+        // create or increment a counter for `name`
+        static SQL: &str = "
+        INSERT INTO bump (timestamp, name, count)
+        VALUES (?, ?, 1);
+        ON CONFLICT(name) DO UPDATE SET count = count + 1
+        ";
+
+        let now: DateTime<Utc> = std::time::SystemTime::now().into();
+
+        let changed = conn.execute(
+            SQL,
+            duckdb::params![format!("{}", now.format("%+")), self.name,],
+        )?;
+        debug_assert!(changed == 1);
+
+        Ok(())
     }
 }

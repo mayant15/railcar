@@ -81,7 +81,7 @@ def generate_summary(timeout, seeds) -> str:
     for i in range(len(seeds)):
         summary += "iter_{} seed: {}\n".format(i, seeds[i])
 
-    return seeds
+    return summary
 
 
 def main() -> None:

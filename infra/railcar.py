@@ -30,7 +30,7 @@ class Railcar(Tool):
         coverage_dir = path.join(args.out_dir, "coverage")
         crashes_dir = path.join(args.out_dir, "crashes")
         corpus_dir = path.join(args.out_dir, "corpus")
-        metrics = path.join(args.out_dir, "metrics.json")
+        metrics = path.join(args.out_dir, "metrics.db")
         logfile = path.join(args.out_dir, "logs.txt")
 
         makedirs(coverage_dir, exist_ok=True)
