@@ -17,6 +17,7 @@ use libafl_bolts::{
 };
 use monitor::create_monitor;
 use railcar_graph::{Graph, ParametricGraph};
+use serde::Deserialize;
 
 mod client;
 mod config;
@@ -96,6 +97,16 @@ struct Arguments {
     /// default for bytes driver.
     #[arg(long)]
     use_validity: Option<bool>,
+
+    /// Configuration file to pick options from
+    #[arg(long, default_value_t = String::from_str("railcar.toml").unwrap())]
+    config: String,
+}
+
+#[derive(Default, Deserialize)]
+struct ConfigFileOptions {
+    false_positives: Option<Vec<String>>,
+    skip_endpoints: Option<Vec<String>>,
 }
 
 fn to_absolute(path: String) -> PathBuf {
@@ -215,6 +226,18 @@ where
     Ok(())
 }
 
+fn merge_optional_vectors<T: Clone>(a: Option<Vec<T>>, b: Option<Vec<T>>) -> Option<Vec<T>> {
+    if a.is_none() && b.is_none() {
+        return None;
+    }
+
+    let mut a = a.unwrap_or_default();
+    let mut b = b.unwrap_or_default();
+    a.append(&mut b);
+
+    Some(a)
+}
+
 fn main() -> Result<()> {
     env_logger::builder()
         .filter(None, log::LevelFilter::Info)
@@ -229,6 +252,13 @@ fn main() -> Result<()> {
         .init();
 
     let args = Arguments::parse();
+
+    let config_file_options = if std::fs::exists(&args.config)? {
+        let contents = std::fs::read_to_string(args.config)?;
+        toml::from_str(contents.as_str())?
+    } else {
+        ConfigFileOptions::default()
+    };
 
     // write to a temporary file if no user-provided path
     let metrics = args.metrics.unwrap_or_else(|| {
@@ -252,10 +282,13 @@ fn main() -> Result<()> {
         }),
         entrypoint: to_absolute(args.entrypoint),
         schema_file: args.schema.map(to_absolute),
-        ignored: args.ignore,
+        ignored: merge_optional_vectors(args.ignore, config_file_options.false_positives),
         simple_mutations: args.simple_mutations,
         replay: args.replay,
-        methods_to_skip: args.skip_endpoints,
+        methods_to_skip: merge_optional_vectors(
+            args.skip_endpoints,
+            config_file_options.skip_endpoints,
+        ),
         port: args.port,
         use_validity: args.use_validity,
         replay_input: args.replay_input,
