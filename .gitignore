@@ -1,4 +1,3 @@
-# Caches
 .venv
 .nyc_output
 target/
@@ -6,14 +5,14 @@ dist
 node_modules/
 infra/__pycache__/*
 
-# Fuzzer outputs
-schema.json
-metrics.json
 corpus/
 crashes/
 coverage/
+schema.json
+metrics.json
 *.lcov
 *.dot
+*.db
 
 railcar-results-*
 *.tar.xz

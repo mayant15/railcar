@@ -240,7 +240,7 @@ fn main() -> Result<()> {
     env_logger::builder()
         .filter(None, log::LevelFilter::Info)
         .filter(
-            Some("railcar_cli"),
+            Some("railcar"),
             if cfg!(debug_assertions) {
                 log::LevelFilter::Debug
             } else {

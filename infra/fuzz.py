@@ -12,6 +12,7 @@ import subprocess as sp
 
 
 RAILCAR_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
+EXAMPLES_DIR = path.join(RAILCAR_ROOT, "examples")
 
 
 def git_version():
@@ -19,6 +20,20 @@ def git_version():
         "git", "log", "--pretty=oneline", "-n", "1", "--no-decorate"
     ], capture_output=True, text=True)
     return proc.stdout.strip()
+
+
+def find_entrypoint(project: str, driver: str) -> str:
+    if driver == "bytes":
+        return path.join(EXAMPLES_DIR, project, "baseline.js")
+    else:
+        # find the path to npm package entry point in node_modules
+        locator = path.join(EXAMPLES_DIR, "locate-index.js")
+        index = sp.run(
+            ["node", locator, project],
+            capture_output=True,
+            text=True
+        )
+        return index.stdout
 
 
 def generate_configs(
@@ -35,18 +50,17 @@ def generate_configs(
 
     for project in projects:
         config_file = path.join(examples_dir, project, "railcar.toml")
-        baseline_driver = path.join(examples_dir, project, "baseline.js")
         for driver in drivers:
             cs = []
-            entrypoint = baseline_driver if driver == "bytes" else project
+            entrypoint = find_entrypoint(project, driver)
             for i in range(iterations):
                 outdir = path.join(
                     results_dir, f"iter_{i}", f"{project}_{driver}")
                 cs.append(Config(tool, Railcar.RunArgs(
                     timeout=timeout,
-                    out_dir=outdir,
+                    outdir=outdir,
                     seed=seeds[i],
-                    mode="bytes",
+                    mode=driver,
                     core=2*i,
                     entrypoint=entrypoint,
                     config_file_path=config_file
@@ -85,16 +99,16 @@ def generate_summary(timeout, seeds) -> str:
 
 
 def main() -> None:
-    timeout: int = 60  # in seconds
+    timeout: int = 20  # in seconds
     iterations: int = 6
     projects: list[str] = [
         "fast-xml-parser",
-        "pako",
-        "js-yaml",
-        "protobuf-js",
-        "sharp",
+        # "pako",
+        # "js-yaml",
+        # "protobuf-js",
+        # "sharp",
     ]
-    drivers = ["bytes", "graph", "parametric"]
+    drivers = ["bytes", "graph"]
 
     results_dir = ensure_results_dir()
     seeds = [randint(0, 100000) for i in range(iterations)]

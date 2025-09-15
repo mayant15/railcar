@@ -22,16 +22,16 @@ class Railcar(Tool):
         core: int
         mode: str
         timeout: int
-        out_dir: str
+        outdir: str
         entrypoint: str
         config_file_path: str
 
     def run(self, args: RunArgs) -> str:
-        coverage_dir = path.join(args.out_dir, "coverage")
-        crashes_dir = path.join(args.out_dir, "crashes")
-        corpus_dir = path.join(args.out_dir, "corpus")
-        metrics = path.join(args.out_dir, "metrics.db")
-        logfile = path.join(args.out_dir, "logs.txt")
+        coverage_dir = path.join(args.outdir, "coverage")
+        crashes_dir = path.join(args.outdir, "crashes")
+        corpus_dir = path.join(args.outdir, "corpus")
+        metrics = path.join(args.outdir, "metrics.db")
+        logfile = path.join(args.outdir, "logs.txt")
 
         makedirs(coverage_dir, exist_ok=True)
         makedirs(crashes_dir, exist_ok=True)
