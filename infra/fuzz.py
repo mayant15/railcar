@@ -124,11 +124,16 @@ def collect_coverage(configs: list[Config], results: str) -> str:
         db = path.join(config.args.outdir, "metrics.db")
         conn = sqlite3.connect(db)
         cur = conn.cursor()
-        coverage = cur.execute("""
+        row = cur.execute("""
             select coverage from heartbeat
             where timestamp in (select max(timestamp) from heartbeat)
-            """).fetchone()[0]
+            """).fetchone()
 
+        if row is None:
+            print("config failed:", config)
+            continue
+
+        coverage = row[0]
         project = config.args.project
         mode = config.args.mode
         iter = config.args.iteration
@@ -198,6 +203,7 @@ def main() -> None:
         old_coverage_path = path.join(old_results_dir, "coverage.csv")
         old_coverage = pd.read_csv(old_coverage_path)
     summary += summarize_coverage(coverage, old_coverage)
+    summary += "\n"
 
     # Write summary file
     with open(path.join(results_dir, "summary.txt"), "w") as f:
