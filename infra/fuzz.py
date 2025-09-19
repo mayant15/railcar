@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from base import Config
 from railcar import Railcar
 from multiprocessing import Pool
@@ -162,7 +163,12 @@ def summarize_coverage(
 
 
 def main() -> None:
-    timeout: int = 60  # in seconds
+    parser = ArgumentParser()
+    parser.add_argument(
+            "--timeout", type=int, default=60, help="timeout in seconds")
+    args = parser.parse_args()
+
+    timeout = args.timeout
     iterations: int = 4
     projects: list[str] = [
         "fast-xml-parser",
