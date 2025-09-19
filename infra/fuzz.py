@@ -128,13 +128,12 @@ def collect_coverage(configs: list[Config], results: str) -> str:
             select coverage from heartbeat
             where timestamp in (select max(timestamp) from heartbeat)
             """).fetchone()[0]
-        pct = float(coverage) * 100 / 65536.0
 
         project = config.args.project
         mode = config.args.mode
         iter = config.args.iteration
 
-        results.append((iter, mode, project, pct))
+        results.append((iter, mode, project, coverage))
 
     return pd.DataFrame(results, columns=[
         "iteration", "mode", "project", "coverage"
@@ -149,10 +148,11 @@ def summarize_coverage(
     if old_coverage is not None:
         old_coverage = coverage.groupby(['project', 'mode']).mean()[['coverage']]
         new_coverage['change'] = new_coverage['coverage'] - old_coverage['coverage']
+        new_coverage['change'] = new_coverage['change'] * 100 / old_coverage['coverage']
         new_coverage = new_coverage.sort_values(by='change', ascending=False)
 
     return new_coverage.to_string(
-        float_format=lambda f: "{:.2f}%".format(f)
+        float_format=lambda f: "{:.2f}".format(f)
     )
 
 
