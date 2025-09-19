@@ -25,6 +25,8 @@ class Railcar(Tool):
         outdir: str
         entrypoint: str
         config_file_path: str
+        project: str
+        iteration: int
 
     def run(self, args: RunArgs) -> str:
         coverage_dir = path.join(args.outdir, "coverage")

@@ -8,7 +8,9 @@ from shutil import rmtree
 from os import path
 
 import os
+import sqlite3
 import subprocess as sp
+import pandas as pd
 
 
 RAILCAR_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
@@ -63,7 +65,9 @@ def generate_configs(
                     mode=driver,
                     core=2*i,
                     entrypoint=entrypoint,
-                    config_file_path=config_file
+                    config_file_path=config_file,
+                    project=project,
+                    iteration=i
                 )))
             configs.append(cs)
 
@@ -72,6 +76,21 @@ def generate_configs(
 
 def execute_config(config: Config):
     config.run()
+
+
+def get_old_results_dir() -> str | None:
+    dirs = os.listdir()
+    latest = None
+    for dir in dirs:
+        if dir.startswith("railcar-results-"):
+            mod = path.getmtime(dir)
+            if latest is None:
+                latest = dir
+            else:
+                old_mod = path.getmtime(latest)
+                if mod > old_mod:
+                    latest = dir
+    return latest
 
 
 def ensure_results_dir() -> str:
@@ -85,7 +104,7 @@ def ensure_results_dir() -> str:
     return dir
 
 
-def generate_summary(timeout, seeds) -> str:
+def generate_summary_prefix(timeout, seeds) -> str:
     summary = ""
     summary += "{}\n".format(git_version())
     summary += "Ran on {}\n".format(gethostname())
@@ -96,6 +115,45 @@ def generate_summary(timeout, seeds) -> str:
         summary += "iter_{} seed: {}\n".format(i, seeds[i])
 
     return summary
+
+
+def collect_coverage(configs: list[Config], results: str) -> str:
+    configs = [x for cs in configs for x in cs]
+    results = []
+    for config in configs:
+        db = path.join(config.args.outdir, "metrics.db")
+        conn = sqlite3.connect(db)
+        cur = conn.cursor()
+        coverage = cur.execute("""
+            select coverage from heartbeat
+            where timestamp in (select max(timestamp) from heartbeat)
+            """).fetchone()[0]
+        pct = float(coverage) * 100 / 65536.0
+
+        project = config.args.project
+        mode = config.args.mode
+        iter = config.args.iteration
+
+        results.append((iter, mode, project, pct))
+
+    return pd.DataFrame(results, columns=[
+        "iteration", "mode", "project", "coverage"
+    ])
+
+
+def summarize_coverage(
+    coverage: pd.DataFrame,
+    old_coverage: pd.DataFrame | None
+) -> str:
+    new_coverage = coverage.groupby(['project', 'mode']).mean()[['coverage']]
+    if old_coverage is not None:
+        old_coverage = coverage.groupby(['project', 'mode']).mean()[['coverage']]
+        new_coverage['change'] = new_coverage['coverage'] - old_coverage['coverage']
+        new_coverage = new_coverage.sort_values(by='change', ascending=False)
+
+    return new_coverage.to_string(
+        float_format=lambda f: "{:.2f}%".format(f)
+    )
 
 
 def main() -> None:
@@ -110,7 +168,9 @@ def main() -> None:
     ]
     drivers = ["bytes", "graph"]
 
+    old_results_dir = get_old_results_dir()
     results_dir = ensure_results_dir()
+
     seeds = [randint(0, 100000) for i in range(iterations)]
 
     # list of list of configs
@@ -124,16 +184,27 @@ def main() -> None:
         timeout=timeout,
     )
 
-    summary = generate_summary(timeout, seeds)
+    summary = generate_summary_prefix(timeout, seeds)
 
     processes_pool: int = iterations
     for cs in configs:
         with Pool(processes_pool) as pool:
             pool.map(execute_config, cs)
 
+    coverage = collect_coverage(configs, results_dir)
+
+    old_coverage = None
+    if old_results_dir is not None:
+        old_coverage_path = path.join(old_results_dir, "coverage.csv")
+        old_coverage = pd.read_csv(old_coverage_path)
+    summary += summarize_coverage(coverage, old_coverage)
+
     # Write summary file
-    with open(os.path.join(results_dir, "summary.txt"), "w") as f:
+    with open(path.join(results_dir, "summary.txt"), "w") as f:
         f.write(summary)
+    
+    with open(path.join(results_dir, "coverage.csv"), "w") as f:
+        f.write(coverage.to_csv())
 
 
 if __name__ == '__main__':
