@@ -10,6 +10,7 @@ from os import path
 
 import os
 import sqlite3
+import requests
 import subprocess as sp
 import pandas as pd
 
@@ -146,6 +147,12 @@ def collect_coverage(configs: list[Config], results: str) -> str:
     ])
 
 
+def post_summary_notification(summary: str):
+    url = os.environ["DISCORD_WEBHOOK"]
+    summary = f"```\n{summary}\n```"
+    requests.post(url, json={"content": summary})
+
+
 def summarize_coverage(
     coverage: pd.DataFrame,
     old_coverage: pd.DataFrame | None
@@ -214,9 +221,12 @@ def main() -> None:
     # Write summary file
     with open(path.join(results_dir, "summary.txt"), "w") as f:
         f.write(summary)
-    
+
     with open(path.join(results_dir, "coverage.csv"), "w") as f:
         f.write(coverage.to_csv())
+
+    if "DISCORD_WEBHOOK" in os.environ:
+        post_summary_notification(summary)
 
 
 if __name__ == '__main__':

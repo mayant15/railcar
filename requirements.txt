@@ -1,2 +1,3 @@
 reuse===5.1.0
 pandas===2.3.2
+requests===2.32.5
