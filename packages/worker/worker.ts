@@ -7,6 +7,7 @@ import { decode, encode } from "@msgpack/msgpack";
 import { hookRequire } from "istanbul-lib-hook";
 
 import type { Schema, Graph } from "@railcar/inference";
+import { makeRailcarConfig } from "@railcar/support";
 
 import { CoverageMap } from "@railcar/worker-sys";
 
@@ -15,6 +16,7 @@ import { codeCoverage } from "./instrument";
 import { BytesExecutor } from "./bytes";
 import { GraphExecutor } from "./graph";
 import { Console } from "node:console";
+import fs from "node:fs/promises";
 
 declare global {
     var __railcar__: {
@@ -34,11 +36,10 @@ type ShMemDescription = {
 type InitArgs = {
     mode: Mode;
     entrypoint: string;
-    ignored: string[] | null;
     schemaFile: string | null;
     coverage: ShMemDescription | null;
     replay: boolean;
-    methodsToSkip: string[] | null;
+    configFile: string;
 };
 
 type Message =
@@ -52,39 +53,53 @@ type Message =
 let _executor: BytesExecutor | GraphExecutor | null = null;
 let _coverage: CoverageMap | null = null;
 
-const STD_VALIDATION_ERRORS = [
-    "Invalid typed array length",
-    "Invalid flags supplied to RegExp constructor",
-    "Invalid regular expression",
-];
+async function exists(path: string) {
+    try {
+        await fs.access(path, fs.constants.R_OK);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+async function importDefaultModule(path: string) {
+    const mod = await import(path);
+    return "default" in mod ? mod.default : mod;
+}
+
+async function loadConfigFile(configFile: string) {
+    const _exists = await exists(configFile);
+    const config = _exists ? await importDefaultModule(configFile) : {};
+    return makeRailcarConfig(config);
+}
 
 async function init(args: InitArgs): Promise<Schema | null> {
+    const config = await loadConfigFile(args.configFile);
+
     if (!args.replay) {
         assert(
             args.coverage !== null,
             "fuzzer must provide a shmem coverage map if not replay",
         );
         _coverage = new CoverageMap(args.coverage);
-        setupHooks();
-    }
 
-    const ignored = STD_VALIDATION_ERRORS.concat(
-        (args.ignored ?? []).map((ig) => ig.trim()),
-    );
+        setupHooks(config.instrumentFilter);
+    }
 
     if (args.mode === "bytes") {
         _executor = new BytesExecutor();
-        await _executor.init(args.entrypoint, ignored, args.replay);
+        await _executor.init(args.entrypoint, config.oracle, args.replay);
         return null;
     } else {
         // both parametric and graph should use the same executor
         _executor = new GraphExecutor();
+
         const schema = await _executor.init(
             args.entrypoint,
-            ignored,
+            config.oracle,
             args.schemaFile ?? undefined,
             args.replay,
-            args.methodsToSkip ?? undefined,
+            config.methodsToSkip,
         );
         return schema;
     }
@@ -163,7 +178,7 @@ function recv(data: Buffer): Message | null {
     }
 }
 
-function setupHooks() {
+function setupHooks(filter: (_: string) => boolean) {
     global.__railcar__ = {
         recordHit(edge: number) {
             _coverage!.recordHit(edge);
@@ -171,27 +186,22 @@ function setupHooks() {
     };
 
     const plugins = [codeCoverage()];
-    hookRequire(
-        (filename) => {
-            return !filename.includes("node_modules");
-        },
-        (code, { filename }) => {
-            const codeResult = transformSync(code, {
-                filename,
-                sourceFileName: filename,
-                sourceMaps: true,
-                plugins,
-            });
+    hookRequire(filter, (code, { filename }) => {
+        const codeResult = transformSync(code, {
+            filename,
+            sourceFileName: filename,
+            sourceMaps: true,
+            plugins,
+        });
 
-            assert(codeResult !== null);
-            assert(codeResult.code !== null);
-            assert(codeResult.code !== undefined);
-            assert(codeResult.map !== null);
-            assert(codeResult.map !== undefined);
+        assert(codeResult !== null);
+        assert(codeResult.code !== null);
+        assert(codeResult.code !== undefined);
+        assert(codeResult.map !== null);
+        assert(codeResult.map !== undefined);
 
-            return codeResult.code;
-        },
-    );
+        return codeResult.code;
+    });
 }
 
 // Write all logs to stderr instead of stdout. The Rust parent process reads for

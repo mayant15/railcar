@@ -3,6 +3,7 @@
     "private": true,
     "description": "Usage examples for Railcar",
     "devDependencies": {
+        "@railcar/support": "0.1.9",
         "@jazzer.js/core": "2.1.0",
         "fast-xml-parser": "5.2.5",
         "js-yaml": "4.1.0",

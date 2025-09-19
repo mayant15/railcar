@@ -51,7 +51,7 @@ def generate_configs(
     examples_dir = path.join(RAILCAR_ROOT, "examples")
 
     for project in projects:
-        config_file = path.join(examples_dir, project, "railcar.toml")
+        config_file = path.join(examples_dir, project, "railcar.config.js")
         for driver in drivers:
             cs = []
             entrypoint = find_entrypoint(project, driver)

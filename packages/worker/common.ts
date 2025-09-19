@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import type { Oracle } from "@railcar/support";
+
 export enum ExitKind {
     Ok = 0,
     Invalid = 1,
@@ -9,7 +11,7 @@ export enum ExitKind {
 
 export function withOracle<I>(
     fuzz: (_: I) => void | Promise<void>,
-    ignored: string[],
+    oracle: Oracle,
     logError: boolean = false,
 ): (_: I) => Promise<ExitKind> {
     return async (data: I) => {
@@ -17,45 +19,13 @@ export function withOracle<I>(
             // handles both sync and async functions
             await fuzz(data);
         } catch (err) {
-            if (err instanceof TypeError) {
-                return ExitKind.Invalid;
-            }
-
-            if (err instanceof RangeError) {
-                return ExitKind.Invalid;
-            }
-
-            const message =
-                typeof err === "string"
-                    ? err
-                    : err instanceof Error
-                      ? err.message
-                      : undefined;
-
-            if (message) {
-                if (ignoredError(message, ignored)) {
-                    return ExitKind.Invalid;
-                }
-
-                if (message.indexOf("unreachable") !== -1) {
-                    return ExitKind.Abort;
-                }
-            }
-
             if (logError) {
                 console.error("[RAILCAR_ERROR]", err);
             }
 
-            return ExitKind.Crash;
+            return oracle(err) ? ExitKind.Crash : ExitKind.Invalid;
         }
+
         return ExitKind.Ok;
     };
-}
-
-function ignoredError(error: string, ignored: string[]) {
-    const ignore = !!ignored.find(
-        (message) =>
-            message === "RAILCAR_IGNORE_ALL" || error.indexOf(message) !== -1,
-    );
-    return ignore;
 }

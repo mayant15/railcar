@@ -17,6 +17,7 @@
       "version": "0.1.9",
       "devDependencies": {
         "@jazzer.js/core": "2.1.0",
+        "@railcar/support": "0.1.9",
         "fast-xml-parser": "5.2.5",
         "js-yaml": "4.1.0",
         "pako": "2.1.0",
@@ -54,6 +55,7 @@
         "@babel/core": "^7.26.10",
         "@msgpack/msgpack": "^3.1.1",
         "@railcar/inference": "0.1.9",
+        "@railcar/support": "0.1.9",
         "@railcar/worker-sys": "0.1.9",
         "istanbul-lib-hook": "^3.0.0",
       },
@@ -399,6 +401,8 @@
     "@railcar/worker": ["@railcar/worker@workspace:packages/worker"],
 
     "@railcar/worker-sys": ["@railcar/worker-sys@workspace:packages/worker-sys"],
+
+    "@railcar/worker-sys-linux-x64-gnu": ["@railcar/worker-sys-linux-x64-gnu@0.1.9", "", { "os": "linux", "cpu": "x64" }, "sha512-uxtVCkpuxmZ2HSjHJJvZre053i19CPmoKz9xXUeJb4tmwavkKqQoux2EINEOpcBvZdZRInGfLrhgCjXC3+olcw=="],
 
     "@tsconfig/node24": ["@tsconfig/node24@24.0.1", "", {}, "sha512-3+IXshza3bIrT0tbHBr9CixQDVf4iBf0HTR0hCYowhpLqkzJjswu3UY8aZWjRXZep31kYB+o2SQeD8KwIoUHYw=="],
 

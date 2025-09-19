@@ -16,7 +16,7 @@ use nix::{
     sys::wait::WaitStatus,
     unistd::{ForkResult, Pid},
 };
-use railcar_graph::{EndpointName, Schema};
+use railcar_graph::Schema;
 use serde::{Deserialize, Serialize};
 
 use crate::{client::FuzzerMode, config::COVERAGE_MAP_SIZE};
@@ -32,11 +32,10 @@ pub struct InvokeArgs {
 pub struct InitArgs {
     mode: FuzzerMode,
     entrypoint: PathBuf,
-    ignored: Option<Vec<String>>,
     schema_file: Option<PathBuf>,
     coverage: Option<ShMemDescription>,
     replay: bool,
-    methods_to_skip: Option<Vec<String>>,
+    config_file: PathBuf,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -44,10 +43,9 @@ pub struct InitArgs {
 pub struct WorkerArgs {
     pub mode: FuzzerMode,
     pub entrypoint: PathBuf,
-    pub ignored: Option<Vec<String>>,
     pub schema_file: Option<PathBuf>,
     pub replay: bool,
-    pub methods_to_skip: Option<Vec<EndpointName>>,
+    pub config_file: PathBuf,
 }
 
 type ExitCode = u8;
@@ -195,12 +193,11 @@ impl Worker {
 
         worker.send(Message::Init(InitArgs {
             mode: args.mode,
-            ignored: args.ignored,
             entrypoint: args.entrypoint,
             schema_file: args.schema_file,
             replay: args.replay,
-            methods_to_skip: args.methods_to_skip,
             coverage: worker.coverage.as_ref().map(|c| c.description()),
+            config_file: args.config_file,
         }))?;
 
         let ok = worker.recv()?;

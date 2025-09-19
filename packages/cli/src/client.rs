@@ -25,7 +25,7 @@ use libafl_bolts::{
     shmem::{MmapShMem, MmapShMemProvider, ShMemProvider},
     tuples::tuple_list,
 };
-use railcar_graph::{EndpointName, Graph, HasSchema, ParametricGraph, RailcarError, Schema};
+use railcar_graph::{Graph, HasSchema, ParametricGraph, RailcarError, Schema};
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -57,14 +57,13 @@ pub struct FuzzerConfig {
     pub corpus: PathBuf,
     pub crashes: PathBuf,
     pub seed: u64,
-    pub ignored: Option<Vec<String>>,
     pub entrypoint: PathBuf,
     pub schema_file: Option<PathBuf>,
     pub simple_mutations: bool,
     pub replay: bool,
-    pub methods_to_skip: Option<Vec<EndpointName>>,
     pub use_validity: Option<bool>,
     pub replay_input: Option<String>,
+    pub config_file: PathBuf,
 }
 
 struct GraphGenerator<'a> {
@@ -186,11 +185,10 @@ impl From<&FuzzerConfig> for WorkerArgs {
     fn from(config: &FuzzerConfig) -> Self {
         WorkerArgs {
             mode: config.mode.clone(),
-            ignored: config.ignored.clone(),
             entrypoint: config.entrypoint.clone(),
             schema_file: config.schema_file.clone(),
             replay: config.replay,
-            methods_to_skip: config.methods_to_skip.clone(),
+            config_file: config.config_file.clone(),
         }
     }
 }

@@ -504,6 +504,7 @@ export class FuzzedDataProvider {
         for (let i = min; i < max; i++) {
             newBuf[i - min] = this.lookupTable[buf[i]];
         }
+        // @ts-ignore
         return new TextDecoder(encoding).decode(newBuf);
     }
 

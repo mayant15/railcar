@@ -15,6 +15,7 @@ import {
 
 import { ExitKind, withOracle } from "./common";
 import { ENABLE_DEBUG_INFO, ENABLE_HEAVY_ASSERTIONS } from "./config";
+import type { Oracle } from "@railcar/support";
 
 export class GraphExecutor {
     _executor: (graph: Graph) => Promise<ExitKind> = (_) =>
@@ -22,7 +23,7 @@ export class GraphExecutor {
 
     async init(
         mainModule: string,
-        ignored: string[],
+        oracle: Oracle,
         schemaFile?: string,
         logError?: boolean,
         methodsToSkip?: EndpointName[],
@@ -34,10 +35,8 @@ export class GraphExecutor {
         );
 
         this._executor = withOracle(
-            (graph) => {
-                return interpret(endpoints, graph);
-            },
-            ignored,
+            (graph) => interpret(endpoints, graph),
+            oracle,
             logError,
         );
 
