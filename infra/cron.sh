@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd $(dirname $(dirname $0))
+python ./infra/fuzz.py
