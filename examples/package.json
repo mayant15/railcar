@@ -10,7 +10,8 @@
         "pako": "2.1.0",
         "prebuild": "13.0.1",
         "protobufjs": "6.11.4",
-        "sharp": "0.34.3"
+        "sharp": "0.34.3",
+        "ua-parser-js": "2.0.5"
     },
     "version": "0.1.9"
 }
