@@ -172,10 +172,10 @@ def summarize_coverage(
 def main() -> None:
     parser = ArgumentParser()
     parser.add_argument(
-            "--timeout", type=int, default=60, help="timeout in seconds")
+            "--timeout", type=int, default=1, help="timeout in minutes")
     args = parser.parse_args()
 
-    timeout = args.timeout
+    timeout = args.timeout * 60
     iterations: int = 4
     projects: list[str] = [
         "fast-xml-parser",
