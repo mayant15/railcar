@@ -162,14 +162,14 @@ def summarize_coverage(
 
 
 def main() -> None:
-    timeout: int = 20  # in seconds
-    iterations: int = 6
+    timeout: int = 60  # in seconds
+    iterations: int = 4
     projects: list[str] = [
         "fast-xml-parser",
-        # "pako",
-        # "js-yaml",
-        # "protobuf-js",
-        # "sharp",
+        "pako",
+        "js-yaml",
+        "protobuf-js",
+        "sharp",
     ]
     drivers = ["bytes", "graph"]
 
