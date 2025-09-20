@@ -169,23 +169,28 @@ def summarize_coverage(
     )
 
 
+def discover_projects() -> list[str]:
+    dirs = filter(
+        lambda dir: os.path.isdir(os.path.join(EXAMPLES_DIR, dir)),
+        os.listdir(EXAMPLES_DIR),
+    )
+    return list(dirs)
+
+
 def main() -> None:
     parser = ArgumentParser()
     parser.add_argument(
             "--timeout", type=int, default=1, help="timeout in minutes")
+    parser.add_argument(
+            "--iterations", type=int, default=4,
+            help="number of parallel iterations")
     args = parser.parse_args()
 
     timeout = args.timeout * 60
-    iterations: int = 4
-    projects: list[str] = [
-        "fast-xml-parser",
-        "pako",
-        "js-yaml",
-        "protobuf-js",
-        "sharp",
-    ]
+    iterations = args.iterations
     drivers = ["bytes", "graph"]
 
+    projects = discover_projects()
     old_results_dir = get_old_results_dir()
     results_dir = ensure_results_dir()
 
