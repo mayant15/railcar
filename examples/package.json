@@ -14,7 +14,8 @@
         "ua-parser-js": "2.0.5",
         "tslib": "2.8.1",
         "@turf/turf": "7.2.0",
-        "xml2js": "0.6.2"
+        "xml2js": "0.6.2",
+        "redux": "5.0.1"
     },
     "version": "0.1.9"
 }
