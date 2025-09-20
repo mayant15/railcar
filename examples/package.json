@@ -17,7 +17,8 @@
         "xml2js": "0.6.2",
         "redux": "5.0.1",
         "lodash": "4.17.21",
-        "promise-polyfill": "8.3.0"
+        "promise-polyfill": "8.3.0",
+        "jimp": "1.6.0"
     },
     "version": "0.1.9"
 }
