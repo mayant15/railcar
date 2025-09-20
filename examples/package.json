@@ -16,7 +16,8 @@
         "@turf/turf": "7.2.0",
         "xml2js": "0.6.2",
         "redux": "5.0.1",
-        "lodash": "4.17.21"
+        "lodash": "4.17.21",
+        "promise-polyfill": "8.3.0"
     },
     "version": "0.1.9"
 }
