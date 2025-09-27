@@ -43,7 +43,7 @@ Railcar allows running custom harnesses when available:
 ```bash
 npx railcar --mode bytes harness.js
 ```
-Here `harness.js` is a module that exports your harness as a function `fuzz(bytes: Uint8Array): void`.
+Here `harness.js` is a module that exports your harness as a function `fuzz: (bytes: Uint8Array) => void`.
 
 Railcar provides an optional library, `@railcar/support` which exports a `FuzzedDataProvider` (from [Jazzer.js](https://github.com/CodeIntelligenceTesting/jazzer))
 for use in harnesses.
@@ -73,14 +73,11 @@ module.exports = {
 - `instrumentFilter`: A function that picks which files to instrument for code coverage
 - `methodsToSkip`: Library APIs to avoid in generated harnesses
 
-Railcar provides a convenience function for oracles that simple match or error messages.
+Railcar provides a convenience function for oracles that simply match on error messages.
 ```javascript
 const {makeInvalidErrorMessageOracle} = require("@railcar/support")
 module.exports = {
-    oracle = makeInvalidErrorMessageOracle([
-      "bad input",
-      // ...
-    ])
+    oracle = makeInvalidErrorMessageOracle(["bad input", /* ... */])
 }
 ```
 
