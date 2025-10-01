@@ -16,6 +16,13 @@ railcar_graph = { path = "../graph" }
 metrics = { path = "../metrics" }
 static_assertions = "1.1.0"
 nix = { version = "0.29.0", features = ["process", "signal", "fs"] }
-log = { workspace = true }
-env_logger = { workspace = true }
-anyhow = { workspace = true }
+log.workspace = true
+env_logger.workspace = true
+anyhow.workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+
+[[bench]]
+name = "mutation"
+harness = false

@@ -51,6 +51,12 @@ macro_rules! mutation {
             }
         }
 
+        impl Default for $x {
+            fn default() -> Self {
+                Self::new()
+            }
+        }
+
         impl Named for $x {
             fn name(&self) -> &Cow<'static, str> {
                 static NAME: Cow<'static, str> = Cow::Borrowed(stringify!($x));
