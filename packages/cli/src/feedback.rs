@@ -77,6 +77,12 @@ impl ValidityFeedback {
     }
 }
 
+impl Default for ValidityFeedback {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<EM, I, OT, S> Feedback<EM, I, OT, S> for ValidityFeedback
 where
     OT: MatchFirstType,
