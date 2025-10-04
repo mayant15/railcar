@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+#![allow(non_snake_case)]
+
 use criterion::{criterion_group, criterion_main, Criterion};
 use libafl::{
     corpus::NopCorpus,
@@ -8,7 +10,7 @@ use libafl::{
     state::{HasRand, StdState},
 };
 use libafl_bolts::rands::{Rand, StdRand};
-use railcar::mutation;
+use railcar::mutation as muta;
 use railcar_graph::{Graph, Schema};
 
 const SEED: u64 = 1234;
@@ -54,28 +56,60 @@ fn make_state(rand: StdRand) -> State {
 
 const SCHEMA: &str = include_str!("schema.json");
 
-pub fn truncate(c: &mut Criterion) {
-    let mut rand = StdRand::with_seed(SEED);
+macro_rules! make_bench_for {
+    ($x:ident) => {
+        pub fn $x(c: &mut Criterion) {
+            let mut rand = StdRand::with_seed(SEED);
 
-    let schema: Schema =
-        serde_json::from_slice(SCHEMA.as_bytes()).expect("failed to deserialize schema");
+            let schema: Schema =
+                serde_json::from_slice(SCHEMA.as_bytes()).expect("failed to deserialize schema");
 
-    let nr_inputs = rand.between(0, 256);
-    let mut inputs = generate_graphs(&mut rand, &schema, nr_inputs as usize);
-    let mut state = make_state(rand);
-    let mut tr = mutation::Truncate::new();
+            let nr_inputs = rand.between(0, 256);
+            let mut inputs = generate_graphs(&mut rand, &schema, nr_inputs as usize);
+            let mut state = make_state(rand);
+            let mut mutation = muta::$x::new();
 
-    c.bench_function("Truncate", |b| {
-        b.iter(|| {
-            let idx = state.rand_mut().between(0, inputs.len() - 1);
-            let _ = tr.mutate(&mut state, inputs.get_mut(idx).unwrap());
-        });
-    });
+            c.bench_function(stringify!($x), |b| {
+                b.iter(|| {
+                    let idx = state.rand_mut().between(0, inputs.len() - 1);
+                    let _ = mutation.mutate(&mut state, inputs.get_mut(idx).unwrap());
+                });
+            });
+        }
+    };
 }
 
-criterion_group! {
-    name = mutation;
-    config = Criterion::default();
-    targets = truncate
-}
+make_bench_for!(Truncate);
+make_bench_for!(Extend);
+make_bench_for!(SpliceIn);
+make_bench_for!(SpliceOut);
+make_bench_for!(Crossover);
+make_bench_for!(Context);
+make_bench_for!(Swap);
+make_bench_for!(Priority);
+make_bench_for!(TruncateDestructor);
+make_bench_for!(ExtendDestructor);
+make_bench_for!(TruncateConstructor);
+make_bench_for!(ExtendConstructor);
+make_bench_for!(SchemaVariationArgc);
+make_bench_for!(SchemaVariationWeights);
+make_bench_for!(SchemaVariationMakeNullable);
+
+criterion_group!(
+    mutation,
+    Truncate,
+    Extend,
+    SpliceIn,
+    SpliceOut,
+    Context,
+    Swap,
+    Priority,
+    TruncateDestructor,
+    ExtendDestructor,
+    TruncateConstructor,
+    ExtendConstructor,
+    SchemaVariationArgc,
+    SchemaVariationWeights,
+    SchemaVariationMakeNullable,
+);
 criterion_main!(mutation);
