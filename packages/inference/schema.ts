@@ -18,6 +18,7 @@ export const TypeKinds = [
     "Array",
     "Undefined",
     "Null",
+    "Function",
 ] as const;
 
 export type TypeKind = (typeof TypeKinds)[number];
@@ -42,7 +43,8 @@ export type Type =
     | ArrayType
     | ClassType
     | "Undefined"
-    | "Null";
+    | "Null"
+    | "Function";
 
 export type CallConvention = "Free" | "Method" | "Constructor";
 
@@ -74,6 +76,7 @@ export type NodeId = number;
 export type ConstantValue =
     | "Undefined"
     | "Null"
+    | "Function"
     | { Number: number }
     | { String: string }
     | { Boolean: boolean }

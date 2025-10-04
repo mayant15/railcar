@@ -276,6 +276,7 @@ pub enum TypeKind {
     Array,
     Undefined,
     Null,
+    Function,
 }
 
 impl TypeKind {
@@ -322,6 +323,7 @@ impl From<&Type> for TypeKind {
             Type::Array(_) => TypeKind::Array,
             Type::Undefined => TypeKind::Undefined,
             Type::Null => TypeKind::Null,
+            Type::Function => TypeKind::Function,
         }
     }
 }
@@ -338,6 +340,7 @@ pub enum Type {
     Array(Box<Type>),
     Undefined,
     Null,
+    Function,
 }
 
 impl<R: Rand> TrySample<ConstantValue, R> for Type {
@@ -374,6 +377,7 @@ impl<R: Rand> TrySample<ConstantValue, R> for Type {
 
             Type::Undefined => Ok(ConstantValue::Undefined),
             Type::Null => Ok(ConstantValue::Null),
+            Type::Function => Ok(ConstantValue::Function),
             Type::Class(_) => Err("cannot construct classes"),
         }
         .map_err(|e| format!("failed to serialize to ConstantValue {e}"))
@@ -458,6 +462,7 @@ impl<R: Rand> TrySample<Type, R> for TypeGuess {
             TypeKind::String => Ok(Type::String),
             TypeKind::Boolean => Ok(Type::Boolean),
             TypeKind::Null => Ok(Type::Null),
+            TypeKind::Function => Ok(Type::Function),
 
             TypeKind::Object => {
                 if let Some(shape) = &self.object_shape {
@@ -504,6 +509,7 @@ impl TypeGuess {
             TypeKind::Object => Ok(Type::Object(BTreeMap::new())),
             TypeKind::Class => Ok(Type::Class("Uint8Array".to_owned())),
             TypeKind::Array => Ok(Type::Array(Box::new(Type::Number))),
+            TypeKind::Function => Ok(Type::Function),
         }
     }
 }
@@ -597,6 +603,7 @@ pub enum ConstantValue {
     Array(Vec<ConstantValue>),
     Undefined,
     Null,
+    Function,
 }
 
 #[derive(Serialize, Deserialize, Clone)]

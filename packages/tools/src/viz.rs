@@ -26,6 +26,7 @@ fn node_label(node: &Node) -> String {
                 ConstantValue::Undefined => "undefined".to_owned(),
                 ConstantValue::Number(num) => num.to_string(),
                 ConstantValue::Boolean(b) => b.to_string(),
+                ConstantValue::Function => "function".to_owned(),
             }
         }
     }

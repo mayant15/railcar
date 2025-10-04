@@ -171,7 +171,8 @@ def summarize_coverage(
 
 def discover_projects() -> list[str]:
     dirs = filter(
-        lambda dir: os.path.isdir(os.path.join(EXAMPLES_DIR, dir)),
+        lambda dir: os.path.isdir(os.path.join(EXAMPLES_DIR, dir))
+        and dir != "example",
         os.listdir(EXAMPLES_DIR),
     )
     return list(dirs)

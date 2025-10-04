@@ -168,6 +168,11 @@ function constantValue(cv: ConstantValue): unknown {
         return null;
     }
 
+    if (cv === "Function") {
+        // callbacks are all noops
+        return () => void 0;
+    }
+
     if ("String" in cv) {
         return cv.String;
     }
