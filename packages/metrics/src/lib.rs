@@ -47,6 +47,7 @@ pub struct HeartbeatEvent {
     pub valid_execs: u64,
     pub valid_corpus: u64,
     pub corpus: u64,
+    pub total_edges: u64,
 }
 
 impl Event for HeartbeatEvent {
@@ -58,7 +59,8 @@ impl Event for HeartbeatEvent {
             execs UINT32 NOT NULL,
             valid_execs UINT32 NOT NULL,
             valid_corpus UINT32 NOT NULL,
-            corpus UINT32 NOT NULL
+            corpus UINT32 NOT NULL,
+            total_edges UINT32 NOT NULL
         )";
 
         static CHECK_SQL: &str = "
@@ -77,7 +79,7 @@ impl Event for HeartbeatEvent {
     }
 
     fn append(&self, conn: &Connection) -> Result<()> {
-        static SQL: &str = "INSERT INTO heartbeat VALUES (?1, ?2, ?3, ?4, ?5, ?6);";
+        static SQL: &str = "INSERT INTO heartbeat VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7);";
 
         let now: DateTime<Utc> = std::time::SystemTime::now().into();
 
@@ -90,6 +92,7 @@ impl Event for HeartbeatEvent {
                 self.valid_execs,
                 self.valid_corpus,
                 self.corpus,
+                self.total_edges,
             ),
         )?;
         debug_assert!(changed == 1);

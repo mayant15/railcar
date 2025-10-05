@@ -18,7 +18,7 @@ use libafl::{
 use libafl_bolts::{
     ownedref::OwnedRef,
     shmem::ShMem,
-    tuples::{MatchFirstType, MatchName},
+    tuples::{Handle, Handled, MatchFirstType, MatchName, MatchNameRef},
     Named,
 };
 use serde::{Deserialize, Serialize};
@@ -155,6 +155,7 @@ where
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 struct StdFeedbackMetadata {
     valid_corpus_size: u64,
+    total_edges_instrumented: u32,
 }
 
 libafl_bolts::impl_serdeany!(StdFeedbackMetadata);
@@ -166,6 +167,7 @@ pub struct StdFeedback {
 
     use_validity: bool,
     last_result: Option<bool>,
+    map_ref: Handle<CoverageObserver>,
 }
 
 impl StdFeedback {
@@ -175,6 +177,7 @@ impl StdFeedback {
             validity: ValidityFeedback::new(),
             total_coverage: CoverageFeedback::with_name("TotalCoverage", coverage_map),
             valid_coverage: CoverageFeedback::with_name("ValidCoverage", coverage_map),
+            map_ref: coverage_map.handle(),
             last_result: None,
         }
     }
@@ -184,7 +187,7 @@ impl<EM, I, OT, S> Feedback<EM, I, OT, S> for StdFeedback
 where
     I: Input,
     S: HasNamedMetadata + HasCorpus<I> + Serialize,
-    OT: MatchFirstType + MatchName,
+    OT: MatchFirstType + MatchName + MatchNameRef,
     EM: EventFirer<I, S>,
 {
     fn is_interesting(
@@ -274,6 +277,32 @@ where
                     name: Cow::Borrowed("validcorpus"),
                     value: UserStats::new(
                         UserStatsValue::Number(valid_corpus_count),
+                        AggregatorOps::Sum,
+                    ),
+                    phantom: PhantomData,
+                },
+            )?;
+        }
+
+        // if the total number of instrumented edges has increased, record it
+        let map = observers.get(&self.map_ref).unwrap().map();
+        let total_edges = unsafe { *map.as_ptr().cast::<u32>() };
+        let has_new_instrumentation = {
+            let meta = state.named_metadata_mut::<StdFeedbackMetadata>(self.name())?;
+            if total_edges > meta.total_edges_instrumented {
+                meta.total_edges_instrumented = total_edges;
+                true
+            } else {
+                false
+            }
+        };
+        if has_new_instrumentation {
+            manager.fire(
+                state,
+                Event::UpdateUserStats {
+                    name: Cow::Borrowed("totaledges"),
+                    value: UserStats::new(
+                        UserStatsValue::Number(total_edges.into()),
                         AggregatorOps::Sum,
                     ),
                     phantom: PhantomData,

@@ -249,6 +249,16 @@ impl Worker {
         self.schema.as_ref()
     }
 
+    /// This is a lie. The coverage shmem is not just the edges hit, but
+    /// the first four bytes are the total number of edges instrumented
+    /// so far (because of dynamic imports, we don't know the total until
+    /// run-time). However, it is easier to just use the entire buffer for
+    /// feedback. This is correct because a change in the first four bytes
+    /// implies new instrumentation, which is also interesting for the fuzzer.
+    ///
+    /// See railcar_worker_sys::CoverageMap::record_hit for writes to this shmem.
+    /// See @railcar/worker worker.ts setupHooks() for instrumentation.
+    /// See railcar::feedback::StdFeedback::append_metadata for reads of total.
     pub fn coverage_mut(&mut self) -> Option<&mut MmapShMem> {
         self.coverage.as_mut()
     }

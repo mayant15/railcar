@@ -6,6 +6,14 @@ use napi::{Env, JsNumber, JsObject};
 #[macro_use]
 extern crate napi_derive;
 
+fn get_total_mut_ptr(shmem: &mut MmapShMem) -> *mut u32 {
+    shmem.as_mut_ptr().cast::<u32>()
+}
+
+fn get_map_mut_slice(shmem: &mut MmapShMem) -> &mut [u8] {
+    &mut shmem[4..]
+}
+
 #[napi]
 pub struct CoverageMap {
     shmem: MmapShMem,
@@ -22,14 +30,22 @@ impl CoverageMap {
     }
 
     #[napi]
-    pub fn record_hit(&mut self, key: JsNumber) -> napi::Result<()> {
-        let key: usize = key.get_uint32()?.try_into().map_err(|e| {
+    pub fn record_hit(&mut self, edge_id: JsNumber, total: JsNumber) -> napi::Result<()> {
+        let total = total.get_uint32()?;
+        let edge_id: usize = edge_id.get_uint32()?.try_into().map_err(|e| {
             napi::Error::from_reason(format!("failed to convert u32 -> usize {}", e))
         })?;
-        let key = key % self.shmem.len();
-        let hits = self.shmem[key];
+
+        // set total
+        unsafe { *get_total_mut_ptr(&mut self.shmem) = total };
+
+        // set count
+        let map = get_map_mut_slice(&mut self.shmem);
+        let key = edge_id % map.len();
+        let hits = map[key];
         let hits = if hits == 255 { 1 } else { hits + 1 };
-        self.shmem[key] = hits;
+        map[key] = hits;
+
         Ok(())
     }
 }

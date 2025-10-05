@@ -69,6 +69,18 @@ impl MetricsMonitor {
             acc + valid_execs
         })
     }
+
+    fn total_instrumented_edges(&self) -> u64 {
+        self.client_stats().iter().fold(0, |acc, x| {
+            let Some(stat) = x.get_user_stats("totaledges") else {
+                return acc;
+            };
+            let UserStatsValue::Number(total_edges) = stat.value() else {
+                return acc;
+            };
+            acc + total_edges
+        })
+    }
 }
 
 impl Monitor for MetricsMonitor {
@@ -97,6 +109,7 @@ impl Monitor for MetricsMonitor {
                 valid_execs: self.valid_execs(),
                 valid_corpus: self.valid_corpus(),
                 corpus: self.corpus_size(),
+                total_edges: self.total_instrumented_edges(),
             }) {
                 panic!("{}", err);
             };

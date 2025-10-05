@@ -179,13 +179,15 @@ function recv(data: Buffer): Message | null {
 }
 
 function setupHooks(filter: (_: string) => boolean) {
+    const [getNumEdges, plugin] = codeCoverage();
+
     global.__railcar__ = {
         recordHit(edge: number) {
-            _coverage!.recordHit(edge);
+            _coverage!.recordHit(edge, getNumEdges());
         },
     };
 
-    const plugins = [codeCoverage()];
+    const plugins = [plugin];
     hookRequire(filter, (code, { filename }) => {
         const codeResult = transformSync(code, {
             filename,
@@ -193,6 +195,8 @@ function setupHooks(filter: (_: string) => boolean) {
             sourceMaps: true,
             plugins,
         });
+
+        console.log(`RAILCAR inserted ${getNumEdges()} coverage edge(s)`);
 
         assert(codeResult !== null);
         assert(codeResult.code !== null);
