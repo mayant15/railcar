@@ -1,8 +1,8 @@
 [tools]
-node = '24.6.0'
+node = '24.8.0'
 bun = 'latest'
 rust = '1.89'
-python = '3.13.2'
+python = '3.13.7'
 
 [env]
 _.python.venv = { path = ".venv", create = true }
