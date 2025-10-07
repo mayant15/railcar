@@ -26,18 +26,35 @@ use serde::{Deserialize, Serialize};
 type CoverageObserver = HitcountsMapObserver<StdMapObserver<'static, u8, false>>;
 type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
 
+#[inline]
+unsafe fn get_coverage_mut_ptr<S: ShMem>(shmem: &mut S) -> *mut u8 {
+    shmem.as_mut_ptr().add(4)
+}
+
+#[inline]
+unsafe fn get_total_edges(coverage_ptr: *const u8) -> u32 {
+    *coverage_ptr.sub(4).cast()
+}
+
 /// Create a new coverage observer
 ///
 /// This is a view over a previously allocated memory buffer. The coverage map is a &[u8]
 /// indexed by edge IDs with each u8 their hitcount. This is shared with the worker process
 /// and should therefore be allocated via ShMem. The worker process is responsible for updating
 /// the map as the target executes.
+///
+/// The first four bytes of the coverage map encode the total number of edges, as a u32. We
+/// should ideally have a better abstraction here than pointer arithmetic but meh.
+///
+/// See Worker::coverage_mut() for more details.
 pub fn coverage_observer<S>(shmem: &mut S) -> CoverageObserver
 where
     S: ShMem,
 {
     HitcountsMapObserver::new(unsafe {
-        StdMapObserver::from_mut_ptr("CodeCoverage", shmem.as_mut_ptr(), shmem.len())
+        let len = shmem.len();
+        let ptr = get_coverage_mut_ptr(shmem);
+        StdMapObserver::from_mut_ptr("CodeCoverage", ptr, len)
     })
 }
 
@@ -286,7 +303,7 @@ where
 
         // if the total number of instrumented edges has increased, record it
         let map = observers.get(&self.map_ref).unwrap().map();
-        let total_edges = unsafe { *map.as_ptr().cast::<u32>() };
+        let total_edges = unsafe { get_total_edges(map.as_ptr()) };
         let has_new_instrumentation = {
             let meta = state.named_metadata_mut::<StdFeedbackMetadata>(self.name())?;
             if total_edges > meta.total_edges_instrumented {
@@ -296,6 +313,7 @@ where
                 false
             }
         };
+
         if has_new_instrumentation {
             manager.fire(
                 state,

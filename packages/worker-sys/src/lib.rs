@@ -6,10 +6,12 @@ use napi::{Env, JsNumber, JsObject};
 #[macro_use]
 extern crate napi_derive;
 
+#[inline]
 fn get_total_mut_ptr(shmem: &mut MmapShMem) -> *mut u32 {
     shmem.as_mut_ptr().cast::<u32>()
 }
 
+#[inline]
 fn get_map_mut_slice(shmem: &mut MmapShMem) -> &mut [u8] {
     &mut shmem[4..]
 }

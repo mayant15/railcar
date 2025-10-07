@@ -259,6 +259,7 @@ impl Worker {
     /// See railcar_worker_sys::CoverageMap::record_hit for writes to this shmem.
     /// See @railcar/worker worker.ts setupHooks() for instrumentation.
     /// See railcar::feedback::StdFeedback::append_metadata for reads of total.
+    /// See railcar::feedback::coverage_observer() for initialization of hitcounts map.
     pub fn coverage_mut(&mut self) -> Option<&mut MmapShMem> {
         self.coverage.as_mut()
     }
