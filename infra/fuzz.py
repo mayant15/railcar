@@ -26,9 +26,19 @@ def git_version():
     return proc.stdout.strip()
 
 
-def find_entrypoint(project: str, driver: str) -> str:
-    if driver == "bytes":
-        return path.join(EXAMPLES_DIR, project, "baseline.js")
+def find_entrypoints(project: str, mode: str) -> list[str]:
+    if mode == "bytes":
+        baseline = path.join(EXAMPLES_DIR, project, "baseline.js")
+        if path.exists(baseline):
+            return [baseline]
+
+        # collect all Railcar drivers
+        drivers = []
+        drivers_dir = path.join(EXAMPLES_DIR, project, "railcar")
+        for dir in os.listdir(drivers_dir):
+            drivers.append(path.join(EXAMPLES_DIR, project, "railcar", dir))
+        return drivers
+
     else:
         # find the path to npm package entry point in node_modules
         locator = path.join(EXAMPLES_DIR, "locate-index.js")
@@ -37,12 +47,12 @@ def find_entrypoint(project: str, driver: str) -> str:
             capture_output=True,
             text=True
         )
-        return index.stdout
+        return [index.stdout]
 
 
 def generate_configs(
     projects: list[str],
-    drivers: list[str],
+    modes: list[str],
     seeds: list[int],
     iterations: int,
     results_dir: str,
@@ -54,24 +64,25 @@ def generate_configs(
 
     for project in projects:
         config_file = path.join(examples_dir, project, "railcar.config.js")
-        for driver in drivers:
+        for mode in modes:
             cs = []
-            entrypoint = find_entrypoint(project, driver)
-            for i in range(iterations):
-                outdir = path.join(
-                    results_dir, f"iter_{i}", f"{project}_{driver}")
-                cs.append(Config(tool, Railcar.RunArgs(
-                    timeout=timeout,
-                    outdir=outdir,
-                    seed=seeds[i],
-                    mode=driver,
-                    core=2*i,
-                    entrypoint=entrypoint,
-                    config_file_path=config_file,
-                    project=project,
-                    iteration=i
-                )))
-            configs.append(cs)
+            entrypoints = find_entrypoints(project, mode)
+            for entrypoint in entrypoints:
+                for i in range(iterations):
+                    outdir = path.join(
+                        results_dir, f"iter_{i}", f"{project}_{mode}")
+                    cs.append(Config(tool, Railcar.RunArgs(
+                        timeout=timeout,
+                        outdir=outdir,
+                        seed=seeds[i],
+                        mode=mode,
+                        core=2*i,
+                        entrypoint=entrypoint,
+                        config_file_path=config_file,
+                        project=project,
+                        iteration=i
+                    )))
+                configs.append(cs)
 
     return configs
 
@@ -201,7 +212,7 @@ def main() -> None:
     # run outer list serially, inner list in parallel
     configs = generate_configs(
         projects=projects,
-        drivers=drivers,
+        modes=drivers,
         iterations=iterations,
         results_dir=results_dir,
         seeds=seeds,
@@ -210,7 +221,7 @@ def main() -> None:
 
     summary = generate_summary_prefix(timeout, seeds)
 
-    processes_pool: int = iterations
+    processes_pool = iterations
     for cs in configs:
         with Pool(processes_pool) as pool:
             pool.map(execute_config, cs)
