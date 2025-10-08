@@ -123,19 +123,11 @@ def collect_coverage(configs: list[Config], results: str) -> str:
     configs = [x for cs in configs for x in cs]
     results = []
     for config in configs:
-
-        # TODO: Ideally get this from the metrics db as well, once the bug is fixed
-        logs = path.join(config.args.outdir, "logs.txt")
-        proc = sp.run(
-            f"cat {logs} | sed -nr 's/.*inserted ([0-9]+) .*/\\1/p' | tail -n 1",
-            shell=True, capture_output=True, text=True)
-        total = float(proc.stdout.strip())
-
         db = path.join(config.args.outdir, "metrics.db")
         conn = sqlite3.connect(db)
         cur = conn.cursor()
         row = cur.execute("""
-            select coverage from heartbeat
+            select coverage, total_edges from heartbeat
             where timestamp in (select max(timestamp) from heartbeat)
             """).fetchone()
 
@@ -143,7 +135,7 @@ def collect_coverage(configs: list[Config], results: str) -> str:
             print("config failed:", config)
             continue
 
-        coverage_pct = row[0] * 100 / total
+        coverage_pct = row[0] * 100 / row[1]
         project = config.args.project
         mode = config.args.mode
         iter = config.args.iteration
