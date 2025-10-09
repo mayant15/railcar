@@ -26,28 +26,70 @@ def git_version():
     return proc.stdout.strip()
 
 
-def find_entrypoints(project: str, mode: str) -> list[str]:
-    if mode == "bytes":
-        baseline = path.join(EXAMPLES_DIR, project, "baseline.js")
-        if path.exists(baseline):
-            return [baseline]
+def find_graph_entrypoint(project: str) -> str:
+    if project == "turf":
+        project = "@turf/turf"
 
-        # collect all Railcar drivers
+    # find the path to npm package entry point in node_modules
+    locator = path.join(EXAMPLES_DIR, "locate-index.js")
+    index = sp.run(
+        ["node", locator, project],
+        capture_output=True,
+        text=True
+    )
+    return index.stdout.strip()
+
+
+def find_bytes_entrypoints(project_root: str) -> list[tuple[str, str]]:
+    project_root_config_file = path.join(project_root, "railcar.config.js")
+
+    # if there's a railcar/ directory, look into it for fuzz drivers
+    drivers_dir = path.join(project_root, "railcar")
+    if path.exists(drivers_dir):
         drivers = []
-        drivers_dir = path.join(EXAMPLES_DIR, project, "railcar")
+
         for dir in os.listdir(drivers_dir):
-            drivers.append(path.join(EXAMPLES_DIR, project, "railcar", dir))
+            if 'config' in dir:
+                continue
+
+            driver = path.join(drivers_dir, dir)
+            name = path.basename(dir).split('.')[0]
+
+            # if there's a {name}.config.js, use that. Otherwise use the project
+            # root's config file
+            adjacent_config_file = path.join(drivers_dir, f"{name}.config.js")
+            if path.exists(adjacent_config_file):
+                drivers.append([driver, adjacent_config_file])
+            elif path.exists(project_root_config_file):
+                drivers.append((driver, project_root_config_file))
+            else:
+                raise FileNotFoundError(f"failed to find configuration file for driver {driver}")
+
+        assert len(drivers) != 0
         return drivers
 
+    # if there's a baseline.js, assume there's only one fuzz driver
+    baseline = path.join(project_root, "baseline.js")
+    if path.exists(baseline):
+        assert path.exists(project_root_config_file)
+        return [(baseline, project_root_config_file)]
+
+    # unreachable
+    assert False
+
+
+def find_entrypoints(project: str, mode: str) -> list[tuple[str, str]]:
+    project_root = path.join(EXAMPLES_DIR, project)
+
+    project_root_config_file = path.join(project_root, "railcar.config.js")
+    if mode != "bytes":
+        assert path.exists(project_root_config_file)
+
+    if mode == "bytes":
+        return find_bytes_entrypoints(project_root)
     else:
-        # find the path to npm package entry point in node_modules
-        locator = path.join(EXAMPLES_DIR, "locate-index.js")
-        index = sp.run(
-            ["node", locator, project],
-            capture_output=True,
-            text=True
-        )
-        return [index.stdout]
+        ep = find_graph_entrypoint(project)
+        return [(ep, project_root_config_file)]
 
 
 def generate_configs(
@@ -60,17 +102,21 @@ def generate_configs(
 ) -> list[list[Config]]:
     tool = Railcar()
     configs: list[list[Config]] = []
-    examples_dir = path.join(RAILCAR_ROOT, "examples")
 
     for project in projects:
-        config_file = path.join(examples_dir, project, "railcar.config.js")
         for mode in modes:
             cs = []
             entrypoints = find_entrypoints(project, mode)
-            for entrypoint in entrypoints:
+            for entrypoint, config_file in entrypoints:
+
+                outdir_basename = f"{project}_{mode}"
+                if mode == "bytes":
+                    driver = path.basename(entrypoint).split('.')[0]
+                    outdir_basename += f"_{driver}"
+
                 for i in range(iterations):
                     outdir = path.join(
-                        results_dir, f"iter_{i}", f"{project}_{mode}")
+                        results_dir, f"iter_{i}", outdir_basename)
                     cs.append(Config(tool, Railcar.RunArgs(
                         timeout=timeout,
                         outdir=outdir,

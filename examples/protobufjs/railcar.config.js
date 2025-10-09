@@ -1,7 +1,7 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("protobuf-js"),
+    instrumentFilter: (f) => f.includes("protobufjs"),
     oracle: makeInvalidErrorMessageOracle([
         "does not exist",
         "illegal",
