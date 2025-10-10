@@ -16,6 +16,7 @@
       "name": "@railcar/examples",
       "version": "0.1.9",
       "devDependencies": {
+        "@angular/compiler": "20.3.4",
         "@jazzer.js/core": "2.1.0",
         "@railcar/support": "0.1.9",
         "@turf/turf": "7.2.0",
@@ -96,6 +97,8 @@
     "semver": "^7.7.2",
   },
   "packages": {
+    "@angular/compiler": ["@angular/compiler@20.3.4", "", { "dependencies": { "tslib": "^2.3.0" } }, "sha512-ISfEyn5ppWOP2hyZy0/IFEcQOaq5x1mXVZ2CRCxTpWyXYzavj27Ahr3+LQHPVV0uTNovlENyPAUnrzW+gLxXEw=="],
+
     "@babel/code-frame": ["@babel/code-frame@7.27.1", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.27.1", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg=="],
 
     "@babel/compat-data": ["@babel/compat-data@7.28.4", "", {}, "sha512-YsmSKC29MJwf0gF8Rjjrg5LQCmyh+j/nD8/eP7f+BeoQTKYqs9RoWbjGOdy0+1Ekr68RJZMUOPVQaQisnIo4Rw=="],

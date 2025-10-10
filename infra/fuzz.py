@@ -192,15 +192,16 @@ def collect_coverage(configs: list[Config], results: str) -> str:
             print("config failed:", config)
             continue
 
-        coverage_pct = row[0] * 100 / row[1]
+        covered, total = row
+        coverage_pct = covered * 100 / total
         project = config.args.project
         mode = config.args.mode
         iter = config.args.iteration
 
-        results.append((iter, mode, project, coverage_pct))
+        results.append((iter, mode, project, covered, total, coverage_pct))
 
     return pd.DataFrame(results, columns=[
-        "iteration", "mode", "project", "coverage"
+        "iteration", "mode", "project", "covered", "total", "coverage"
     ])
 
 
