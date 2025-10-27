@@ -7,15 +7,15 @@
     },
     "dependencies": {
         "@babel/core": "^7.26.10",
+        "@babel/types": "^7.28.5",
         "@msgpack/msgpack": "^3.1.1",
         "@railcar/inference": "0.1.9",
-        "@railcar/worker-sys": "0.1.9",
         "@railcar/support": "0.1.9",
+        "@railcar/worker-sys": "0.1.9",
         "istanbul-lib-hook": "^3.0.0"
     },
     "devDependencies": {
         "@types/babel__core": "^7.20.5",
-        "@types/bun": "^1.2.21",
         "@types/istanbul-lib-hook": "^2.0.4"
     },
     "files": [

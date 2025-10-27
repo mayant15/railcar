@@ -12,7 +12,6 @@
         "yargs": "^17.7.2"
     },
     "devDependencies": {
-        "@types/bun": "^1.2.21",
         "@types/yargs": "^17.0.32"
     },
     "files": [
