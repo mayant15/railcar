@@ -1,6 +1,6 @@
 [tools]
 node = '24.8.0'
-bun = 'latest'
+bun = '1.2.23'
 rust = '1.89'
 python = '3.13.7'
 
