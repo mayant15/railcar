@@ -26,6 +26,7 @@ import {
     type ConditionalExpression,
     type Expression,
     type ExpressionStatement,
+    type Program,
     type Function as BabelFunction,
     type IfStatement,
     isBlockStatement,
@@ -56,7 +57,7 @@ export function codeCoverage(): [() => number, () => PluginTarget] {
 
     function makeCounterIncExpr(): Expression {
         return types.callExpression(
-            types.identifier("global.__railcar__.recordHit"),
+            types.identifier("__railcar_record_hit__"),
             [types.numericLiteral(nextEdgeId++)],
         );
     }
@@ -70,6 +71,17 @@ export function codeCoverage(): [() => number, () => PluginTarget] {
         () => {
             return {
                 visitor: {
+                    Program(path: NodePath<Program>) {
+                        const assignExpr = types.assignmentExpression(
+                            "=",
+                            types.identifier("__railcar_record_hit__"),
+                            types.identifier(
+                                "globalThis.__railcar__.recordHit",
+                            ),
+                        );
+                        const exprStmt = types.expressionStatement(assignExpr);
+                        path.unshiftContainer("body", exprStmt);
+                    },
                     // eslint-disable-next-line @typescript-eslint/ban-types
                     Function(path: NodePath<BabelFunction>) {
                         if (isBlockStatement(path.node.body)) {
