@@ -72,15 +72,15 @@ export function codeCoverage(): [() => number, () => PluginTarget] {
             return {
                 visitor: {
                     Program(path: NodePath<Program>) {
-                        const assignExpr = types.assignmentExpression(
-                            "=",
-                            types.identifier("__railcar_record_hit__"),
-                            types.identifier(
-                                "globalThis.__railcar__.recordHit",
-                            ),
-                        );
-                        const exprStmt = types.expressionStatement(assignExpr);
-                        path.unshiftContainer("body", exprStmt);
+                        const declaration = types.variableDeclaration("const", [
+                                types.variableDeclarator(
+                                    types.identifier("__railcar_record_hit__"),
+                                    types.identifier(
+                                        "globalThis.__railcar__.recordHit",
+                                    )
+                                )
+                            ]);
+                        path.unshiftContainer("body", declaration);
                     },
                     // eslint-disable-next-line @typescript-eslint/ban-types
                     Function(path: NodePath<BabelFunction>) {
