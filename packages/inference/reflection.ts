@@ -367,7 +367,9 @@ export async function loadSchema(
     schemaFile?: string,
     methodsToSkip?: EndpointName[],
 ): Promise<{ schema: Schema; endpoints: Endpoints }> {
-    const main = await import(mainModule);
+    // there seems to be issues setting up require hooks with Istanbul
+    // for `await import()`. Use `require()` instead.
+    const main = require(mainModule);
 
     const schema: Schema = schemaFile
         ? JSON.parse(readFileSync(schemaFile).toString())
