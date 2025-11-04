@@ -10,8 +10,11 @@ use std::{
     process::Command,
 };
 
+use libafl_bolts::shmem::UnixShMem;
+use libafl_bolts::shmem::UnixShMemProvider;
+
 use anyhow::{bail, Result};
-use libafl_bolts::shmem::{MmapShMem, MmapShMemProvider, ShMem, ShMemDescription, ShMemProvider};
+use libafl_bolts::shmem::{ShMem, ShMemDescription, ShMemProvider};
 use nix::{
     sys::wait::WaitStatus,
     unistd::{ForkResult, Pid},
@@ -125,7 +128,7 @@ impl Child {
 pub struct Worker {
     proc: Child,
     schema: Option<Schema>,
-    coverage: Option<MmapShMem>,
+    coverage: Option<UnixShMem>,
 }
 
 /// Spawn a NodeJS subprocess to run the target
@@ -179,7 +182,7 @@ impl Worker {
         } else {
             // MmapShMemProvider is stateless, don't need to save it. Can create new
             // providers as required (see Self::release_shmem)
-            let mut shmem_provider = MmapShMemProvider::new()?;
+            let mut shmem_provider = UnixShMemProvider::new()?;
             Some(shmem_provider.new_shmem(COVERAGE_MAP_SIZE)?)
         };
 
@@ -260,13 +263,13 @@ impl Worker {
     /// See @railcar/worker worker.ts setupHooks() for instrumentation.
     /// See railcar::feedback::StdFeedback::append_metadata for reads of total.
     /// See railcar::feedback::coverage_observer() for initialization of hitcounts map.
-    pub fn coverage_mut(&mut self) -> Option<&mut MmapShMem> {
+    pub fn coverage_mut(&mut self) -> Option<&mut UnixShMem> {
         self.coverage.as_mut()
     }
 
     fn release_shmem(&mut self) -> Result<()> {
         if let Some(coverage) = self.coverage_mut() {
-            let mut provider = MmapShMemProvider::new()?;
+            let mut provider = UnixShMemProvider::new()?;
             provider.release_shmem(coverage);
         }
         Ok(())

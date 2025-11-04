@@ -4,6 +4,9 @@
 
 use std::{path::PathBuf, time::Duration};
 
+use libafl_bolts::shmem::UnixShMem;
+use libafl_bolts::shmem::UnixShMemProvider;
+
 use anyhow::{bail, Result};
 use clap::ValueEnum;
 use libafl::{
@@ -22,7 +25,7 @@ use libafl::{
 };
 use libafl_bolts::{
     rands::StdRand,
-    shmem::{MmapShMem, MmapShMemProvider, ShMemProvider},
+    shmem::ShMemProvider,
     tuples::tuple_list,
 };
 use railcar_graph::{Graph, HasSchema, ParametricGraph, RailcarError, Schema};
@@ -36,7 +39,7 @@ use crate::{
 
 pub type State<I> = StdState<CachedOnDiskCorpus<I>, I, StdRand, OnDiskCorpus<I>>;
 pub type RestartingManager<I> =
-    LlmpRestartingEventManager<(), I, State<I>, MmapShMem, MmapShMemProvider>;
+    LlmpRestartingEventManager<(), I, State<I>, UnixShMem, UnixShMemProvider>;
 
 type ReplayState<I> = StdState<InMemoryCorpus<I>, I, StdRand, InMemoryCorpus<I>>;
 type ReplayRestartingManager<I, SP> =
