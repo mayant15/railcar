@@ -73,13 +73,13 @@ export function codeCoverage(): [() => number, () => PluginTarget] {
                 visitor: {
                     Program(path: NodePath<Program>) {
                         const declaration = types.variableDeclaration("const", [
-                                types.variableDeclarator(
-                                    types.identifier("__railcar_record_hit__"),
-                                    types.identifier(
-                                        "globalThis.__railcar__.recordHit",
-                                    )
-                                )
-                            ]);
+                            types.variableDeclarator(
+                                types.identifier("__railcar_record_hit__"),
+                                types.identifier(
+                                    "globalThis.__railcar__.recordHit",
+                                ),
+                            ),
+                        ]);
                         path.unshiftContainer("body", declaration);
                     },
                     // eslint-disable-next-line @typescript-eslint/ban-types

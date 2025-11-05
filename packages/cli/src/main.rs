@@ -235,7 +235,7 @@ fn main() -> Result<()> {
         simple_mutations: args.simple_mutations,
         replay: args.replay,
         port: args.port,
-        use_validity: args.use_validity,
+        use_validity: args.use_validity.unwrap_or(args.mode != FuzzerMode::Bytes),
         replay_input: args.replay_input,
         config_file: to_absolute(args.config),
     };

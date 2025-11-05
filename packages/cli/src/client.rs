@@ -45,7 +45,7 @@ type ReplayState<I> = StdState<InMemoryCorpus<I>, I, StdRand, InMemoryCorpus<I>>
 type ReplayRestartingManager<I, SP> =
     LlmpRestartingEventManager<(), I, ReplayState<I>, <SP as ShMemProvider>::ShMem, SP>;
 
-#[derive(ValueEnum, Serialize, Deserialize, Clone, Debug)]
+#[derive(ValueEnum, Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub enum FuzzerMode {
     Bytes,
@@ -64,7 +64,7 @@ pub struct FuzzerConfig {
     pub schema_file: Option<PathBuf>,
     pub simple_mutations: bool,
     pub replay: bool,
-    pub use_validity: Option<bool>,
+    pub use_validity: bool,
     pub replay_input: Option<String>,
     pub config_file: PathBuf,
 }
@@ -400,7 +400,7 @@ pub mod bytes {
         );
 
         // we don't want coverage feedback but we still want to count valid execution stats
-        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity.unwrap_or(false));
+        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity);
         let mut objective = UniqCrashFeedback::new(&coverage_map);
 
         let mut state = state.unwrap_or_else(|| {
@@ -469,7 +469,7 @@ pub mod parametric {
         );
         let (_, validity) = validity_observer();
 
-        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity.unwrap_or(true));
+        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity);
         let mut objective = UniqCrashFeedback::new(&coverage_map);
 
         let mut state = state.unwrap_or_else(|| {
@@ -537,7 +537,7 @@ pub mod graph {
         );
         let (_, validity) = validity_observer();
 
-        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity.unwrap_or(true));
+        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity);
         let mut objective = UniqCrashFeedback::new(&coverage_map);
 
         let mut state = state.unwrap_or_else(|| {
