@@ -2,8 +2,6 @@
 
 use std::{path::PathBuf, str::FromStr, time::Duration};
 
-use libafl_bolts::shmem::UnixShMemProvider;
-
 use anyhow::Result;
 use clap::Parser;
 use libafl::{
@@ -13,7 +11,7 @@ use libafl::{
 };
 use libafl_bolts::{
     core_affinity::Cores,
-    shmem::ShMemProvider,
+    shmem::{MmapShMemProvider, ShMemProvider},
 };
 use railcar_graph::{Graph, ParametricGraph};
 
@@ -99,7 +97,7 @@ fn to_absolute(path: String) -> PathBuf {
 
 fn launch_replay_input<I, M>(
     config: FuzzerConfig,
-    shmem_provider: UnixShMemProvider,
+    shmem_provider: MmapShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>
@@ -135,7 +133,7 @@ where
 
 fn launch_replay<I, M>(
     config: FuzzerConfig,
-    shmem_provider: UnixShMemProvider,
+    shmem_provider: MmapShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>
@@ -171,7 +169,7 @@ where
 fn launch_fuzzer<M, F, I>(
     start: F,
     config: FuzzerConfig,
-    shmem_provider: UnixShMemProvider,
+    shmem_provider: MmapShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>
@@ -240,7 +238,7 @@ fn main() -> Result<()> {
         config_file: to_absolute(args.config),
     };
 
-    let shmem_provider = UnixShMemProvider::new()?;
+    let shmem_provider = MmapShMemProvider::new()?;
     let cores = Cores::from_cmdline(args.cores.as_str())?;
     assert!(
         cores.ids.len() == 1,
