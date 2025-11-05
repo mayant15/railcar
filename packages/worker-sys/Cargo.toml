@@ -10,7 +10,7 @@ crate-type = ["cdylib"]
 [dependencies]
 napi = { version = "2.16.13", features = ["serde-json"] }
 napi-derive = "2.16.13"
-libafl_bolts = "=0.15.1"
+libafl_bolts.workspace = true
 
 [build-dependencies]
 napi-build = "2.1.4"
