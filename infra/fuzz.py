@@ -29,6 +29,8 @@ def git_version():
 def find_graph_entrypoint(project: str) -> str:
     if project == "turf":
         project = "@turf/turf"
+    elif project == "xmldom":
+        project = "@xmldom/xmldom"
 
     # find the path to npm package entry point in node_modules
     locator = path.join(EXAMPLES_DIR, "locate-index.js")
