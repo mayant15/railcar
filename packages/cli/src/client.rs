@@ -21,6 +21,7 @@ use libafl::{
     Fuzzer, StdFuzzer,
 };
 use libafl_bolts::{
+    core_affinity::Cores,
     rands::StdRand,
     shmem::{MmapShMem, MmapShMemProvider, ShMemProvider},
     tuples::tuple_list,
@@ -50,12 +51,14 @@ pub enum FuzzerMode {
     Parametric,
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct FuzzerConfig {
     pub port: u16,
     pub mode: FuzzerMode,
     pub timeout: Duration,
     pub corpus: PathBuf,
     pub crashes: PathBuf,
+    pub metrics: PathBuf,
     pub seed: u64,
     pub entrypoint: PathBuf,
     pub schema_file: Option<PathBuf>,
@@ -64,6 +67,7 @@ pub struct FuzzerConfig {
     pub use_validity: bool,
     pub replay_input: Option<String>,
     pub config_file: PathBuf,
+    pub cores: Cores,
 }
 
 struct GraphGenerator<'a> {

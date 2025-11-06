@@ -119,12 +119,12 @@ impl Monitor for MetricsMonitor {
 
 pub type StdMonitor<F> = CombinedMonitor<MultiMonitor<F>, MetricsMonitor>;
 
-pub fn create_monitor<F, P: AsRef<Path>>(path: Option<P>, print_fn: F) -> Result<StdMonitor<F>>
+pub fn create_monitor<F, P: AsRef<Path>>(path: P, print_fn: F) -> Result<StdMonitor<F>>
 where
     F: FnMut(&str),
 {
     Ok(StdMonitor::new(
         MultiMonitor::new(print_fn),
-        MetricsMonitor::new(path)?,
+        MetricsMonitor::new(Some(path))?,
     ))
 }

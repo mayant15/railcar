@@ -28,15 +28,7 @@ class Railcar(Tool):
         core: Optional[int] = None
 
     def run(self, args: RunArgs) -> str:
-        coverage_dir = path.join(args.outdir, "coverage")
-        crashes_dir = path.join(args.outdir, "crashes")
-        corpus_dir = path.join(args.outdir, "corpus")
-        metrics = path.join(args.outdir, "metrics.db")
         logfile = path.join(args.outdir, "logs.txt")
-
-        makedirs(coverage_dir, exist_ok=True)
-        makedirs(crashes_dir, exist_ok=True)
-        makedirs(corpus_dir, exist_ok=True)
 
         port = find_open_port()
 
@@ -47,10 +39,8 @@ class Railcar(Tool):
 
         cmd += [
             "cargo", "run", "--release", "--bin", "railcar", "--",
-            "--corpus", corpus_dir,
-            "--crashes", crashes_dir,
+            "--outdir", args.outdir,
             "--mode", args.mode,
-            "--metrics", metrics,
             "--seed", str(args.seed),
             "--port", str(port),
             "--config", args.config_file_path,

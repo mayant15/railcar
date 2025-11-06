@@ -16,6 +16,7 @@ metrics.json
 *.proto
 *.log
 
+railcar-out
 railcar-results-*
 *.tar.xz
 

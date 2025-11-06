@@ -2,7 +2,7 @@
 
 use std::{path::PathBuf, str::FromStr, time::Duration};
 
-use anyhow::Result;
+use anyhow::{bail, Result};
 use clap::Parser;
 use libafl::{
     events::{EventConfig, Launcher},
@@ -38,13 +38,9 @@ struct Arguments {
     #[arg(long, default_value_t = 5)]
     timeout: u64,
 
-    /// Corpus directory
-    #[arg(long, default_value_t = String::from_str("corpus").unwrap())]
-    corpus: String,
-
-    /// Crashes directory
-    #[arg(long, default_value_t = String::from_str("crashes").unwrap())]
-    crashes: String,
+    /// Directory to save corpus, crashes and temporary files
+    #[arg(long)]
+    outdir: Option<String>,
 
     /// Fuzz driver variant to use
     #[arg(long, value_enum, default_value_t = FuzzerMode::Graph)]
@@ -67,10 +63,6 @@ struct Arguments {
     #[arg(long)]
     schema: Option<String>,
 
-    /// Path to log fuzzer metrics.
-    #[arg(long)]
-    metrics: Option<String>,
-
     /// Use simple mutations when using the graph driver
     #[arg(long, default_value_t = false)]
     simple_mutations: bool,
@@ -87,12 +79,13 @@ struct Arguments {
 
 fn to_absolute(path: String) -> PathBuf {
     let path = PathBuf::from_str(path.as_str()).unwrap();
-    if path.is_absolute() {
+    let path = if path.is_absolute() {
         path
     } else {
         let cwd = std::env::current_dir().unwrap();
         cwd.join(path)
-    }
+    };
+    path.canonicalize().unwrap()
 }
 
 fn launch_replay_input<I, M>(
@@ -217,11 +210,28 @@ fn main() -> Result<()> {
 
     let args = Arguments::parse();
 
+    let cores = Cores::from_cmdline(args.cores.as_str())?;
+    assert!(
+        cores.ids.len() == 1,
+        "make metrics and validity state non-global, fix monitor aggregate over clients, before running on multiple cores"
+    );
+
+    let outdir = args
+        .outdir
+        .map(to_absolute)
+        .unwrap_or_else(|| std::env::current_dir().unwrap().join("railcar-out"));
+
+    if std::fs::exists(&outdir)? {
+        bail!("outdir already exists: {}", outdir.display());
+    }
+    std::fs::create_dir_all(&outdir)?;
+
     let config = railcar::client::FuzzerConfig {
         mode: args.mode.clone(),
         timeout: Duration::from_secs(args.timeout),
-        corpus: to_absolute(args.corpus),
-        crashes: to_absolute(args.crashes),
+        corpus: outdir.join("corpus"),
+        crashes: outdir.join("crashes"),
+        metrics: outdir.join("metrics.db"),
         seed: args.seed.unwrap_or_else(|| {
             std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
@@ -236,20 +246,18 @@ fn main() -> Result<()> {
         use_validity: args.use_validity.unwrap_or(args.mode != FuzzerMode::Bytes),
         replay_input: args.replay_input,
         config_file: to_absolute(args.config),
+        cores: cores.clone(),
     };
 
     let shmem_provider = MmapShMemProvider::new()?;
-    let cores = Cores::from_cmdline(args.cores.as_str())?;
-    assert!(
-        cores.ids.len() == 1,
-        "make metrics and validity state non-global, fix monitor aggregate over clients, before running on multiple cores"
-    );
+
+    dump_run_metadata(outdir, &config)?;
 
     // let monitor = TuiMonitor::builder()
     //     .title("railcar")
     //     .version("0.1.0")
     //     .build();
-    let monitor = create_monitor(args.metrics, |msg| {
+    let monitor = create_monitor(&config.metrics, |msg| {
         if msg.contains("Client Heartbeat") {
             log::info!("{msg}")
         } else {
@@ -304,4 +312,16 @@ fn main() -> Result<()> {
             ),
         }
     }
+}
+
+/// Write some metadata about this fuzzer run to a file. We can use this
+/// to monitor experiments.
+fn dump_run_metadata(outdir: PathBuf, config: &FuzzerConfig) -> Result<()> {
+    let metadata = serde_json::json!({
+        "pid": std::process::id(),
+        "config": config,
+    });
+    let metadata_string = serde_json::to_string_pretty(&metadata)?;
+    std::fs::write(outdir.join("metadata.json"), metadata_string)?;
+    Ok(())
 }
