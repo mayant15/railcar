@@ -4,7 +4,12 @@
 
 "use strict";
 
-const { DOMParser, ParseError, MIME_TYPE, XMLSerializer } = require("@xmldom/xmldom");
+const {
+    DOMParser,
+    ParseError,
+    MIME_TYPE,
+    XMLSerializer,
+} = require("@xmldom/xmldom");
 
 module.exports.fuzz = (buffer) => {
     try {

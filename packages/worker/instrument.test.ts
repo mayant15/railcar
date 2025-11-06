@@ -16,7 +16,7 @@ import {
     type CallExpression,
     type Identifier,
     isBlockStatement,
-    VariableDeclaration,
+    type VariableDeclaration,
 } from "@babel/types";
 
 function expectBlockHasCoverageCall(block: BlockStatement) {
@@ -55,10 +55,14 @@ if (0) {
 
         const hitCounterFnDecl = body[0] as VariableDeclaration;
 
-        const hitCounterFnName = (hitCounterFnDecl.declarations[0].id as Identifier).name;
+        const hitCounterFnName = (
+            hitCounterFnDecl.declarations[0].id as Identifier
+        ).name;
         expect(hitCounterFnName).toBe("__railcar_record_hit__");
 
-        const hitCounterFnInit = (hitCounterFnDecl.declarations[0].init as Identifier).name;
+        const hitCounterFnInit = (
+            hitCounterFnDecl.declarations[0].init as Identifier
+        ).name;
         expect(hitCounterFnInit).toBe("globalThis.__railcar__.recordHit");
 
         const ifStmt = body[1] as IfStatement;
