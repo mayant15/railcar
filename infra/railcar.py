@@ -1,3 +1,4 @@
+from typing import Optional
 from dataclasses import dataclass
 from base import Tool
 from os import path, makedirs
@@ -19,14 +20,12 @@ class Railcar(Tool):
     @dataclass
     class RunArgs:
         seed: int
-        core: int
         mode: str
-        timeout: int
         outdir: str
         entrypoint: str
         config_file_path: str
-        project: str
-        iteration: int
+        timeout: Optional[int] = None
+        core: Optional[int] = None
 
     def run(self, args: RunArgs) -> str:
         coverage_dir = path.join(args.outdir, "coverage")
@@ -41,19 +40,26 @@ class Railcar(Tool):
 
         port = find_open_port()
 
-        cmd = [
-            "timeout", "-s", "KILL", f"{args.timeout}s",
+        cmd = []
+
+        if args.timeout is not None:
+            cmd += ["timeout", "-s", "KILL", f"{args.timeout}s"]
+
+        cmd += [
             "cargo", "run", "--release", "--bin", "railcar", "--",
             "--corpus", corpus_dir,
             "--crashes", crashes_dir,
             "--mode", args.mode,
             "--metrics", metrics,
             "--seed", str(args.seed),
-            "--cores", str(args.core),
             "--port", str(port),
             "--config", args.config_file_path,
-            args.entrypoint
         ]
+
+        if args.core is not None:
+            cmd += ["--cores", str(args.core)]
+
+        cmd += [args.entrypoint]
 
         with open(logfile, "a") as f:
             sp.run(cmd, stderr=sp.STDOUT, stdout=f)

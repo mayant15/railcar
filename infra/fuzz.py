@@ -4,19 +4,14 @@ from railcar import Railcar
 from multiprocessing import Pool
 from random import randint
 from socket import gethostname
-from datetime import datetime
-from shutil import rmtree
 from os import path
 
 import os
+import util
 import sqlite3
 import requests
 import subprocess as sp
 import pandas as pd
-
-
-RAILCAR_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
-EXAMPLES_DIR = path.join(RAILCAR_ROOT, "examples")
 
 
 def git_version():
@@ -26,69 +21,17 @@ def git_version():
     return proc.stdout.strip()
 
 
-def find_graph_entrypoint(project: str) -> str:
-    if project == "turf":
-        project = "@turf/turf"
-
-    # find the path to npm package entry point in node_modules
-    locator = path.join(EXAMPLES_DIR, "locate-index.js")
-    index = sp.run(
-        ["node", locator, project],
-        capture_output=True,
-        text=True
-    )
-    return index.stdout.strip()
-
-
-def find_bytes_entrypoints(project_root: str) -> list[tuple[str, str]]:
-    project_root_config_file = path.join(project_root, "railcar.config.js")
-
-    # if there's a railcar/ directory, look into it for fuzz drivers
-    drivers_dir = path.join(project_root, "railcar")
-    if path.exists(drivers_dir):
-        drivers = []
-
-        for dir in os.listdir(drivers_dir):
-            if 'config' in dir:
-                continue
-
-            driver = path.join(drivers_dir, dir)
-            name = path.basename(dir).split('.')[0]
-
-            # if there's a {name}.config.js, use that. Otherwise use the project
-            # root's config file
-            adjacent_config_file = path.join(drivers_dir, f"{name}.config.js")
-            if path.exists(adjacent_config_file):
-                drivers.append([driver, adjacent_config_file])
-            elif path.exists(project_root_config_file):
-                drivers.append((driver, project_root_config_file))
-            else:
-                raise FileNotFoundError(f"failed to find configuration file for driver {driver}")
-
-        assert len(drivers) != 0
-        return drivers
-
-    # if there's a baseline.js, assume there's only one fuzz driver
-    baseline = path.join(project_root, "baseline.js")
-    if path.exists(baseline):
-        assert path.exists(project_root_config_file)
-        return [(baseline, project_root_config_file)]
-
-    # unreachable
-    assert False
-
-
 def find_entrypoints(project: str, mode: str) -> list[tuple[str, str]]:
-    project_root = path.join(EXAMPLES_DIR, project)
+    project_root_config_file = util.get_default_project_config_file(project)
 
-    project_root_config_file = path.join(project_root, "railcar.config.js")
     if mode != "bytes":
-        assert path.exists(project_root_config_file)
+        assert project_root_config_file is not None
 
     if mode == "bytes":
-        return find_bytes_entrypoints(project_root)
+        project_root = path.join(util.get_examples_dir(), project)
+        return util.find_bytes_entrypoints(project_root)
     else:
-        ep = find_graph_entrypoint(project)
+        ep = util.find_graph_entrypoint(project)
         return [(ep, project_root_config_file)]
 
 
@@ -125,8 +68,6 @@ def generate_configs(
                         core=2*i,
                         entrypoint=entrypoint,
                         config_file_path=config_file,
-                        project=project,
-                        iteration=i
                     )))
                 configs.append(cs)
 
@@ -135,32 +76,6 @@ def generate_configs(
 
 def execute_config(config: Config):
     config.run()
-
-
-def get_old_results_dir() -> str | None:
-    dirs = os.listdir()
-    latest = None
-    for dir in dirs:
-        if dir.startswith("railcar-results-"):
-            mod = path.getmtime(dir)
-            if latest is None:
-                latest = dir
-            else:
-                old_mod = path.getmtime(latest)
-                if mod > old_mod:
-                    latest = dir
-    return latest
-
-
-def ensure_results_dir() -> str:
-    timestamp = datetime.now().strftime("%Y-%m-%d-%s")
-    dir = path.join(os.getcwd(), f"railcar-results-{timestamp}")
-
-    if path.exists(dir):
-        rmtree(dir)
-    os.makedirs(dir, exist_ok=False)
-
-    return dir
 
 
 def generate_summary_prefix(timeout, seeds) -> str:
@@ -227,15 +142,6 @@ def summarize_coverage(
     )
 
 
-def discover_projects() -> list[str]:
-    dirs = filter(
-        lambda dir: os.path.isdir(os.path.join(EXAMPLES_DIR, dir))
-        and dir != "example",
-        os.listdir(EXAMPLES_DIR),
-    )
-    return list(dirs)
-
-
 def main() -> None:
     parser = ArgumentParser()
     parser.add_argument(
@@ -249,9 +155,9 @@ def main() -> None:
     iterations = args.iterations
     drivers = ["bytes", "graph"]
 
-    projects = discover_projects()
-    old_results_dir = get_old_results_dir()
-    results_dir = ensure_results_dir()
+    projects = util.discover_projects()
+    old_results_dir = util.get_old_results_dir()
+    results_dir = util.ensure_results_dir()
 
     seeds = [randint(0, 100000) for i in range(iterations)]
 
