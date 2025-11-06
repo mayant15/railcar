@@ -16,6 +16,7 @@ import {
     type CallExpression,
     type Identifier,
     isBlockStatement,
+    VariableDeclaration,
 } from "@babel/types";
 
 function expectBlockHasCoverageCall(block: BlockStatement) {
@@ -28,7 +29,7 @@ function expectBlockHasCoverageCall(block: BlockStatement) {
     expect(isCallExpression(expression)).toBeTrue();
 
     const func = ((expression as CallExpression).callee as Identifier).name;
-    expect(func).toBe("global.__railcar__.recordHit");
+    expect(func).toBe("__railcar_record_hit__");
 }
 
 describe("if statements", () => {
@@ -41,7 +42,7 @@ if (0) {
 }
 `;
         const actual = transformSync(code, {
-            plugins: [codeCoverage()],
+            plugins: [codeCoverage()[1]],
             ast: true,
         })?.ast;
 
@@ -50,9 +51,17 @@ if (0) {
         assert(actual !== undefined);
 
         const body = actual.program.body;
-        expect(body).toBeArrayOfSize(2);
+        expect(body).toBeArrayOfSize(3);
 
-        const ifStmt = body[0] as IfStatement;
+        const hitCounterFnDecl = body[0] as VariableDeclaration;
+
+        const hitCounterFnName = (hitCounterFnDecl.declarations[0].id as Identifier).name;
+        expect(hitCounterFnName).toBe("__railcar_record_hit__");
+
+        const hitCounterFnInit = (hitCounterFnDecl.declarations[0].init as Identifier).name;
+        expect(hitCounterFnInit).toBe("globalThis.__railcar__.recordHit");
+
+        const ifStmt = body[1] as IfStatement;
         expect(isIfStatement(ifStmt)).toBeTrue();
 
         expect(isBlockStatement(ifStmt.consequent)).toBeTrue();
