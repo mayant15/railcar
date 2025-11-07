@@ -2,7 +2,7 @@
 
 use std::{path::PathBuf, str::FromStr, time::Duration};
 
-use anyhow::{bail, Result};
+use anyhow::Result;
 use clap::Parser;
 use libafl::{
     events::{EventConfig, Launcher},
@@ -221,9 +221,6 @@ fn main() -> Result<()> {
         .map(to_absolute)
         .unwrap_or_else(|| std::env::current_dir().unwrap().join("railcar-out"));
 
-    if std::fs::exists(&outdir)? {
-        bail!("outdir already exists: {}", outdir.display());
-    }
     std::fs::create_dir_all(&outdir)?;
 
     let config = railcar::client::FuzzerConfig {
@@ -322,6 +319,6 @@ fn dump_run_metadata(outdir: PathBuf, config: &FuzzerConfig) -> Result<()> {
         "config": config,
     });
     let metadata_string = serde_json::to_string_pretty(&metadata)?;
-    std::fs::write(outdir.join("metadata.json"), metadata_string)?;
+    std::fs::write(outdir.join("fuzzing-config.json"), metadata_string)?;
     Ok(())
 }

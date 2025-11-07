@@ -5,10 +5,15 @@ from railcar import Railcar
 from base import Config
 from random import randint
 from multiprocessing import Pool
-from os import path
+from os import path, makedirs
 
 import util
-import time
+
+
+def write_project_info(project: str, outdir: str):
+    makedirs(outdir, exist_ok=True)
+    with open(path.join(outdir, "project"), "w") as f:
+        f.write(project)
 
 
 def generate_configs(
@@ -22,10 +27,10 @@ def generate_configs(
     for project in projects:
         outdir = path.join(base_outdir, project)
 
-        print(project)
-
         config = util.get_default_project_config_file(project)
         assert config is not None
+
+        write_project_info(project, outdir)
 
         config = Config(tool=railcar, args=Railcar.RunArgs(
             seed=seed,
@@ -51,7 +56,6 @@ def main():
     projects = ["fast-xml-parser", "pako"]
 
     configs = generate_configs(projects, seed, outdir)
-    print(configs)
 
     pool = Pool(len(projects))
     pool.map(execute, configs)

@@ -1,7 +1,7 @@
 from typing import Optional
 from dataclasses import dataclass
 from base import Tool
-from os import path, makedirs
+from os import path
 
 import subprocess as sp
 import socket
