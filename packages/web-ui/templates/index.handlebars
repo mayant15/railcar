@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Railcar</title>
+</head>
+<body>
+    <h1>Railcar Status</h1>
+    {{#each fuzzers}}
+      <h3>{{name}}</h3>
+      <p>
+      Running on core(s) {{cores}} in {{mode}} mode.
+      </p>
+      <p>
+      Corpus size: {{status.corpusCount}}<br />
+      Crashes: {{status.crashesCount}}
+      </p>
+    {{/each}}
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "@railcar/web-ui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start:dev": "bun --hot ./server.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.8"
+  }
+}
