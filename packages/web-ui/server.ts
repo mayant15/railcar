@@ -1,47 +1,44 @@
 import assert from "node:assert"
 import {isAbsolute, join, normalize} from "node:path"
-import Handlebars from "handlebars"
 
-import {collectProjectInfo, type ProjectInfo} from "./data.js"
+import index from "./index.html"
+
+import {collectProjectInfo} from "./data.js"
 
 function toAbsolute(path: string) {
     return isAbsolute(path) ? path : normalize(join(process.cwd(), path))
 }
 
-type HomeViewData = {
+export type ProjectsResponse = Record<string, {
     name: string,
     mode: string,
     corpus: number,
     crashes: number,
-    coverage?: [string, string][]
-}
+    coverage: [number, number][] | null
+}>
 
-function makeViewData(infos: ProjectInfo[]): HomeViewData[] {
-    return infos.map(info => {
-        const coverage = info.status?.coverage?.map(point => {
-            return [
-                `${point.timestamp.toFixed()}s`,
-                `${(point.data * 100).toFixed(1)}%`
-            ] as [string, string]
-        })
-        return {
+async function getProjectsForUI(_: Bun.BunRequest, config: ServerConfig): Promise<Response> {
+    // TODO: cache this somewhere
+    const infos = await collectProjectInfo(config.rootDir);
+
+    const data: ProjectsResponse = {}
+    for (const info of infos) {
+        const coverage = info.status?.coverage
+        data[info.name] = {
             name: info.name,
             mode: info.mode,
             corpus: info.status?.corpusCount ?? 0,
             crashes: info.status?.crashesCount ?? 0,
-            coverage,
+            coverage: coverage !== undefined && coverage.length > 0 ? coverage.map(
+                tp => [tp.timestamp, tp.data * 100] // percent
+            ) : null
         }
+    }
+    return new Response(JSON.stringify(data), {
+        headers: {
+            "Content-Type": "application/json",
+        },
     })
-}
-
-async function home(req: Bun.BunRequest<"/">, config: ServerConfig) {
-    const info = await collectProjectInfo(config.rootDir);
-    const viewData = makeViewData(info);
-
-    // TODO: precompile handlebars
-    const text = await Bun.file("./templates/index.hbs").text();
-    const template = Handlebars.compile(text);
-    return template(viewData)
 }
 
 type ServerConfig = {
@@ -57,14 +54,6 @@ function getArgs(): ServerConfig {
     };
 }
 
-function mkResponse(html: string) {
-    return new Response(html, {
-        headers: {
-            "Content-Type": "text/html",
-        },
-    });
-}
-
 async function main() {
     const config = getArgs();
 
@@ -72,7 +61,8 @@ async function main() {
 
     const server = Bun.serve({
         routes: {
-            "/": async req => mkResponse(await home(req, config)),
+            "/": index,
+            "/api/projects": async req => getProjectsForUI(req, config)
         },
         fetch() {
             return new Response("Not Found", {status: 404})

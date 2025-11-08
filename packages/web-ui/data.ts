@@ -1,6 +1,7 @@
 import assert from "node:assert"
 import path from "node:path"
 import fs from "node:fs/promises"
+
 import { Database } from "bun:sqlite"
 
 enum FuzzerStatusCode {

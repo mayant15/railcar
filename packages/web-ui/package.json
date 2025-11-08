@@ -9,7 +9,6 @@
     "@types/bun": "latest"
   },
   "dependencies": {
-    "chart.js": "^4.5.1",
-    "handlebars": "^4.7.8"
+    "chart.js": "^4.5.1"
   }
 }
