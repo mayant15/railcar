@@ -55,6 +55,7 @@ struct Arguments {
     #[arg(long)]
     seed: Option<u64>,
 
+    // TODO: make cores optional
     /// Cores to run on. Comma-separated numbers and ranges, like "1,2-4,6" or "all"
     #[arg(long, default_value_t = String::from_str("1").unwrap())]
     cores: String,
@@ -315,6 +316,10 @@ fn main() -> Result<()> {
 /// to monitor experiments.
 fn dump_run_metadata(outdir: PathBuf, config: &FuzzerConfig) -> Result<()> {
     let metadata = serde_json::json!({
+        "start_time": std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_secs(),
         "pid": std::process::id(),
         "config": config,
     });

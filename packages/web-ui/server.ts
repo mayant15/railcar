@@ -2,19 +2,46 @@ import assert from "node:assert"
 import {isAbsolute, join, normalize} from "node:path"
 import Handlebars from "handlebars"
 
-import {collectProjectInfo} from "./data.js"
+import {collectProjectInfo, type ProjectInfo} from "./data.js"
 
 function toAbsolute(path: string) {
     return isAbsolute(path) ? path : normalize(join(process.cwd(), path))
 }
 
+type HomeViewData = {
+    name: string,
+    mode: string,
+    corpus: number,
+    crashes: number,
+    coverage?: [string, string][]
+}
+
+function makeViewData(infos: ProjectInfo[]): HomeViewData[] {
+    return infos.map(info => {
+        const coverage = info.status?.coverage?.map(point => {
+            return [
+                `${point.timestamp.toFixed()}s`,
+                `${(point.data * 100).toFixed(1)}%`
+            ] as [string, string]
+        })
+        return {
+            name: info.name,
+            mode: info.mode,
+            corpus: info.status?.corpusCount ?? 0,
+            crashes: info.status?.crashesCount ?? 0,
+            coverage,
+        }
+    })
+}
+
 async function home(req: Bun.BunRequest<"/">, config: ServerConfig) {
     const info = await collectProjectInfo(config.rootDir);
+    const viewData = makeViewData(info);
 
     // TODO: precompile handlebars
-    const text = await Bun.file("./templates/index.handlebars").text();
+    const text = await Bun.file("./templates/index.hbs").text();
     const template = Handlebars.compile(text);
-    return template({fuzzers: info})
+    return template(viewData)
 }
 
 type ServerConfig = {

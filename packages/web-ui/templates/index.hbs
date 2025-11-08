@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Railcar</title>
+</head>
+<body>
+    <h1>Railcar Status</h1>
+    {{#each .}}
+      <h3>{{name}}</h3>
+      <p>
+      Running in {{mode}} mode.
+      </p>
+      <p>
+      Corpus size: {{corpus}}<br />
+      Crashes: {{crashes}}
+
+      {{#if coverage}}
+      {{#each coverage}}
+        <br />{{this.[0]}}: {{this.[1]}}
+      {{/each}}
+      {{else}}
+        <br />No coverage data
+      {{/if}}
+      
+      </p>
+    {{/each}}
+</body>
+</html>
