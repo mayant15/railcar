@@ -16,5 +16,10 @@
         { "path": "./packages/inference" },
         { "path": "./packages/support" }
     ],
-    "exclude": ["benchmarks/projects/**/*", "scripts/**/*", "dist/**/*"]
+    "exclude": [
+        "benchmarks/projects/**/*",
+        "scripts/**/*",
+        "dist/**/*",
+        "packages/web-ui/**/*"
+    ]
 }
