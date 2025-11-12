@@ -3,7 +3,7 @@ import { isAbsolute, join, normalize } from "node:path";
 
 import index from "./index.html";
 
-import { collectProjectInfo } from "./data.js";
+import { collectProjectInfo, FuzzerStatusCode } from "./data.js";
 
 function toAbsolute(path: string) {
     return isAbsolute(path) ? path : normalize(join(process.cwd(), path));
@@ -12,6 +12,7 @@ function toAbsolute(path: string) {
 export type ProjectsResponse = Record<
     string,
     {
+        status: string;
         name: string;
         mode: string;
         corpus: number;
@@ -35,6 +36,7 @@ async function getProjectsForUI(
             mode: info.mode,
             corpus: info.status?.corpusCount ?? 0,
             crashes: info.status?.crashesCount ?? 0,
+            status: info.status?.code === undefined ? "unknown" : FuzzerStatusCode[info.status?.code],
             coverage:
                 coverage !== undefined && coverage.length > 0
                     ? coverage.map(

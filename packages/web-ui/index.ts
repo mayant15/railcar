@@ -28,6 +28,7 @@ function createProjectContainer(parent: HTMLElement, name: string) {
 
     container.innerHTML = `
 <h3>${name}</h3>
+<span class="status"></span><br />
 <span class="mode"></span><br />
 <span class="corpus"></span><br />
 <span class="crashes"></span>
@@ -49,6 +50,7 @@ async function updateProjectContainer(
     container.querySelector(".corpus")!.textContent = `Corpus: ${info.corpus}`;
     container.querySelector(".crashes")!.textContent =
         `Crashes: ${info.crashes}`;
+    container.querySelector(".status")!.textContent = `Status: ${info.status}`;
 
     if (info.coverage === null) return;
 

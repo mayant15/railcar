@@ -2,9 +2,10 @@ import assert from "node:assert";
 import path from "node:path";
 import fs from "node:fs/promises";
 
+import {$} from "bun"
 import { Database } from "bun:sqlite";
 
-enum FuzzerStatusCode {
+export enum FuzzerStatusCode {
     Running,
     Crashed,
     Exited,
@@ -133,11 +134,18 @@ async function fetchCoverage(info: ProjectInfo): Promise<TimePoint<number>[]> {
     }));
 }
 
-async function fetchFuzzerStatus(info: ProjectInfo): Promise<ProjectInfo> {
-    // TODO: fetch fuzzer status
-    const code = FuzzerStatusCode.Running;
+async function fetchFuzzerStatusCode(info: ProjectInfo): Promise<FuzzerStatusCode> {
+    try {
+        await $`ps ${info.pid}`.text()
+        return FuzzerStatusCode.Running;
+    } catch (err) {
+        return FuzzerStatusCode.Crashed;
+    }
+}
 
-    const [corpusCount, crashesCount, coverage] = await Promise.all([
+async function fetchFuzzerStatus(info: ProjectInfo): Promise<ProjectInfo> {
+    const [code, corpusCount, crashesCount, coverage] = await Promise.all([
+        fetchFuzzerStatusCode(info),
         fetchFuzzerCorpusCount(info),
         fetchFuzzerCrashesCount(info),
         fetchCoverage(info),
@@ -161,9 +169,6 @@ export async function collectProjectInfoForDir(
     const fuzzerConfig: FuzzerConfig = await Bun.file(
         `${dir}/fuzzing-config.json`,
     ).json();
-
-    // TODO: remove this
-    fuzzerConfig.start_time = 1762558590;
 
     return fetchFuzzerStatus({
         name,
