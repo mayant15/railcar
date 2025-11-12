@@ -1,15 +1,15 @@
 {
-  "name": "@railcar/web-ui",
-  "license": "AGPL-3.0-or-later",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "start:dev": "bun --hot ./server.ts"
-  },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "dependencies": {
-    "chart.js": "^4.5.1"
-  }
+    "name": "@railcar/web-ui",
+    "license": "AGPL-3.0-or-later",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "start:dev": "bun --hot ./server.ts"
+    },
+    "devDependencies": {
+        "@types/bun": "latest"
+    },
+    "dependencies": {
+        "chart.js": "^4.5.1"
+    }
 }
