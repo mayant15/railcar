@@ -6,13 +6,13 @@ use std::{borrow::Cow, cell::RefCell, marker::PhantomData};
 
 use libafl::{
     corpus::Testcase,
-    events::{Event, EventFirer},
+    events::{Event, EventFirer, EventWithStats},
     executors::ExitKind,
     feedbacks::{AflMapFeedback, Feedback, StateInitializer},
     inputs::Input,
-    monitors::{AggregatorOps, UserStats, UserStatsValue},
+    monitors::stats::{AggregatorOps, UserStats, UserStatsValue},
     observers::{HitcountsMapObserver, RefCellValueObserver, StdMapObserver},
-    state::HasCorpus,
+    state::{HasCorpus, HasExecutions},
     HasNamedMetadata,
 };
 use libafl_bolts::{
@@ -104,7 +104,7 @@ impl<EM, I, OT, S> Feedback<EM, I, OT, S> for ValidityFeedback
 where
     OT: MatchFirstType,
     EM: EventFirer<I, S>,
-    S: HasNamedMetadata,
+    S: HasNamedMetadata + HasExecutions,
 {
     fn is_interesting(
         &mut self,
@@ -142,11 +142,17 @@ where
 
             manager.fire(
                 state,
-                Event::UpdateUserStats {
-                    name: Cow::Borrowed("validexecs"),
-                    value: UserStats::new(UserStatsValue::Number(valid_execs), AggregatorOps::Sum),
-                    phantom: PhantomData,
-                },
+                EventWithStats::with_current_time(
+                    Event::UpdateUserStats {
+                        name: Cow::Borrowed("validexecs"),
+                        value: UserStats::new(
+                            UserStatsValue::Number(valid_execs),
+                            AggregatorOps::Sum,
+                        ),
+                        phantom: PhantomData,
+                    },
+                    *state.executions(),
+                ),
             )?;
         }
         Ok(())
@@ -203,7 +209,7 @@ impl StdFeedback {
 impl<EM, I, OT, S> Feedback<EM, I, OT, S> for StdFeedback
 where
     I: Input,
-    S: HasNamedMetadata + HasCorpus<I> + Serialize,
+    S: HasNamedMetadata + HasCorpus<I> + Serialize + HasExecutions,
     OT: MatchFirstType + MatchName + MatchNameRef,
     EM: EventFirer<I, S>,
 {
@@ -290,14 +296,17 @@ where
 
             manager.fire(
                 state,
-                Event::UpdateUserStats {
-                    name: Cow::Borrowed("validcorpus"),
-                    value: UserStats::new(
-                        UserStatsValue::Number(valid_corpus_count),
-                        AggregatorOps::Sum,
-                    ),
-                    phantom: PhantomData,
-                },
+                EventWithStats::with_current_time(
+                    Event::UpdateUserStats {
+                        name: Cow::Borrowed("validcorpus"),
+                        value: UserStats::new(
+                            UserStatsValue::Number(valid_corpus_count),
+                            AggregatorOps::Sum,
+                        ),
+                        phantom: PhantomData,
+                    },
+                    *state.executions(),
+                ),
             )?;
         }
 
@@ -317,14 +326,17 @@ where
         if has_new_instrumentation {
             manager.fire(
                 state,
-                Event::UpdateUserStats {
-                    name: Cow::Borrowed("totaledges"),
-                    value: UserStats::new(
-                        UserStatsValue::Number(total_edges.into()),
-                        AggregatorOps::Sum,
-                    ),
-                    phantom: PhantomData,
-                },
+                EventWithStats::with_current_time(
+                    Event::UpdateUserStats {
+                        name: Cow::Borrowed("totaledges"),
+                        value: UserStats::new(
+                            UserStatsValue::Number(total_edges.into()),
+                            AggregatorOps::Sum,
+                        ),
+                        phantom: PhantomData,
+                    },
+                    *state.executions(),
+                ),
             )?;
         }
 
@@ -377,7 +389,7 @@ impl UniqCrashFeedback {
 impl<EM, I, OT, S> Feedback<EM, I, OT, S> for UniqCrashFeedback
 where
     I: Input,
-    S: HasNamedMetadata + HasCorpus<I> + Serialize,
+    S: HasNamedMetadata + HasCorpus<I> + Serialize + HasExecutions,
     OT: MatchFirstType + MatchName,
     EM: EventFirer<I, S>,
 {

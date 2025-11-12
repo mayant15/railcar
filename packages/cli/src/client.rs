@@ -263,7 +263,7 @@ pub fn replay<I: ToFuzzerInput, SP: ShMemProvider>(
 
     let mut fuzzer = StdFuzzer::new(scheduler, feedback, objective);
 
-    let mut executor = InProcessExecutor::batched_timeout(
+    let mut executor = InProcessExecutor::with_timeout(
         &mut harness,
         tuple_list!(),
         &mut fuzzer,
@@ -327,7 +327,7 @@ where
         handle_exit_code(code)
     };
 
-    let mut executor = InProcessExecutor::batched_timeout(
+    let mut executor = InProcessExecutor::with_timeout(
         &mut harness,
         args.observers,
         &mut fuzzer,
@@ -381,7 +381,7 @@ pub mod bytes {
         corpus::{CachedOnDiskCorpus, OnDiskCorpus},
         generators::RandBytesGenerator,
         inputs::BytesInput,
-        mutators::{havoc_mutations, StdScheduledMutator},
+        mutators::{havoc_mutations, HavocScheduledMutator},
         schedulers::StdWeightedScheduler,
         state::StdState,
     };
@@ -424,7 +424,7 @@ pub mod bytes {
             feedback,
             objective,
             scheduler,
-            mutator: StdScheduledMutator::new(havoc_mutations()),
+            mutator: HavocScheduledMutator::new(havoc_mutations()),
             generator,
             state,
             worker,
@@ -437,7 +437,7 @@ pub mod parametric {
     use anyhow::Result;
     use libafl::{
         corpus::{CachedOnDiskCorpus, OnDiskCorpus},
-        mutators::StdScheduledMutator,
+        mutators::HavocScheduledMutator,
         state::StdState,
     };
     use libafl_bolts::{rands::StdRand, tuples::tuple_list};
@@ -495,7 +495,7 @@ pub mod parametric {
             feedback,
             objective,
             scheduler,
-            mutator: StdScheduledMutator::new(parametric_mutations()),
+            mutator: HavocScheduledMutator::new(parametric_mutations()),
             generator,
             state,
             worker,

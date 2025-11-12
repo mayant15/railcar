@@ -1,130 +1,100 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use anyhow::Result;
-use std::{path::Path, time::Duration};
+use std::{ops::Add, path::Path};
 
-use libafl::monitors::{ClientStats, CombinedMonitor, Monitor, MultiMonitor, UserStatsValue};
-use libafl_bolts::current_time;
+use libafl::monitors::{
+    stats::{ClientStats, ClientStatsManager, UserStatsValue},
+    Monitor, MultiMonitor,
+};
 
 use metrics::{HeartbeatEvent, Metrics};
 
-#[derive(Clone)] // Required by libafl::events::launcher::Launcher::launch()
-pub struct MetricsMonitor {
-    client_stats: Vec<ClientStats>,
-    start_time: Duration,
+fn fold<F, T>(mgr: &ClientStatsManager, get: F) -> T
+where
+    F: Fn(&ClientStats) -> Option<T>,
+    T: Default + Add<Output = T>,
+{
+    mgr.client_stats()
+        .iter()
+        .fold(T::default(), |acc, (_, x)| acc + get(x).unwrap_or_default())
+}
+
+fn coverage(stats: &ClientStats) -> Option<u64> {
+    let stat = stats.get_user_stats("totalcoverage")?;
+    let UserStatsValue::Ratio(covered, _) = stat.value() else {
+        return None;
+    };
+    Some(*covered)
+}
+
+fn valid_execs(stats: &ClientStats) -> Option<u64> {
+    let stat = stats.get_user_stats("validexecs")?;
+    let UserStatsValue::Number(valid_execs) = stat.value() else {
+        return None;
+    };
+    Some(*valid_execs)
+}
+
+fn total_edges(stats: &ClientStats) -> Option<u64> {
+    let stat = stats.get_user_stats("totaledges")?;
+    let UserStatsValue::Number(total_edges) = stat.value() else {
+        return None;
+    };
+    Some(*total_edges)
+}
+
+fn valid_corpus(stats: &ClientStats) -> Option<u64> {
+    let stat = stats.get_user_stats("validcorpus")?;
+    let UserStatsValue::Number(valid_corpus) = stat.value() else {
+        return None;
+    };
+    Some(*valid_corpus)
+}
+
+fn make_heartbeat_event(mgr: &ClientStatsManager) -> HeartbeatEvent {
+    HeartbeatEvent {
+        coverage: fold(mgr, coverage),
+        valid_execs: fold(mgr, valid_execs),
+        valid_corpus: fold(mgr, valid_corpus),
+        total_edges: fold(mgr, total_edges),
+        execs: fold(mgr, |s| Some(s.executions())),
+        corpus: fold(mgr, |s| Some(s.corpus_size())),
+    }
+}
+
+#[derive(Clone)]
+pub struct StdMonitor<F: FnMut(&str)> {
+    terminal: MultiMonitor<F>,
     metrics: Metrics,
 }
 
-impl MetricsMonitor {
-    fn new<P: AsRef<Path>>(path: Option<P>) -> Result<Self> {
-        let metrics = Metrics::new(path)?;
+impl<F: FnMut(&str)> StdMonitor<F> {
+    pub fn new<P: AsRef<Path>>(print_fn: F, path: P) -> Result<Self> {
+        let metrics = Metrics::new(Some(path))?;
         metrics.init_for_event::<HeartbeatEvent>()?;
 
-        Ok(Self {
-            start_time: current_time(),
-            client_stats: Vec::new(),
+        Ok(StdMonitor {
+            terminal: MultiMonitor::new(print_fn),
             metrics,
         })
     }
-
-    fn coverage(&self) -> u64 {
-        static COVERAGE_STAT: &str = "totalcoverage";
-
-        self.client_stats().iter().fold(0, |acc, x| {
-            let Some(stat) = x.get_user_stats(COVERAGE_STAT) else {
-                return acc;
-            };
-            let UserStatsValue::Ratio(covered, _) = stat.value() else {
-                return acc;
-            };
-            // TODO: How do we want to aggregate this over multiple clients? Average?
-            acc + covered
-        })
-    }
-
-    fn valid_execs(&self) -> u64 {
-        static VALID_EXECS_STAT: &str = "validexecs";
-
-        self.client_stats().iter().fold(0, |acc, x| {
-            let Some(stat) = x.get_user_stats(VALID_EXECS_STAT) else {
-                return acc;
-            };
-            let UserStatsValue::Number(valid_execs) = stat.value() else {
-                return acc;
-            };
-            acc + valid_execs
-        })
-    }
-
-    fn valid_corpus(&self) -> u64 {
-        static VALID_CORPUS_STAT: &str = "validcorpus";
-
-        self.client_stats().iter().fold(0, |acc, x| {
-            let Some(stat) = x.get_user_stats(VALID_CORPUS_STAT) else {
-                return acc;
-            };
-            let UserStatsValue::Number(valid_execs) = stat.value() else {
-                return acc;
-            };
-            acc + valid_execs
-        })
-    }
-
-    fn total_instrumented_edges(&self) -> u64 {
-        self.client_stats().iter().fold(0, |acc, x| {
-            let Some(stat) = x.get_user_stats("totaledges") else {
-                return acc;
-            };
-            let UserStatsValue::Number(total_edges) = stat.value() else {
-                return acc;
-            };
-            acc + total_edges
-        })
-    }
 }
 
-impl Monitor for MetricsMonitor {
-    fn client_stats_mut(&mut self) -> &mut Vec<ClientStats> {
-        &mut self.client_stats
-    }
-
-    fn client_stats(&self) -> &[ClientStats] {
-        &self.client_stats
-    }
-
-    fn start_time(&self) -> Duration {
-        self.start_time
-    }
-
-    fn set_start_time(&mut self, time: Duration) {
-        self.start_time = time;
-    }
-
-    fn display(&mut self, event_msg: &str, _sender_id: libafl_bolts::ClientId) {
+impl<F: FnMut(&str)> Monitor for StdMonitor<F> {
+    fn display(
+        &mut self,
+        mgr: &mut ClientStatsManager,
+        event_msg: &str,
+        sender_id: libafl_bolts::ClientId,
+    ) -> Result<(), libafl::Error> {
         if event_msg == "Client Heartbeat" {
-            let coverage = self.coverage();
-            if let Err(err) = self.metrics.record(HeartbeatEvent {
-                coverage,
-                execs: self.total_execs(),
-                valid_execs: self.valid_execs(),
-                valid_corpus: self.valid_corpus(),
-                corpus: self.corpus_size(),
-                total_edges: self.total_instrumented_edges(),
-            }) {
-                panic!("{}", err);
-            };
+            let event = make_heartbeat_event(mgr);
+            self.metrics
+                .record(event)
+                .map_err(|err| libafl::Error::unknown(err.to_string()))?;
         }
+        self.terminal.display(mgr, event_msg, sender_id)?;
+        Ok(())
     }
-}
-
-pub type StdMonitor<F> = CombinedMonitor<MultiMonitor<F>, MetricsMonitor>;
-
-pub fn create_monitor<F, P: AsRef<Path>>(path: P, print_fn: F) -> Result<StdMonitor<F>>
-where
-    F: FnMut(&str),
-{
-    Ok(StdMonitor::new(
-        MultiMonitor::new(print_fn),
-        MetricsMonitor::new(Some(path))?,
-    ))
 }

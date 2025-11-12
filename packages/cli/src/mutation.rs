@@ -9,11 +9,11 @@ use std::{
 };
 
 use libafl::{
-    corpus::Corpus,
+    corpus::{Corpus, CorpusId},
     inputs::Input,
     mutators::{
-        havoc_mutations, havoc_mutations_no_crossover, HavocMutationsType,
-        MutationResult as LibAflMutationResult, Mutator, MutatorsTuple, StdScheduledMutator,
+        havoc_mutations, havoc_mutations_no_crossover, HavocMutationsType, HavocScheduledMutator,
+        MutationResult as LibAflMutationResult, Mutator, MutatorsTuple,
     },
     random_corpus_id_with_disabled,
     state::{HasCorpus, HasMaxSize, HasRand},
@@ -95,6 +95,14 @@ macro_rules! mutation {
                     }
                 })
             }
+
+            fn post_exec(
+                &mut self,
+                _state: &mut S,
+                _new_corpus_id: Option<CorpusId>,
+            ) -> Result<(), libafl::Error> {
+                Ok(())
+            }
         }
     };
 }
@@ -162,11 +170,11 @@ where
     pub fn new(simple: bool) -> Self {
         if simple {
             Self {
-                inner: Box::new(StdScheduledMutator::new(simple_graph_mutations())),
+                inner: Box::new(HavocScheduledMutator::new(simple_graph_mutations())),
             }
         } else {
             Self {
-                inner: Box::new(StdScheduledMutator::new(complex_graph_mutations())),
+                inner: Box::new(HavocScheduledMutator::new(complex_graph_mutations())),
             }
         }
     }
@@ -176,12 +184,22 @@ impl<S> Mutator<Graph, S> for GraphMutator<S>
 where
     S: HasRand,
 {
+    #[inline]
     fn mutate(
         &mut self,
         state: &mut S,
         input: &mut Graph,
     ) -> Result<LibAflMutationResult, libafl::Error> {
         self.inner.mutate(state, input)
+    }
+
+    #[inline]
+    fn post_exec(
+        &mut self,
+        _state: &mut S,
+        _new_corpus_id: Option<libafl::corpus::CorpusId>,
+    ) -> Result<(), libafl::Error> {
+        Ok(())
     }
 }
 

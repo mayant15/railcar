@@ -16,7 +16,7 @@ use libafl_bolts::{
 use railcar_graph::{Graph, ParametricGraph};
 
 use railcar::client::{FuzzerConfig, FuzzerMode, RestartingManager, State, ToFuzzerInput};
-use railcar::monitor::create_monitor;
+use railcar::monitor::StdMonitor;
 
 /// Fuzzer for JavaScript libraries with automatic fuzz drivers
 #[derive(Parser)]
@@ -255,13 +255,16 @@ fn main() -> Result<()> {
     //     .title("railcar")
     //     .version("0.1.0")
     //     .build();
-    let monitor = create_monitor(&config.metrics, |msg| {
-        if msg.contains("Client Heartbeat") {
-            log::info!("{msg}")
-        } else {
-            log::debug!("{msg}")
-        }
-    })?;
+    let monitor = StdMonitor::new(
+        |msg| {
+            if msg.contains("Client Heartbeat") {
+                log::info!("{msg}")
+            } else {
+                log::debug!("{msg}")
+            }
+        },
+        &config.metrics,
+    )?;
 
     if config.replay_input.is_some() {
         match config.mode {
