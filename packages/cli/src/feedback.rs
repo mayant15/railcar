@@ -27,8 +27,8 @@ type CoverageObserver = HitcountsMapObserver<StdMapObserver<'static, u8, false>>
 type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
 
 #[inline]
-unsafe fn get_coverage_mut_ptr<S: ShMem>(shmem: &mut S) -> *mut u8 {
-    shmem.as_mut_ptr().add(4)
+unsafe fn get_coverage_slice<S: ShMem>(shmem: &mut S) -> &mut [u8] {
+    &mut shmem[4..]
 }
 
 #[inline]
@@ -52,9 +52,8 @@ where
     S: ShMem,
 {
     HitcountsMapObserver::new(unsafe {
-        let len = shmem.len();
-        let ptr = get_coverage_mut_ptr(shmem);
-        StdMapObserver::from_mut_ptr("CodeCoverage", ptr, len)
+        let map = get_coverage_slice(shmem);
+        StdMapObserver::from_mut_ptr("CodeCoverage", map.as_mut_ptr(), map.len())
     })
 }
 
