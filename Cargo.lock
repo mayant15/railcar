@@ -1202,6 +1202,7 @@ version = "0.1.9"
 dependencies = [
  "libafl",
  "libafl_bolts",
+ "log",
  "metrics",
  "rmp-serde",
  "serde",

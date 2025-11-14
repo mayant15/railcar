@@ -845,10 +845,11 @@ impl Input for Graph {
     {
         let serialized = rmp_serde::to_vec_named(self)
             .map_err(|e| libafl::Error::unknown(format!("failed to serialize input {}", e)))?;
-        assert!(
-            serialized.len() < DEFAULT_MAX_SIZE,
-            "graph exceeds state max size"
-        );
+
+        let size_in_bytes = serialized.len();
+        if size_in_bytes > DEFAULT_MAX_SIZE {
+            log::warn!("input size is {} bytes which exceeds default max size hint.", size_in_bytes);
+        }
         libafl_bolts::fs::write_file_atomic(path, &serialized)
     }
 
