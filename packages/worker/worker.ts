@@ -12,11 +12,11 @@ import type { Schema, Graph } from "@railcar/inference";
 import { makeRailcarConfig } from "@railcar/support";
 import { CoverageMap } from "@railcar/worker-sys";
 
-import type { ExitKind } from "./common";
-import { codeCoverage } from "./instrument";
-import { BytesExecutor } from "./bytes";
-import { GraphExecutor } from "./graph";
-import { ENABLE_DEBUG_INFO } from "./config";
+import type { ExitKind } from "./common.ts";
+import { codeCoverage } from "./instrument.js";
+import { BytesExecutor } from "./bytes.js";
+import { GraphExecutor } from "./graph.js";
+import { ENABLE_DEBUG_INFO } from "./config.js";
 
 declare global {
     var __railcar__: {
@@ -201,8 +201,6 @@ function setupHooks(filter: (_: string) => boolean) {
 
     const plugins = [plugin];
 
-    const decoder = new TextDecoder("utf-8");
-
     registerHooks({
         load(url, context, nextLoad) {
             const _default = nextLoad(url, context);
@@ -226,10 +224,7 @@ function setupHooks(filter: (_: string) => boolean) {
                 return _default;
             }
 
-            const code =
-                typeof _default.source === "string"
-                    ? _default.source
-                    : decoder.decode(_default.source);
+            const code = _default.source.toString();
 
             const transformed = transformSync(code, {
                 filename: url,

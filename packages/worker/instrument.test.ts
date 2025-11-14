@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import assert from "node:assert";
-
 import { expect, describe, test } from "bun:test";
 
-import { codeCoverage } from "./instrument";
 import { transformSync } from "@babel/core";
 import {
     type IfStatement,
@@ -18,6 +16,8 @@ import {
     isBlockStatement,
     type VariableDeclaration,
 } from "@babel/types";
+
+import { codeCoverage } from "./instrument.js";
 
 function expectBlockHasCoverageCall(block: BlockStatement) {
     expect(block.body).toBeArrayOfSize(2);

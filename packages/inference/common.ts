@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import assert from "node:assert";
+import { Duplex } from "node:stream";
 
 import type {
     Schema,
@@ -8,11 +9,9 @@ import type {
     TypeGuess,
     Type,
     EndpointName,
-} from "./schema";
+} from "./schema.ts";
 
-import { TypeKinds } from "./schema";
-
-import { Duplex } from "node:stream";
+import { TypeKinds } from "./schema.js";
 
 function mergeProbabilityObjects<T extends string | number>(
     keys: readonly T[],

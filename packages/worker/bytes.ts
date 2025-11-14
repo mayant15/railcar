@@ -2,8 +2,9 @@
 
 import assert from "node:assert";
 
-import { ExitKind, withOracle } from "./common";
 import type { Oracle } from "@railcar/support";
+
+import { ExitKind, withOracle } from "./common.js";
 
 export class BytesExecutor {
     _executor: (bytes: Uint8Array) => Promise<ExitKind> = (_) =>

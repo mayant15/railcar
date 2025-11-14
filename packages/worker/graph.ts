@@ -12,10 +12,10 @@ import {
     type ConstantValue,
     type EndpointName,
 } from "@railcar/inference";
-
-import { ExitKind, withOracle } from "./common";
-import { ENABLE_DEBUG_INFO, ENABLE_HEAVY_ASSERTIONS } from "./config";
 import type { Oracle } from "@railcar/support";
+
+import { ExitKind, withOracle } from "./common.js";
+import { ENABLE_DEBUG_INFO, ENABLE_HEAVY_ASSERTIONS } from "./config.js";
 
 export class GraphExecutor {
     _executor: (graph: Graph) => Promise<ExitKind> = (_) =>

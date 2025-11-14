@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { test, expect } from "bun:test";
-
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { test, expect } from "bun:test";
 
-import { deriveFromDeclFile } from "./derive";
-import { Guess } from "./common";
+import { deriveFromDeclFile } from "./derive.js";
+import { Guess } from "./common.js";
+
 // import tsSchemas from "./typescript";
 
 // const PROJECTS = ["example", "pako", "js-yaml", "fast-xml-parser"] as const;

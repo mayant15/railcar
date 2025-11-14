@@ -10,9 +10,9 @@ import type {
     Fn,
     Schema,
     SignatureGuess,
-} from "./schema";
-import { Guess } from "./common";
-import { MAX_OBJECT_MAPPING_DEPTH } from "./config";
+} from "./schema.ts";
+import { Guess } from "./common.js";
+import { MAX_OBJECT_MAPPING_DEPTH } from "./config.js";
 
 function removeInvalidEndpoints(schema: Schema, endpoints: Endpoints): Schema {
     return Object.fromEntries(

@@ -3,6 +3,7 @@
     "description": "Utilities for libraries using Railcar",
     "license": "Apache-2.0",
     "main": "dist/index.js",
+    "type": "module",
     "types": "dist/index.d.ts",
     "files": [
         "dist",

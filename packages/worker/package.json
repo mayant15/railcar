@@ -2,6 +2,7 @@
     "name": "@railcar/worker",
     "description": "JS-side implementation for Railcar",
     "license": "AGPL-3.0-or-later",
+    "type": "module",
     "bin": {
         "railcar-worker": "dist/worker.js"
     },

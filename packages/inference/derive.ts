@@ -4,8 +4,8 @@ import assert from "node:assert";
 
 import ts from "typescript";
 
-import type { EndpointName, Schema, TypeGuess } from "./schema";
-import { addStd, Guess, Types, type StdTypes } from "./common";
+import type { EndpointName, Schema, TypeGuess } from "./schema.js";
+import { addStd, Guess, Types, type StdTypes } from "./common.js";
 
 type Context = {
     functions: ts.FunctionDeclaration[];

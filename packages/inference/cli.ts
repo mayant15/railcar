@@ -8,9 +8,9 @@ import { isAbsolute, join, normalize } from "node:path";
 
 import yargs from "yargs";
 
-import { deriveFromDeclFile } from "./derive";
-import tsSchema from "./typescript";
-import type { Schema, TypeGuess } from "./schema";
+import { deriveFromDeclFile } from "./derive.js";
+import tsSchema from "./typescript.js";
+import type { Schema, TypeGuess } from "./schema.js";
 
 export const PROJECTS = [
     "fast-xml-parser",

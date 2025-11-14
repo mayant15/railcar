@@ -1,4 +1,4 @@
-import { FuzzedDataProvider as DataProvider } from "./FuzzedDataProvider";
+import { FuzzedDataProvider as DataProvider } from "./FuzzedDataProvider.js";
 
 export class FuzzedDataProvider extends DataProvider {
     constructor(data: Uint8Array) {
