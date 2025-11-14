@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import assert from "node:assert";
+import fs from "node:fs/promises";
+import { Console } from "node:console";
+import { registerHooks } from "node:module";
 
 import { transformSync } from "@babel/core";
 import { decode, encode } from "@msgpack/msgpack";
-import { hookRequire } from "istanbul-lib-hook";
 
 import type { Schema, Graph } from "@railcar/inference";
 import { makeRailcarConfig } from "@railcar/support";
-
 import { CoverageMap } from "@railcar/worker-sys";
 
 import type { ExitKind } from "./common";
 import { codeCoverage } from "./instrument";
 import { BytesExecutor } from "./bytes";
 import { GraphExecutor } from "./graph";
-import { Console } from "node:console";
-import fs from "node:fs/promises";
+import { ENABLE_DEBUG_INFO } from "./config";
 
 declare global {
     var __railcar__: {
@@ -178,6 +178,18 @@ function recv(data: Buffer): Message | null {
     }
 }
 
+// See https://nodejs.org/docs/latest-v24.x/api/module.html#loadurl-context-nextload
+function shouldIntercept(
+    url: string,
+    format: string,
+    customFilter: (_: string) => boolean,
+): boolean {
+    if (format.startsWith("commonjs") || format.startsWith("module")) {
+        return customFilter(url);
+    }
+    return false;
+}
+
 function setupHooks(filter: (_: string) => boolean) {
     const [getNumEdges, plugin] = codeCoverage();
 
@@ -188,23 +200,58 @@ function setupHooks(filter: (_: string) => boolean) {
     };
 
     const plugins = [plugin];
-    hookRequire(filter, (code, { filename }) => {
-        const codeResult = transformSync(code, {
-            filename,
-            sourceFileName: filename,
-            sourceMaps: true,
-            plugins,
-        });
 
-        console.log(`RAILCAR inserted ${getNumEdges()} coverage edge(s)`);
+    const decoder = new TextDecoder("utf-8");
 
-        assert(codeResult !== null);
-        assert(codeResult.code !== null);
-        assert(codeResult.code !== undefined);
-        assert(codeResult.map !== null);
-        assert(codeResult.map !== undefined);
+    registerHooks({
+        load(url, context, nextLoad) {
+            const _default = nextLoad(url, context);
 
-        return codeResult.code;
+            if (!_default.format) {
+                if (ENABLE_DEBUG_INFO) {
+                    console.warn("missing format info for", url);
+                }
+                return _default;
+            }
+
+            if (!shouldIntercept(url, _default.format, filter)) {
+                if (ENABLE_DEBUG_INFO) {
+                    console.warn("skipping", url);
+                }
+                return _default;
+            }
+
+            if (_default.source === undefined) {
+                console.warn("missing source for", url);
+                return _default;
+            }
+
+            const code =
+                typeof _default.source === "string"
+                    ? _default.source
+                    : decoder.decode(_default.source);
+
+            const transformed = transformSync(code, {
+                filename: url,
+                sourceFileName: url,
+                sourceMaps: true,
+                plugins,
+            });
+
+            console.log(`RAILCAR inserted ${getNumEdges()} coverage edge(s)`);
+
+            assert(transformed !== null);
+            assert(transformed.code !== null);
+            assert(transformed.code !== undefined);
+            assert(transformed.map !== null);
+            assert(transformed.map !== undefined);
+
+            return {
+                format: _default.format,
+                shortCircuit: true,
+                source: transformed.code,
+            };
+        },
     });
 }
 

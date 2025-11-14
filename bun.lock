@@ -83,11 +83,9 @@
         "@railcar/inference": "0.1.9",
         "@railcar/support": "0.1.9",
         "@railcar/worker-sys": "0.1.9",
-        "istanbul-lib-hook": "^3.0.0",
       },
       "devDependencies": {
         "@types/babel__core": "^7.20.5",
-        "@types/istanbul-lib-hook": "^2.0.4",
       },
     },
     "packages/worker-sys": {
@@ -746,8 +744,6 @@
     "@types/d3-voronoi": ["@types/d3-voronoi@1.1.12", "", {}, "sha512-DauBl25PKZZ0WVJr42a6CNvI6efsdzofl9sajqZr2Gf5Gu733WkDdUGiPkUHXiUvYGzNNlFQde2wdZdfQPG+yw=="],
 
     "@types/geojson": ["@types/geojson@7946.0.16", "", {}, "sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg=="],
-
-    "@types/istanbul-lib-hook": ["@types/istanbul-lib-hook@2.0.4", "", {}, "sha512-eqxsx/u6yVEXjbOmQhiCq2NpUesFsqv/onSB3pzu2IaKx68tMaJwi3rMQt3Ii6KZwPs1qD3UHVFwSmiVG8x4Qg=="],
 
     "@types/long": ["@types/long@4.0.2", "", {}, "sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA=="],
 

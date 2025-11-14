@@ -11,12 +11,10 @@
         "@msgpack/msgpack": "^3.1.1",
         "@railcar/inference": "0.1.9",
         "@railcar/support": "0.1.9",
-        "@railcar/worker-sys": "0.1.9",
-        "istanbul-lib-hook": "^3.0.0"
+        "@railcar/worker-sys": "0.1.9"
     },
     "devDependencies": {
-        "@types/babel__core": "^7.20.5",
-        "@types/istanbul-lib-hook": "^2.0.4"
+        "@types/babel__core": "^7.20.5"
     },
     "files": [
         "dist",
