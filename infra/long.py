@@ -52,8 +52,7 @@ def main():
     outdir = util.ensure_results_dir()
     seed = randint(0, 100000)
 
-    # projects = util.discover_projects()
-    projects = ["fast-xml-parser", "pako"]
+    projects = util.discover_projects()
 
     configs = generate_configs(projects, seed, outdir)
 
