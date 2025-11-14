@@ -2,7 +2,7 @@ import assert from "node:assert";
 import path from "node:path";
 import fs from "node:fs/promises";
 
-import {$} from "bun"
+import { $ } from "bun";
 import { Database } from "bun:sqlite";
 
 export enum FuzzerStatusCode {
@@ -134,11 +134,13 @@ async function fetchCoverage(info: ProjectInfo): Promise<TimePoint<number>[]> {
     }));
 }
 
-async function fetchFuzzerStatusCode(info: ProjectInfo): Promise<FuzzerStatusCode> {
+async function fetchFuzzerStatusCode(
+    info: ProjectInfo,
+): Promise<FuzzerStatusCode> {
     try {
-        await $`ps ${info.pid}`.text()
+        await $`ps ${info.pid}`.text();
         return FuzzerStatusCode.Running;
-    } catch (err) {
+    } catch {
         return FuzzerStatusCode.Crashed;
     }
 }

@@ -36,7 +36,10 @@ async function getProjectsForUI(
             mode: info.mode,
             corpus: info.status?.corpusCount ?? 0,
             crashes: info.status?.crashesCount ?? 0,
-            status: info.status?.code === undefined ? "unknown" : FuzzerStatusCode[info.status?.code],
+            status:
+                info.status?.code === undefined
+                    ? "unknown"
+                    : FuzzerStatusCode[info.status?.code],
             coverage:
                 coverage !== undefined && coverage.length > 0
                     ? coverage.map(

@@ -21,5 +21,5 @@ module.exports = {
     methodsToSkip: [
         "sys.exit", // terminates the process
         "sys.clearScreen", // writes to stdout, which we're using for IPC
-    ]
+    ],
 };

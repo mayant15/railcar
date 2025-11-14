@@ -848,7 +848,10 @@ impl Input for Graph {
 
         let size_in_bytes = serialized.len();
         if size_in_bytes > DEFAULT_MAX_SIZE {
-            log::warn!("input size is {} bytes which exceeds default max size hint.", size_in_bytes);
+            log::warn!(
+                "input size is {} bytes which exceeds default max size hint.",
+                size_in_bytes
+            );
         }
         libafl_bolts::fs::write_file_atomic(path, &serialized)
     }
