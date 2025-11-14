@@ -56,6 +56,8 @@ def get_examples_dir() -> str:
 def find_graph_entrypoint(project: str) -> str:
     if project == "turf":
         project = "@turf/turf"
+    elif project == "angular":
+        project = "@angular/compiler"
 
     # find the path to npm package entry point in node_modules
     locator = path.join(get_examples_dir(), "locate-index.js")
