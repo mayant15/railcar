@@ -6,7 +6,7 @@ const { FuzzedDataProvider } = require("@jazzer.js/core");
 const canvg = require("canvg");
 const canvas = require("canvas");
 const fetch = require("node-fetch-commonjs");
-const { DOMParser } = require("xmldom");
+const { DOMParser } = require("@xmldom/xmldom");
 
 const preset = canvg.presets.node({
     DOMParser,
