@@ -26,6 +26,7 @@ class Railcar(Tool):
         config_file_path: str
         timeout: Optional[int] = None
         core: Optional[int] = None
+        labels: Optional[list[str]] = None
 
     def run(self, args: RunArgs) -> str:
         logfile = path.join(args.outdir, "logs.txt")
@@ -45,6 +46,10 @@ class Railcar(Tool):
             "--port", str(port),
             "--config", args.config_file_path,
         ]
+
+        if args.labels is not None:
+            for label in args.labels:
+                cmd += ["--label", label]
 
         if args.core is not None:
             cmd += ["--cores", str(args.core)]

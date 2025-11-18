@@ -76,6 +76,11 @@ struct Arguments {
     /// Configuration file to pick options from
     #[arg(long, default_value_t = String::from_str("railcar.config.js").unwrap())]
     config: String,
+
+    /// Label this fuzzer to find it in the reporter UI.
+    #[arg(long)]
+    label: Option<String>
+    // TODO: ^ making this a vector crashes in release builds (some serde issue)
 }
 
 fn to_absolute(path: String) -> PathBuf {
@@ -245,6 +250,7 @@ fn main() -> Result<()> {
         replay_input: args.replay_input,
         config_file: to_absolute(args.config),
         cores: cores.clone(),
+        labels: if let Some(label) = args.label { vec![label] } else { Vec::new() },
     };
 
     let shmem_provider = MmapShMemProvider::new()?;
@@ -327,6 +333,6 @@ fn dump_run_metadata(outdir: PathBuf, config: &FuzzerConfig) -> Result<()> {
         "config": config,
     });
     let metadata_string = serde_json::to_string_pretty(&metadata)?;
-    std::fs::write(outdir.join("fuzzing-config.json"), metadata_string)?;
+    std::fs::write(outdir.join("fuzzer-config.json"), metadata_string)?;
     Ok(())
 }

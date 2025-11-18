@@ -68,6 +68,7 @@ pub struct FuzzerConfig {
     pub replay_input: Option<String>,
     pub config_file: PathBuf,
     pub cores: Cores,
+    pub labels: Vec<String>,
 }
 
 struct GraphGenerator<'a> {

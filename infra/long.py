@@ -38,6 +38,7 @@ def generate_configs(
             outdir=outdir,
             entrypoint=util.find_graph_entrypoint(project),
             config_file_path=config,
+            labels=[project]
         ))
         configs.append(config)
 
