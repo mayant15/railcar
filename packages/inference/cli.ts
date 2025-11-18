@@ -80,7 +80,7 @@ function validateSchema(schema: Schema) {
     }
 }
 
-function main() {
+async function main() {
     const args = yargs(process.argv.slice(2))
         .scriptName("railcar-infer")
         .option("hardcoded", {
@@ -93,6 +93,10 @@ function main() {
             type: "string",
             describe: "Derive a schema from a TypeScript declaration file",
         })
+        .option("syntest", {
+            type: "string",
+            describe: "Derive a schema from a js file"
+        })
         .option("outFile", {
             alias: "o",
             type: "string",
@@ -101,20 +105,22 @@ function main() {
         .parseSync();
 
     assert(
-        args.hardcoded || args.decl,
-        "must either give a project name for hardcoded schemas or a declaration file",
+        args.syntest || args.hardcoded || args.decl,
+        "must either give a project name for hardcoded schemas or a declaration file, or use Syntest",
     );
 
-    const schema = (() => {
+    const schema = !args.syntest ? (() => {
         if (args.hardcoded) {
             return tsSchema[args.hardcoded];
         }
 
         assert(args.decl);
         return deriveFromDeclFile(absolute(args.decl));
-    })();
+    })() : await syntestSchema(absolute(args.syntest));
 
-    validateSchema(schema);
+    if (!args.syntest) {
+        validateSchema(schema);
+    }
 
     if (!args.outFile) {
         console.log(JSON.stringify(schema, null, 2));

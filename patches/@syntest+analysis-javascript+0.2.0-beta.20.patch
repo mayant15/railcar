@@ -1,0 +1,17 @@
+diff --git a/node_modules/@syntest/analysis-javascript/dist/lib/type/resolving/TypeNode.js b/node_modules/@syntest/analysis-javascript/dist/lib/type/resolving/TypeNode.js
+index 9d02751..90dd2f7 100644
+--- a/node_modules/@syntest/analysis-javascript/dist/lib/type/resolving/TypeNode.js
++++ b/node_modules/@syntest/analysis-javascript/dist/lib/type/resolving/TypeNode.js
+@@ -107,9 +107,9 @@ class TypeNode {
+         const mergedObjectType = other._objectType.merge(this._objectType);
+         this._objectType = mergedObjectType;
+         other._objectType = mergedObjectType;
+-        this._typeScores = other._typeScores;
+-        this._dependencyScores = other._dependencyScores;
+-        this._executionScores = other._executionScores;
++        this._typeScores = new Map(other._typeScores);
++        this._dependencyScores = new Map(other._dependencyScores);
++        this._executionScores = new Map(other._executionScores);
+         this.probabilities = undefined;
+         other.probabilities = undefined;
+     }

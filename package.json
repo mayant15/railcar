@@ -22,5 +22,9 @@
     "overrides": {
         "semver": "^7.7.2"
     },
-    "version": "0.1.9"
+    "version": "0.1.9",
+    "dependencies": {
+        "patch-package": "^8.0.1"
+    },
+    "postinstall": "patch-package"
 }
