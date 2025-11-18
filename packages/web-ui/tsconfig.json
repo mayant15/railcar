@@ -1,9 +1,0 @@
-{
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "outDir": "dist",
-        "lib": ["dom"]
-    },
-    "references": [],
-    "files": ["./server.ts", "./data.ts", "./index.ts"]
-}

@@ -20,6 +20,6 @@
         "benchmarks/projects/**/*",
         "scripts/**/*",
         "dist/**/*",
-        "packages/web-ui/**/*"
+        "reporter"
     ]
 }

@@ -1,13 +1,6 @@
-import assert from "node:assert";
-import { isAbsolute, join, normalize } from "node:path";
-
-import index from "./index.html";
+import index from "./client/index.html";
 
 import { collectProjectInfo, FuzzerStatusCode } from "./data.js";
-
-function toAbsolute(path: string) {
-    return isAbsolute(path) ? path : normalize(join(process.cwd(), path));
-}
 
 export type ProjectsResponse = Record<
     string,
@@ -53,19 +46,6 @@ async function getProjectsForUI(
             "Content-Type": "application/json",
         },
     });
-}
-
-type ServerConfig = {
-    rootDir: string;
-};
-
-function getArgs(): ServerConfig {
-    const rootDir = process.argv[2];
-    assert(typeof rootDir === "string");
-    assert(rootDir);
-    return {
-        rootDir: toAbsolute(rootDir),
-    };
 }
 
 async function main() {

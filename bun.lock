@@ -61,15 +61,6 @@
       "name": "@railcar/support",
       "version": "0.1.9",
     },
-    "packages/web-ui": {
-      "name": "@railcar/web-ui",
-      "dependencies": {
-        "chart.js": "^4.5.1",
-      },
-      "devDependencies": {
-        "@types/bun": "latest",
-      },
-    },
     "packages/worker": {
       "name": "@railcar/worker",
       "version": "0.1.9",
@@ -96,6 +87,17 @@
       },
       "optionalDependencies": {
         "@railcar/worker-sys-linux-x64-gnu": "0.1.9",
+      },
+    },
+    "reporter": {
+      "name": "@railcar/reporter",
+      "dependencies": {
+        "@preact/signals": "^2.5.0",
+        "chart.js": "^4.5.1",
+        "preact": "^10.27.2",
+      },
+      "devDependencies": {
+        "@types/bun": "latest",
       },
     },
   },
@@ -461,6 +463,10 @@
 
     "@pkgjs/parseargs": ["@pkgjs/parseargs@0.11.0", "", {}, "sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg=="],
 
+    "@preact/signals": ["@preact/signals@2.5.0", "", { "dependencies": { "@preact/signals-core": "^1.12.0" }, "peerDependencies": { "preact": ">= 10.25.0 || >=11.0.0-0" } }, "sha512-+9KrYvCtnssF4Q7e5xdX08aERL2th4w8kkzPAgI3mSEu2FsVeI93hInS2ifwNIzpEw8+9+e5FPtR7di1WvZiWg=="],
+
+    "@preact/signals-core": ["@preact/signals-core@1.12.1", "", {}, "sha512-BwbTXpj+9QutoZLQvbttRg5x3l5468qaV2kufh+51yha1c53ep5dY4kTuZR35+3pAZxpfQerGJiQqg34ZNZ6uA=="],
+
     "@protobufjs/aspromise": ["@protobufjs/aspromise@1.1.2", "", {}, "sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ=="],
 
     "@protobufjs/base64": ["@protobufjs/base64@1.1.2", "", {}, "sha512-AZkcAA5vnN/v4PDqKyMR5lx7hZttPDgClv83E//FMNhR2TMcLUhfRUBHCmSl0oi9zMgDDqRUJkSxO3wm85+XLg=="],
@@ -485,9 +491,9 @@
 
     "@railcar/inference": ["@railcar/inference@workspace:packages/inference"],
 
-    "@railcar/support": ["@railcar/support@workspace:packages/support"],
+    "@railcar/reporter": ["@railcar/reporter@workspace:reporter"],
 
-    "@railcar/web-ui": ["@railcar/web-ui@workspace:packages/web-ui"],
+    "@railcar/support": ["@railcar/support@workspace:packages/support"],
 
     "@railcar/worker": ["@railcar/worker@workspace:packages/worker"],
 
@@ -1423,6 +1429,8 @@
 
     "polyclip-ts": ["polyclip-ts@0.16.8", "", { "dependencies": { "bignumber.js": "^9.1.0", "splaytree-ts": "^1.0.2" } }, "sha512-JPtKbDRuPEuAjuTdhR62Gph7Is2BS1Szx69CFOO3g71lpJDFo78k4tFyi+qFOMVPePEzdSKkpGU3NBXPHHjvKQ=="],
 
+    "preact": ["preact@10.27.2", "", {}, "sha512-5SYSgFKSyhCbk6SrXyMpqjb5+MQBgfvEKE/OC+PujcY34sOpqtr+0AZQtPYx5IA6VxynQ7rUPCtKzyovpj9Bpg=="],
+
     "prebuild": ["prebuild@13.0.1", "", { "dependencies": { "cmake-js": "^7.3.0", "detect-libc": "^2.0.2", "each-series-async": "^1.0.1", "execspawn": "^1.0.1", "ghreleases": "^3.0.2", "github-from-package": "0.0.0", "glob": "^10.3.10", "minimist": "^1.2.8", "napi-build-utils": "^1.0.2", "node-abi": "^3.54.0", "node-gyp": "^10.0.1", "node-ninja": "^1.0.2", "noop-logger": "^0.1.1", "npm-which": "^3.0.1", "npmlog": "^7.0.1", "nw-gyp": "^3.6.6", "rc": "^1.2.8", "run-waterfall": "^1.1.7", "tar-stream": "^3.1.7" }, "bin": { "prebuild": "bin.js" } }, "sha512-AR+ZoFfG2qQM5iCtNNBWlueuzlBWQdeiU+fBF7ZwbW2w5p/2Ep1+3G4AtAymrMfZn0yg3DoF+xCorh5hHOJY/Q=="],
 
     "prebuild-install": ["prebuild-install@7.1.3", "", { "dependencies": { "detect-libc": "^2.0.0", "expand-template": "^2.0.3", "github-from-package": "0.0.0", "minimist": "^1.2.3", "mkdirp-classic": "^0.5.3", "napi-build-utils": "^2.0.0", "node-abi": "^3.3.0", "pump": "^3.0.0", "rc": "^1.2.7", "simple-get": "^4.0.0", "tar-fs": "^2.0.0", "tunnel-agent": "^0.6.0" }, "bin": { "prebuild-install": "bin.js" } }, "sha512-8Mf2cbV7x1cXPUILADGI3wuhfqWvtiLA1iclTDbFRZkgRQS0NqsPZphna9V+HyTEadheuPmjaJMsbzKQFOzLug=="],
@@ -1697,7 +1705,7 @@
 
     "@npmcli/agent/lru-cache": ["lru-cache@10.4.3", "", {}, "sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ=="],
 
-    "@railcar/web-ui/@types/bun": ["@types/bun@1.3.2", "", { "dependencies": { "bun-types": "1.3.2" } }, "sha512-t15P7k5UIgHKkxwnMNkJbWlh/617rkDGEdSsDbu+qNHTaz9SKf7aC8fiIlUdD5RPpH6GEkP0cK7WlvmrEBRtWg=="],
+    "@railcar/reporter/@types/bun": ["@types/bun@1.3.2", "", { "dependencies": { "bun-types": "1.3.2" } }, "sha512-t15P7k5UIgHKkxwnMNkJbWlh/617rkDGEdSsDbu+qNHTaz9SKf7aC8fiIlUdD5RPpH6GEkP0cK7WlvmrEBRtWg=="],
 
     "@railcar/worker-sys/@napi-rs/cli": ["@napi-rs/cli@2.18.4", "", { "bin": { "napi": "scripts/index.js" } }, "sha512-SgJeA4df9DE2iAEpr3M2H0OKl/yjtg1BnRI5/JyowS71tUWhrfSu2LT0V3vlHET+g1hBVlrO60PmEXwUEKp8Mg=="],
 
@@ -1825,7 +1833,7 @@
 
     "@istanbuljs/load-nyc-config/js-yaml/argparse": ["argparse@1.0.10", "", { "dependencies": { "sprintf-js": "~1.0.2" } }, "sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg=="],
 
-    "@railcar/web-ui/@types/bun/bun-types": ["bun-types@1.3.2", "", { "dependencies": { "@types/node": "*" }, "peerDependencies": { "@types/react": "^19" } }, "sha512-i/Gln4tbzKNuxP70OWhJRZz1MRfvqExowP7U6JKoI8cntFrtxg7RJK3jvz7wQW54UuvNC8tbKHHri5fy74FVqg=="],
+    "@railcar/reporter/@types/bun/bun-types": ["bun-types@1.3.2", "", { "dependencies": { "@types/node": "*" }, "peerDependencies": { "@types/react": "^19" } }, "sha512-i/Gln4tbzKNuxP70OWhJRZz1MRfvqExowP7U6JKoI8cntFrtxg7RJK3jvz7wQW54UuvNC8tbKHHri5fy74FVqg=="],
 
     "@turf/buffer/d3-geo/d3-array": ["d3-array@1.2.4", "", {}, "sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw=="],
 
