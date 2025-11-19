@@ -1,3 +1,4 @@
+from typing import Optional
 from argparse import ArgumentParser
 from base import Config
 from railcar import Railcar
@@ -21,57 +22,50 @@ def git_version():
     return proc.stdout.strip()
 
 
-def find_entrypoints(project: str, mode: str) -> list[tuple[str, str]]:
-    project_root_config_file = util.get_default_project_config_file(project)
-
-    if mode != "bytes":
-        assert project_root_config_file is not None
-
-    if mode == "bytes":
-        project_root = path.join(util.get_examples_dir(), project)
-        return util.find_bytes_entrypoints(project_root)
-    else:
-        ep = util.find_graph_entrypoint(project)
-        return [(ep, project_root_config_file)]
-
-
 def generate_configs(
     projects: list[str],
     modes: list[str],
     seeds: list[int],
     iterations: int,
     results_dir: str,
-    timeout: int,
+    timeout: Optional[int],
+    pin: bool,
 ) -> list[list[Config]]:
     tool = Railcar()
-    configs: list[list[Config]] = []
+    configs: list[Config] = []
 
     for project in projects:
         for mode in modes:
-            cs = []
-            entrypoints = find_entrypoints(project, mode)
-            for entrypoint, config_file in entrypoints:
 
-                outdir_basename = f"{project}_{mode}"
-                if mode == "bytes":
-                    driver = path.basename(entrypoint).split('.')[0]
-                    outdir_basename += f"_{driver}"
+            # TODO: Just running the first entrypoint. Eventually I would like
+            # railcar to be able to run multiple entrypoints in parallel
+            entrypoint, config_file = util.find_entrypoints(project, mode)[0]
 
-                for i in range(iterations):
-                    outdir = path.join(
-                        results_dir, f"iter_{i}", outdir_basename)
-                    cs.append(Config(tool, Railcar.RunArgs(
-                        timeout=timeout,
-                        outdir=outdir,
-                        seed=seeds[i],
-                        mode=mode,
-                        core=2*i,
-                        entrypoint=entrypoint,
-                        config_file_path=config_file,
-                    )))
-                configs.append(cs)
+            outdir_basename = f"{project}_{mode}"
+            if mode == "bytes":
+                driver = path.basename(entrypoint).split('.')[0]
+                outdir_basename += f"_{driver}"
 
-    return configs
+            for i in range(iterations):
+
+                outdir = path.join(results_dir, f"{outdir_basename}_{i}")
+
+                # on aloe, even cpu ids are performance cores
+                core = 2 * i if pin else None
+
+                configs.append(Config(tool, Railcar.RunArgs(
+                    timeout=timeout,
+                    outdir=outdir,
+                    seed=seeds[i],
+                    mode=mode,
+                    core=core,
+                    entrypoint=entrypoint,
+                    config_file_path=config_file,
+                    # TODO: Add an f"iteration_{i}" when we can accept multiple labels with clap
+                    labels=[project]
+                )))
+
+    return [configs]
 
 
 def execute_config(config: Config):
@@ -142,61 +136,85 @@ def summarize_coverage(
     )
 
 
-def main() -> None:
+def arguments():
     parser = ArgumentParser()
     parser.add_argument(
-            "--timeout", type=int, default=1, help="timeout in minutes")
+            "--timeout", type=int, help="timeout in minutes")
     parser.add_argument(
-            "--iterations", type=int, default=4,
+            "--iterations", type=int, default=1,
             help="number of parallel iterations")
+    parser.add_argument("--mode", action='append', help="modes to run railcar in")
+    parser.add_argument("-p", "--pin", action="store_true", help="pin fuzzer processes to a core")
     args = parser.parse_args()
 
-    timeout = args.timeout * 60
-    iterations = args.iterations
-    drivers = ["bytes", "graph"]
+    # minutes to seconds
+    args.timeout = args.timeout * 60 if args.timeout is not None else None
+    args.mode = args.mode if args.mode is not None else ["graph"]
+
+    # don't know how to pin stuff when running multiple projects
+    assert not args.pin
+
+    # don't pin stuff if running long running experiments
+    assert args.timeout is not None or not args.pin
+
+    return args
+
+
+def main() -> None:
+    args = arguments()
 
     projects = util.discover_projects()
     old_results_dir = util.get_old_results_dir()
     results_dir = util.ensure_results_dir()
 
-    seeds = [randint(0, 100000) for i in range(iterations)]
+    seeds = [randint(0, 100000) for i in range(args.iterations)]
 
     # list of list of configs
     # run outer list serially, inner list in parallel
     configs = generate_configs(
         projects=projects,
-        modes=drivers,
-        iterations=iterations,
+        modes=args.mode,
+        iterations=args.iterations,
         results_dir=results_dir,
         seeds=seeds,
-        timeout=timeout,
+        timeout=args.timeout,
+        pin=args.pin
     )
 
-    summary = generate_summary_prefix(timeout, seeds)
+    if args.timeout is None:
+        pool_size = len(projects) * len(args.mode) * args.iterations
+        assert len(configs) == 1
+        assert pool_size == len(configs[0])
 
-    processes_pool = iterations
-    for cs in configs:
-        with Pool(processes_pool) as pool:
-            pool.map(execute_config, cs)
+        pool = Pool(pool_size)
+        pool.map(execute_config, configs[0])
+        pool.close()
+        pool.terminate()
+    else:
+        summary = generate_summary_prefix(args.timeout, seeds)
 
-    coverage = collect_coverage(configs, results_dir)
+        for cs in configs:
+            with Pool(args.iterations) as pool:
+                pool.map(execute_config, cs)
 
-    old_coverage = None
-    if old_results_dir is not None:
-        old_coverage_path = path.join(old_results_dir, "coverage.csv")
-        old_coverage = pd.read_csv(old_coverage_path)
-    summary += summarize_coverage(coverage, old_coverage)
-    summary += "\n"
+        coverage = collect_coverage(configs, results_dir)
 
-    # Write summary file
-    with open(path.join(results_dir, "summary.txt"), "w") as f:
-        f.write(summary)
+        old_coverage = None
+        if old_results_dir is not None:
+            old_coverage_path = path.join(old_results_dir, "coverage.csv")
+            old_coverage = pd.read_csv(old_coverage_path)
+        summary += summarize_coverage(coverage, old_coverage)
+        summary += "\n"
 
-    with open(path.join(results_dir, "coverage.csv"), "w") as f:
-        f.write(coverage.to_csv())
+        # Write summary file
+        with open(path.join(results_dir, "summary.txt"), "w") as f:
+            f.write(summary)
 
-    if "DISCORD_WEBHOOK" in os.environ:
-        post_summary_notification(summary)
+        with open(path.join(results_dir, "coverage.csv"), "w") as f:
+            f.write(coverage.to_csv())
+
+        if "DISCORD_WEBHOOK" in os.environ:
+            post_summary_notification(summary)
 
 
 if __name__ == '__main__':

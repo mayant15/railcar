@@ -53,6 +53,20 @@ def get_examples_dir() -> str:
     return EXAMPLES_DIR
 
 
+def find_entrypoints(project: str, mode: str) -> list[tuple[str, str]]:
+    project_root_config_file = get_default_project_config_file(project)
+
+    if mode != "bytes":
+        assert project_root_config_file is not None
+
+    if mode == "bytes":
+        project_root = path.join(get_examples_dir(), project)
+        return find_bytes_entrypoints(project_root)
+    else:
+        ep = find_graph_entrypoint(project)
+        return [(ep, project_root_config_file)]
+
+
 def find_graph_entrypoint(project: str) -> str:
     if project == "turf":
         project = "@turf/turf"
@@ -86,15 +100,16 @@ def find_bytes_entrypoints(project_root: str) -> list[tuple[str, str]]:
             driver = path.join(drivers_dir, dir)
             name = path.basename(dir).split('.')[0]
 
-            # if there's a {name}.config.js, use that. Otherwise use the project
-            # root's config file
+            # if there's a {name}.config.js, use that. Otherwise use the
+            # project root's config file
             adjacent_config_file = path.join(drivers_dir, f"{name}.config.js")
             if path.exists(adjacent_config_file):
                 drivers.append([driver, adjacent_config_file])
             elif path.exists(project_root_config_file):
                 drivers.append((driver, project_root_config_file))
             else:
-                raise FileNotFoundError(f"failed to find configuration file for driver {driver}")
+                raise FileNotFoundError(
+                        f"failed to find configuration file for driver {driver}")
 
         assert len(drivers) != 0
         return drivers

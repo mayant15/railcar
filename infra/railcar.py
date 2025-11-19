@@ -1,7 +1,7 @@
 from typing import Optional
 from dataclasses import dataclass
 from base import Tool
-from os import path
+from os import path, makedirs
 
 import subprocess as sp
 import socket
@@ -19,19 +19,18 @@ class Railcar(Tool):
 
     @dataclass
     class RunArgs:
-        seed: int
         mode: str
         outdir: str
         entrypoint: str
-        config_file_path: str
-        timeout: Optional[int] = None
+        seed: Optional[int] = None
         core: Optional[int] = None
+        timeout: Optional[int] = None
         labels: Optional[list[str]] = None
+        config_file_path: Optional[str] = None
 
     def run(self, args: RunArgs) -> str:
-        logfile = path.join(args.outdir, "logs.txt")
-
         port = find_open_port()
+        logfile = path.join(args.outdir, "logs.txt")
 
         cmd = []
 
@@ -42,10 +41,14 @@ class Railcar(Tool):
             "cargo", "run", "--release", "--bin", "railcar", "--",
             "--outdir", args.outdir,
             "--mode", args.mode,
-            "--seed", str(args.seed),
             "--port", str(port),
-            "--config", args.config_file_path,
         ]
+
+        if args.config_file_path is not None:
+            cmd += ["--config", args.config_file_path]
+
+        if args.seed is not None:
+            cmd += ["--seed", str(args.seed)]
 
         if args.labels is not None:
             for label in args.labels:
@@ -56,5 +59,6 @@ class Railcar(Tool):
 
         cmd += [args.entrypoint]
 
+        makedirs(args.outdir, exist_ok=False)
         with open(logfile, "a") as f:
             sp.run(cmd, stderr=sp.STDOUT, stdout=f)
