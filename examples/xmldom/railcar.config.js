@@ -13,5 +13,5 @@ module.exports = {
         typeof err === "object" &&
         (err instanceof TypeError ||
             err instanceof RangeError ||
-            err.constructor.name === "ParseError")
+            err.constructor.name === "ParseError"),
 };

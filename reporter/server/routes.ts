@@ -6,27 +6,27 @@
  */
 
 import type { Store } from "./store.ts";
-import type {ProjectsResponse, GroupedFuzzerInfo} from "../api.ts"
+import type { ProjectsResponse, GroupedFuzzerInfo } from "../api.ts";
 
 export function projects(store: Store): Response {
-    const response = makeResponsePayload(store)
+    const response = makeResponsePayload(store);
     return new Response(JSON.stringify(response), {
         headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+            "Content-Type": "application/json",
+        },
+    });
 }
 
 function makeResponsePayload(store: Store): ProjectsResponse {
-    const groups: Record<string, GroupedFuzzerInfo> = {}
+    const groups: Record<string, GroupedFuzzerInfo> = {};
 
     for (const fuzzer of store.fuzzers) {
-        const name = getFuzzerName(fuzzer.config.labels, fuzzer.pid)
+        const name = getFuzzerName(fuzzer.config.labels, fuzzer.pid);
         if (!groups[name]) {
             groups[name] = {
                 name,
-                data: []
-            }
+                data: [],
+            };
         }
         groups[name].data.push({
             name: fuzzer.config.mode,
@@ -34,31 +34,31 @@ function makeResponsePayload(store: Store): ProjectsResponse {
             corpus: fuzzer.counters.corpus,
             status: fuzzer.status,
             coverage: makeCoverage(fuzzer.coverage),
-        })
+        });
     }
 
-    return Object.values(groups)
+    return Object.values(groups);
 }
 
 function getFuzzerName(labels: string[], pid: number): string {
-    if (labels.length > 0) return labels[0]
-    else return `fuzzer_${pid}`
+    if (labels.length > 0) return labels[0];
+    else return `fuzzer_${pid}`;
 }
 
 function makeCoverage(coverage: [number, number][]): [number, number][] {
-    if (coverage.length === 0) return []
+    if (coverage.length === 0) return [];
 
     // if we're over an hour:
     // - resample to about one point per minute
     // - convert x-axis into hours
-    let samples = coverage
+    let samples = coverage;
     if (coverage[coverage.length - 1][0] - coverage[0][0] > 60 * 60) {
-        samples = []
+        samples = [];
         for (let i = 0; i < coverage.length; i += 4) {
-            const [x, y] = coverage[i]
-            samples.push([x / (60 * 60), y])
+            const [x, y] = coverage[i];
+            samples.push([x / (60 * 60), y]);
         }
     }
 
-    return samples.map(([x, y]) => [x, y * 100]) // percentage
+    return samples.map(([x, y]) => [x, y * 100]); // percentage
 }

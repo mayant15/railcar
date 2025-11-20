@@ -5,27 +5,27 @@
  * Global app state. Scrapes information for all available fuzzers under a given directory.
  */
 
-import path from "node:path"
-import fs from "node:fs/promises"
-import {$} from "bun"
-import {Database} from "bun:sqlite"
+import path from "node:path";
+import fs from "node:fs/promises";
+import { $ } from "bun";
+import { Database } from "bun:sqlite";
 
-import {StatusCode} from "../api.ts"
+import { StatusCode } from "../api.ts";
 
 export type Store = {
-    rootDir: string,
-    fuzzers: FuzzerInfo[]
-}
+    rootDir: string;
+    fuzzers: FuzzerInfo[];
+};
 
 export async function createStore(rootDir: string): Promise<Store> {
-    const store: Store = { rootDir, fuzzers: [] }
+    const store: Store = { rootDir, fuzzers: [] };
 
     const glob = new Bun.Glob(`${rootDir}/**/fuzzer-config.json`);
     for await (const file of glob.scan()) {
-        store.fuzzers.push(await createFuzzerInfoForDir(path.dirname(file)))
+        store.fuzzers.push(await createFuzzerInfoForDir(path.dirname(file)));
     }
 
-    return store
+    return store;
 }
 
 export async function updateStore(store: Store): Promise<void> {
@@ -35,47 +35,53 @@ export async function updateStore(store: Store): Promise<void> {
             getCorpusCount(fuzzer.paths.corpus),
             getCrashesCount(fuzzer.paths.crashes),
             getCoverage(fuzzer.db, fuzzer.startTime),
-        ])
+        ]);
 
-        fuzzer.status = status
-        fuzzer.counters.corpus = corpus
-        fuzzer.counters.crashes = crashes
-        fuzzer.coverage = coverage
+        fuzzer.status = status;
+        fuzzer.counters.corpus = corpus;
+        fuzzer.counters.crashes = crashes;
+        fuzzer.coverage = coverage;
     }
 }
 
 type FuzzerInfo = {
-    status: StatusCode
-    pid: number
-    startTime: number
+    status: StatusCode;
+    pid: number;
+    startTime: number;
     paths: {
-        corpus: string
-        crashes: string
-    }
+        corpus: string;
+        crashes: string;
+    };
     counters: {
-        corpus: number
-        crashes: number
-    }
+        corpus: number;
+        crashes: number;
+    };
     config: {
-        mode: string
-        seed: number
-        labels: string[]
-    }
-    coverage: Point[]
-    db: Database
-}
+        mode: string;
+        seed: number;
+        labels: string[];
+    };
+    coverage: Point[];
+    db: Database;
+};
 
 async function createFuzzerInfoForDir(dir: string): Promise<FuzzerInfo> {
-    const {pid, start_time: startTime, config} = await (Bun.file(`${dir}/fuzzer-config.json`).json() as Promise<FuzzerConfig>);
+    const {
+        pid,
+        start_time: startTime,
+        config,
+    } = await (Bun.file(
+        `${dir}/fuzzer-config.json`,
+    ).json() as Promise<FuzzerConfig>);
 
-    const db = new Database(config.metrics)
+    const db = new Database(config.metrics);
     const [status, corpus, crashes, coverage] = await Promise.all([
         getFuzzerStatus(pid),
         getCorpusCount(config.corpus),
         getCrashesCount(config.crashes),
         getCoverage(db, startTime),
-    ])
-    
+    ]);
+
     return {
         db,
         pid,
@@ -92,7 +98,7 @@ async function createFuzzerInfoForDir(dir: string): Promise<FuzzerInfo> {
             seed: config.seed,
             labels: config.labels,
         },
-    }
+    };
 }
 
 async function getFuzzerStatus(pid: number): Promise<StatusCode> {
@@ -125,9 +131,7 @@ async function getCrashesCount(path: string): Promise<number> {
 }
 
 async function getCoverage(db: Database, startTime: number): Promise<Point[]> {
-    const query = db.query(
-        "SELECT timestamp, coverage FROM heartbeat;",
-    );
+    const query = db.query("SELECT timestamp, coverage FROM heartbeat;");
     const rows = query.all() as Pick<Heartbeat, "timestamp" | "coverage">[];
 
     // no data yet
@@ -138,7 +142,7 @@ async function getCoverage(db: Database, startTime: number): Promise<Point[]> {
     return rows.map((row) => [
         row.timestamp - startTime, // start from 0
         row.coverage / total, // save ratio
-    ])
+    ]);
 }
 
 function getTotalEdges(db: Database): number {
@@ -149,7 +153,7 @@ function getTotalEdges(db: Database): number {
     return value.total_edges;
 }
 
-type Point = [number, number]
+type Point = [number, number];
 
 type FuzzerConfig = {
     config: {

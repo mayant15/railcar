@@ -9,8 +9,8 @@ import assert from "node:assert";
 import { isAbsolute, join, normalize } from "node:path";
 
 import index from "./client/index.html";
-import {createStore, updateStore} from "./server/store.ts";
-import {projects} from "./server/routes.ts";
+import { createStore, updateStore } from "./server/store.ts";
+import { projects } from "./server/routes.ts";
 
 const POLL_DURATION_SECS = 15;
 
@@ -35,18 +35,18 @@ async function main() {
     const config = parseServerConfig();
     console.log(`Searching for fuzzers in ${config.rootDir}...`);
 
-    console.log('  processing fuzzer data...')
-    const store = await createStore(config.rootDir)
-    console.log('    done!')
+    console.log("  processing fuzzer data...");
+    const store = await createStore(config.rootDir);
+    console.log("    done!");
 
     setInterval(() => {
-        updateStore(store)
-    }, POLL_DURATION_SECS)
+        updateStore(store);
+    }, POLL_DURATION_SECS);
 
     const server = Bun.serve({
         routes: {
             "/": index,
-            "/api/projects": () => projects(store)
+            "/api/projects": () => projects(store),
         },
         fetch() {
             return new Response("Not Found", { status: 404 });
