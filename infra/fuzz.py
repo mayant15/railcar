@@ -61,8 +61,7 @@ def generate_configs(
                     core=core,
                     entrypoint=entrypoint,
                     config_file_path=config_file,
-                    # TODO: Add an f"iteration_{i}" when we can accept multiple labels with clap
-                    labels=[project]
+                    labels=[project, i]
                 )))
 
     return [configs]
@@ -103,9 +102,9 @@ def collect_coverage(configs: list[Config], results: str) -> str:
 
         covered, total = row
         coverage_pct = covered * 100 / total
-        project = config.args.project
+        project = config.args.labels[0]
         mode = config.args.mode
-        iter = config.args.iteration
+        iter = config.args.labels[1]
 
         results.append((iter, mode, project, covered, total, coverage_pct))
 
@@ -181,11 +180,11 @@ def main() -> None:
         pin=args.pin
     )
 
-    if args.timeout is None:
-        pool_size = len(projects) * len(args.mode) * args.iterations
-        assert len(configs) == 1
-        assert pool_size == len(configs[0])
+    pool_size = len(projects) * len(args.mode) * args.iterations
+    assert len(configs) == 1
+    assert pool_size == len(configs[0])
 
+    if args.timeout is None:
         pool = Pool(pool_size)
         pool.map(execute_config, configs[0])
         pool.close()
@@ -193,9 +192,10 @@ def main() -> None:
     else:
         summary = generate_summary_prefix(args.timeout, seeds)
 
-        for cs in configs:
-            with Pool(args.iterations) as pool:
-                pool.map(execute_config, cs)
+        pool = Pool(pool_size)
+        pool.map(execute_config, configs[0])
+        pool.close()
+        pool.terminate()
 
         coverage = collect_coverage(configs, results_dir)
 
