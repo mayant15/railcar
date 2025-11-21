@@ -20,9 +20,8 @@ use libafl::{
 };
 
 use libafl_bolts::{
-    merge_tuple_list_type,
     rands::Rand,
-    tuples::{tuple_list, tuple_list_type, Merge},
+    tuples::{tuple_list, tuple_list_type},
     HasLen, Named,
 };
 
@@ -135,8 +134,6 @@ trait ReversibleMutator<S, I: Input> {
 pub type SimpleGraphMutationsType = tuple_list_type!(
     Truncate,
     Extend,
-    SchemaVariationArgc,
-    SchemaVariationMakeNullable,
 );
 
 pub type ComplexGraphMutationsType = tuple_list_type!(
@@ -150,14 +147,9 @@ pub type ComplexGraphMutationsType = tuple_list_type!(
     ExtendDestructor,
     TruncateConstructor,
     ExtendConstructor,
-    SchemaVariationArgc,
-    SchemaVariationMakeNullable,
 );
 
-pub type ParametricMutationsType = merge_tuple_list_type!(
-    HavocMutationsType,
-    tuple_list_type!(SchemaVariationArgc, SchemaVariationMakeNullable,)
-);
+pub type ParametricMutationsType = HavocMutationsType;
 
 pub struct GraphMutator<S> {
     inner: Box<dyn Mutator<Graph, S>>,
@@ -221,8 +213,6 @@ fn complex_graph_mutations() -> ComplexGraphMutationsType {
         ExtendDestructor::new(),
         TruncateConstructor::new(),
         ExtendConstructor::new(),
-        SchemaVariationArgc::new(),
-        SchemaVariationMakeNullable::new(),
     )
 }
 
@@ -230,16 +220,11 @@ fn simple_graph_mutations() -> SimpleGraphMutationsType {
     tuple_list!(
         Truncate::new(),
         Extend::new(),
-        SchemaVariationArgc::new(),
-        SchemaVariationMakeNullable::new(),
     )
 }
 
 pub fn parametric_mutations() -> ParametricMutationsType {
-    havoc_mutations().merge(tuple_list!(
-        SchemaVariationArgc::new(),
-        SchemaVariationMakeNullable::new(),
-    ))
+    havoc_mutations()
 }
 
 impl Truncate {
