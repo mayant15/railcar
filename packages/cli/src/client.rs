@@ -31,7 +31,6 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     config::{INITIAL_CORPUS_SIZE, MAX_INPUT_LENGTH, MIN_INPUT_LENGTH},
-    feedback::set_valid,
     worker::{Worker, WorkerArgs},
 };
 
@@ -113,28 +112,6 @@ impl<S: HasRand> Generator<ParametricGraph, S> for ParametricGenerator<'_> {
     fn generate(&mut self, state: &mut S) -> Result<ParametricGraph, libafl::Error> {
         let bytes = self.bytes_gen.generate(state)?;
         Ok(ParametricGraph::new(self.schema.clone(), bytes.into()))
-    }
-}
-
-// NOTE: this should stay in sync with worker/common.ts
-fn handle_exit_code(code: u8) -> ExitKind {
-    match code {
-        0 => {
-            set_valid(true);
-            ExitKind::Ok
-        }
-        1 => {
-            // was an expected error
-            set_valid(false);
-            ExitKind::Ok // don't save expected crashes to crashes dir
-        }
-        3 => {
-            panic!("fuzzer requested an abort for input");
-        }
-        _ => {
-            set_valid(true);
-            ExitKind::Crash
-        }
     }
 }
 
@@ -303,7 +280,7 @@ fn launch_fuzzer<M, F, I, OT, G, SH, OB>(
 ) -> Result<()>
 where
     I: ToFuzzerInput + Input,
-    OT: ObserversTuple<I, State<I>> + Serialize + for<'de> Deserialize<'de>,
+    OT: ObserversTuple<I, State<I>> + Serialize + for <'de> Deserialize<'de>,
     OB: Feedback<RestartingManager<I>, I, OT, State<I>>,
     SH: libafl::schedulers::Scheduler<I, State<I>>,
     F: Feedback<RestartingManager<I>, I, OT, State<I>>,
@@ -313,8 +290,6 @@ where
     let mut fuzzer = StdFuzzer::new(args.scheduler, args.feedback, args.objective);
 
     let mut harness = |input: &I| {
-        set_valid(true); // assume an input is valid unless we learn otherwise
-
         let Ok(bytes) = input.to_fuzzer_input(args.config) else {
             // discard these inputs
             return ExitKind::Ok;
@@ -325,7 +300,12 @@ where
             Err(e) => panic!("failed to invoke worker {}", e),
         };
 
-        handle_exit_code(code)
+        // From worker/common.ts
+        match code {
+            0 | 1 => ExitKind::Ok,
+            2 => ExitKind::Crash,
+            _ => unreachable!()
+        }
     };
 
     let mut executor = InProcessExecutor::with_timeout(
@@ -372,7 +352,7 @@ where
 pub mod bytes {
     use crate::{
         config::{CORPUS_CACHE_SIZE, MAX_INPUT_LENGTH},
-        feedback::{coverage_observer, StdFeedback, UniqCrashFeedback},
+        feedback::{StdFeedback, UniqCrashFeedback, make_observers},
         worker::Worker,
     };
 
@@ -386,7 +366,7 @@ pub mod bytes {
         schedulers::StdWeightedScheduler,
         state::StdState,
     };
-    use libafl_bolts::{rands::StdRand, tuples::tuple_list};
+    use libafl_bolts::{rands::StdRand, tuples::{Handled, tuple_list}};
 
     pub fn start(
         state: Option<State<BytesInput>>,
@@ -395,14 +375,14 @@ pub mod bytes {
     ) -> Result<()> {
         let mut worker = Worker::new(config.into())?;
 
-        let coverage_map = coverage_observer(
+        let (coverage_map, validity) = make_observers(
             worker
                 .coverage_mut()
                 .expect("must init coverage map for fuzzing"),
         );
 
         // we don't want coverage feedback but we still want to count valid execution stats
-        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity);
+        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity, validity.handle());
         let mut objective = UniqCrashFeedback::new(&coverage_map);
 
         let mut state = state.unwrap_or_else(|| {
@@ -441,12 +421,12 @@ pub mod parametric {
         mutators::HavocScheduledMutator,
         state::StdState,
     };
-    use libafl_bolts::{rands::StdRand, tuples::tuple_list};
+    use libafl_bolts::{rands::StdRand, tuples::{Handled, tuple_list}};
     use railcar_graph::ParametricGraph;
 
     use crate::{
         config::CORPUS_CACHE_SIZE,
-        feedback::{coverage_observer, validity_observer, StdFeedback, UniqCrashFeedback},
+        feedback::{make_observers, StdFeedback, UniqCrashFeedback},
         mutation::parametric_mutations,
         scheduler::StdScheduler,
         worker::Worker,
@@ -464,14 +444,13 @@ pub mod parametric {
     ) -> Result<()> {
         let mut worker = Worker::new(config.into())?;
 
-        let coverage_map = coverage_observer(
+        let (coverage_map, validity) = make_observers(
             worker
                 .coverage_mut()
                 .expect("must init coverage map for fuzzing"),
         );
-        let (_, validity) = validity_observer();
 
-        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity);
+        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity, validity.handle());
         let mut objective = UniqCrashFeedback::new(&coverage_map);
 
         let mut state = state.unwrap_or_else(|| {
@@ -511,13 +490,13 @@ pub mod graph {
         corpus::{CachedOnDiskCorpus, OnDiskCorpus},
         state::StdState,
     };
-    use libafl_bolts::{rands::StdRand, tuples::tuple_list};
+    use libafl_bolts::{rands::StdRand, tuples::{Handled, tuple_list}};
     use railcar_graph::Graph;
 
     use crate::{
         client::GraphGenerator,
         config::CORPUS_CACHE_SIZE,
-        feedback::{coverage_observer, validity_observer, StdFeedback, UniqCrashFeedback},
+        feedback::{make_observers, StdFeedback, UniqCrashFeedback},
         mutation::GraphMutator,
         scheduler::StdScheduler,
         worker::Worker,
@@ -532,14 +511,13 @@ pub mod graph {
     ) -> Result<()> {
         let mut worker = Worker::new(config.into())?;
 
-        let coverage_map = coverage_observer(
+        let (coverage_map, validity) = make_observers(
             worker
                 .coverage_mut()
                 .expect("must init coverage map for fuzzing"),
         );
-        let (_, validity) = validity_observer();
 
-        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity);
+        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity, validity.handle());
         let mut objective = UniqCrashFeedback::new(&coverage_map);
 
         let mut state = state.unwrap_or_else(|| {

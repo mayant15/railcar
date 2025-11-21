@@ -13,7 +13,12 @@ fn get_total_mut_ptr(shmem: &mut MmapShMem) -> *mut u32 {
 
 #[inline]
 fn get_map_mut_slice(shmem: &mut MmapShMem) -> &mut [u8] {
-    &mut shmem[4..]
+    &mut shmem[5..]
+}
+
+#[inline]
+fn get_valid_mut_ptr(shmem: &mut MmapShMem) -> &mut u8 {
+    &mut shmem[4]
 }
 
 #[napi]
@@ -49,5 +54,10 @@ impl CoverageMap {
         map[key] = hits;
 
         Ok(())
+    }
+
+    #[napi]
+    pub fn set_valid(&mut self, is_valid: bool) {
+        *get_valid_mut_ptr(&mut self.shmem) = if is_valid { 1 } else { 0 };
     }
 }

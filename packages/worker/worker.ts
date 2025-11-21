@@ -92,7 +92,7 @@ async function init(args: InitArgs): Promise<Schema | null> {
         return null;
     } else {
         // both parametric and graph should use the same executor
-        _executor = new GraphExecutor();
+        _executor = new GraphExecutor(_coverage);
 
         const schema = await _executor.init(
             args.entrypoint,

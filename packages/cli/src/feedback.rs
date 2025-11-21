@@ -2,7 +2,7 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use std::{borrow::Cow, cell::RefCell, marker::PhantomData};
+use std::{borrow::Cow, marker::PhantomData};
 
 use libafl::{
     corpus::Testcase,
@@ -11,12 +11,11 @@ use libafl::{
     feedbacks::{AflMapFeedback, Feedback, StateInitializer},
     inputs::Input,
     monitors::stats::{AggregatorOps, UserStats, UserStatsValue},
-    observers::{HitcountsMapObserver, RefCellValueObserver, StdMapObserver},
+    observers::{HitcountsMapObserver, Observer, StdMapObserver},
     state::{HasCorpus, HasExecutions},
     HasNamedMetadata,
 };
 use libafl_bolts::{
-    ownedref::OwnedRef,
     shmem::ShMem,
     tuples::{Handle, Handled, MatchFirstType, MatchName, MatchNameRef},
     Named,
@@ -28,12 +27,17 @@ type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
 
 #[inline]
 unsafe fn get_coverage_slice<S: ShMem>(shmem: &mut S) -> &mut [u8] {
-    &mut shmem[4..]
+    &mut shmem[5..]
 }
 
 #[inline]
 unsafe fn get_total_edges(coverage_ptr: *const u8) -> u32 {
     *coverage_ptr.sub(4).cast()
+}
+
+#[inline]
+fn get_validity_ptr<S: ShMem>(shmem: &mut S) -> *mut u8 {
+    &mut shmem[4]
 }
 
 /// Create a new coverage observer
@@ -47,32 +51,55 @@ unsafe fn get_total_edges(coverage_ptr: *const u8) -> u32 {
 /// should ideally have a better abstraction here than pointer arithmetic but meh.
 ///
 /// See Worker::coverage_mut() for more details.
-pub fn coverage_observer<S>(shmem: &mut S) -> CoverageObserver
+pub fn make_observers<S>(shmem: &mut S) -> (CoverageObserver, ValidityObserver)
 where
     S: ShMem,
 {
-    HitcountsMapObserver::new(unsafe {
-        let map = get_coverage_slice(shmem);
-        StdMapObserver::from_mut_ptr("CodeCoverage", map.as_mut_ptr(), map.len())
-    })
+    (
+        HitcountsMapObserver::new(unsafe {
+            let map = get_coverage_slice(shmem);
+            StdMapObserver::from_mut_ptr("CodeCoverage", map.as_mut_ptr(), map.len())
+        }),
+        ValidityObserver::new(get_validity_ptr(shmem)),
+    )
 }
 
-// TODO: Ideally this shouldn't be global. The RefCell approach doesn't seem to work, the
-// underlying boolean is copied at some point and the observer always sees a stale value.
-static mut IS_VALID_INPUT: bool = true;
-
-pub type Validity = bool;
-
-/// Create a new validity observer
-pub fn validity_observer() -> (RefCell<Validity>, RefCellValueObserver<'static, Validity>) {
-    let cell = RefCell::new(unsafe { IS_VALID_INPUT });
-    let observer = RefCellValueObserver::new("IsValidInput", unsafe { OwnedRef::from_ptr(&cell) });
-    (cell, observer)
+// TODO: Why does this need to be serializable?
+#[derive(Serialize, Deserialize)]
+pub struct ValidityObserver {
+    #[serde(skip)]
+    ptr: *mut u8,
 }
 
-pub fn set_valid(value: bool) {
-    unsafe {
-        IS_VALID_INPUT = value;
+impl ValidityObserver {
+    #[inline]
+    pub fn new(ptr: *mut u8) -> Self {
+        Self { ptr }
+    }
+
+    #[inline]
+    pub fn is_valid(&self) -> bool {
+        unsafe { *self.ptr == 1 }
+    }
+
+    #[inline]
+    pub fn set_is_valid(&mut self, val: bool) {
+        unsafe { *self.ptr = if val { 1 } else { 0 } };
+    }
+}
+
+impl Named for ValidityObserver {
+    fn name(&self) -> &Cow<'static, str> {
+        static NAME: Cow<'static, str> = Cow::Borrowed("IsValidInput");
+        &NAME
+    }
+}
+
+impl<I, S> Observer<I, S> for ValidityObserver {
+    fn pre_exec(&mut self, _state: &mut S, _input: &I) -> Result<(), libafl::Error> {
+        // assume an input is valid unless we learn otherwise
+        unsafe { *self.ptr = 1 };
+        Ok(())
     }
 }
 
@@ -85,23 +112,21 @@ libafl_bolts::impl_serdeany!(ValidityMetadata);
 
 pub struct ValidityFeedback {
     last_result: Option<bool>,
+    handle: Handle<ValidityObserver>,
 }
 
 impl ValidityFeedback {
-    pub fn new() -> Self {
-        Self { last_result: None }
-    }
-}
-
-impl Default for ValidityFeedback {
-    fn default() -> Self {
-        Self::new()
+    pub fn new(observer: Handle<ValidityObserver>) -> Self {
+        Self {
+            last_result: None,
+            handle: observer,
+        }
     }
 }
 
 impl<EM, I, OT, S> Feedback<EM, I, OT, S> for ValidityFeedback
 where
-    OT: MatchFirstType,
+    OT: MatchName,
     EM: EventFirer<I, S>,
     S: HasNamedMetadata + HasExecutions,
 {
@@ -110,10 +135,15 @@ where
         _state: &mut S,
         _manager: &mut EM,
         _input: &I,
-        _observers: &OT,
+        observers: &OT,
         _exit_kind: &ExitKind,
     ) -> Result<bool, libafl::Error> {
-        let is_valid_input = unsafe { IS_VALID_INPUT };
+        let Some(observer) = observers.get(&self.handle) else {
+            return Err(libafl::Error::illegal_state(format!(
+                "missing validity observer"
+            )));
+        };
+        let is_valid_input = observer.is_valid();
         self.last_result = Some(is_valid_input);
         Ok(is_valid_input)
     }
@@ -193,10 +223,14 @@ pub struct StdFeedback {
 }
 
 impl StdFeedback {
-    pub fn new(coverage_map: &CoverageObserver, use_validity: bool) -> Self {
+    pub fn new(
+        coverage_map: &CoverageObserver,
+        use_validity: bool,
+        validity: Handle<ValidityObserver>,
+    ) -> Self {
         Self {
             use_validity,
-            validity: ValidityFeedback::new(),
+            validity: ValidityFeedback::new(validity),
             total_coverage: CoverageFeedback::with_name("TotalCoverage", coverage_map),
             valid_coverage: CoverageFeedback::with_name("ValidCoverage", coverage_map),
             map_ref: coverage_map.handle(),
