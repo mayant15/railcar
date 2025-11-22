@@ -11,97 +11,18 @@ use libafl::{
     feedbacks::{AflMapFeedback, Feedback, StateInitializer},
     inputs::Input,
     monitors::stats::{AggregatorOps, UserStats, UserStatsValue},
-    observers::{HitcountsMapObserver, Observer, StdMapObserver},
     state::{HasCorpus, HasExecutions},
     HasNamedMetadata,
 };
 use libafl_bolts::{
-    shmem::ShMem,
     tuples::{Handle, Handled, MatchFirstType, MatchName, MatchNameRef},
     Named,
 };
 use serde::{Deserialize, Serialize};
 
-type CoverageObserver = HitcountsMapObserver<StdMapObserver<'static, u8, false>>;
+use crate::observer::{CoverageObserver, Observers, TotalEdgesObserver, ValidityObserver};
+
 type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
-
-#[inline]
-unsafe fn get_coverage_slice<S: ShMem>(shmem: &mut S) -> &mut [u8] {
-    &mut shmem[5..]
-}
-
-#[inline]
-unsafe fn get_total_edges(coverage_ptr: *const u8) -> u32 {
-    *coverage_ptr.sub(4).cast()
-}
-
-#[inline]
-fn get_validity_ptr<S: ShMem>(shmem: &mut S) -> *mut u8 {
-    &mut shmem[4]
-}
-
-/// Create a new coverage observer
-///
-/// This is a view over a previously allocated memory buffer. The coverage map is a &[u8]
-/// indexed by edge IDs with each u8 their hitcount. This is shared with the worker process
-/// and should therefore be allocated via ShMem. The worker process is responsible for updating
-/// the map as the target executes.
-///
-/// The first four bytes of the coverage map encode the total number of edges, as a u32. We
-/// should ideally have a better abstraction here than pointer arithmetic but meh.
-///
-/// See Worker::coverage_mut() for more details.
-pub fn make_observers<S>(shmem: &mut S) -> (CoverageObserver, ValidityObserver)
-where
-    S: ShMem,
-{
-    (
-        HitcountsMapObserver::new(unsafe {
-            let map = get_coverage_slice(shmem);
-            StdMapObserver::from_mut_ptr("CodeCoverage", map.as_mut_ptr(), map.len())
-        }),
-        ValidityObserver::new(get_validity_ptr(shmem)),
-    )
-}
-
-// TODO: Why does this need to be serializable?
-#[derive(Serialize, Deserialize)]
-pub struct ValidityObserver {
-    #[serde(skip)]
-    ptr: *mut u8,
-}
-
-impl ValidityObserver {
-    #[inline]
-    pub fn new(ptr: *mut u8) -> Self {
-        Self { ptr }
-    }
-
-    #[inline]
-    pub fn is_valid(&self) -> bool {
-        unsafe { *self.ptr == 1 }
-    }
-
-    #[inline]
-    pub fn set_is_valid(&mut self, val: bool) {
-        unsafe { *self.ptr = if val { 1 } else { 0 } };
-    }
-}
-
-impl Named for ValidityObserver {
-    fn name(&self) -> &Cow<'static, str> {
-        static NAME: Cow<'static, str> = Cow::Borrowed("IsValidInput");
-        &NAME
-    }
-}
-
-impl<I, S> Observer<I, S> for ValidityObserver {
-    fn pre_exec(&mut self, _state: &mut S, _input: &I) -> Result<(), libafl::Error> {
-        // assume an input is valid unless we learn otherwise
-        unsafe { *self.ptr = 1 };
-        Ok(())
-    }
-}
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 struct ValidityMetadata {
@@ -110,9 +31,10 @@ struct ValidityMetadata {
 
 libafl_bolts::impl_serdeany!(ValidityMetadata);
 
+/// Checks if the validity observer is true.
 pub struct ValidityFeedback {
-    last_result: Option<bool>,
     handle: Handle<ValidityObserver>,
+    last_result: Option<bool>,
 }
 
 impl ValidityFeedback {
@@ -139,9 +61,9 @@ where
         _exit_kind: &ExitKind,
     ) -> Result<bool, libafl::Error> {
         let Some(observer) = observers.get(&self.handle) else {
-            return Err(libafl::Error::illegal_state(format!(
-                "missing validity observer"
-            )));
+            return Err(libafl::Error::illegal_state(
+                "missing validity observer".to_string(),
+            ));
         };
         let is_valid_input = observer.is_valid();
         self.last_result = Some(is_valid_input);
@@ -204,6 +126,89 @@ where
         Ok(())
     }
 }
+
+struct TotalEdgesFeedback {
+    edges: u32,
+    last_result: bool,
+    handle: Handle<TotalEdgesObserver>,
+}
+
+impl TotalEdgesFeedback {
+    fn new(handle: Handle<TotalEdgesObserver>) -> Self {
+        Self {
+            edges: 0,
+            last_result: false,
+            handle,
+        }
+    }
+}
+
+impl Named for TotalEdgesFeedback {
+    fn name(&self) -> &Cow<'static, str> {
+        static NAME: Cow<'static, str> = Cow::Borrowed("TotalEdges");
+        &NAME
+    }
+}
+
+impl<EM, I, OT, S> Feedback<EM, I, OT, S> for TotalEdgesFeedback
+where
+    EM: EventFirer<I, S>,
+    OT: MatchName,
+    S: HasExecutions,
+{
+    fn last_result(&self) -> Result<bool, libafl::Error> {
+        Ok(self.last_result)
+    }
+
+    fn is_interesting(
+        &mut self,
+        state: &mut S,
+        manager: &mut EM,
+        _input: &I,
+        observers: &OT,
+        _exit_kind: &ExitKind,
+    ) -> Result<bool, libafl::Error> {
+        let Some(observer) = observers.get(&self.handle) else {
+            return Err(libafl::Error::illegal_state("missing total edges observer"));
+        };
+
+        let new_edges = *observer.value();
+
+        if new_edges < self.edges {
+            return Err(libafl::Error::illegal_state(
+                "total number of instrumented edges must not decrease",
+            ));
+        }
+
+        // if the total number of instrumented edges has increased, record it
+        let is_interesting = if new_edges > self.edges {
+            self.edges = new_edges;
+            manager.fire(
+                state,
+                EventWithStats::with_current_time(
+                    Event::UpdateUserStats {
+                        name: Cow::Borrowed("totaledges"),
+                        value: UserStats::new(
+                            UserStatsValue::Number(new_edges.into()),
+                            AggregatorOps::Sum,
+                        ),
+                        phantom: PhantomData,
+                    },
+                    *state.executions(),
+                ),
+            )?;
+            true
+        } else {
+            false
+        };
+
+        self.last_result = is_interesting;
+        Ok(is_interesting)
+    }
+}
+
+impl<S> StateInitializer<S> for TotalEdgesFeedback {}
+
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 struct StdFeedbackMetadata {
     valid_corpus_size: u64,
@@ -213,27 +218,26 @@ struct StdFeedbackMetadata {
 libafl_bolts::impl_serdeany!(StdFeedbackMetadata);
 
 pub struct StdFeedback {
+    use_validity: bool,
+
+    // sub feedbacks
+    total_edges: TotalEdgesFeedback,
     validity: ValidityFeedback,
     total_coverage: CoverageFeedback,
     valid_coverage: CoverageFeedback,
 
-    use_validity: bool,
     last_result: Option<bool>,
-    map_ref: Handle<CoverageObserver>,
 }
 
 impl StdFeedback {
-    pub fn new(
-        coverage_map: &CoverageObserver,
-        use_validity: bool,
-        validity: Handle<ValidityObserver>,
-    ) -> Self {
+    pub fn new(use_validity: bool, observers: &Observers) -> Self {
+        let (coverage, (validity, (total_edges, _))) = observers;
         Self {
             use_validity,
-            validity: ValidityFeedback::new(validity),
-            total_coverage: CoverageFeedback::with_name("TotalCoverage", coverage_map),
-            valid_coverage: CoverageFeedback::with_name("ValidCoverage", coverage_map),
-            map_ref: coverage_map.handle(),
+            total_edges: TotalEdgesFeedback::new(total_edges.handle()),
+            validity: ValidityFeedback::new(validity.handle()),
+            total_coverage: CoverageFeedback::with_name("TotalCoverage", coverage),
+            valid_coverage: CoverageFeedback::with_name("ValidCoverage", coverage),
             last_result: None,
         }
     }
@@ -269,14 +273,19 @@ where
             .validity
             .is_interesting(state, manager, input, observers, exit_kind)?;
 
-        let is_interesting = if self.use_validity && is_valid {
-            let is_new_valid_coverage = self
-                .valid_coverage
-                .is_interesting(state, manager, input, observers, exit_kind)?;
-            is_new_total_coverage || is_new_valid_coverage
+        let is_new_instrumentation = self
+            .total_edges
+            .is_interesting(state, manager, input, observers, exit_kind)?;
+
+        let is_new_valid_coverage = if self.use_validity && is_valid {
+            self.valid_coverage
+                .is_interesting(state, manager, input, observers, exit_kind)?
         } else {
-            is_new_total_coverage
+            false
         };
+
+        let is_interesting =
+            is_new_total_coverage || is_new_instrumentation || is_new_valid_coverage;
 
         self.last_result = Some(is_interesting);
         Ok(is_interesting)
@@ -334,36 +343,6 @@ where
                         name: Cow::Borrowed("validcorpus"),
                         value: UserStats::new(
                             UserStatsValue::Number(valid_corpus_count),
-                            AggregatorOps::Sum,
-                        ),
-                        phantom: PhantomData,
-                    },
-                    *state.executions(),
-                ),
-            )?;
-        }
-
-        // if the total number of instrumented edges has increased, record it
-        let map = observers.get(&self.map_ref).unwrap().map();
-        let total_edges = unsafe { get_total_edges(map.as_ptr()) };
-        let has_new_instrumentation = {
-            let meta = state.named_metadata_mut::<StdFeedbackMetadata>(self.name())?;
-            if total_edges > meta.total_edges_instrumented {
-                meta.total_edges_instrumented = total_edges;
-                true
-            } else {
-                false
-            }
-        };
-
-        if has_new_instrumentation {
-            manager.fire(
-                state,
-                EventWithStats::with_current_time(
-                    Event::UpdateUserStats {
-                        name: Cow::Borrowed("totaledges"),
-                        value: UserStats::new(
-                            UserStatsValue::Number(total_edges.into()),
                             AggregatorOps::Sum,
                         ),
                         phantom: PhantomData,

@@ -3,34 +3,21 @@
 use libafl_bolts::shmem::{MmapShMem, MmapShMemProvider, ShMemDescription, ShMemProvider};
 use napi::{Env, JsNumber, JsObject};
 
+use railcar_graph::shmem::ShMemView;
+
 #[macro_use]
 extern crate napi_derive;
 
-#[inline]
-fn get_total_mut_ptr(shmem: &mut MmapShMem) -> *mut u32 {
-    shmem.as_mut_ptr().cast::<u32>()
-}
-
-#[inline]
-fn get_map_mut_slice(shmem: &mut MmapShMem) -> &mut [u8] {
-    &mut shmem[5..]
-}
-
-#[inline]
-fn get_valid_mut_ptr(shmem: &mut MmapShMem) -> &mut u8 {
-    &mut shmem[4]
-}
-
 #[napi]
-pub struct CoverageMap {
+pub struct SharedExecutionData {
     shmem: MmapShMem,
 }
 
 #[napi]
-impl CoverageMap {
+impl SharedExecutionData {
     #[napi(constructor)]
     pub fn new(env: Env, desc: JsObject) -> napi::Result<Self> {
-        let desc: ShMemDescription = env.from_js_value(desc).unwrap();
+        let desc: ShMemDescription = env.from_js_value(desc)?;
         let mut provider = MmapShMemProvider::new().unwrap();
         let shmem = provider.shmem_from_description(desc).unwrap();
         Ok(Self { shmem })
@@ -43,11 +30,11 @@ impl CoverageMap {
             napi::Error::from_reason(format!("failed to convert u32 -> usize {}", e))
         })?;
 
-        // set total
-        unsafe { *get_total_mut_ptr(&mut self.shmem) = total };
+        let data = ShMemView::from_mut(&mut self.shmem);
+        data.total_edges = total;
 
         // set count
-        let map = get_map_mut_slice(&mut self.shmem);
+        let map = &mut data.coverage;
         let key = edge_id % map.len();
         let hits = map[key];
         let hits = if hits == 255 { 1 } else { hits + 1 };
@@ -58,6 +45,7 @@ impl CoverageMap {
 
     #[napi]
     pub fn set_valid(&mut self, is_valid: bool) {
-        *get_valid_mut_ptr(&mut self.shmem) = if is_valid { 1 } else { 0 };
+        let data = ShMemView::from_mut(&mut self.shmem);
+        data.is_valid = is_valid;
     }
 }

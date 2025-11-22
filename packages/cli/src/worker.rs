@@ -16,10 +16,10 @@ use nix::{
     sys::wait::WaitStatus,
     unistd::{ForkResult, Pid},
 };
-use railcar_graph::Schema;
+use railcar_graph::{shmem::ShMemView, Schema};
 use serde::{Deserialize, Serialize};
 
-use crate::{client::FuzzerMode, config::COVERAGE_MAP_SIZE};
+use crate::client::FuzzerMode;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct InvokeArgs {
@@ -33,7 +33,7 @@ pub struct InitArgs {
     mode: FuzzerMode,
     entrypoint: PathBuf,
     schema_file: Option<PathBuf>,
-    coverage: Option<ShMemDescription>,
+    shmem: Option<ShMemDescription>,
     replay: bool,
     config_file: PathBuf,
 }
@@ -125,7 +125,7 @@ impl Child {
 pub struct Worker {
     proc: Child,
     schema: Option<Schema>,
-    coverage: Option<MmapShMem>,
+    shmem: Option<MmapShMem>,
 }
 
 /// Spawn a NodeJS subprocess to run the target
@@ -173,21 +173,21 @@ fn spawn_node_child() -> Result<Child> {
 
 impl Worker {
     pub fn new(args: WorkerArgs) -> Result<Self> {
-        let coverage = if args.replay {
-            // we don't need coverage maps for replay
+        let shmem = if args.replay {
+            // we don't need any shmem for replay
             None
         } else {
             // MmapShMemProvider is stateless, don't need to save it. Can create new
             // providers as required (see Self::release_shmem)
-            let mut shmem_provider = MmapShMemProvider::new()?;
-            Some(shmem_provider.new_shmem(COVERAGE_MAP_SIZE)?)
+            let mut provider = MmapShMemProvider::new()?;
+            Some(ShMemView::alloc(&mut provider)?)
         };
 
         let proc = spawn_node_child()?;
 
         let mut worker = Self {
             proc,
-            coverage,
+            shmem,
             schema: None,
         };
 
@@ -196,7 +196,7 @@ impl Worker {
             entrypoint: args.entrypoint,
             schema_file: args.schema_file,
             replay: args.replay,
-            coverage: worker.coverage.as_ref().map(|c| c.description()),
+            shmem: worker.shmem.as_ref().map(|c| c.description()),
             config_file: args.config_file,
         }))?;
 
@@ -249,25 +249,14 @@ impl Worker {
         self.schema.as_ref()
     }
 
-    /// This is a lie. The coverage shmem is not just the edges hit, but
-    /// the first four bytes are the total number of edges instrumented
-    /// so far (because of dynamic imports, we don't know the total until
-    /// run-time). However, it is easier to just use the entire buffer for
-    /// feedback. This is correct because a change in the first four bytes
-    /// implies new instrumentation, which is also interesting for the fuzzer.
-    ///
-    /// See railcar_worker_sys::CoverageMap::record_hit for writes to this shmem.
-    /// See @railcar/worker worker.ts setupHooks() for instrumentation.
-    /// See railcar::feedback::StdFeedback::append_metadata for reads of total.
-    /// See railcar::feedback::coverage_observer() for initialization of hitcounts map.
-    pub fn coverage_mut(&mut self) -> Option<&mut MmapShMem> {
-        self.coverage.as_mut()
+    pub fn shmem_mut(&mut self) -> Option<&mut MmapShMem> {
+        self.shmem.as_mut()
     }
 
     fn release_shmem(&mut self) -> Result<()> {
-        if let Some(coverage) = self.coverage_mut() {
+        if let Some(shmem) = self.shmem_mut() {
             let mut provider = MmapShMemProvider::new()?;
-            provider.release_shmem(coverage);
+            provider.release_shmem(shmem);
         }
         Ok(())
     }

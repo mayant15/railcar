@@ -13,7 +13,7 @@ import {
     type EndpointName,
 } from "@railcar/inference";
 import type { Oracle } from "@railcar/support";
-import type { CoverageMap } from "@railcar/worker-sys";
+import type { SharedExecutionData } from "@railcar/worker-sys";
 
 import { ExitKind, withOracle } from "./common.js";
 import { ENABLE_DEBUG_INFO, ENABLE_HEAVY_ASSERTIONS } from "./config.js";
@@ -21,10 +21,10 @@ import { ENABLE_DEBUG_INFO, ENABLE_HEAVY_ASSERTIONS } from "./config.js";
 export class GraphExecutor {
     _executor: (graph: Graph) => Promise<ExitKind> = (_) =>
         Promise.resolve(ExitKind.Ok);
-    _coverage: CoverageMap | null = null
+    _shmem: SharedExecutionData | null = null;
 
-    constructor(coverage: CoverageMap | null) {
-        this._coverage = coverage
+    constructor(shmem: SharedExecutionData | null) {
+        this._shmem = shmem;
     }
 
     async init(
@@ -44,7 +44,7 @@ export class GraphExecutor {
             (graph) => interpret(endpoints, graph),
             oracle,
             logError,
-            this._coverage,
+            this._shmem,
         );
 
         if (ENABLE_DEBUG_INFO) {

@@ -1200,6 +1200,7 @@ dependencies = [
 name = "railcar_graph"
 version = "0.1.9"
 dependencies = [
+ "anyhow",
  "libafl",
  "libafl_bolts",
  "log",
@@ -1236,6 +1237,7 @@ dependencies = [
  "napi",
  "napi-build",
  "napi-derive",
+ "railcar_graph",
 ]
 
 [[package]]

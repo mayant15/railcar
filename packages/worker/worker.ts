@@ -10,7 +10,7 @@ import { decode, encode } from "@msgpack/msgpack";
 
 import type { Schema, Graph } from "@railcar/inference";
 import { makeRailcarConfig } from "@railcar/support";
-import { CoverageMap } from "@railcar/worker-sys";
+import { SharedExecutionData } from "@railcar/worker-sys";
 
 import type { ExitKind } from "./common.ts";
 import { codeCoverage } from "./instrument.js";
@@ -37,7 +37,7 @@ type InitArgs = {
     mode: Mode;
     entrypoint: string;
     schemaFile: string | null;
-    coverage: ShMemDescription | null;
+    shmem: ShMemDescription | null;
     replay: boolean;
     configFile: string;
 };
@@ -51,7 +51,7 @@ type Message =
     | "Terminate";
 
 let _executor: BytesExecutor | GraphExecutor | null = null;
-let _coverage: CoverageMap | null = null;
+let _shmem: SharedExecutionData | null = null;
 
 async function exists(path: string) {
     try {
@@ -78,21 +78,21 @@ async function init(args: InitArgs): Promise<Schema | null> {
 
     if (!args.replay) {
         assert(
-            args.coverage !== null,
+            args.shmem !== null,
             "fuzzer must provide a shmem coverage map if not replay",
         );
-        _coverage = new CoverageMap(args.coverage);
+        _shmem = new SharedExecutionData(args.shmem);
 
         setupHooks(config.instrumentFilter);
     }
 
     if (args.mode === "bytes") {
-        _executor = new BytesExecutor();
+        _executor = new BytesExecutor(_shmem);
         await _executor.init(args.entrypoint, config.oracle, args.replay);
         return null;
     } else {
         // both parametric and graph should use the same executor
-        _executor = new GraphExecutor(_coverage);
+        _executor = new GraphExecutor(_shmem);
 
         const schema = await _executor.init(
             args.entrypoint,
@@ -195,7 +195,7 @@ function setupHooks(filter: (_: string) => boolean) {
 
     global.__railcar__ = {
         recordHit(edge: number) {
-            _coverage!.recordHit(edge, getNumEdges());
+            _shmem!.recordHit(edge, getNumEdges());
         },
     };
 

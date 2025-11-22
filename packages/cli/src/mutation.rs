@@ -131,10 +131,7 @@ trait ReversibleMutator<S, I: Input> {
     fn perform(&mut self, state: &mut S, input: &mut I) -> Result<MutationResult, libafl::Error>;
 }
 
-pub type SimpleGraphMutationsType = tuple_list_type!(
-    Truncate,
-    Extend,
-);
+pub type SimpleGraphMutationsType = tuple_list_type!(Truncate, Extend,);
 
 pub type ComplexGraphMutationsType = tuple_list_type!(
     SpliceIn,
@@ -217,10 +214,7 @@ fn complex_graph_mutations() -> ComplexGraphMutationsType {
 }
 
 fn simple_graph_mutations() -> SimpleGraphMutationsType {
-    tuple_list!(
-        Truncate::new(),
-        Extend::new(),
-    )
+    tuple_list!(Truncate::new(), Extend::new(),)
 }
 
 pub fn parametric_mutations() -> ParametricMutationsType {

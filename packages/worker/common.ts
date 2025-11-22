@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import type { Oracle } from "@railcar/support";
-import type { CoverageMap } from "@railcar/worker-sys"
+import type { SharedExecutionData } from "@railcar/worker-sys";
 
 export enum ExitKind {
     Ok = 0,
@@ -14,7 +14,7 @@ export function withOracle<I>(
     fuzz: (_: I) => void | Promise<void>,
     oracle: Oracle,
     logError: boolean = false,
-    coverage: CoverageMap | null = null
+    shmem: SharedExecutionData | null = null,
 ): (_: I) => Promise<ExitKind> {
     return async (data: I) => {
         try {
@@ -26,15 +26,21 @@ export function withOracle<I>(
             }
 
             if (oracle(err)) {
-                if (coverage) { coverage.setValid(true) }
-                return ExitKind.Crash
+                if (shmem) {
+                    shmem.setValid(true);
+                }
+                return ExitKind.Crash;
             } else {
-                if (coverage) { coverage.setValid(false) }
-                return ExitKind.Invalid
+                if (shmem) {
+                    shmem.setValid(false);
+                }
+                return ExitKind.Invalid;
             }
         }
 
-        if (coverage) { coverage.setValid(true) }
+        if (shmem) {
+            shmem.setValid(true);
+        }
         return ExitKind.Ok;
     };
 }

@@ -23,6 +23,7 @@ use crate::rng::BytesRand;
 
 mod config;
 pub mod rng;
+pub mod shmem;
 
 pub type EndpointName = String;
 pub type NodeId = usize;

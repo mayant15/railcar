@@ -20,6 +20,4 @@ pub const MUTATE_SCHEMA_PRESERVE_CLASS_STRUCTURE: bool = true;
 pub const MUTATE_SCHEMA_CREATE_ANY_GUESS_RATE: f64 = 0.05;
 const_assert!(MUTATE_SCHEMA_CREATE_ANY_GUESS_RATE <= 1.0);
 
-pub const COVERAGE_MAP_SIZE: usize = 1 << 16;
-
 pub const CORPUS_CACHE_SIZE: usize = 512;

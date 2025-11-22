@@ -280,7 +280,7 @@ fn launch_fuzzer<M, F, I, OT, G, SH, OB>(
 ) -> Result<()>
 where
     I: ToFuzzerInput + Input,
-    OT: ObserversTuple<I, State<I>> + Serialize + for <'de> Deserialize<'de>,
+    OT: ObserversTuple<I, State<I>> + Serialize + for<'de> Deserialize<'de>,
     OB: Feedback<RestartingManager<I>, I, OT, State<I>>,
     SH: libafl::schedulers::Scheduler<I, State<I>>,
     F: Feedback<RestartingManager<I>, I, OT, State<I>>,
@@ -304,7 +304,7 @@ where
         match code {
             0 | 1 => ExitKind::Ok,
             2 => ExitKind::Crash,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     };
 
@@ -352,7 +352,8 @@ where
 pub mod bytes {
     use crate::{
         config::{CORPUS_CACHE_SIZE, MAX_INPUT_LENGTH},
-        feedback::{StdFeedback, UniqCrashFeedback, make_observers},
+        feedback::{StdFeedback, UniqCrashFeedback},
+        observer::make_observers,
         worker::Worker,
     };
 
@@ -366,7 +367,7 @@ pub mod bytes {
         schedulers::StdWeightedScheduler,
         state::StdState,
     };
-    use libafl_bolts::{rands::StdRand, tuples::{Handled, tuple_list}};
+    use libafl_bolts::rands::StdRand;
 
     pub fn start(
         state: Option<State<BytesInput>>,
@@ -375,15 +376,12 @@ pub mod bytes {
     ) -> Result<()> {
         let mut worker = Worker::new(config.into())?;
 
-        let (coverage_map, validity) = make_observers(
-            worker
-                .coverage_mut()
-                .expect("must init coverage map for fuzzing"),
-        );
+        let observers = make_observers(worker.shmem_mut().expect("must init shmem for fuzzing"));
+        let coverage = &observers.0;
 
         // we don't want coverage feedback but we still want to count valid execution stats
-        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity, validity.handle());
-        let mut objective = UniqCrashFeedback::new(&coverage_map);
+        let mut feedback = StdFeedback::new(config.use_validity, &observers);
+        let mut objective = UniqCrashFeedback::new(coverage);
 
         let mut state = state.unwrap_or_else(|| {
             StdState::new(
@@ -396,12 +394,12 @@ pub mod bytes {
             .expect("failed to create state")
         });
 
-        let scheduler = StdWeightedScheduler::new(&mut state, &coverage_map);
+        let scheduler = StdWeightedScheduler::new(&mut state, coverage);
         let generator = RandBytesGenerator::new(MAX_INPUT_LENGTH);
 
         launch_fuzzer(FuzzerLaunchArgs {
             config,
-            observers: tuple_list!(coverage_map),
+            observers,
             feedback,
             objective,
             scheduler,
@@ -421,13 +419,14 @@ pub mod parametric {
         mutators::HavocScheduledMutator,
         state::StdState,
     };
-    use libafl_bolts::{rands::StdRand, tuples::{Handled, tuple_list}};
+    use libafl_bolts::rands::StdRand;
     use railcar_graph::ParametricGraph;
 
     use crate::{
         config::CORPUS_CACHE_SIZE,
-        feedback::{make_observers, StdFeedback, UniqCrashFeedback},
+        feedback::{StdFeedback, UniqCrashFeedback},
         mutation::parametric_mutations,
+        observer::make_observers,
         scheduler::StdScheduler,
         worker::Worker,
     };
@@ -444,14 +443,11 @@ pub mod parametric {
     ) -> Result<()> {
         let mut worker = Worker::new(config.into())?;
 
-        let (coverage_map, validity) = make_observers(
-            worker
-                .coverage_mut()
-                .expect("must init coverage map for fuzzing"),
-        );
+        let observers = make_observers(worker.shmem_mut().expect("must init shmem for fuzzing"));
+        let coverage = &observers.0;
 
-        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity, validity.handle());
-        let mut objective = UniqCrashFeedback::new(&coverage_map);
+        let mut feedback = StdFeedback::new(config.use_validity, &observers);
+        let mut objective = UniqCrashFeedback::new(coverage);
 
         let mut state = state.unwrap_or_else(|| {
             StdState::new(
@@ -464,14 +460,14 @@ pub mod parametric {
             .expect("failed to create state")
         });
 
-        let scheduler = StdScheduler::new(&mut state, &coverage_map);
+        let scheduler = StdScheduler::new(&mut state, coverage);
 
         let schema = worker.schema().unwrap().clone();
         let generator = ParametricGenerator::new(&schema);
 
         launch_fuzzer(FuzzerLaunchArgs {
             config,
-            observers: tuple_list!(coverage_map, validity),
+            observers,
             feedback,
             objective,
             scheduler,
@@ -490,14 +486,15 @@ pub mod graph {
         corpus::{CachedOnDiskCorpus, OnDiskCorpus},
         state::StdState,
     };
-    use libafl_bolts::{rands::StdRand, tuples::{Handled, tuple_list}};
+    use libafl_bolts::rands::StdRand;
     use railcar_graph::Graph;
 
     use crate::{
         client::GraphGenerator,
         config::CORPUS_CACHE_SIZE,
-        feedback::{make_observers, StdFeedback, UniqCrashFeedback},
+        feedback::{StdFeedback, UniqCrashFeedback},
         mutation::GraphMutator,
+        observer::make_observers,
         scheduler::StdScheduler,
         worker::Worker,
     };
@@ -511,14 +508,11 @@ pub mod graph {
     ) -> Result<()> {
         let mut worker = Worker::new(config.into())?;
 
-        let (coverage_map, validity) = make_observers(
-            worker
-                .coverage_mut()
-                .expect("must init coverage map for fuzzing"),
-        );
+        let observers = make_observers(worker.shmem_mut().expect("must init shmem for fuzzing"));
+        let coverage = &observers.0;
 
-        let mut feedback = StdFeedback::new(&coverage_map, config.use_validity, validity.handle());
-        let mut objective = UniqCrashFeedback::new(&coverage_map);
+        let mut feedback = StdFeedback::new(config.use_validity, &observers);
+        let mut objective = UniqCrashFeedback::new(coverage);
 
         let mut state = state.unwrap_or_else(|| {
             StdState::new(
@@ -531,14 +525,14 @@ pub mod graph {
             .expect("failed to create state")
         });
 
-        let scheduler = StdScheduler::new(&mut state, &coverage_map);
+        let scheduler = StdScheduler::new(&mut state, coverage);
 
         let schema = worker.schema().unwrap().clone();
         let generator = GraphGenerator::new(&schema);
 
         launch_fuzzer(FuzzerLaunchArgs {
             config,
-            observers: tuple_list!(coverage_map, validity),
+            observers,
             feedback,
             objective,
             scheduler,
