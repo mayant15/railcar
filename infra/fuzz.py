@@ -92,7 +92,7 @@ def collect_coverage(configs: list[Config], results: str) -> str:
         conn = sqlite3.connect(db)
         cur = conn.cursor()
         row = cur.execute("""
-            select coverage, total_edges from heartbeat
+            select coverage, total_edges, valid_execs, execs from heartbeat
             where timestamp in (select max(timestamp) from heartbeat)
             """).fetchone()
 
@@ -100,16 +100,16 @@ def collect_coverage(configs: list[Config], results: str) -> str:
             print("config failed:", config)
             continue
 
-        covered, total = row
+        covered, total, valid_execs, execs = row
         coverage_pct = covered * 100 / total
         project = config.args.labels[0]
         mode = config.args.mode
         iter = config.args.labels[1]
 
-        results.append((iter, mode, project, covered, total, coverage_pct))
+        results.append((iter, mode, project, covered, total, coverage_pct, valid_execs, execs))
 
     return pd.DataFrame(results, columns=[
-        "iteration", "mode", "project", "covered", "total", "coverage"
+        "iteration", "mode", "project", "covered", "total", "coverage", "valid_execs", "execs"
     ])
 
 
@@ -121,16 +121,24 @@ def post_summary_notification(summary: str):
 
 def summarize_coverage(
     coverage: pd.DataFrame,
-    old_coverage: pd.DataFrame | None
+    old: pd.DataFrame | None
 ) -> str:
-    new_coverage = coverage.groupby(['project', 'mode']).mean()[['coverage']]
-    if old_coverage is not None:
-        old_coverage = old_coverage.groupby(['project', 'mode']).mean()[['coverage']]
-        new_coverage['change'] = new_coverage['coverage'] - old_coverage['coverage']
-        new_coverage['change'] = new_coverage['change'] * 100 / old_coverage['coverage']
-        new_coverage = new_coverage.sort_values(by='change', ascending=False)
+    new = coverage.groupby(['project', 'mode']).mean()[['coverage', "valid_execs", "execs"]]
+    if old is not None:
+        old = old.groupby(['project', 'mode']).mean()[['coverage', 'valid_execs', 'execs']]
 
-    return new_coverage.to_string(
+        new['change'] = new['coverage'] - old['coverage']
+        new['change'] = new['change'] * 100 / old['coverage']
+
+        new['change_valid_execs'] = new['valid_execs'] - old['valid_execs']
+        new['change_valid_execs'] = new['change_valid_execs'] * 100 / old['valid_execs']
+
+        new['change_execs'] = new['execs'] - old['execs']
+        new['change_execs'] = new['change_execs'] * 100 / old['execs']
+
+        new = new.sort_values(by='change', ascending=False)
+
+    return new.to_string(
         float_format=lambda f: "{:.2f}%".format(f)
     )
 
@@ -142,7 +150,9 @@ def arguments():
     parser.add_argument(
             "--iterations", type=int, default=1,
             help="number of parallel iterations")
-    parser.add_argument("--mode", action='append', help="modes to run railcar in")
+    parser.add_argument("--mode", action='append',
+                        choices=["bytes", "graph", "parametric", "sequence"],
+                        help="modes to run railcar in")
     parser.add_argument("-p", "--pin", action="store_true", help="pin fuzzer processes to a core")
     args = parser.parse_args()
 
