@@ -7,6 +7,7 @@ use crate::config::COVERAGE_MAP_SIZE;
 pub struct ShMemView {
     pub total_edges: u32,
     pub is_valid: bool,
+    pub num_calls_executed: u32,
     pub coverage: [u8; COVERAGE_MAP_SIZE],
 }
 
@@ -41,5 +42,10 @@ impl ShMemView {
     #[inline]
     pub fn total_edges_ptr(&self) -> *const u32 {
         &self.total_edges
+    }
+
+    #[inline]
+    pub fn num_calls_executed_ptr(&self) -> *const u32 {
+        &self.num_calls_executed
     }
 }

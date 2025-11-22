@@ -34,3 +34,7 @@ pako             graph    33.15%  -6.22%
 xmldom           graph     4.39%  -7.98%
 angular          graph     1.55%     NaN
 ```
+
+## API Progress Feedback
+Save input if it is more progress than its own pre-mutation version or more progress globally?
+

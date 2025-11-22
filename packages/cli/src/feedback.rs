@@ -18,9 +18,12 @@ use libafl_bolts::{
     tuples::{Handle, Handled, MatchFirstType, MatchName, MatchNameRef},
     Named,
 };
+use railcar_graph::seq::HasSeqLen;
 use serde::{Deserialize, Serialize};
 
-use crate::observer::{CoverageObserver, Observers, TotalEdgesObserver, ValidityObserver};
+use crate::observer::{
+    ApiProgressObserver, CoverageObserver, Observers, TotalEdgesObserver, ValidityObserver,
+};
 
 type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
 
@@ -209,6 +212,77 @@ where
 
 impl<S> StateInitializer<S> for TotalEdgesFeedback {}
 
+struct ApiProgressFeedback {
+    last_result: bool,
+    max_progress: i64,
+    handle: Handle<ApiProgressObserver>,
+}
+
+impl ApiProgressFeedback {
+    fn new(handle: Handle<ApiProgressObserver>) -> Self {
+        Self {
+            handle,
+            max_progress: 0,
+            last_result: false,
+        }
+    }
+
+    /// Quadratic curve that peaks at (M, M). This looks for API chains of
+    /// length M that fully complete.
+    fn progress(successful: i64, total: i64) -> i64 {
+        const M: i64 = 10;
+        let a = successful - M;
+        let b = total - M;
+        (M * M) - (a * a + b * b)
+    }
+}
+
+impl Named for ApiProgressFeedback {
+    fn name(&self) -> &Cow<'static, str> {
+        static NAME: Cow<'static, str> = Cow::Borrowed("ApiProgressFeedback");
+        &NAME
+    }
+}
+
+impl<S> StateInitializer<S> for ApiProgressFeedback {}
+
+impl<EM, I, OT, S> Feedback<EM, I, OT, S> for ApiProgressFeedback
+where
+    OT: MatchName,
+    I: HasSeqLen,
+{
+    fn last_result(&self) -> Result<bool, libafl::Error> {
+        Ok(self.last_result)
+    }
+
+    fn is_interesting(
+        &mut self,
+        _state: &mut S,
+        _manager: &mut EM,
+        input: &I,
+        observers: &OT,
+        _exit_kind: &ExitKind,
+    ) -> Result<bool, libafl::Error> {
+        let Some(observer) = observers.get(&self.handle) else {
+            return Err(libafl::Error::illegal_state(
+                "missing api progress observer".to_owned(),
+            ));
+        };
+        let successful = *observer.value();
+        let total: u32 = input.seq_len().try_into()?;
+        let progress = Self::progress(successful.into(), total.into());
+
+        if progress > self.max_progress {
+            self.max_progress = progress;
+            self.last_result = true;
+            Ok(true)
+        } else {
+            self.last_result = false;
+            Ok(false)
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 struct StdFeedbackMetadata {
     valid_corpus_size: u64,
@@ -225,19 +299,21 @@ pub struct StdFeedback {
     validity: ValidityFeedback,
     total_coverage: CoverageFeedback,
     valid_coverage: CoverageFeedback,
+    api_progress: ApiProgressFeedback,
 
     last_result: Option<bool>,
 }
 
 impl StdFeedback {
     pub fn new(use_validity: bool, observers: &Observers) -> Self {
-        let (coverage, (validity, (total_edges, _))) = observers;
+        let (coverage, (validity, (total_edges, (api_progress, _)))) = observers;
         Self {
             use_validity,
             total_edges: TotalEdgesFeedback::new(total_edges.handle()),
             validity: ValidityFeedback::new(validity.handle()),
             total_coverage: CoverageFeedback::with_name("TotalCoverage", coverage),
             valid_coverage: CoverageFeedback::with_name("ValidCoverage", coverage),
+            api_progress: ApiProgressFeedback::new(api_progress.handle()),
             last_result: None,
         }
     }
@@ -245,7 +321,7 @@ impl StdFeedback {
 
 impl<EM, I, OT, S> Feedback<EM, I, OT, S> for StdFeedback
 where
-    I: Input,
+    I: Input + HasSeqLen,
     S: HasNamedMetadata + HasCorpus<I> + Serialize + HasExecutions,
     OT: MatchFirstType + MatchName + MatchNameRef,
     EM: EventFirer<I, S>,
@@ -284,8 +360,14 @@ where
             false
         };
 
-        let is_interesting =
-            is_new_total_coverage || is_new_instrumentation || is_new_valid_coverage;
+        let is_better_progress = self
+            .api_progress
+            .is_interesting(state, manager, input, observers, exit_kind)?;
+
+        let is_interesting = is_new_total_coverage
+            || is_new_instrumentation
+            || is_new_valid_coverage
+            || is_better_progress;
 
         self.last_result = Some(is_interesting);
         Ok(is_interesting)

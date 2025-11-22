@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use libafl_bolts::shmem::{MmapShMem, MmapShMemProvider, ShMemDescription, ShMemProvider};
-use napi::{Env, JsNumber, JsObject};
+use napi::{Env, JsObject};
 
 use railcar_graph::shmem::ShMemView;
 
@@ -24,9 +24,8 @@ impl SharedExecutionData {
     }
 
     #[napi]
-    pub fn record_hit(&mut self, edge_id: JsNumber, total: JsNumber) -> napi::Result<()> {
-        let total = total.get_uint32()?;
-        let edge_id: usize = edge_id.get_uint32()?.try_into().map_err(|e| {
+    pub fn record_hit(&mut self, edge_id: u32, total: u32) -> napi::Result<()> {
+        let edge_id: usize = edge_id.try_into().map_err(|e| {
             napi::Error::from_reason(format!("failed to convert u32 -> usize {}", e))
         })?;
 
@@ -47,5 +46,11 @@ impl SharedExecutionData {
     pub fn set_valid(&mut self, is_valid: bool) {
         let data = ShMemView::from_mut(&mut self.shmem);
         data.is_valid = is_valid;
+    }
+
+    #[napi]
+    pub fn set_num_calls_executed(&mut self, num: u32) {
+        let data = ShMemView::from_mut(&mut self.shmem);
+        data.num_calls_executed = num;
     }
 }

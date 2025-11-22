@@ -17,6 +17,10 @@ use crate::{
 
 pub type NodeId = usize;
 
+pub trait HasSeqLen {
+    fn seq_len(&self) -> usize;
+}
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct ApiCall {
     name: EndpointName,
@@ -128,6 +132,12 @@ impl ApiSeq {
         clone.class_type = None;
         redistribute(rand, &mut clone.kind);
         clone
+    }
+}
+
+impl HasSeqLen for ApiSeq {
+    fn seq_len(&self) -> usize {
+        self.seq.len()
     }
 }
 

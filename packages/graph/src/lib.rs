@@ -12,18 +12,18 @@ use std::collections::HashMap;
 
 use config::{FILL_CONSTANT_RATE, FILL_REUSE_RATE};
 use libafl::{
-    inputs::{HasMutatorBytes, Input, ResizableMutator},
+    inputs::{BytesInput, HasMutatorBytes, Input, ResizableMutator},
     state::DEFAULT_MAX_SIZE,
 };
 use libafl_bolts::{rands::Rand, HasLen};
 use serde::{Deserialize, Serialize};
 
-use crate::rng::BytesRand;
 use crate::{
     config::{MAX_COMPLETE_WITH_ENDPOINTS, MAX_COMPLETION_ITER},
     rng::TrySample,
     schema::{CallConvention, EndpointName, Schema, Signature, SignatureQuery, Type},
 };
+use crate::{rng::BytesRand, seq::HasSeqLen};
 
 pub mod metrics;
 pub mod rng;
@@ -209,6 +209,12 @@ pub struct Graph {
     pub root: NodeId,
     pub nodes: BTreeMap<NodeId, Node>,
     schema: Schema,
+}
+
+impl HasSeqLen for Graph {
+    fn seq_len(&self) -> usize {
+        self.nodes.len()
+    }
 }
 
 impl HasSchema for Graph {
@@ -892,3 +898,15 @@ impl CanValidate for Graph {
 }
 
 impl CanValidate for ParametricGraph {}
+
+impl HasSeqLen for BytesInput {
+    fn seq_len(&self) -> usize {
+        1
+    }
+}
+
+impl HasSeqLen for ParametricGraph {
+    fn seq_len(&self) -> usize {
+        1
+    }
+}

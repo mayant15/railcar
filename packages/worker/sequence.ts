@@ -35,6 +35,7 @@ export class SequenceExecutor {
     _executor: (seq: ApiSeq) => Promise<ExitKind> = (_) =>
         Promise.resolve(ExitKind.Ok);
     _shmem: SharedExecutionData | null = null;
+    _num_executed: number = 0;
 
     constructor(shmem: SharedExecutionData | null) {
         this._shmem = shmem;
@@ -54,7 +55,7 @@ export class SequenceExecutor {
         );
 
         this._executor = withOracle(
-            (seq) => interpret(endpoints, seq),
+            (seq) => this.interpret(endpoints, seq),
             oracle,
             logError,
             this._shmem,
@@ -69,7 +70,26 @@ export class SequenceExecutor {
     }
 
     async execute(sequence: ApiSeq): Promise<ExitKind> {
-        return this._executor(sequence);
+        this._num_executed = 0;
+        const result = await this._executor(sequence);
+        this._shmem?.setNumCallsExecuted(this._num_executed);
+        return result;
+    }
+
+    async interpret(endpoints: Endpoints, { fuzz, seq }: ApiSeq) {
+        const ctx = {
+            fdp: new FuzzedDataProvider(fuzz),
+            endpoints,
+            objects: new Array(seq.length).fill(null),
+        };
+
+        for (let i = 0; i < seq.length; ++i) {
+            const call = seq[i];
+            const args = call.args.map((arg) => getArg(ctx, arg));
+            const result = await invokeEndpoint(ctx, call, args);
+            this._num_executed += 1;
+            ctx.objects[i] = result;
+        }
     }
 }
 
@@ -78,21 +98,6 @@ type Context = {
     fdp: FuzzedDataProvider;
     objects: unknown[];
 };
-
-async function interpret(endpoints: Endpoints, { fuzz, seq }: ApiSeq) {
-    const ctx = {
-        fdp: new FuzzedDataProvider(fuzz),
-        endpoints,
-        objects: new Array(seq.length).fill(null),
-    };
-
-    for (let i = 0; i < seq.length; ++i) {
-        const call = seq[i];
-        const args = call.args.map((arg) => getArg(ctx, arg));
-        const result = await invokeEndpoint(ctx, call, args);
-        ctx.objects[i] = result;
-    }
-}
 
 interface UnknownConstructor {
     new (...args: unknown[]): unknown;

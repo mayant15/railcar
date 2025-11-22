@@ -9,9 +9,15 @@ use libafl_bolts::{
 use railcar_graph::shmem::ShMemView;
 use serde::{Deserialize, Serialize};
 
-pub type Observers = tuple_list_type!(CoverageObserver, ValidityObserver, TotalEdgesObserver);
+pub type Observers = tuple_list_type!(
+    CoverageObserver,
+    ValidityObserver,
+    TotalEdgesObserver,
+    ApiProgressObserver
+);
 pub type CoverageObserver = HitcountsMapObserver<StdMapObserver<'static, u8, false>>;
 pub type TotalEdgesObserver = ReadOnlyPointerObserver<u32>;
+pub type ApiProgressObserver = ReadOnlyPointerObserver<u32>;
 
 pub fn make_observers<S>(shmem: &mut S) -> Observers
 where
@@ -25,6 +31,7 @@ where
         }),
         ValidityObserver::new(data.is_valid_ptr()),
         TotalEdgesObserver::new("TotalEdges", data.total_edges_ptr()),
+        ApiProgressObserver::new("ApiProgress", data.num_calls_executed_ptr()),
     )
 }
 
