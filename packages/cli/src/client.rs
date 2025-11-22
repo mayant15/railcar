@@ -26,7 +26,7 @@ use libafl_bolts::{
     shmem::{MmapShMem, MmapShMemProvider, ShMemProvider},
     tuples::tuple_list,
 };
-use railcar_graph::{Graph, HasSchema, ParametricGraph, RailcarError, Schema};
+use railcar_graph::{schema::Schema, seq::ApiSeq, Graph, HasSchema, ParametricGraph, RailcarError};
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -48,6 +48,7 @@ pub enum FuzzerMode {
     Bytes,
     Graph,
     Parametric,
+    Sequence,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -88,7 +89,7 @@ impl<S: HasRand> Generator<Graph, S> for GraphGenerator<'_> {
                 RailcarError::HugeGraph => {
                     Graph::create_small(state.rand_mut(), self.schema).map_err(|e| e.into())
                 }
-                RailcarError::Unknown(msg) => Err(libafl::Error::unknown(msg)),
+                RailcarError::Unknown(msg) => Err(libafl::Error::unknown(format!("{}", msg))),
             },
         }
     }
@@ -112,6 +113,29 @@ impl<S: HasRand> Generator<ParametricGraph, S> for ParametricGenerator<'_> {
     fn generate(&mut self, state: &mut S) -> Result<ParametricGraph, libafl::Error> {
         let bytes = self.bytes_gen.generate(state)?;
         Ok(ParametricGraph::new(self.schema.clone(), bytes.into()))
+    }
+}
+
+struct ApiSeqGenerator<'a> {
+    schema: &'a Schema,
+    bytes_gen: RandBytesGenerator,
+}
+
+impl<'a> ApiSeqGenerator<'a> {
+    fn new(schema: &'a Schema) -> Self {
+        Self {
+            schema,
+            bytes_gen: RandBytesGenerator::with_min_size(MIN_INPUT_LENGTH, MAX_INPUT_LENGTH),
+        }
+    }
+}
+
+impl<S: HasRand> Generator<ApiSeq, S> for ApiSeqGenerator<'_> {
+    fn generate(&mut self, state: &mut S) -> Result<ApiSeq, libafl::Error> {
+        let bytes = self.bytes_gen.generate(state)?;
+        ApiSeq::create(state.rand_mut(), self.schema, bytes.into()).map_err(|e| {
+            libafl::Error::unknown(format!("failed to generate an api sequence: {}", e))
+        })
     }
 }
 
@@ -156,6 +180,23 @@ impl ToFuzzerInput for Graph {
             Ok(bytes) => bytes,
             Err(e) => {
                 bail!("failed to create bytes from graph {}", e);
+            }
+        };
+
+        Ok(bytes)
+    }
+}
+
+impl ToFuzzerInput for ApiSeq {
+    fn to_fuzzer_input(&self, config: &FuzzerConfig) -> Result<Vec<u8>> {
+        if !matches!(config.mode, FuzzerMode::Sequence) {
+            bail!("sequence inputs need FuzzerMode::Sequence");
+        }
+
+        let bytes = match rmp_serde::to_vec_named(self) {
+            Ok(bytes) => bytes,
+            Err(e) => {
+                bail!("failed to create bytes from sequence {}", e);
             }
         };
 
@@ -537,6 +578,72 @@ pub mod graph {
             objective,
             scheduler,
             mutator: GraphMutator::new(config.simple_mutations),
+            generator,
+            state,
+            worker,
+            manager: restarting_mgr,
+        })
+    }
+}
+
+pub mod seq {
+    use anyhow::Result;
+    use libafl::{
+        corpus::{CachedOnDiskCorpus, OnDiskCorpus},
+        mutators::HavocScheduledMutator,
+        state::StdState,
+    };
+    use libafl_bolts::rands::StdRand;
+    use railcar_graph::seq::ApiSeq;
+
+    use crate::{
+        client::ApiSeqGenerator,
+        config::CORPUS_CACHE_SIZE,
+        feedback::{StdFeedback, UniqCrashFeedback},
+        mutation::sequence_mutations,
+        observer::make_observers,
+        scheduler::StdScheduler,
+        worker::Worker,
+    };
+
+    use super::{launch_fuzzer, FuzzerConfig, FuzzerLaunchArgs, RestartingManager, State};
+
+    pub fn start(
+        state: Option<State<ApiSeq>>,
+        restarting_mgr: RestartingManager<ApiSeq>,
+        config: &FuzzerConfig,
+    ) -> Result<()> {
+        let mut worker = Worker::new(config.into())?;
+
+        let observers = make_observers(worker.shmem_mut().expect("must init shmem for fuzzing"));
+        let coverage = &observers.0;
+
+        let mut feedback = StdFeedback::new(config.use_validity, &observers);
+        let mut objective = UniqCrashFeedback::new(coverage);
+
+        let mut state = state.unwrap_or_else(|| {
+            StdState::new(
+                StdRand::with_seed(config.seed),
+                CachedOnDiskCorpus::no_meta(config.corpus.clone(), CORPUS_CACHE_SIZE).unwrap(),
+                OnDiskCorpus::new(config.crashes.clone()).unwrap(),
+                &mut feedback,
+                &mut objective,
+            )
+            .expect("failed to create state")
+        });
+
+        let scheduler = StdScheduler::new(&mut state, coverage);
+
+        let schema = worker.schema().unwrap().clone();
+        let generator = ApiSeqGenerator::new(&schema);
+
+        launch_fuzzer(FuzzerLaunchArgs {
+            config,
+            observers,
+            feedback,
+            objective,
+            scheduler,
+            mutator: HavocScheduledMutator::new(sequence_mutations()),
             generator,
             state,
             worker,

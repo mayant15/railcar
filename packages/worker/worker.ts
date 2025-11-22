@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import assert from "node:assert";
+import assert, { AssertionError } from "node:assert";
 import fs from "node:fs/promises";
 import { Console } from "node:console";
 import { registerHooks } from "node:module";
@@ -17,6 +17,7 @@ import { codeCoverage } from "./instrument.js";
 import { BytesExecutor } from "./bytes.js";
 import { GraphExecutor } from "./graph.js";
 import { ENABLE_DEBUG_INFO } from "./config.js";
+import { type ApiSeq, SequenceExecutor } from "./sequence.js";
 
 declare global {
     var __railcar__: {
@@ -24,7 +25,7 @@ declare global {
     };
 }
 
-type Mode = "bytes" | "parametric" | "graph";
+type Mode = "bytes" | "parametric" | "graph" | "sequence";
 
 type ShMemDescription = {
     size: number;
@@ -50,7 +51,7 @@ type Message =
     | { Log: string }
     | "Terminate";
 
-let _executor: BytesExecutor | GraphExecutor | null = null;
+let _executor: BytesExecutor | GraphExecutor | SequenceExecutor | null = null;
 let _shmem: SharedExecutionData | null = null;
 
 async function exists(path: string) {
@@ -90,7 +91,7 @@ async function init(args: InitArgs): Promise<Schema | null> {
         _executor = new BytesExecutor(_shmem);
         await _executor.init(args.entrypoint, config.oracle, args.replay);
         return null;
-    } else {
+    } else if (args.mode === "graph" || args.mode === "parametric") {
         // both parametric and graph should use the same executor
         _executor = new GraphExecutor(_shmem);
 
@@ -102,6 +103,18 @@ async function init(args: InitArgs): Promise<Schema | null> {
             config.methodsToSkip,
         );
         return schema;
+    } else if (args.mode === "sequence") {
+        _executor = new SequenceExecutor(_shmem);
+        const schema = await _executor.init(
+            args.entrypoint,
+            config.oracle,
+            args.schemaFile ?? undefined,
+            args.replay,
+            config.methodsToSkip,
+        );
+        return schema;
+    } else {
+        throw new AssertionError({ message: "unreachable" });
     }
 }
 
@@ -109,9 +122,10 @@ async function invoke(bytes: Uint8Array): Promise<ExitKind> {
     assert(_executor !== null);
     if (_executor instanceof BytesExecutor) {
         return _executor.execute(bytes);
+    } else if (_executor instanceof GraphExecutor) {
+        return _executor.execute(decode(bytes) as Graph);
     } else {
-        const graph = decode(bytes) as Graph;
-        return _executor.execute(graph);
+        return _executor.execute(decode(bytes) as ApiSeq);
     }
 }
 

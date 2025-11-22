@@ -26,11 +26,16 @@ use libafl_bolts::{
 };
 
 use railcar_graph::{
-    choose,
-    rng::{context_byte_seq, extend_context_byte_seq, string, BytesRand},
-    CallConvention, CanValidate, Distribution, EndpointName, Graph, HasSchema, IncomingEdge, Node,
-    NodeId, NodePayload, OutgoingEdge, RailcarError, Signature, SignatureGuess, SignatureQuery,
-    TrySample, Type, TypeGuess, TypeKind,
+    rng::{
+        context_byte_seq, extend_context_byte_seq, redistribute, string, BytesRand, Distribution,
+        TrySample,
+    },
+    schema::{
+        CallConvention, EndpointName, Signature, SignatureGuess, SignatureQuery, Type, TypeGuess,
+        TypeKind,
+    },
+    CanValidate, Graph, HasSchema, IncomingEdge, Node, NodeId, NodePayload, OutgoingEdge,
+    RailcarError,
 };
 
 use crate::config::{
@@ -146,6 +151,8 @@ pub type ComplexGraphMutationsType = tuple_list_type!(
     ExtendConstructor,
 );
 
+pub type SequenceMutationsType = HavocMutationsType;
+
 pub type ParametricMutationsType = HavocMutationsType;
 
 pub struct GraphMutator<S> {
@@ -221,6 +228,10 @@ pub fn parametric_mutations() -> ParametricMutationsType {
     havoc_mutations()
 }
 
+pub fn sequence_mutations() -> SequenceMutationsType {
+    havoc_mutations()
+}
+
 impl Truncate {
     fn pick<R: Rand>(&self, rand: &mut R, graph: &Graph) -> Option<(NodeId, usize)> {
         let nodes: Vec<&Node> = graph
@@ -232,7 +243,7 @@ impl Truncate {
             return None;
         }
 
-        let node = choose(rand, &nodes);
+        let node = rand.choose(nodes)?;
         let out_idx = rand.below(NonZero::new(node.outgoing.len()).unwrap());
         let node_id = node.id;
 
@@ -276,7 +287,7 @@ impl Extend {
         if nodes.is_empty() {
             None
         } else {
-            Some(*choose(rand, &nodes))
+            Some(rand.choose(nodes)?)
         }
     }
 }
@@ -362,7 +373,7 @@ impl SpliceIn {
         if nodes.is_empty() {
             None
         } else {
-            Some(choose(rand, &nodes).clone())
+            Some(rand.choose(nodes)?)
         }
     }
 }
@@ -381,7 +392,12 @@ impl<S: HasRand> ReversibleMutator<S, Graph> for SpliceIn {
         let from = input.nodes.get(&from_id).unwrap();
         let from_depth = from.depth;
 
-        let edge = choose(state.rand_mut(), &from.outgoing);
+        let edge = state
+            .rand_mut()
+            .choose(&from.outgoing)
+            .ok_or(libafl::Error::illegal_state(
+                "no outgoing edges for SpliceIn",
+            ))?;
 
         let to_id = edge.dst;
         let to = input.nodes.get(&to_id).unwrap();
@@ -447,7 +463,7 @@ fn complete<R: Rand>(rand: &mut R, graph: &mut Graph) -> Result<MutationResult, 
         Ok(_) => Ok(MutationResult::Mutated),
         Err(e) => match e {
             RailcarError::HugeGraph => Ok(MutationResult::Undo),
-            RailcarError::Unknown(msg) => Err(libafl::Error::unknown(msg)),
+            RailcarError::Unknown(msg) => Err(libafl::Error::unknown(format!("{}", msg))),
         },
     }
 }
@@ -479,8 +495,7 @@ impl SpliceOut {
         if with_same_type.is_empty() {
             None
         } else {
-            let picked = choose(rand, &with_same_type);
-            Some(*picked)
+            Some(rand.choose(with_same_type)?)
         }
     }
 }
@@ -569,7 +584,7 @@ impl Crossover {
         if nodes.is_empty() {
             None
         } else {
-            Some(*choose(rand, &nodes))
+            Some(rand.choose(nodes)?)
         }
     }
 }
@@ -652,7 +667,7 @@ impl Context {
         if nodes.is_empty() {
             None
         } else {
-            Some(*choose(rand, &nodes))
+            Some(rand.choose(nodes).unwrap())
         }
     }
 
@@ -794,7 +809,7 @@ impl Swap {
         if results.is_empty() {
             None
         } else {
-            Some(choose(rand, &results).clone())
+            Some(rand.choose(results).unwrap())
         }
     }
 }
@@ -849,7 +864,7 @@ impl Priority {
         if nodes.is_empty() {
             None
         } else {
-            Some(*choose(rand, &nodes))
+            Some(rand.choose(nodes)?)
         }
     }
 }
@@ -908,8 +923,8 @@ impl TruncateDestructor {
         if nodes.is_empty() {
             None
         } else {
-            let node = choose(rand, &nodes);
-            let edge = choose(rand, &node.outgoing);
+            let node = rand.choose(nodes)?;
+            let edge = rand.choose(&node.outgoing)?;
             Some((node.id, edge.dst))
         }
     }
@@ -970,7 +985,7 @@ impl ExtendDestructor {
         if nodes.is_empty() {
             None
         } else {
-            Some(choose(rand, &nodes).clone())
+            Some(rand.choose(nodes)?)
         }
     }
 }
@@ -1031,8 +1046,8 @@ impl TruncateConstructor {
             return None;
         }
 
-        let node = choose(rand, &nodes);
-        let inc = choose(rand, &node.incoming);
+        let node = rand.choose(nodes)?;
+        let inc = rand.choose(&node.incoming)?;
 
         Some((inc.src, node.id))
     }
@@ -1085,7 +1100,7 @@ impl ExtendConstructor {
         if nodes.is_empty() {
             None
         } else {
-            Some(choose(rand, &nodes).clone())
+            Some(rand.choose(nodes)?)
         }
     }
 }
@@ -1155,25 +1170,6 @@ where
     map
 }
 
-fn redistribute<R, K>(rand: &mut R, dist: &mut Distribution<K>)
-where
-    R: Rand,
-{
-    let mut remaining = 1.0;
-    let size = dist.len();
-
-    for (idx, value) in dist.values_mut().enumerate() {
-        *value = if idx == size - 1 {
-            remaining
-        } else {
-            rand.next_float() * remaining
-        };
-
-        remaining -= *value;
-        assert!(remaining >= 0.0);
-    }
-}
-
 fn apply_schema_mutation<R, F, I>(
     rand: &mut R,
     input: &mut I,
@@ -1189,7 +1185,9 @@ where
         return Ok(MutationResult::Skipped);
     }
 
-    let endpoint = choose(rand, &endpoints);
+    let endpoint = rand
+        .choose(&endpoints)
+        .ok_or(libafl::Error::unknown("no valid endpoints"))?;
     let Some(guess) = input.schema_mut().get_mut(endpoint) else {
         return Err(libafl::Error::key_not_found(format!(
             "endpoint not found in schema {}",

@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+use anyhow::{bail, Result};
+
+#[expect(clippy::disallowed_types)]
+use std::collections::HashMap;
+
 use libafl_bolts::rands::{Rand, StdRand};
 use serde::{Deserialize, Serialize};
 
@@ -104,5 +109,55 @@ pub fn extend_context_byte_seq<R: Rand>(rand: &mut R, bytes: &mut Vec<u8>, len: 
         let src = &next_int.to_le_bytes()[0..step];
         slice.copy_from_slice(src);
         next += 8;
+    }
+}
+
+#[expect(clippy::disallowed_types)]
+pub type Distribution<K> = HashMap<K, f64>;
+
+pub fn redistribute<R, K>(rand: &mut R, dist: &mut Distribution<K>)
+where
+    R: Rand,
+{
+    let mut remaining = 1.0;
+    let size = dist.len();
+
+    for (idx, value) in dist.values_mut().enumerate() {
+        *value = if idx == size - 1 {
+            remaining
+        } else {
+            rand.next_float() * remaining
+        };
+
+        remaining -= *value;
+        assert!(remaining >= 0.0);
+    }
+}
+
+pub trait TrySample<T, R: Rand> {
+    fn sample(&self, rand: &mut R) -> Result<T>;
+}
+
+impl<K: Clone, R: Rand> TrySample<K, R> for Distribution<K> {
+    fn sample(&self, rand: &mut R) -> Result<K> {
+        if self.is_empty() {
+            bail!("distribution to sample is empty");
+        }
+
+        if self.len() == 1 {
+            let key = self.keys().next().unwrap();
+            return Ok(key.clone());
+        }
+
+        let p = rand.next_float();
+        let mut total = 0.;
+        for (key, prob) in self {
+            total += prob;
+            if p < total {
+                return Ok(key.clone());
+            }
+        }
+
+        bail!("sampling error")
     }
 }

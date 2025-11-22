@@ -2,7 +2,6 @@
 resolver = "2"
 members = [
   "packages/cli",
-  "packages/metrics",
   "packages/graph",
   "packages/worker-sys",
   "packages/tools"

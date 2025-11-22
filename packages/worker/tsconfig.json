@@ -16,6 +16,7 @@
         "./config.ts",
         "./graph.ts",
         "./bytes.ts",
+        "./sequence.ts",
         "./common.ts",
         "./instrument.ts"
     ]

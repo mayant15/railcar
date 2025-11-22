@@ -13,7 +13,7 @@ use libafl_bolts::{
     core_affinity::Cores,
     shmem::{MmapShMemProvider, ShMemProvider},
 };
-use railcar_graph::{Graph, ParametricGraph};
+use railcar_graph::{seq::ApiSeq, Graph, ParametricGraph};
 
 use railcar::client::{FuzzerConfig, FuzzerMode, RestartingManager, State, ToFuzzerInput};
 use railcar::monitor::StdMonitor;
@@ -43,7 +43,7 @@ struct Arguments {
     outdir: Option<String>,
 
     /// Fuzz driver variant to use
-    #[arg(long, value_enum, default_value_t = FuzzerMode::Graph)]
+    #[arg(long, value_enum, default_value_t = FuzzerMode::Sequence)]
     mode: FuzzerMode,
 
     /// Port to spawn the IPC broker on. If spawning multiple instances they should have different
@@ -286,6 +286,9 @@ fn main() -> Result<()> {
             FuzzerMode::Parametric => {
                 launch_replay_input::<ParametricGraph, _>(config, shmem_provider, monitor, cores)
             }
+            FuzzerMode::Sequence => {
+                launch_replay_input::<ApiSeq, _>(config, shmem_provider, monitor, cores)
+            }
         }
     } else if args.replay {
         match config.mode {
@@ -295,6 +298,9 @@ fn main() -> Result<()> {
             FuzzerMode::Graph => launch_replay::<Graph, _>(config, shmem_provider, monitor, cores),
             FuzzerMode::Parametric => {
                 launch_replay::<ParametricGraph, _>(config, shmem_provider, monitor, cores)
+            }
+            FuzzerMode::Sequence => {
+                launch_replay::<ApiSeq, _>(config, shmem_provider, monitor, cores)
             }
         }
     } else {
@@ -315,6 +321,13 @@ fn main() -> Result<()> {
             ),
             FuzzerMode::Parametric => launch_fuzzer(
                 railcar::client::parametric::start,
+                config,
+                shmem_provider,
+                monitor,
+                cores,
+            ),
+            FuzzerMode::Sequence => launch_fuzzer(
+                railcar::client::seq::start,
                 config,
                 shmem_provider,
                 monitor,

@@ -16,7 +16,7 @@ use nix::{
     sys::wait::WaitStatus,
     unistd::{ForkResult, Pid},
 };
-use railcar_graph::{shmem::ShMemView, Schema};
+use railcar_graph::{schema::Schema, shmem::ShMemView};
 use serde::{Deserialize, Serialize};
 
 use crate::client::FuzzerMode;

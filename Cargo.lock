@@ -901,17 +901,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "metrics"
-version = "0.1.9"
-dependencies = [
- "anyhow",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "miniz_oxide"
 version = "0.8.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1186,7 +1175,6 @@ dependencies = [
  "libafl",
  "libafl_bolts",
  "log",
- "metrics",
  "nix 0.29.0",
  "railcar_graph",
  "rmp-serde",
@@ -1201,11 +1189,12 @@ name = "railcar_graph"
 version = "0.1.9"
 dependencies = [
  "anyhow",
+ "chrono",
  "libafl",
  "libafl_bolts",
  "log",
- "metrics",
  "rmp-serde",
+ "rusqlite",
  "serde",
  "serde_bytes",
  "serde_json",
