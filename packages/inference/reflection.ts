@@ -367,18 +367,26 @@ export async function loadSchema(
     schemaFile?: string,
     methodsToSkip?: EndpointName[],
 ): Promise<{ schema: Schema; endpoints: Endpoints }> {
-    const main = await import(mainModule);
-
     const schema: Schema = schemaFile
         ? JSON.parse(readFileSync(schemaFile).toString())
         : {};
-    const endpoints: Endpoints = {};
+    return loadSchemaFromObject(mainModule, schema, methodsToSkip);
+}
+
+export async function loadSchemaFromObject(
+    mainModule: string,
+    schema: Schema,
+    methodsToSkip?: EndpointName[],
+) {
+    const main = await import(mainModule);
 
     const toSkip = new Set(methodsToSkip ?? []);
+    const endpoints: Endpoints = {};
+
     mapStandardReferences(schema, endpoints, toSkip);
     mapExportedReferences(schema, endpoints, main, toSkip);
 
-    removeInvalidEndpoints(schema, endpoints);
+    schema = removeInvalidEndpoints(schema, endpoints);
 
     console.warn(
         `[railcar-infer] Found ${_countFnNotInSchema} endpoints that were not in schema.`,
