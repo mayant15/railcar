@@ -16,7 +16,7 @@ run = [
   "python3 -m ensurepip",
   "pip3 install -r requirements.txt",
   "bun i",
-  "cargo install --locked cargo-workspace-version cargo-deny cargo-about mdbook",
+  "cargo install --locked cargo-workspace-version cargo-deny cargo-about mdbook samply",
 ]
 
 [tasks.test]

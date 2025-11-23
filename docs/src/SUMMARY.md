@@ -10,4 +10,5 @@
 # Development Notes
 
 - [Feedback](feedback.md)
+- [Performance](performance.md)
 - [Devtools](devtools.md)
