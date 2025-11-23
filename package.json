@@ -7,7 +7,7 @@
         "packages/worker-sys",
         "packages/inference",
         "packages/support",
-        "reporter",
+        "packages/reporter",
         "examples"
     ],
     "devDependencies": {

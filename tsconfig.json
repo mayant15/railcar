@@ -17,9 +17,9 @@
         { "path": "./packages/support" }
     ],
     "exclude": [
+        "packages/reporter",
         "benchmarks/projects/**/*",
         "scripts/**/*",
-        "dist/**/*",
-        "reporter"
+        "dist/**/*"
     ]
 }
