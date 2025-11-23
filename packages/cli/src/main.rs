@@ -43,7 +43,7 @@ struct Arguments {
     outdir: Option<String>,
 
     /// Fuzz driver variant to use
-    #[arg(long, value_enum, default_value_t = FuzzerMode::Sequence)]
+    #[arg(long, value_enum, default_value_t = FuzzerMode::Graph)]
     mode: FuzzerMode,
 
     /// Port to spawn the IPC broker on. If spawning multiple instances they should have different

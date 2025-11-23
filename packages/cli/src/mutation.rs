@@ -1424,6 +1424,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for SpliceSeq<'a> {
             .complete(rand, self.schema)
             .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
 
+        input.is_valid();
         Ok(LibAflMutationResult::Mutated)
     }
 
@@ -1462,6 +1463,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for ExtendSeq<'a> {
             .complete(rand, self.schema)
             .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
 
+        input.is_valid();
         Ok(LibAflMutationResult::Mutated)
     }
 
@@ -1496,6 +1498,8 @@ impl<S: HasRand> Mutator<ApiSeq, S> for TruncateSeq {
 
         let new_size = input.seq_len() - 1;
         input.seq_mut().truncate(new_size);
+
+        input.is_valid();
 
         Ok(LibAflMutationResult::Mutated)
     }
