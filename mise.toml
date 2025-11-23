@@ -16,7 +16,7 @@ run = [
   "python3 -m ensurepip",
   "pip3 install -r requirements.txt",
   "bun i",
-  "cargo install --locked cargo-workspace-version cargo-deny cargo-about",
+  "cargo install --locked cargo-workspace-version cargo-deny cargo-about mdbook",
 ]
 
 [tasks.test]
@@ -50,19 +50,6 @@ run = [
   "cargo fmt",
   "cargo clippy"
 ]
-
-[tasks.show]
-description = "Visualize a graph"
-run = """
-  TMP_FILE=$(mktemp)
-  cargo run --release --bin viz -- {{cwd}}/{{arg(name="file")}} > $TMP_FILE
-  dot -Tpng $TMP_FILE -o "$TMP_FILE.png"
-  xdg-open "$TMP_FILE.png"
-"""
-
-[tasks.crunch]
-description = "Collect all metrics from an evaluation run into an sqlite database"
-run = 'cargo run --release --bin makedb -- {{cwd}}/{{arg(name="file")}}'
 
 [tasks.publish]
 run = """

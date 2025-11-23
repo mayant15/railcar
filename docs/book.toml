@@ -1,0 +1,7 @@
+[book]
+title = "Railcar Documentation"
+authors = ["Mayant Mukul"]
+language = "en"
+
+[output.html]
+mathjax-support = true

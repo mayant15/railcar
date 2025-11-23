@@ -37,4 +37,3 @@ angular          graph     1.55%     NaN
 
 ## API Progress Feedback
 Save input if it is more progress than its own pre-mutation version or more progress globally?
-
