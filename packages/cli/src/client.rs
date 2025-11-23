@@ -643,7 +643,7 @@ pub mod seq {
             feedback,
             objective,
             scheduler,
-            mutator: HavocScheduledMutator::new(sequence_mutations()),
+            mutator: HavocScheduledMutator::new(sequence_mutations(&schema)),
             generator,
             state,
             worker,

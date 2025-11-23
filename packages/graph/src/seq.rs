@@ -11,8 +11,9 @@ use std::{
 };
 
 use crate::{
+    config::SEQUENCE_COMPLETION_REUSE_RATE,
     rng::{redistribute, TrySample},
-    schema::{CallConvention, EndpointName, Schema, Type, TypeGuess, TypeKind},
+    schema::{CallConvention, CanValidate, EndpointName, Schema, Type, TypeGuess, TypeKind},
 };
 
 pub type NodeId = usize;
@@ -22,16 +23,17 @@ pub trait HasSeqLen {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-struct ApiCall {
+pub struct ApiCall {
     name: EndpointName,
     args: Vec<ApiCallArg>,
     conv: CallConvention,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-enum ApiCallArg {
+pub enum ApiCallArg {
     Output(usize),
     Constant(Type),
+    Missing,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -42,8 +44,12 @@ pub struct ApiSeq {
 }
 
 impl ApiSeq {
+    pub fn seq_mut(&mut self) -> &mut Vec<ApiCall> {
+        &mut self.seq
+    }
+
     pub fn create<R: Rand>(rand: &mut R, schema: &Schema, fuzz: Vec<u8>) -> Result<Self> {
-        let Some((key, sig)) = rand.choose(schema.iter()) else {
+        let Some((name, sig)) = rand.choose(schema.iter()) else {
             bail!("empty schema");
         };
 
@@ -51,12 +57,7 @@ impl ApiSeq {
             fuzz,
             seq: Vec::new(),
         };
-
-        seq.seq.push(ApiCall {
-            name: key.clone(),
-            args: Vec::new(),
-            conv: sig.callconv.clone(),
-        });
+        seq.append_call(name.clone(), sig.args.len(), sig.callconv);
 
         let mut worklist = vec![0];
         while let Some(index) = worklist.pop() {
@@ -64,6 +65,53 @@ impl ApiSeq {
         }
 
         Ok(seq)
+    }
+
+    pub fn complete<R: Rand>(&mut self, rand: &mut R, schema: &Schema) -> Result<()> {
+        let mut worklist = vec![];
+        for (i, call) in self.seq.iter().enumerate() {
+            let is_incomplete = call
+                .args
+                .iter()
+                .any(|arg| matches!(arg, ApiCallArg::Missing));
+            if is_incomplete {
+                worklist.push(i)
+            }
+        }
+
+        while let Some(index) = worklist.pop() {
+            self.complete_with_consts(rand, schema, &mut worklist, index)?;
+        }
+
+        Ok(())
+    }
+
+    pub fn remove_call(&mut self, index: usize) {
+        self.seq.remove(index);
+
+        // adjust references to the removed call
+        for idx in index..self.seq.len() {
+            for arg in &mut self.seq[idx].args {
+                match arg {
+                    ApiCallArg::Output(out) => {
+                        if *out < index {
+                        } else if *out == index {
+                            *arg = ApiCallArg::Missing;
+                        } else {
+                            *out -= 1;
+                        }
+                    }
+                    ApiCallArg::Constant(_) => {}
+                    ApiCallArg::Missing => unreachable!(),
+                }
+            }
+        }
+    }
+
+    pub fn append_call(&mut self, name: EndpointName, argc: usize, conv: CallConvention) {
+        let mut args = Vec::new();
+        args.resize(argc, ApiCallArg::Missing);
+        self.seq.push(ApiCall { name, args, conv });
     }
 
     fn complete_with_consts<R: Rand>(
@@ -74,13 +122,24 @@ impl ApiSeq {
         index: usize,
     ) -> Result<()> {
         assert!(self.seq.len() > index);
-        assert!(self.seq[index].args.is_empty());
 
-        let call = self.seq.get_mut(index).unwrap();
-        let sig = schema.get(&call.name).unwrap();
+        let sig = schema.get(&self.seq[index].name).unwrap();
 
         let mut prefix = vec![];
-        for guess in &sig.args {
+        for (i, guess) in sig.args.iter().enumerate() {
+            let call = self.seq.get(index).unwrap();
+            if !matches!(call.args[i], ApiCallArg::Missing) {
+                continue;
+            }
+
+            let should_reuse = rand.coinflip(SEQUENCE_COMPLETION_REUSE_RATE);
+            if should_reuse {
+                if let Some(out_idx) = self.find_output_before(rand, index, guess, schema) {
+                    self.seq[index].args[i] = ApiCallArg::Output(out_idx);
+                    continue;
+                }
+            }
+
             if guess.kind.len() == 1 && guess.kind.contains_key(&TypeKind::Class) {
                 let name = guess
                     .class_type
@@ -89,17 +148,26 @@ impl ApiSeq {
                         "guess with non-zero probability of Class must have class_type"
                     ))?
                     .sample(rand)?;
+                let argc = schema
+                    .get(&name)
+                    .ok_or(anyhow!("missing constructor for class {}", name))?
+                    .args
+                    .len();
+
                 worklist.push(index + prefix.len());
-                call.args.push(ApiCallArg::Output(index + prefix.len()));
+                self.seq[index].args[i] = ApiCallArg::Output(index + prefix.len());
+
+                let mut args = Vec::new();
+                args.resize(argc, ApiCallArg::Missing);
                 prefix.push(ApiCall {
                     name,
-                    args: vec![],
+                    args,
                     conv: CallConvention::Constructor,
                 });
             } else {
                 let guess = Self::strip_class(rand, guess);
                 let typ = guess.sample(rand)?;
-                call.args.push(ApiCallArg::Constant(typ))
+                self.seq[index].args[i] = ApiCallArg::Constant(typ);
             }
         }
 
@@ -132,6 +200,28 @@ impl ApiSeq {
         clone.class_type = None;
         redistribute(rand, &mut clone.kind);
         clone
+    }
+
+    fn find_output_before<R: Rand>(
+        &self,
+        rand: &mut R,
+        index: usize,
+        guess: &TypeGuess,
+        schema: &Schema,
+    ) -> Option<usize> {
+        rand.choose(
+            self.seq
+                .iter()
+                .enumerate()
+                .take(index)
+                .filter(|(_, call)| {
+                    let sig = schema.get(&call.name).unwrap();
+
+                    // TODO: probability scores will help here
+                    sig.ret.overlaps(guess)
+                })
+                .map(|(i, _)| i),
+        )
     }
 }
 
@@ -218,5 +308,20 @@ impl ResizableMutator<u8> for ApiSeq {
         R: std::ops::RangeBounds<usize>,
     {
         ResizableMutator::drain(&mut self.fuzz, range)
+    }
+}
+
+impl CanValidate for ApiSeq {
+    fn is_valid(&self) {
+        for (index, call) in self.seq.iter().enumerate() {
+            for arg in &call.args {
+                match arg {
+                    ApiCallArg::Constant(_) => (),
+                    ApiCallArg::Missing => unreachable!(), // missing argument
+                    // this should be an output of a previous call
+                    ApiCallArg::Output(out) => assert!(*out < index),
+                }
+            }
+        }
     }
 }

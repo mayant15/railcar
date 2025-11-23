@@ -21,7 +21,7 @@ use serde::{Deserialize, Serialize};
 use crate::{
     config::{MAX_COMPLETE_WITH_ENDPOINTS, MAX_COMPLETION_ITER},
     rng::TrySample,
-    schema::{CallConvention, EndpointName, Schema, Signature, SignatureQuery, Type},
+    schema::{CallConvention, CanValidate, EndpointName, Schema, Signature, SignatureQuery, Type},
 };
 use crate::{rng::BytesRand, seq::HasSeqLen};
 
@@ -867,10 +867,6 @@ impl ResizableMutator<u8> for ParametricGraph {
     {
         self.bytes.drain(range)
     }
-}
-
-pub trait CanValidate {
-    fn is_valid(&self) {}
 }
 
 impl CanValidate for Graph {

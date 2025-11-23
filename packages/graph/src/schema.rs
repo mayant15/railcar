@@ -169,7 +169,7 @@ impl Schema {
         let mut sig = Signature {
             args: vec![Type::Undefined; guess.args.len()],
             ret: Type::Undefined,
-            callconv: guess.callconv.clone(),
+            callconv: guess.callconv,
         };
 
         if let Some(ret) = &query.ret {
@@ -350,6 +350,12 @@ impl TypeGuess {
         }
     }
 
+    pub fn overlaps(&self, other: &TypeGuess) -> bool {
+        let mine: HashSet<&TypeKind> = self.kind.keys().collect();
+        let theirs: HashSet<&TypeKind> = other.kind.keys().collect();
+        mine.intersection(&theirs).count() > 0
+    }
+
     pub fn can_guess(&self, typ: &Type) -> bool {
         if self.is_any {
             return true;
@@ -462,7 +468,7 @@ impl TypeGuess {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq, Copy)]
 pub enum CallConvention {
     Free,
     Method,
@@ -509,7 +515,7 @@ impl<R: Rand> TrySample<Signature, R> for SignatureGuess {
         Ok(Signature {
             args,
             ret: self.ret.sample(rand)?,
-            callconv: self.callconv.clone(),
+            callconv: self.callconv,
         })
     }
 }
@@ -540,4 +546,8 @@ pub struct SignatureQuery {
     pub args: Option<Vec<Type>>,
     pub ret: Option<Type>,
     pub callconv: Option<CallConvention>,
+}
+
+pub trait CanValidate {
+    fn is_valid(&self) {}
 }

@@ -31,11 +31,11 @@ use railcar_graph::{
         TrySample,
     },
     schema::{
-        CallConvention, EndpointName, Signature, SignatureGuess, SignatureQuery, Type, TypeGuess,
-        TypeKind,
+        CallConvention, CanValidate, EndpointName, Schema, Signature, SignatureGuess,
+        SignatureQuery, Type, TypeGuess, TypeKind,
     },
-    CanValidate, Graph, HasSchema, IncomingEdge, Node, NodeId, NodePayload, OutgoingEdge,
-    RailcarError,
+    seq::{ApiSeq, HasSeqLen},
+    Graph, HasSchema, IncomingEdge, Node, NodeId, NodePayload, OutgoingEdge, RailcarError,
 };
 
 use crate::config::{
@@ -151,7 +151,10 @@ pub type ComplexGraphMutationsType = tuple_list_type!(
     ExtendConstructor,
 );
 
-pub type SequenceMutationsType = HavocMutationsType;
+type FuzzSeqConsts = HavocScheduledMutator<HavocMutationsType>;
+
+pub type SequenceMutationsType<'a> =
+    tuple_list_type!(SpliceSeq<'a>, ExtendSeq<'a>, TruncateSeq, FuzzSeqConsts);
 
 pub type ParametricMutationsType = HavocMutationsType;
 
@@ -228,8 +231,13 @@ pub fn parametric_mutations() -> ParametricMutationsType {
     havoc_mutations()
 }
 
-pub fn sequence_mutations() -> SequenceMutationsType {
-    havoc_mutations()
+pub fn sequence_mutations<'a>(schema: &'a Schema) -> SequenceMutationsType<'a> {
+    tuple_list!(
+        SpliceSeq { schema },
+        ExtendSeq { schema },
+        TruncateSeq {},
+        HavocScheduledMutator::new(havoc_mutations()),
+    )
 }
 
 impl Truncate {
@@ -1383,5 +1391,121 @@ where
 {
     fn perform(&mut self, state: &mut S, input: &mut I) -> Result<MutationResult, libafl::Error> {
         apply_schema_mutation(state.rand_mut(), input, Self::make_nullable)
+    }
+}
+
+pub struct SpliceSeq<'a> {
+    schema: &'a Schema,
+}
+
+impl<'a> Named for SpliceSeq<'a> {
+    fn name(&self) -> &Cow<'static, str> {
+        static NAME: Cow<'static, str> = Cow::Borrowed("SpliceSeq");
+        &NAME
+    }
+}
+
+impl<'a, S: HasRand> Mutator<ApiSeq, S> for SpliceSeq<'a> {
+    fn mutate(
+        &mut self,
+        state: &mut S,
+        input: &mut ApiSeq,
+    ) -> Result<LibAflMutationResult, libafl::Error> {
+        if input.seq_len() < 2 {
+            return Ok(LibAflMutationResult::Skipped);
+        }
+
+        // remove a random API call
+        let rand = state.rand_mut();
+        let to_remove = rand.between(0, input.seq_len() - 1);
+
+        input.remove_call(to_remove);
+        input
+            .complete(rand, self.schema)
+            .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
+
+        Ok(LibAflMutationResult::Mutated)
+    }
+
+    fn post_exec(
+        &mut self,
+        _state: &mut S,
+        _new_corpus_id: Option<CorpusId>,
+    ) -> Result<(), libafl::Error> {
+        Ok(())
+    }
+}
+
+pub struct ExtendSeq<'a> {
+    schema: &'a Schema,
+}
+
+impl<'a> Named for ExtendSeq<'a> {
+    fn name(&self) -> &Cow<'static, str> {
+        static NAME: Cow<'static, str> = Cow::Borrowed("ExtendSeq");
+        &NAME
+    }
+}
+
+impl<'a, S: HasRand> Mutator<ApiSeq, S> for ExtendSeq<'a> {
+    fn mutate(
+        &mut self,
+        state: &mut S,
+        input: &mut ApiSeq,
+    ) -> Result<LibAflMutationResult, libafl::Error> {
+        let rand = state.rand_mut();
+        let key = rand.choose(self.schema.keys()).unwrap();
+        let sig = self.schema.get(key).unwrap();
+
+        input.append_call(key.clone(), sig.args.len(), sig.callconv);
+        input
+            .complete(rand, self.schema)
+            .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
+
+        Ok(LibAflMutationResult::Mutated)
+    }
+
+    fn post_exec(
+        &mut self,
+        _state: &mut S,
+        _new_corpus_id: Option<CorpusId>,
+    ) -> Result<(), libafl::Error> {
+        Ok(())
+    }
+}
+
+/// Keep only the first few calls and remove the rest
+pub struct TruncateSeq {}
+
+impl Named for TruncateSeq {
+    fn name(&self) -> &Cow<'static, str> {
+        static NAME: Cow<'static, str> = Cow::Borrowed("TruncateSeq");
+        &NAME
+    }
+}
+
+impl<S: HasRand> Mutator<ApiSeq, S> for TruncateSeq {
+    fn mutate(
+        &mut self,
+        state: &mut S,
+        input: &mut ApiSeq,
+    ) -> Result<LibAflMutationResult, libafl::Error> {
+        if input.seq_len() < 2 {
+            return Ok(LibAflMutationResult::Skipped);
+        }
+
+        let rand = state.rand_mut();
+        let new_size = rand.between(1, input.seq_len() - 1);
+        input.seq_mut().truncate(new_size);
+
+        Ok(LibAflMutationResult::Mutated)
+    }
+
+    fn post_exec(
+        &mut self,
+        _state: &mut S,
+        _new_corpus_id: Option<CorpusId>,
+    ) -> Result<(), libafl::Error> {
+        Ok(())
     }
 }

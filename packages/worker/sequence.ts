@@ -29,7 +29,7 @@ export type ApiCall = {
     conv: CallConvention;
 };
 
-export type ApiCallArg = { Constant: Type } | { Output: number };
+export type ApiCallArg = { Constant: Type } | { Output: number } | "Missing";
 
 export class SequenceExecutor {
     _executor: (seq: ApiSeq) => Promise<ExitKind> = (_) =>
@@ -125,9 +125,12 @@ function invokeEndpoint(
 }
 
 function getArg(ctx: Context, spec: ApiCallArg): unknown {
+    assert(spec !== "Missing");
+
     if ("Output" in spec) {
         return ctx.objects[spec.Output];
     }
+
     assert("Constant" in spec);
     return constant(ctx.fdp, spec.Constant);
 }

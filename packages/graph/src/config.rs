@@ -25,5 +25,8 @@ const_assert!(FILL_CONSTANT_RATE <= 1.0);
 pub const FILL_REUSE_RATE: f64 = 0.0;
 const_assert!(FILL_REUSE_RATE <= 1.0);
 
+pub const SEQUENCE_COMPLETION_REUSE_RATE: f64 = 0.5;
+const_assert!(SEQUENCE_COMPLETION_REUSE_RATE <= 1.0);
+
 /// Size of the coverage map
 pub const COVERAGE_MAP_SIZE: usize = 1 << 15;
