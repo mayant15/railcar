@@ -1474,7 +1474,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for ExtendSeq<'a> {
     }
 }
 
-/// Keep only the first few calls and remove the rest
+/// Remove the last call
 pub struct TruncateSeq {}
 
 impl Named for TruncateSeq {
@@ -1487,15 +1487,14 @@ impl Named for TruncateSeq {
 impl<S: HasRand> Mutator<ApiSeq, S> for TruncateSeq {
     fn mutate(
         &mut self,
-        state: &mut S,
+        _state: &mut S,
         input: &mut ApiSeq,
     ) -> Result<LibAflMutationResult, libafl::Error> {
         if input.seq_len() < 2 {
             return Ok(LibAflMutationResult::Skipped);
         }
 
-        let rand = state.rand_mut();
-        let new_size = rand.between(1, input.seq_len() - 1);
+        let new_size = input.seq_len() - 1;
         input.seq_mut().truncate(new_size);
 
         Ok(LibAflMutationResult::Mutated)
