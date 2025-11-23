@@ -7,7 +7,18 @@ version = 1
 
 # Catch-all, files may have more specific annotations
 [[annotations]]
-path = "**"
+path = [
+  "packages/**",
+  "infra/**",
+  "docs/**",
+  "scripts/**",
+  "*.lock",
+  "*.txt",
+  "*.toml",
+  "*.json",
+  "*.md",
+  ".**",
+]
 SPDX-FileCopyrightText = "2025 Mayant Mukul"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
