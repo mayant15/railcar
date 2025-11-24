@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use anyhow::Result;
-use std::{ops::Add, path::Path};
+use std::path::Path;
 
 use libafl::monitors::{
     stats::{ClientStats, ClientStatsManager, UserStatsValue},
@@ -10,14 +10,15 @@ use libafl::monitors::{
 
 use crate::metrics::{HeartbeatEvent, Metrics};
 
-fn fold<F, T>(mgr: &ClientStatsManager, get: F) -> T
+fn fold<F, T, R>(mgr: &ClientStatsManager, get: F, reducer: R) -> T
 where
     F: Fn(&ClientStats) -> Option<T>,
-    T: Default + Add<Output = T>,
+    T: Default,
+    R: Fn(T, T) -> T,
 {
-    mgr.client_stats()
-        .iter()
-        .fold(T::default(), |acc, (_, x)| acc + get(x).unwrap_or_default())
+    mgr.client_stats().iter().fold(T::default(), |acc, (_, x)| {
+        reducer(acc, get(x).unwrap_or_default())
+    })
 }
 
 fn coverage(stats: &ClientStats) -> Option<u64> {
@@ -54,13 +55,22 @@ fn valid_corpus(stats: &ClientStats) -> Option<u64> {
 
 fn make_heartbeat_event(mgr: &ClientStatsManager) -> HeartbeatEvent {
     HeartbeatEvent {
-        coverage: fold(mgr, coverage),
-        valid_execs: fold(mgr, valid_execs),
-        valid_corpus: fold(mgr, valid_corpus),
-        total_edges: fold(mgr, total_edges),
-        execs: fold(mgr, |s| Some(s.executions())),
-        corpus: fold(mgr, |s| Some(s.corpus_size())),
+        // max
+        coverage: fold(mgr, coverage, std::cmp::max),
+
+        // sum these
+        execs: fold(mgr, |s| Some(s.executions()), std::ops::Add::add),
+        valid_execs: fold(mgr, valid_execs, std::ops::Add::add),
+
+        // get these from only 1 client
+        total_edges: fold(mgr, total_edges, snd),
+        valid_corpus: fold(mgr, valid_corpus, snd),
+        corpus: fold(mgr, |s| Some(s.corpus_size()), snd),
     }
+}
+
+fn snd<T>(_: T, b: T) -> T {
+    b
 }
 
 #[derive(Clone)]

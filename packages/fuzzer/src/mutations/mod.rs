@@ -1397,7 +1397,7 @@ where
 }
 
 pub struct SpliceSeq<'a> {
-    schema: &'a Schema,
+    pub schema: &'a Schema,
 }
 
 impl<'a> Named for SpliceSeq<'a> {
@@ -1440,7 +1440,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for SpliceSeq<'a> {
 }
 
 pub struct ExtendSeq<'a> {
-    schema: &'a Schema,
+    pub schema: &'a Schema,
 }
 
 impl<'a> Named for ExtendSeq<'a> {

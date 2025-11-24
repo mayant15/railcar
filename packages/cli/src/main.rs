@@ -4,22 +4,16 @@ use std::{path::PathBuf, str::FromStr, time::Duration};
 
 use anyhow::Result;
 use clap::Parser;
-use libafl::{
-    events::{EventConfig, Launcher},
-    inputs::BytesInput,
-    monitors::Monitor,
-};
 use libafl_bolts::{
     core_affinity::Cores,
     shmem::{MmapShMemProvider, ShMemProvider},
 };
-use railcar::{
-    inputs::{ApiSeq, Graph, ParametricGraph, ToFuzzerInput},
-    monitor::StdMonitor,
-    FuzzerConfig, FuzzerMode, RestartingManager, State,
-};
+use railcar::{monitor::StdMonitor, FuzzerConfig, FuzzerMode};
 
 mod client;
+mod ensemble;
+mod replay;
+mod replay_input;
 
 /// Fuzzer for JavaScript libraries with automatic fuzz drivers
 #[derive(Parser)]
@@ -48,6 +42,11 @@ struct Arguments {
     /// Fuzz driver variant to use
     #[arg(long, value_enum, default_value_t = FuzzerMode::Graph)]
     mode: FuzzerMode,
+
+    /// Run the fuzzer in ensemble mode. This runs two sub-fuzzers: one to search for API
+    /// sequences and one for constants.
+    #[arg(long, default_value_t = false)]
+    ensemble: bool,
 
     /// Port to spawn the IPC broker on. If spawning multiple instances they should have different
     /// ports.
@@ -96,113 +95,6 @@ fn to_absolute(path: String) -> PathBuf {
     path.canonicalize().unwrap()
 }
 
-fn launch_replay_input<I, M>(
-    config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
-    monitor: M,
-    cores: Cores,
-) -> Result<()>
-where
-    I: ToFuzzerInput,
-    M: Monitor + Clone,
-{
-    log::info!("[*] starting replay for input");
-    log::info!("       input: {:?}", config.replay_input);
-    log::info!("      target: {:?}", config.entrypoint);
-    log::info!("      driver: {:?}", config.mode);
-    log::info!("      schema: {:?}", config.schema_file);
-    log::info!("      simple: {}", config.simple_mutations);
-    log::info!("        seed: {}", config.seed);
-
-    let mut run_client = |_, restarting_mgr, _| {
-        client::replay_input::<I, _>(restarting_mgr, &config)
-            .map_err(|e| libafl::Error::unknown(e.to_string()))
-    };
-
-    Launcher::builder()
-        .configuration(EventConfig::from_name("default"))
-        .shmem_provider(shmem_provider)
-        .monitor(monitor)
-        .cores(&cores)
-        .run_client(&mut run_client)
-        .broker_port(config.port)
-        .build()
-        .launch()?;
-
-    Ok(())
-}
-
-fn launch_replay<I, M>(
-    config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
-    monitor: M,
-    cores: Cores,
-) -> Result<()>
-where
-    I: ToFuzzerInput,
-    M: Monitor + Clone,
-{
-    log::info!("[*] starting replay");
-    log::info!("      target: {:?}", config.entrypoint);
-    log::info!("      driver: {:?}", config.mode);
-    log::info!("      schema: {:?}", config.schema_file);
-    log::info!("      simple: {}", config.simple_mutations);
-    log::info!("        seed: {}", config.seed);
-
-    let mut run_client = |state, restarting_mgr, _| {
-        client::replay::<I, _>(state, restarting_mgr, &config)
-            .map_err(|e| libafl::Error::unknown(e.to_string()))
-    };
-
-    Launcher::builder()
-        .configuration(EventConfig::from_name("default"))
-        .shmem_provider(shmem_provider)
-        .monitor(monitor)
-        .cores(&cores)
-        .run_client(&mut run_client)
-        .broker_port(config.port)
-        .build()
-        .launch()?;
-
-    Ok(())
-}
-
-fn launch_fuzzer<M, F, I>(
-    start: F,
-    config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
-    monitor: M,
-    cores: Cores,
-) -> Result<()>
-where
-    M: Monitor + Clone,
-    I: ToFuzzerInput,
-    F: Fn(Option<State<I>>, RestartingManager<I>, &FuzzerConfig) -> Result<()>,
-{
-    log::info!("[*] starting fuzzer");
-    log::info!("      target: {:?}", config.entrypoint);
-    log::info!("      driver: {:?}", config.mode);
-    log::info!("      schema: {:?}", config.schema_file);
-    log::info!("      simple: {}", config.simple_mutations);
-    log::info!("        seed: {}", config.seed);
-
-    let mut run_client = |state, restarting_mgr, _| {
-        start(state, restarting_mgr, &config).map_err(|e| libafl::Error::unknown(e.to_string()))
-    };
-
-    Launcher::builder()
-        .configuration(EventConfig::from_name("default"))
-        .shmem_provider(shmem_provider)
-        .monitor(monitor)
-        .cores(&cores)
-        .run_client(&mut run_client)
-        .broker_port(config.port)
-        .build()
-        .launch()?;
-
-    Ok(())
-}
-
 fn main() -> Result<()> {
     env_logger::builder()
         .filter(None, log::LevelFilter::Info)
@@ -219,10 +111,6 @@ fn main() -> Result<()> {
     let args = Arguments::parse();
 
     let cores = Cores::from_cmdline(args.cores.as_str())?;
-    assert!(
-        cores.ids.len() == 1,
-        "make metrics and validity state non-global, fix monitor aggregate over clients, before running on multiple cores"
-    );
 
     let outdir = args
         .outdir
@@ -261,8 +149,6 @@ fn main() -> Result<()> {
 
     let shmem_provider = MmapShMemProvider::new()?;
 
-    dump_run_metadata(outdir, &config)?;
-
     // let monitor = TuiMonitor::builder()
     //     .title("railcar")
     //     .version("0.1.0")
@@ -278,54 +164,22 @@ fn main() -> Result<()> {
         &config.metrics,
     )?;
 
+    dump_run_metadata(outdir, &config)?;
+    log_start(&config);
+
     if config.replay_input.is_some() {
-        match config.mode {
-            FuzzerMode::Bytes => {
-                launch_replay_input::<BytesInput, _>(config, shmem_provider, monitor, cores)
-            }
-            FuzzerMode::Graph => {
-                launch_replay_input::<Graph, _>(config, shmem_provider, monitor, cores)
-            }
-            FuzzerMode::Parametric => {
-                launch_replay_input::<ParametricGraph, _>(config, shmem_provider, monitor, cores)
-            }
-            FuzzerMode::Sequence => {
-                launch_replay_input::<ApiSeq, _>(config, shmem_provider, monitor, cores)
-            }
-        }
-    } else if args.replay {
-        match config.mode {
-            FuzzerMode::Bytes => {
-                launch_replay::<BytesInput, _>(config, shmem_provider, monitor, cores)
-            }
-            FuzzerMode::Graph => launch_replay::<Graph, _>(config, shmem_provider, monitor, cores),
-            FuzzerMode::Parametric => {
-                launch_replay::<ParametricGraph, _>(config, shmem_provider, monitor, cores)
-            }
-            FuzzerMode::Sequence => {
-                launch_replay::<ApiSeq, _>(config, shmem_provider, monitor, cores)
-            }
-        }
-    } else {
-        match args.mode {
-            FuzzerMode::Bytes => {
-                launch_fuzzer(client::bytes::start, config, shmem_provider, monitor, cores)
-            }
-            FuzzerMode::Graph => {
-                launch_fuzzer(client::graph::start, config, shmem_provider, monitor, cores)
-            }
-            FuzzerMode::Parametric => launch_fuzzer(
-                client::parametric::start,
-                config,
-                shmem_provider,
-                monitor,
-                cores,
-            ),
-            FuzzerMode::Sequence => {
-                launch_fuzzer(client::seq::start, config, shmem_provider, monitor, cores)
-            }
-        }
+        return replay_input::launch(config, shmem_provider, monitor, cores);
     }
+
+    if args.replay {
+        return replay::launch(config, shmem_provider, monitor, cores);
+    }
+
+    if args.ensemble {
+        return ensemble::launch(config, shmem_provider, monitor, cores);
+    }
+
+    client::launch(config, shmem_provider, monitor, cores)
 }
 
 /// Write some metadata about this fuzzer run to a file. We can use this
@@ -342,4 +196,21 @@ fn dump_run_metadata(outdir: PathBuf, config: &FuzzerConfig) -> Result<()> {
     let metadata_string = serde_json::to_string_pretty(&metadata)?;
     std::fs::write(outdir.join("fuzzer-config.json"), metadata_string)?;
     Ok(())
+}
+
+fn log_start(config: &FuzzerConfig) {
+    if let Some(input) = &config.replay_input {
+        log::info!("[*] starting replay for input");
+        log::info!("       input: {}", input);
+    } else if config.replay {
+        log::info!("[*] starting replay");
+    } else {
+        log::info!("[*] starting fuzzer");
+    }
+
+    log::info!("      target: {:?}", config.entrypoint);
+    log::info!("      driver: {:?}", config.mode);
+    log::info!("      schema: {:?}", config.schema_file);
+    log::info!("      simple: {}", config.simple_mutations);
+    log::info!("        seed: {}", config.seed);
 }
