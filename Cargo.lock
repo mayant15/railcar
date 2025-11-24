@@ -1169,15 +1169,15 @@ name = "railcar"
 version = "0.1.9"
 dependencies = [
  "anyhow",
+ "chrono",
  "clap",
  "criterion",
- "env_logger",
  "libafl",
  "libafl_bolts",
  "log",
  "nix 0.29.0",
- "railcar_graph",
  "rmp-serde",
+ "rusqlite",
  "serde",
  "serde_bytes",
  "serde_json",
@@ -1185,20 +1185,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "railcar_graph"
+name = "railcar_cli"
 version = "0.1.9"
 dependencies = [
  "anyhow",
- "chrono",
+ "clap",
+ "env_logger",
  "libafl",
  "libafl_bolts",
  "log",
- "rmp-serde",
- "rusqlite",
+ "railcar",
  "serde",
- "serde_bytes",
  "serde_json",
- "static_assertions",
 ]
 
 [[package]]
@@ -1211,7 +1209,7 @@ dependencies = [
  "glob",
  "libafl",
  "log",
- "railcar_graph",
+ "railcar",
  "regex",
  "rmp-serde",
  "serde",
@@ -1226,7 +1224,7 @@ dependencies = [
  "napi",
  "napi-build",
  "napi-derive",
- "railcar_graph",
+ "railcar",
 ]
 
 [[package]]

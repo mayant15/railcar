@@ -2,219 +2,33 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use std::{path::PathBuf, time::Duration};
+use std::num::NonZero;
 
-use anyhow::{bail, Result};
-use clap::ValueEnum;
+use anyhow::Result;
 use libafl::{
-    corpus::{CachedOnDiskCorpus, Corpus, InMemoryCorpus, OnDiskCorpus},
-    events::{LlmpRestartingEventManager, SendExiting},
+    corpus::{Corpus, InMemoryCorpus},
+    events::SendExiting,
     executors::{ExitKind, InProcessExecutor},
     feedbacks::{ConstFeedback, Feedback},
-    generators::{Generator, RandBytesGenerator},
-    inputs::{BytesInput, HasMutatorBytes, Input},
+    generators::Generator,
+    inputs::Input,
     mutators::Mutator,
     observers::ObserversTuple,
     schedulers::QueueScheduler,
     stages::StdMutationalStage,
-    state::{HasCorpus, HasRand, StdState},
+    state::{HasCorpus, StdState},
     Fuzzer, StdFuzzer,
 };
-use libafl_bolts::{
-    core_affinity::Cores,
-    rands::StdRand,
-    shmem::{MmapShMem, MmapShMemProvider, ShMemProvider},
-    tuples::tuple_list,
+use libafl_bolts::{rands::StdRand, shmem::ShMemProvider, tuples::tuple_list};
+use railcar::{
+    inputs::ToFuzzerInput, FuzzerConfig, ReplayRestartingManager, ReplayState, RestartingManager,
+    State, Worker,
 };
-use railcar_graph::{schema::Schema, seq::ApiSeq, Graph, HasSchema, ParametricGraph, RailcarError};
 use serde::{Deserialize, Serialize};
 
-use crate::{
-    config::{INITIAL_CORPUS_SIZE, MAX_INPUT_LENGTH, MIN_INPUT_LENGTH},
-    worker::{Worker, WorkerArgs},
-};
-
-pub type State<I> = StdState<CachedOnDiskCorpus<I>, I, StdRand, OnDiskCorpus<I>>;
-pub type RestartingManager<I> =
-    LlmpRestartingEventManager<(), I, State<I>, MmapShMem, MmapShMemProvider>;
-
-type ReplayState<I> = StdState<InMemoryCorpus<I>, I, StdRand, InMemoryCorpus<I>>;
-type ReplayRestartingManager<I, SP> =
-    LlmpRestartingEventManager<(), I, ReplayState<I>, <SP as ShMemProvider>::ShMem, SP>;
-
-#[derive(ValueEnum, Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub enum FuzzerMode {
-    Bytes,
-    Graph,
-    Parametric,
-    Sequence,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct FuzzerConfig {
-    pub port: u16,
-    pub mode: FuzzerMode,
-    pub timeout: Duration,
-    pub corpus: PathBuf,
-    pub crashes: PathBuf,
-    pub metrics: PathBuf,
-    pub seed: u64,
-    pub entrypoint: PathBuf,
-    pub schema_file: Option<PathBuf>,
-    pub simple_mutations: bool,
-    pub replay: bool,
-    pub use_validity: bool,
-    pub replay_input: Option<String>,
-    pub config_file: PathBuf,
-    pub cores: Cores,
-    pub labels: Vec<String>,
-}
-
-struct GraphGenerator<'a> {
-    schema: &'a Schema,
-}
-
-impl<'a> GraphGenerator<'a> {
-    fn new(schema: &'a Schema) -> Self {
-        Self { schema }
-    }
-}
-
-impl<S: HasRand> Generator<Graph, S> for GraphGenerator<'_> {
-    fn generate(&mut self, state: &mut S) -> Result<Graph, libafl::Error> {
-        match Graph::create(state.rand_mut(), self.schema) {
-            Ok(graph) => Ok(graph),
-            Err(e) => match e {
-                RailcarError::HugeGraph => {
-                    Graph::create_small(state.rand_mut(), self.schema).map_err(|e| e.into())
-                }
-                RailcarError::Unknown(msg) => Err(libafl::Error::unknown(format!("{}", msg))),
-            },
-        }
-    }
-}
-
-struct ParametricGenerator<'a> {
-    schema: &'a Schema,
-    bytes_gen: RandBytesGenerator,
-}
-
-impl<'a> ParametricGenerator<'a> {
-    fn new(schema: &'a Schema) -> Self {
-        Self {
-            schema,
-            bytes_gen: RandBytesGenerator::with_min_size(MIN_INPUT_LENGTH, MAX_INPUT_LENGTH),
-        }
-    }
-}
-
-impl<S: HasRand> Generator<ParametricGraph, S> for ParametricGenerator<'_> {
-    fn generate(&mut self, state: &mut S) -> Result<ParametricGraph, libafl::Error> {
-        let bytes = self.bytes_gen.generate(state)?;
-        Ok(ParametricGraph::new(self.schema.clone(), bytes.into()))
-    }
-}
-
-struct ApiSeqGenerator<'a> {
-    schema: &'a Schema,
-    bytes_gen: RandBytesGenerator,
-}
-
-impl<'a> ApiSeqGenerator<'a> {
-    fn new(schema: &'a Schema) -> Self {
-        Self {
-            schema,
-            bytes_gen: RandBytesGenerator::with_min_size(MIN_INPUT_LENGTH, MAX_INPUT_LENGTH),
-        }
-    }
-}
-
-impl<S: HasRand> Generator<ApiSeq, S> for ApiSeqGenerator<'_> {
-    fn generate(&mut self, state: &mut S) -> Result<ApiSeq, libafl::Error> {
-        let bytes = self.bytes_gen.generate(state)?;
-        ApiSeq::create(state.rand_mut(), self.schema, bytes.into()).map_err(|e| {
-            libafl::Error::unknown(format!("failed to generate an api sequence: {}", e))
-        })
-    }
-}
-
-pub trait ToFuzzerInput: Input {
-    fn to_fuzzer_input(&self, config: &FuzzerConfig) -> Result<Vec<u8>>;
-}
-
-impl ToFuzzerInput for BytesInput {
-    fn to_fuzzer_input(&self, _: &FuzzerConfig) -> Result<Vec<u8>> {
-        Ok(self.mutator_bytes().to_vec())
-    }
-}
-
-impl ToFuzzerInput for ParametricGraph {
-    fn to_fuzzer_input(&self, config: &FuzzerConfig) -> Result<Vec<u8>> {
-        let graph = match Graph::create_from_bytes(config.seed, self.mutator_bytes(), self.schema())
-        {
-            Ok(graph) => graph,
-            Err(e) => {
-                bail!("failed to create graph from bytes {}", e);
-            }
-        };
-
-        let bytes = match rmp_serde::to_vec_named(&graph) {
-            Ok(bytes) => bytes,
-            Err(e) => {
-                bail!("failed to create bytes from graph {}", e);
-            }
-        };
-
-        Ok(bytes)
-    }
-}
-
-impl ToFuzzerInput for Graph {
-    fn to_fuzzer_input(&self, config: &FuzzerConfig) -> Result<Vec<u8>> {
-        if !matches!(config.mode, FuzzerMode::Graph) {
-            bail!("graph inputs need FuzzerMode::Graph");
-        }
-
-        let bytes = match rmp_serde::to_vec_named(self) {
-            Ok(bytes) => bytes,
-            Err(e) => {
-                bail!("failed to create bytes from graph {}", e);
-            }
-        };
-
-        Ok(bytes)
-    }
-}
-
-impl ToFuzzerInput for ApiSeq {
-    fn to_fuzzer_input(&self, config: &FuzzerConfig) -> Result<Vec<u8>> {
-        if !matches!(config.mode, FuzzerMode::Sequence) {
-            bail!("sequence inputs need FuzzerMode::Sequence");
-        }
-
-        let bytes = match rmp_serde::to_vec_named(self) {
-            Ok(bytes) => bytes,
-            Err(e) => {
-                bail!("failed to create bytes from sequence {}", e);
-            }
-        };
-
-        Ok(bytes)
-    }
-}
-
-impl From<&FuzzerConfig> for WorkerArgs {
-    fn from(config: &FuzzerConfig) -> Self {
-        WorkerArgs {
-            mode: config.mode.clone(),
-            entrypoint: config.entrypoint.clone(),
-            schema_file: config.schema_file.clone(),
-            replay: config.replay,
-            config_file: config.config_file.clone(),
-        }
-    }
-}
+pub const CORPUS_CACHE_SIZE: usize = 512;
+pub const INITIAL_CORPUS_SIZE: usize = 32;
+pub const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(4096).unwrap();
 
 pub fn replay_input<I: ToFuzzerInput, SP: ShMemProvider>(
     mut restarting_mgr: ReplayRestartingManager<I, SP>,
@@ -391,14 +205,7 @@ where
 }
 
 pub mod bytes {
-    use crate::{
-        config::{CORPUS_CACHE_SIZE, MAX_INPUT_LENGTH},
-        feedback::{StdFeedback, UniqCrashFeedback},
-        observer::make_observers,
-        worker::Worker,
-    };
-
-    use super::{launch_fuzzer, FuzzerConfig, FuzzerLaunchArgs, RestartingManager, State};
+    use super::{launch_fuzzer, FuzzerLaunchArgs, CORPUS_CACHE_SIZE, MAX_INPUT_LENGTH};
     use anyhow::Result;
     use libafl::{
         corpus::{CachedOnDiskCorpus, OnDiskCorpus},
@@ -409,6 +216,11 @@ pub mod bytes {
         state::StdState,
     };
     use libafl_bolts::rands::StdRand;
+    use railcar::{
+        feedback::{StdFeedback, UniqCrashFeedback},
+        observer::make_observers,
+        FuzzerConfig, RestartingManager, State, Worker,
+    };
 
     pub fn start(
         state: Option<State<BytesInput>>,
@@ -454,6 +266,7 @@ pub mod bytes {
 }
 
 pub mod parametric {
+    use super::{launch_fuzzer, FuzzerLaunchArgs, CORPUS_CACHE_SIZE};
     use anyhow::Result;
     use libafl::{
         corpus::{CachedOnDiskCorpus, OnDiskCorpus},
@@ -461,20 +274,15 @@ pub mod parametric {
         state::StdState,
     };
     use libafl_bolts::rands::StdRand;
-    use railcar_graph::ParametricGraph;
-
-    use crate::{
-        config::CORPUS_CACHE_SIZE,
+    use railcar::{
         feedback::{StdFeedback, UniqCrashFeedback},
-        mutation::parametric_mutations,
+        generators::ParametricGenerator,
+        inputs::ParametricGraph,
+        mutations::parametric_mutations,
         observer::make_observers,
         scheduler::StdScheduler,
         worker::Worker,
-    };
-
-    use super::{
-        launch_fuzzer, FuzzerConfig, FuzzerLaunchArgs, ParametricGenerator, RestartingManager,
-        State,
+        FuzzerConfig, RestartingManager, State,
     };
 
     pub fn start(
@@ -522,25 +330,22 @@ pub mod parametric {
 }
 
 pub mod graph {
+    use super::{launch_fuzzer, FuzzerLaunchArgs, CORPUS_CACHE_SIZE};
     use anyhow::Result;
     use libafl::{
         corpus::{CachedOnDiskCorpus, OnDiskCorpus},
         state::StdState,
     };
     use libafl_bolts::rands::StdRand;
-    use railcar_graph::Graph;
-
-    use crate::{
-        client::GraphGenerator,
-        config::CORPUS_CACHE_SIZE,
+    use railcar::{
         feedback::{StdFeedback, UniqCrashFeedback},
-        mutation::GraphMutator,
+        generators::GraphGenerator,
+        inputs::Graph,
+        mutations::GraphMutator,
         observer::make_observers,
         scheduler::StdScheduler,
-        worker::Worker,
+        FuzzerConfig, RestartingManager, State, Worker,
     };
-
-    use super::{launch_fuzzer, FuzzerConfig, FuzzerLaunchArgs, RestartingManager, State};
 
     pub fn start(
         state: Option<State<Graph>>,
@@ -587,6 +392,7 @@ pub mod graph {
 }
 
 pub mod seq {
+    use super::{launch_fuzzer, FuzzerLaunchArgs, CORPUS_CACHE_SIZE};
     use anyhow::Result;
     use libafl::{
         corpus::{CachedOnDiskCorpus, OnDiskCorpus},
@@ -594,19 +400,15 @@ pub mod seq {
         state::StdState,
     };
     use libafl_bolts::rands::StdRand;
-    use railcar_graph::seq::ApiSeq;
-
-    use crate::{
-        client::ApiSeqGenerator,
-        config::CORPUS_CACHE_SIZE,
+    use railcar::{
         feedback::{StdFeedback, UniqCrashFeedback},
-        mutation::sequence_mutations,
+        generators::ApiSeqGenerator,
+        inputs::ApiSeq,
+        mutations::sequence_mutations,
         observer::make_observers,
         scheduler::StdScheduler,
-        worker::Worker,
+        FuzzerConfig, RestartingManager, State, Worker,
     };
-
-    use super::{launch_fuzzer, FuzzerConfig, FuzzerLaunchArgs, RestartingManager, State};
 
     pub fn start(
         state: Option<State<ApiSeq>>,

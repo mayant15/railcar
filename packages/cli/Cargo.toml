@@ -1,27 +1,20 @@
 [package]
-name = "railcar"
+name = "railcar_cli"
 version = "0.1.9"
 edition = "2021"
 license = "AGPL-3.0-or-later"
 
 [dependencies]
-clap = { version = "4.5.32", features = ["derive"] }
 serde = "1.0.216"
 serde_json = "1.0.134"
-serde_bytes = "0.11.17"
-rmp-serde = "1.3.0"
-railcar_graph = { path = "../graph" }
-static_assertions = "1.1.0"
-nix = { version = "0.29.0", features = ["process", "signal", "fs"] }
-log.workspace = true
+clap = { version = "4.5.32", features = ["derive"] }
+railcar = { path = "../fuzzer" }
 env_logger.workspace = true
+log.workspace = true
 anyhow.workspace = true
-libafl = { workspace = true, features = ['track_hit_feedbacks'] }
+libafl.workspace = true
 libafl_bolts.workspace = true
 
-[dev-dependencies]
-criterion.workspace = true
-
-[[bench]]
-name = "mutation"
-harness = false
+[[bin]]
+name = "railcar"
+path = "src/main.rs"

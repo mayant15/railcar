@@ -25,17 +25,19 @@ use libafl_bolts::{
     HasLen, Named,
 };
 
-use railcar_graph::{
+use crate::{
+    inputs::{
+        graph::{IncomingEdge, Node, NodeId, NodePayload, OutgoingEdge, RailcarError},
+        ApiSeq, CanValidate, Graph, HasSeqLen,
+    },
     rng::{
         context_byte_seq, extend_context_byte_seq, redistribute, string, BytesRand, Distribution,
         TrySample,
     },
     schema::{
-        CallConvention, CanValidate, EndpointName, Schema, Signature, SignatureGuess,
-        SignatureQuery, Type, TypeGuess, TypeKind,
+        CallConvention, EndpointName, HasSchema, Schema, Signature, SignatureGuess, SignatureQuery,
+        Type, TypeGuess, TypeKind,
     },
-    seq::{ApiSeq, HasSeqLen},
-    Graph, HasSchema, IncomingEdge, Node, NodeId, NodePayload, OutgoingEdge, RailcarError,
 };
 
 use crate::config::{

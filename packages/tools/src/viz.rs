@@ -2,7 +2,13 @@
 
 use clap::{Parser, ValueEnum};
 use libafl::inputs::{HasMutatorBytes, Input};
-use railcar_graph::{ConstantValue, Graph, HasSchema, Node, NodePayload, ParametricGraph};
+use railcar::{
+    inputs::{
+        graph::{Node, NodePayload},
+        Graph, ParametricGraph,
+    },
+    schema::{ConstantValue, HasSchema},
+};
 use serde::{Deserialize, Serialize};
 
 fn node_label(node: &Node) -> String {

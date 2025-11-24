@@ -8,7 +8,7 @@ use libafl::monitors::{
     Monitor, MultiMonitor,
 };
 
-use railcar_graph::metrics::{HeartbeatEvent, Metrics};
+use crate::metrics::{HeartbeatEvent, Metrics};
 
 fn fold<F, T>(mgr: &ClientStatsManager, get: F) -> T
 where

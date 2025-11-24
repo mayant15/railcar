@@ -16,10 +16,9 @@ use nix::{
     sys::wait::WaitStatus,
     unistd::{ForkResult, Pid},
 };
-use railcar_graph::{schema::Schema, shmem::ShMemView};
 use serde::{Deserialize, Serialize};
 
-use crate::client::FuzzerMode;
+use crate::{schema::Schema, shmem::ShMemView, FuzzerConfig, FuzzerMode};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct InvokeArgs {
@@ -273,5 +272,17 @@ impl Worker {
         self.proc.wait()?;
         self.release_shmem()?;
         Ok(())
+    }
+}
+
+impl From<&FuzzerConfig> for WorkerArgs {
+    fn from(config: &FuzzerConfig) -> Self {
+        WorkerArgs {
+            mode: config.mode.clone(),
+            entrypoint: config.entrypoint.clone(),
+            schema_file: config.schema_file.clone(),
+            replay: config.replay,
+            config_file: config.config_file.clone(),
+        }
     }
 }

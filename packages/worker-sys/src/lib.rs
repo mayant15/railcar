@@ -3,7 +3,7 @@
 use libafl_bolts::shmem::{MmapShMem, MmapShMemProvider, ShMemDescription, ShMemProvider};
 use napi::{Env, JsObject};
 
-use railcar_graph::shmem::ShMemView;
+use railcar::shmem::ShMemView;
 
 #[macro_use]
 extern crate napi_derive;

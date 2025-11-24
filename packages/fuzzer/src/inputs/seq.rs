@@ -12,15 +12,11 @@ use std::{
 
 use crate::{
     config::SEQUENCE_COMPLETION_REUSE_RATE,
+    inputs::{CanValidate, HasSeqLen, ToFuzzerInput},
     rng::{redistribute, TrySample},
-    schema::{CallConvention, CanValidate, EndpointName, Schema, Type, TypeGuess, TypeKind},
+    schema::{CallConvention, EndpointName, Schema, Type, TypeGuess, TypeKind},
+    FuzzerConfig, FuzzerMode,
 };
-
-pub type NodeId = usize;
-
-pub trait HasSeqLen {
-    fn seq_len(&self) -> usize;
-}
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ApiCall {
@@ -323,5 +319,22 @@ impl CanValidate for ApiSeq {
                 }
             }
         }
+    }
+}
+
+impl ToFuzzerInput for ApiSeq {
+    fn to_fuzzer_input(&self, config: &FuzzerConfig) -> Result<Vec<u8>> {
+        if !matches!(config.mode, FuzzerMode::Sequence) {
+            bail!("sequence inputs need FuzzerMode::Sequence");
+        }
+
+        let bytes = match rmp_serde::to_vec_named(self) {
+            Ok(bytes) => bytes,
+            Err(e) => {
+                bail!("failed to create bytes from sequence {}", e);
+            }
+        };
+
+        Ok(bytes)
     }
 }

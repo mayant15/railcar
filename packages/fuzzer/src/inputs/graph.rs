@@ -1,51 +1,35 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+use anyhow::{anyhow, bail, Result};
 
-use anyhow::{anyhow, Result};
+#[expect(clippy::disallowed_types)]
+use std::collections::HashMap;
+
 use std::{
     collections::{BTreeMap, HashSet, VecDeque},
     fmt::Display,
     hash::{Hash, Hasher},
 };
 
-#[expect(clippy::disallowed_types)]
-use std::collections::HashMap;
-
-use config::{FILL_CONSTANT_RATE, FILL_REUSE_RATE};
 use libafl::{
-    inputs::{BytesInput, HasMutatorBytes, Input, ResizableMutator},
+    inputs::{BytesInput, Input},
     state::DEFAULT_MAX_SIZE,
 };
-use libafl_bolts::{rands::Rand, HasLen};
+use libafl_bolts::rands::Rand;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    config::{MAX_COMPLETE_WITH_ENDPOINTS, MAX_COMPLETION_ITER},
-    rng::TrySample,
-    schema::{CallConvention, CanValidate, EndpointName, Schema, Signature, SignatureQuery, Type},
+    config::{
+        FILL_CONSTANT_RATE, FILL_REUSE_RATE, MAX_COMPLETE_WITH_ENDPOINTS, MAX_COMPLETION_ITER,
+    },
+    inputs::{CanValidate, HasSeqLen, ToFuzzerInput},
+    rng::{self, BytesRand, TrySample},
+    schema::{
+        CallConvention, ConstantValue, EndpointName, HasSchema, Schema, Signature, SignatureQuery,
+        Type,
+    },
+    FuzzerConfig, FuzzerMode,
 };
-use crate::{rng::BytesRand, seq::HasSeqLen};
-
-pub mod metrics;
-pub mod rng;
-pub mod schema;
-pub mod seq;
-pub mod shmem;
-
-mod config;
 
 pub type NodeId = usize;
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub enum ConstantValue {
-    Number(f64),
-    String(String),
-    Boolean(bool),
-    Object(BTreeMap<String, ConstantValue>),
-    Array(Vec<ConstantValue>),
-    Undefined,
-    Null,
-    Function,
-}
 
 #[derive(Serialize, Deserialize, Clone)]
 pub enum NodePayload {
@@ -197,11 +181,6 @@ impl Display for Node {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", serde_json::to_string_pretty(self).unwrap())
     }
-}
-
-pub trait HasSchema {
-    fn schema(&self) -> &Schema;
-    fn schema_mut(&mut self) -> &mut Schema;
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -771,104 +750,6 @@ impl Display for Graph {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct ParametricGraph {
-    schema: Schema,
-
-    #[serde(with = "serde_bytes")]
-    bytes: Vec<u8>,
-}
-
-impl ParametricGraph {
-    pub fn new(schema: Schema, bytes: Vec<u8>) -> Self {
-        Self { schema, bytes }
-    }
-}
-
-impl Hash for ParametricGraph {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        #[expect(clippy::disallowed_methods)]
-        let ser = rmp_serde::to_vec(self).expect("failed to serialize graph for hash");
-        ser.hash(state);
-    }
-}
-
-impl Input for ParametricGraph {
-    fn to_file<P>(&self, path: P) -> Result<(), libafl::Error>
-    where
-        P: AsRef<std::path::Path>,
-    {
-        let serialized = rmp_serde::to_vec_named(self)
-            .map_err(|e| libafl::Error::unknown(format!("failed to serialize input {}", e)))?;
-        assert!(
-            serialized.len() < DEFAULT_MAX_SIZE,
-            "graph exceeds state max size"
-        );
-        libafl_bolts::fs::write_file_atomic(path, &serialized)
-    }
-
-    fn from_file<P>(path: P) -> Result<Self, libafl::Error>
-    where
-        P: AsRef<std::path::Path>,
-    {
-        let file = std::fs::File::open(path)?;
-        let deserialized = rmp_serde::from_read(file)
-            .map_err(|e| libafl::Error::unknown(format!("failed to load input {}", e)))?;
-        Ok(deserialized)
-    }
-}
-
-impl HasSchema for ParametricGraph {
-    fn schema(&self) -> &Schema {
-        &self.schema
-    }
-
-    fn schema_mut(&mut self) -> &mut Schema {
-        &mut self.schema
-    }
-}
-
-impl HasMutatorBytes for ParametricGraph {
-    fn mutator_bytes(&self) -> &[u8] {
-        &self.bytes
-    }
-
-    fn mutator_bytes_mut(&mut self) -> &mut [u8] {
-        &mut self.bytes
-    }
-}
-
-impl HasLen for ParametricGraph {
-    fn len(&self) -> usize {
-        self.bytes.len()
-    }
-}
-
-impl ResizableMutator<u8> for ParametricGraph {
-    fn resize(&mut self, new_len: usize, value: u8) {
-        self.bytes.resize(new_len, value);
-    }
-
-    fn extend<'a, I: IntoIterator<Item = &'a u8>>(&mut self, iter: I) {
-        Extend::extend(&mut self.bytes, iter);
-    }
-
-    fn splice<R, I>(&mut self, range: R, replace_with: I) -> std::vec::Splice<'_, I::IntoIter>
-    where
-        R: core::ops::RangeBounds<usize>,
-        I: IntoIterator<Item = u8>,
-    {
-        self.bytes.splice(range, replace_with)
-    }
-
-    fn drain<R>(&mut self, range: R) -> std::vec::Drain<'_, u8>
-    where
-        R: core::ops::RangeBounds<usize>,
-    {
-        self.bytes.drain(range)
-    }
-}
-
 impl CanValidate for Graph {
     fn is_valid(&self) {
         assert!(self.nodes.contains_key(&self.root));
@@ -893,16 +774,25 @@ impl CanValidate for Graph {
     }
 }
 
-impl CanValidate for ParametricGraph {}
-
 impl HasSeqLen for BytesInput {
     fn seq_len(&self) -> usize {
         1
     }
 }
 
-impl HasSeqLen for ParametricGraph {
-    fn seq_len(&self) -> usize {
-        1
+impl ToFuzzerInput for Graph {
+    fn to_fuzzer_input(&self, config: &FuzzerConfig) -> Result<Vec<u8>> {
+        if !matches!(config.mode, FuzzerMode::Graph) {
+            bail!("graph inputs need FuzzerMode::Graph");
+        }
+
+        let bytes = match rmp_serde::to_vec_named(self) {
+            Ok(bytes) => bytes,
+            Err(e) => {
+                bail!("failed to create bytes from graph {}", e);
+            }
+        };
+
+        Ok(bytes)
     }
 }

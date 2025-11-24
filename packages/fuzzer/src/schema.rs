@@ -9,10 +9,21 @@ use serde::{Deserialize, Serialize};
 use crate::{
     config::ENABLE_LIKELIHOOD_BASED_CONCRETIZATION,
     rng::{self, Distribution, TrySample},
-    ConstantValue,
 };
 
 pub type EndpointName = String;
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub enum ConstantValue {
+    Number(f64),
+    String(String),
+    Boolean(bool),
+    Object(BTreeMap<String, ConstantValue>),
+    Array(Vec<ConstantValue>),
+    Undefined,
+    Null,
+    Function,
+}
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(transparent)]
@@ -548,6 +559,7 @@ pub struct SignatureQuery {
     pub callconv: Option<CallConvention>,
 }
 
-pub trait CanValidate {
-    fn is_valid(&self) {}
+pub trait HasSchema {
+    fn schema(&self) -> &Schema;
+    fn schema_mut(&mut self) -> &mut Schema;
 }

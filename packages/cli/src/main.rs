@@ -13,10 +13,13 @@ use libafl_bolts::{
     core_affinity::Cores,
     shmem::{MmapShMemProvider, ShMemProvider},
 };
-use railcar_graph::{seq::ApiSeq, Graph, ParametricGraph};
+use railcar::{
+    inputs::{ApiSeq, Graph, ParametricGraph, ToFuzzerInput},
+    monitor::StdMonitor,
+    FuzzerConfig, FuzzerMode, RestartingManager, State,
+};
 
-use railcar::client::{FuzzerConfig, FuzzerMode, RestartingManager, State, ToFuzzerInput};
-use railcar::monitor::StdMonitor;
+mod client;
 
 /// Fuzzer for JavaScript libraries with automatic fuzz drivers
 #[derive(Parser)]
@@ -112,7 +115,7 @@ where
     log::info!("        seed: {}", config.seed);
 
     let mut run_client = |_, restarting_mgr, _| {
-        railcar::client::replay_input::<I, _>(restarting_mgr, &config)
+        client::replay_input::<I, _>(restarting_mgr, &config)
             .map_err(|e| libafl::Error::unknown(e.to_string()))
     };
 
@@ -147,7 +150,7 @@ where
     log::info!("        seed: {}", config.seed);
 
     let mut run_client = |state, restarting_mgr, _| {
-        railcar::client::replay::<I, _>(state, restarting_mgr, &config)
+        client::replay::<I, _>(state, restarting_mgr, &config)
             .map_err(|e| libafl::Error::unknown(e.to_string()))
     };
 
@@ -228,7 +231,7 @@ fn main() -> Result<()> {
 
     std::fs::create_dir_all(&outdir)?;
 
-    let config = railcar::client::FuzzerConfig {
+    let config = FuzzerConfig {
         mode: args.mode.clone(),
         timeout: Duration::from_secs(args.timeout),
         corpus: outdir.join("corpus"),
@@ -305,34 +308,22 @@ fn main() -> Result<()> {
         }
     } else {
         match args.mode {
-            FuzzerMode::Bytes => launch_fuzzer(
-                railcar::client::bytes::start,
-                config,
-                shmem_provider,
-                monitor,
-                cores,
-            ),
-            FuzzerMode::Graph => launch_fuzzer(
-                railcar::client::graph::start,
-                config,
-                shmem_provider,
-                monitor,
-                cores,
-            ),
+            FuzzerMode::Bytes => {
+                launch_fuzzer(client::bytes::start, config, shmem_provider, monitor, cores)
+            }
+            FuzzerMode::Graph => {
+                launch_fuzzer(client::graph::start, config, shmem_provider, monitor, cores)
+            }
             FuzzerMode::Parametric => launch_fuzzer(
-                railcar::client::parametric::start,
+                client::parametric::start,
                 config,
                 shmem_provider,
                 monitor,
                 cores,
             ),
-            FuzzerMode::Sequence => launch_fuzzer(
-                railcar::client::seq::start,
-                config,
-                shmem_provider,
-                monitor,
-                cores,
-            ),
+            FuzzerMode::Sequence => {
+                launch_fuzzer(client::seq::start, config, shmem_provider, monitor, cores)
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use clap::Parser;
-use railcar_graph::Graph;
+use railcar::inputs::Graph;
 
 #[derive(Parser)]
 struct Arguments {

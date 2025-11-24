@@ -1,12 +1,12 @@
 use std::borrow::Cow;
 
+use crate::shmem::ShMemView;
 use libafl::observers::{HitcountsMapObserver, Observer, StdMapObserver};
 use libafl_bolts::{
     shmem::ShMem,
     tuples::{tuple_list, tuple_list_type},
     Named,
 };
-use railcar_graph::shmem::ShMemView;
 use serde::{Deserialize, Serialize};
 
 pub type Observers = tuple_list_type!(

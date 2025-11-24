@@ -18,11 +18,13 @@ use libafl_bolts::{
     tuples::{Handle, Handled, MatchFirstType, MatchName, MatchNameRef},
     Named,
 };
-use railcar_graph::seq::HasSeqLen;
 use serde::{Deserialize, Serialize};
 
-use crate::observer::{
-    ApiProgressObserver, CoverageObserver, Observers, TotalEdgesObserver, ValidityObserver,
+use crate::{
+    inputs::HasSeqLen,
+    observer::{
+        ApiProgressObserver, CoverageObserver, Observers, TotalEdgesObserver, ValidityObserver,
+    },
 };
 
 type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;

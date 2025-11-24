@@ -6,7 +6,7 @@ license = "AGPL-3.0-or-later"
 
 [dependencies]
 glob = "0.3.2"
-railcar_graph = { path = "../graph" }
+railcar = { path = "../fuzzer" }
 serde = "1.0.216"
 serde_json = "1.0.134"
 regex = "1.11.1"
