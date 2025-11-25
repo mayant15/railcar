@@ -1,4 +1,4 @@
 module.exports = {
-    instrumentFilter: (f) => f.includes("angular"),
-    oracle: () => false,
+    shouldInstrument: (f) => f.includes("angular"),
+    isBug: () => false,
 };

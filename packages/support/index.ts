@@ -1,3 +1,4 @@
+import { AssertionError } from "node:assert";
 import { FuzzedDataProvider as DataProvider } from "./FuzzedDataProvider.js";
 
 export class FuzzedDataProvider extends DataProvider {
@@ -6,21 +7,24 @@ export class FuzzedDataProvider extends DataProvider {
     }
 }
 
+/*
+ * Function that returns true if err is a bug.
+ */
 export type Oracle = (err: unknown) => boolean;
 
 export type Config = Partial<ValidatedConfig>;
 
 type ValidatedConfig = {
-    oracle: Oracle;
-    instrumentFilter: (_: string) => boolean;
-    methodsToSkip: string[];
+    isBug: Oracle;
+    shouldInstrument: (_: string) => boolean;
+    skipMethods: string[];
 };
 
 export function makeRailcarConfig(config: Config): ValidatedConfig {
     return {
-        oracle: config.oracle ?? makeInvalidErrorMessageOracle([]),
-        instrumentFilter: config.instrumentFilter ?? defaultInstrumentFilter,
-        methodsToSkip: config.methodsToSkip ?? [],
+        isBug: config.isBug ?? makeInvalidErrorMessageOracle([]),
+        shouldInstrument: config.shouldInstrument ?? defaultInstrumentFilter,
+        skipMethods: config.skipMethods ?? [],
     };
 }
 
@@ -40,6 +44,10 @@ const STD_ERRORS = [
 export function makeInvalidErrorMessageOracle(messages: string[]): Oracle {
     const errorSet = [...messages, ...STD_ERRORS];
     return (err) => {
+        // assertion failures are almost always bugs
+        if (err instanceof AssertionError) return true;
+
+        // these are probably caused by invalid inputs
         if (err instanceof TypeError) return false;
         if (err instanceof RangeError) return false;
 

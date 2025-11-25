@@ -64,20 +64,20 @@ Railcar allows configuration via a configuration file. By default, it looks for 
 in the current working directory. It allows three options:
 ```js
 module.exports = {
-    oracle: (error) => true,
-    instrumentFilter: (filename) => true,
-    methodsToSkip: [],
+    isBug: (error) => true,
+    shouldInstrument: (filename) => true,
+    skipMethods: [],
 }
 ```
-- `oracle`: A function which receives a thrown value, then decides if it is an actual bug or a false positive.
-- `instrumentFilter`: A function that picks which files to instrument for code coverage
-- `methodsToSkip`: Library APIs to avoid in generated harnesses
+- `isBug`: A function which receives a thrown value, then decides if it is an actual bug or a false positive.
+- `shouldInstrument`: A function that picks which files to instrument for code coverage.
+- `skipMethods`: Library APIs to avoid in generated harnesses.
 
 Railcar provides a convenience function for oracles that simply match on error messages.
 ```javascript
 const {makeInvalidErrorMessageOracle} = require("@railcar/support")
 module.exports = {
-    oracle = makeInvalidErrorMessageOracle(["bad input", /* ... */])
+    isBug: makeInvalidErrorMessageOracle(["bad input", /* ... */])
 }
 ```
 

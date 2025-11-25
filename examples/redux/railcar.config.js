@@ -1,6 +1,6 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("redux"),
-    oracle: makeInvalidErrorMessageOracle([]),
+    shouldInstrument: (f) => f.includes("redux"),
+    isBug: makeInvalidErrorMessageOracle([]),
 };

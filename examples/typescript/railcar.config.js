@@ -1,8 +1,8 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("typescript"),
-    oracle: makeInvalidErrorMessageOracle([
+    shouldInstrument: (f) => f.includes("typescript"),
+    isBug: makeInvalidErrorMessageOracle([
         "maximum call stack size exceeded",
         "host.onunrecoverableconfigfilediagnostic is not a function",
         "cannot",
@@ -18,7 +18,7 @@ module.exports = {
         "duplicate",
         "the value",
     ]),
-    methodsToSkip: [
+    skipMethods: [
         "sys.exit", // terminates the process
         "sys.clearScreen", // writes to stdout, which we're using for IPC
     ],

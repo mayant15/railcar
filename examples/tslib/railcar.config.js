@@ -1,6 +1,6 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("tslib"),
-    oracle: makeInvalidErrorMessageOracle(["Class extends value"]),
+    shouldInstrument: (f) => f.includes("tslib"),
+    isBug: makeInvalidErrorMessageOracle(["Class extends value"]),
 };

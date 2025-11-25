@@ -1,8 +1,8 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("pako"),
-    oracle: makeInvalidErrorMessageOracle([
+    shouldInstrument: (f) => f.includes("pako"),
+    isBug: makeInvalidErrorMessageOracle([
         "need dictionary",
         "stream error",
         "buffer error",

@@ -73,12 +73,12 @@ async function init(args: InitArgs): Promise<Schema | null> {
         );
         _shmem = new SharedExecutionData(args.shmem);
 
-        setupHooks(config.instrumentFilter);
+        setupHooks(config.shouldInstrument);
     }
 
     if (args.mode === "bytes") {
         _executor = new BytesExecutor(_shmem);
-        await _executor.init(args.entrypoint, config.oracle, args.replay);
+        await _executor.init(args.entrypoint, config.isBug, args.replay);
         return null;
     } else if (args.mode === "graph" || args.mode === "parametric") {
         // both parametric and graph should use the same executor
@@ -86,20 +86,20 @@ async function init(args: InitArgs): Promise<Schema | null> {
 
         const schema = await _executor.init(
             args.entrypoint,
-            config.oracle,
+            config.isBug,
             args.schemaFile ?? undefined,
             args.replay,
-            config.methodsToSkip,
+            config.skipMethods,
         );
         return schema;
     } else if (args.mode === "sequence") {
         _executor = new SequenceExecutor(_shmem);
         const schema = await _executor.init(
             args.entrypoint,
-            config.oracle,
+            config.isBug,
             args.schemaFile ?? undefined,
             args.replay,
-            config.methodsToSkip,
+            config.skipMethods,
         );
         return schema;
     } else {

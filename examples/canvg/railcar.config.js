@@ -1,8 +1,8 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("canvg"),
-    oracle: makeInvalidErrorMessageOracle([
+    shouldInstrument: (f) => f.includes("canvg"),
+    isBug: makeInvalidErrorMessageOracle([
         "Cannot read properties",
         "Cannot set properties",
         "Attribute class redefined",

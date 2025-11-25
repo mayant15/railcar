@@ -8,8 +8,8 @@
  */
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("xmldom"),
-    oracle: (err) =>
+    shouldInstrument: (f) => f.includes("xmldom"),
+    isBug: (err) =>
         typeof err === "object" &&
         (err instanceof TypeError ||
             err instanceof RangeError ||

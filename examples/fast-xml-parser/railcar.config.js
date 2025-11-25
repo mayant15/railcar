@@ -1,8 +1,8 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("fast-xml-parser"),
-    oracle: makeInvalidErrorMessageOracle([
+    shouldInstrument: (f) => f.includes("fast-xml-parser"),
+    isBug: makeInvalidErrorMessageOracle([
         "Cannot read properties",
         "Invalid",
         "Unclosed",

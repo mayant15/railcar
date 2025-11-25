@@ -1,8 +1,8 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("sharp"),
-    oracle: makeInvalidErrorMessageOracle([
+    shouldInstrument: (f) => f.includes("sharp"),
+    isBug: makeInvalidErrorMessageOracle([
         "is empty",
         "Invalid",
         "Expected",
@@ -11,7 +11,7 @@ module.exports = {
         "Missing output file path",
         "Only gaussian noise is supported at the moment",
     ]),
-    methodsToSkip: [
+    skipMethods: [
         "Sharp.cork",
         "Sharp.uncork",
         "Sharp.write",

@@ -1,6 +1,6 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("lit"),
-    oracle: makeInvalidErrorMessageOracle(["Cannot read properties"]),
+    shouldInstrument: (f) => f.includes("lit"),
+    isBug: makeInvalidErrorMessageOracle(["Cannot read properties"]),
 };

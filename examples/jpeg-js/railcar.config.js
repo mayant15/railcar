@@ -1,4 +1,4 @@
 module.exports = {
-    instrumentFilter: (f) => f.includes("jpeg-js"),
-    oracle: () => false,
+    shouldInstrument: (f) => f.includes("jpeg-js"),
+    isBug: () => false,
 };

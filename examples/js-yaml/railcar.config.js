@@ -1,8 +1,8 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    instrumentFilter: (f) => f.includes("js-yaml"),
-    oracle: makeInvalidErrorMessageOracle([
+    shouldInstrument: (f) => f.includes("js-yaml"),
+    isBug: makeInvalidErrorMessageOracle([
         "is removed in js-yaml 4",
         "Unknown",
         "unknown",
