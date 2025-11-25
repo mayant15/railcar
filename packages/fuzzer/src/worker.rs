@@ -34,7 +34,7 @@ pub struct InitArgs {
     schema_file: Option<PathBuf>,
     shmem: Option<ShMemDescription>,
     replay: bool,
-    config_file: PathBuf,
+    config_file: Option<PathBuf>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -44,7 +44,7 @@ pub struct WorkerArgs {
     pub entrypoint: PathBuf,
     pub schema_file: Option<PathBuf>,
     pub replay: bool,
-    pub config_file: PathBuf,
+    pub config_file: Option<PathBuf>,
 }
 
 type ExitCode = u8;

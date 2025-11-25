@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import assert, { AssertionError } from "node:assert";
-import fs from "node:fs/promises";
 import { Console } from "node:console";
 import { registerHooks } from "node:module";
 
@@ -40,7 +39,7 @@ type InitArgs = {
     schemaFile: string | null;
     shmem: ShMemDescription | null;
     replay: boolean;
-    configFile: string;
+    configFile: string | null;
 };
 
 type Message =
@@ -54,28 +53,18 @@ type Message =
 let _executor: BytesExecutor | GraphExecutor | SequenceExecutor | null = null;
 let _shmem: SharedExecutionData | null = null;
 
-async function exists(path: string) {
-    try {
-        await fs.access(path, fs.constants.R_OK);
-        return true;
-    } catch {
-        return false;
-    }
-}
-
 async function importDefaultModule(path: string) {
     const mod = await import(path);
     return "default" in mod ? mod.default : mod;
 }
 
-async function loadConfigFile(configFile: string) {
-    const _exists = await exists(configFile);
-    const config = _exists ? await importDefaultModule(configFile) : {};
+async function loadConfig(path: string | null) {
+    const config = path !== null ? await importDefaultModule(path) : {};
     return makeRailcarConfig(config);
 }
 
 async function init(args: InitArgs): Promise<Schema | null> {
-    const config = await loadConfigFile(args.configFile);
+    const config = await loadConfig(args.configFile);
 
     if (!args.replay) {
         assert(

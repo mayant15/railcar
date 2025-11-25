@@ -76,8 +76,8 @@ struct Arguments {
     use_validity: Option<bool>,
 
     /// Configuration file to pick options from
-    #[arg(long, default_value_t = String::from_str("railcar.config.js").unwrap())]
-    config: String,
+    #[arg(long)]
+    config: Option<PathBuf>,
 
     /// Label this fuzzer to find it in the reporter UI.
     #[arg(long)]
@@ -93,6 +93,22 @@ fn to_absolute(path: String) -> PathBuf {
         cwd.join(path)
     };
     path.canonicalize().unwrap()
+}
+
+fn find_config_file(path: Option<PathBuf>) -> Result<Option<PathBuf>> {
+    if let Some(path) = &path {
+        std::fs::File::open(path)?;
+        return Ok(Some(path.clone()));
+    }
+
+    // no config provided, try to find one in the current directory
+    let cwd = std::env::current_dir()?;
+    let default_config = cwd.join("railcar.config.js");
+    if std::fs::exists(&default_config)? {
+        Ok(Some(default_config))
+    } else {
+        Ok(None)
+    }
 }
 
 fn main() -> Result<()> {
@@ -138,7 +154,7 @@ fn main() -> Result<()> {
         port: args.port,
         use_validity: args.use_validity.unwrap_or(args.mode != FuzzerMode::Bytes),
         replay_input: args.replay_input,
-        config_file: to_absolute(args.config),
+        config_file: find_config_file(args.config)?,
         cores: cores.clone(),
         labels: if let Some(label) = args.label {
             vec![label]

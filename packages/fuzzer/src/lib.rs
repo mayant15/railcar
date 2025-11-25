@@ -62,7 +62,7 @@ pub struct FuzzerConfig {
     pub replay: bool,
     pub use_validity: bool,
     pub replay_input: Option<String>,
-    pub config_file: PathBuf,
+    pub config_file: Option<PathBuf>,
     pub cores: Cores,
     pub labels: Vec<String>,
 }
