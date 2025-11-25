@@ -28,6 +28,7 @@ use libafl_bolts::{
 use crate::{
     inputs::{
         graph::{IncomingEdge, Node, NodeId, NodePayload, OutgoingEdge, RailcarError},
+        seq::ApiCallArg,
         ApiSeq, CanValidate, Graph, HasSeqLen,
     },
     rng::{
@@ -155,8 +156,13 @@ pub type ComplexGraphMutationsType = tuple_list_type!(
 
 type FuzzSeqConsts = HavocScheduledMutator<HavocMutationsType>;
 
-pub type SequenceMutationsType<'a> =
-    tuple_list_type!(SpliceSeq<'a>, ExtendSeq<'a>, TruncateSeq, FuzzSeqConsts);
+pub type SequenceMutationsType<'a> = tuple_list_type!(
+    SpliceSeq<'a>,
+    ExtendSeq<'a>,
+    RemoveSuffixSeq,
+    RemovePrefixSeq<'a>,
+    FuzzSeqConsts
+);
 
 pub type ParametricMutationsType = HavocMutationsType;
 
@@ -237,7 +243,8 @@ pub fn sequence_mutations<'a>(schema: &'a Schema) -> SequenceMutationsType<'a> {
     tuple_list!(
         SpliceSeq { schema },
         ExtendSeq { schema },
-        TruncateSeq {},
+        RemoveSuffixSeq {},
+        RemovePrefixSeq { schema },
         HavocScheduledMutator::new(havoc_mutations()),
     )
 }
@@ -1479,16 +1486,16 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for ExtendSeq<'a> {
 }
 
 /// Remove the last call
-pub struct TruncateSeq {}
+pub struct RemoveSuffixSeq {}
 
-impl Named for TruncateSeq {
+impl Named for RemoveSuffixSeq {
     fn name(&self) -> &Cow<'static, str> {
-        static NAME: Cow<'static, str> = Cow::Borrowed("TruncateSeq");
+        static NAME: Cow<'static, str> = Cow::Borrowed("RemoveSuffixSeq");
         &NAME
     }
 }
 
-impl<S: HasRand> Mutator<ApiSeq, S> for TruncateSeq {
+impl<S: HasRand> Mutator<ApiSeq, S> for RemoveSuffixSeq {
     fn mutate(
         &mut self,
         _state: &mut S,
@@ -1503,6 +1510,58 @@ impl<S: HasRand> Mutator<ApiSeq, S> for TruncateSeq {
 
         input.is_valid();
 
+        Ok(LibAflMutationResult::Mutated)
+    }
+
+    fn post_exec(
+        &mut self,
+        _state: &mut S,
+        _new_corpus_id: Option<CorpusId>,
+    ) -> Result<(), libafl::Error> {
+        Ok(())
+    }
+}
+
+/// Remove the first call
+pub struct RemovePrefixSeq<'a> {
+    schema: &'a Schema,
+}
+
+impl<'a> Named for RemovePrefixSeq<'a> {
+    fn name(&self) -> &Cow<'static, str> {
+        static NAME: Cow<'static, str> = Cow::Borrowed("RemovePrefixSeq");
+        &NAME
+    }
+}
+
+impl<'a, S: HasRand> Mutator<ApiSeq, S> for RemovePrefixSeq<'a> {
+    fn mutate(
+        &mut self,
+        state: &mut S,
+        input: &mut ApiSeq,
+    ) -> Result<LibAflMutationResult, libafl::Error> {
+        if input.seq_len() < 2 {
+            return Ok(LibAflMutationResult::Skipped);
+        }
+
+        input.seq_mut().remove(0);
+        for call in input.seq_mut() {
+            for arg in &mut call.args {
+                if let ApiCallArg::Output(index) = arg {
+                    if *index == 0 {
+                        *arg = ApiCallArg::Missing;
+                    } else {
+                        *index -= 1;
+                    }
+                }
+            }
+        }
+
+        input
+            .complete(state.rand_mut(), self.schema)
+            .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
+
+        input.is_valid();
         Ok(LibAflMutationResult::Mutated)
     }
 

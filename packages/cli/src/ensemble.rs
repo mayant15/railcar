@@ -13,7 +13,7 @@ use railcar::{
     feedback::{StdFeedback, UniqCrashFeedback},
     generators::ApiSeqGenerator,
     inputs::ApiSeq,
-    mutations::{ExtendSeq, SpliceSeq, TruncateSeq},
+    mutations::{ExtendSeq, RemoveSuffixSeq, SpliceSeq},
     observer::make_observers,
     scheduler::StdScheduler,
     FuzzerConfig, FuzzerMode, RestartingManager, Worker,
@@ -88,7 +88,7 @@ fn run_client(
         let mutator = HavocScheduledMutator::new(tuple_list!(
             SpliceSeq { schema: &schema },
             ExtendSeq { schema: &schema },
-            TruncateSeq {},
+            RemoveSuffixSeq {},
         ));
         start_client_fuzzer(FuzzerLaunchArgs {
             config,

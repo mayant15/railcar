@@ -20,9 +20,9 @@ use crate::{
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ApiCall {
-    name: EndpointName,
-    args: Vec<ApiCallArg>,
-    conv: CallConvention,
+    pub name: EndpointName,
+    pub args: Vec<ApiCallArg>,
+    pub conv: CallConvention,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
