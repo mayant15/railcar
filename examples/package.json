@@ -19,7 +19,6 @@
         "node-fetch-commonjs": "3.3.2",
         "pako": "2.1.0",
         "prebuild": "13.0.1",
-        "promise-polyfill": "8.3.0",
         "protobufjs": "6.11.4",
         "redux": "5.0.1",
         "sharp": "0.34.3",
