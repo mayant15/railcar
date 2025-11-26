@@ -84,21 +84,27 @@ struct Arguments {
     label: Option<String>, // TODO: ^ making this a vector crashes in release builds (some serde issue)
 }
 
-fn to_absolute(path: String) -> PathBuf {
-    let path = PathBuf::from_str(path.as_str()).unwrap();
+fn to_absolute_path(path: PathBuf) -> Result<PathBuf> {
     let path = if path.is_absolute() {
         path
     } else {
-        let cwd = std::env::current_dir().unwrap();
+        let cwd = std::env::current_dir()?;
         cwd.join(path)
     };
-    path.canonicalize().unwrap()
+    let path = path.canonicalize()?;
+    Ok(path)
+}
+
+fn to_absolute(path: String) -> Result<PathBuf> {
+    let path = PathBuf::from_str(path.as_str())?;
+    to_absolute_path(path)
 }
 
 fn find_config_file(path: Option<PathBuf>) -> Result<Option<PathBuf>> {
-    if let Some(path) = &path {
-        std::fs::File::open(path)?;
-        return Ok(Some(path.clone()));
+    if let Some(path) = path {
+        let path = to_absolute_path(path)?;
+        std::fs::File::open(&path)?;
+        return Ok(Some(path));
     }
 
     // no config provided, try to find one in the current directory
@@ -128,10 +134,10 @@ fn main() -> Result<()> {
 
     let cores = Cores::from_cmdline(args.cores.as_str())?;
 
-    let outdir = args
-        .outdir
-        .map(to_absolute)
-        .unwrap_or_else(|| std::env::current_dir().unwrap().join("railcar-out"));
+    let outdir = args.outdir.map(to_absolute).unwrap_or_else(|| {
+        let p = std::env::current_dir()?;
+        Ok(p.join("railcar-out"))
+    })?;
 
     std::fs::create_dir_all(&outdir)?;
 
@@ -147,8 +153,8 @@ fn main() -> Result<()> {
                 .unwrap()
                 .as_secs()
         }),
-        entrypoint: to_absolute(args.entrypoint),
-        schema_file: args.schema.map(to_absolute),
+        entrypoint: to_absolute(args.entrypoint)?,
+        schema_file: args.schema.map(|s| to_absolute(s).unwrap()),
         simple_mutations: args.simple_mutations,
         replay: args.replay,
         port: args.port,
