@@ -36,5 +36,7 @@ module.exports = {
         "Sharp.end",
         "Sharp.emit",
         "Sharp.toArray",
+        "Sharp.toFile",
+        "Sharp.toBuffer",
     ],
 };
