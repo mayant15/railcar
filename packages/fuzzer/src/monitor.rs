@@ -53,7 +53,7 @@ fn valid_corpus(stats: &ClientStats) -> Option<u64> {
     Some(*valid_corpus)
 }
 
-fn make_heartbeat_event(mgr: &ClientStatsManager) -> HeartbeatEvent {
+fn make_heartbeat_event(mgr: &ClientStatsManager, labels: String) -> HeartbeatEvent {
     HeartbeatEvent {
         // max
         coverage: fold(mgr, coverage, std::cmp::max),
@@ -66,6 +66,8 @@ fn make_heartbeat_event(mgr: &ClientStatsManager) -> HeartbeatEvent {
         total_edges: fold(mgr, total_edges, snd),
         valid_corpus: fold(mgr, valid_corpus, snd),
         corpus: fold(mgr, |s| Some(s.corpus_size()), snd),
+
+        labels,
     }
 }
 
@@ -77,16 +79,18 @@ fn snd<T>(_: T, b: T) -> T {
 pub struct StdMonitor<F: FnMut(&str)> {
     terminal: MultiMonitor<F>,
     metrics: Metrics,
+    labels: String,
 }
 
 impl<F: FnMut(&str)> StdMonitor<F> {
-    pub fn new<P: AsRef<Path>>(print_fn: F, path: P) -> Result<Self> {
+    pub fn new<P: AsRef<Path>>(print_fn: F, path: P, labels: &[String]) -> Result<Self> {
         let metrics = Metrics::new(Some(path))?;
         metrics.init_for_event::<HeartbeatEvent>()?;
 
         Ok(StdMonitor {
             terminal: MultiMonitor::new(print_fn),
             metrics,
+            labels: labels.join(","),
         })
     }
 }
@@ -99,7 +103,7 @@ impl<F: FnMut(&str)> Monitor for StdMonitor<F> {
         sender_id: libafl_bolts::ClientId,
     ) -> Result<(), libafl::Error> {
         if event_msg == "Client Heartbeat" {
-            let event = make_heartbeat_event(mgr);
+            let event = make_heartbeat_event(mgr, self.labels.clone());
             self.metrics
                 .record(event)
                 .map_err(|err| libafl::Error::unknown(err.to_string()))?;

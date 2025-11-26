@@ -39,6 +39,10 @@ struct Arguments {
     #[arg(long)]
     outdir: Option<String>,
 
+    /// Path to a metrics database file. Railcar will create one if it doesn't exist.
+    #[arg(long)]
+    metrics: Option<PathBuf>,
+
     /// Fuzz driver variant to use
     #[arg(long, value_enum, default_value_t = FuzzerMode::Graph)]
     mode: FuzzerMode,
@@ -146,7 +150,7 @@ fn main() -> Result<()> {
         timeout: Duration::from_secs(args.timeout),
         corpus: outdir.join("corpus"),
         crashes: outdir.join("crashes"),
-        metrics: outdir.join("metrics.db"),
+        metrics: args.metrics.unwrap_or_else(|| outdir.join("metrics.db")),
         seed: args.seed.unwrap_or_else(|| {
             std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
@@ -184,6 +188,7 @@ fn main() -> Result<()> {
             }
         },
         &config.metrics,
+        &config.labels,
     )?;
 
     dump_run_metadata(outdir, &config)?;

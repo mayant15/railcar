@@ -18,7 +18,12 @@ pub struct Metrics {
 impl Metrics {
     pub fn new<P: AsRef<Path>>(path: Option<P>) -> Result<Self> {
         let conn = if let Some(path) = path {
-            Connection::open(path)
+            let exists = std::fs::exists(&path)?;
+            let conn = Connection::open(path)?;
+            if !exists {
+                conn.pragma_update(None, "journal_mode", "WAL")?;
+            }
+            Ok(conn)
         } else {
             Connection::open_in_memory()
         }?;
@@ -48,19 +53,21 @@ pub struct HeartbeatEvent {
     pub valid_corpus: u64,
     pub corpus: u64,
     pub total_edges: u64,
+    pub labels: String,
 }
 
 impl Event for HeartbeatEvent {
     fn init(conn: &Connection) -> Result<()> {
         static CREATE_SQL: &str = "
         CREATE TABLE heartbeat (
-            timestamp INTEGER PRIMARY KEY,
+            timestamp INTEGER NOT NULL,
             coverage UINT32 NOT NULL,
             execs UINT32 NOT NULL,
             valid_execs UINT32 NOT NULL,
             valid_corpus UINT32 NOT NULL,
             corpus UINT32 NOT NULL,
-            total_edges UINT32 NOT NULL
+            total_edges UINT32 NOT NULL,
+            labels TEXT
         )";
 
         static CHECK_SQL: &str = "
@@ -68,10 +75,11 @@ impl Event for HeartbeatEvent {
         WHERE name = 'heartbeat'
         ";
 
-        let rows = conn.execute(CHECK_SQL, ())?;
-        assert!(rows <= 1);
+        let mut check = conn.prepare(CHECK_SQL)?;
+        let mut rows = check.query(())?;
 
-        if rows == 0 {
+        // create a new heartbeat table if none exists
+        if rows.next()?.is_none() {
             _ = conn.execute(CREATE_SQL, ())?;
         }
 
@@ -79,7 +87,7 @@ impl Event for HeartbeatEvent {
     }
 
     fn append(&self, conn: &Connection) -> Result<()> {
-        static SQL: &str = "INSERT INTO heartbeat VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7);";
+        static SQL: &str = "INSERT INTO heartbeat VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8);";
 
         let now: DateTime<Utc> = std::time::SystemTime::now().into();
 
@@ -93,6 +101,7 @@ impl Event for HeartbeatEvent {
                 self.valid_corpus,
                 self.corpus,
                 self.total_edges,
+                &self.labels,
             ),
         )?;
         debug_assert!(changed == 1);

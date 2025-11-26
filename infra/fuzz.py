@@ -34,6 +34,8 @@ def generate_configs(
     tool = Railcar()
     configs: list[Config] = []
 
+    metrics = path.join(results_dir, "metrics.db")
+
     for project in projects:
         for mode in modes:
 
@@ -55,6 +57,7 @@ def generate_configs(
 
                 configs.append(Config(tool, Railcar.RunArgs(
                     timeout=timeout,
+                    metrics=metrics,
                     outdir=outdir,
                     seed=seeds[i],
                     mode=mode,
@@ -84,11 +87,11 @@ def generate_summary_prefix(timeout, seeds) -> str:
     return summary
 
 
-def collect_coverage(configs: list[Config], results: str) -> str:
+def collect_coverage(configs: list[Config], results_dir: str) -> str:
     configs = [x for cs in configs for x in cs]
     results = []
     for config in configs:
-        db = path.join(config.args.outdir, "metrics.db")
+        db = path.join(results_dir, "metrics.db")
         conn = sqlite3.connect(db)
         cur = conn.cursor()
         row = cur.execute("""

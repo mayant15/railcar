@@ -6,5 +6,5 @@ module.exports = {
     skipMethods: [
         "ReactiveElement.scheduleUpdate",
         "ReactiveElement.requestUpdate",
-    ]
+    ],
 };

@@ -25,6 +25,7 @@ class Railcar(Tool):
         seed: Optional[int] = None
         core: Optional[int] = None
         timeout: Optional[int] = None
+        metrics: Optional[str] = None
         labels: Optional[list[str]] = None
         config_file_path: Optional[str] = None
 
@@ -43,6 +44,9 @@ class Railcar(Tool):
             "--mode", args.mode,
             "--port", str(port),
         ]
+
+        if args.metrics is not None:
+            cmd += ["--metrics", args.metrics]
 
         if args.config_file_path is not None:
             cmd += ["--config", args.config_file_path]
