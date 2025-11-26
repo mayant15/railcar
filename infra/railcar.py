@@ -55,10 +55,8 @@ class Railcar(Tool):
             cmd += ["--seed", str(args.seed)]
 
         if args.labels is not None:
-            # TODO: Enable when we can accept multiple labels with clap
-            # for label in args.labels:
-            #     cmd += ["--label", label]
-            cmd += ["--label", args.labels[0]]
+            for label in args.labels:
+                cmd += ["--label", str(label)]
 
         if args.core is not None:
             cmd += ["--cores", str(args.core)]

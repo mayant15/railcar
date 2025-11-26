@@ -85,7 +85,7 @@ struct Arguments {
 
     /// Label this fuzzer to find it in the reporter UI.
     #[arg(long)]
-    label: Option<String>, // TODO: ^ making this a vector crashes in release builds (some serde issue)
+    label: Vec<String>,
 }
 
 fn to_absolute_path(path: PathBuf) -> Result<PathBuf> {
@@ -166,11 +166,7 @@ fn main() -> Result<()> {
         replay_input: args.replay_input,
         config_file: find_config_file(args.config)?,
         cores: cores.clone(),
-        labels: if let Some(label) = args.label {
-            vec![label]
-        } else {
-            Vec::new()
-        },
+        labels: args.label,
     };
 
     let shmem_provider = MmapShMemProvider::new()?;
