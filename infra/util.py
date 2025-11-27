@@ -10,9 +10,9 @@ RAILCAR_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
 EXAMPLES_DIR = path.join(RAILCAR_ROOT, "examples")
 
 
-def ensure_results_dir() -> str:
+def ensure_results_dir(prefix: str = "railcar") -> str:
     timestamp = datetime.now().strftime("%Y-%m-%d-%s")
-    dir = path.join(getcwd(), f"railcar-results-{timestamp}")
+    dir = path.join(getcwd(), f"{prefix}-results-{timestamp}")
 
     if path.exists(dir):
         rmtree(dir)
@@ -21,11 +21,11 @@ def ensure_results_dir() -> str:
     return dir
 
 
-def get_old_results_dir() -> str | None:
+def get_old_results_dir(prefix: str = "railcar") -> str | None:
     dirs = listdir()
     latest = None
     for dir in dirs:
-        if dir.startswith("railcar-results-"):
+        if dir.startswith(f"{prefix}-results-"):
             mod = path.getmtime(dir)
             if latest is None:
                 latest = dir
