@@ -60,7 +60,7 @@ def generate_configs(
                     core=core,
                     entrypoint=entrypoint,
                     config_file_path=config_file,
-                    labels=[project, i]
+                    labels=[project, i, mode]
                 )))
 
     return [configs]
