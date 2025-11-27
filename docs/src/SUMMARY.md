@@ -9,6 +9,7 @@
 
 # Development Notes
 
+- [Setup](dev-setup.md)
 - [Feedback](feedback.md)
 - [Performance](performance.md)
 - [Devtools](devtools.md)
