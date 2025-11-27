@@ -61,10 +61,9 @@ struct Arguments {
     #[arg(long)]
     seed: Option<u64>,
 
-    // TODO: make cores optional
     /// Cores to run on. Comma-separated numbers and ranges, like "1,2-4,6" or "all"
-    #[arg(long, default_value_t = String::from_str("1").unwrap())]
-    cores: String,
+    #[arg(long)]
+    cores: Option<String>,
 
     /// Path to a schema file for the target library. Will be inferred at run-time otherwise
     #[arg(long)]
@@ -136,7 +135,15 @@ fn main() -> Result<()> {
 
     let args = Arguments::parse();
 
-    let cores = Cores::from_cmdline(args.cores.as_str())?;
+    let cores = if let Some(cores) = args.cores {
+        Cores::from_cmdline(cores.as_str())
+    } else {
+        if args.ensemble {
+            Cores::from_cmdline("1,2")
+        } else {
+            Cores::from_cmdline("1")
+        }
+    }?;
 
     let outdir = args.outdir.map(to_absolute).unwrap_or_else(|| {
         let p = std::env::current_dir()?;

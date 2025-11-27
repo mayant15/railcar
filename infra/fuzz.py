@@ -33,7 +33,7 @@ def generate_configs(
 ) -> list[list[Config]]:
     tool = Railcar()
     configs: list[Config] = []
-
+    core_count = os.cpu_count()
     metrics = path.join(results_dir, "metrics.db")
 
     for project in projects:
@@ -49,12 +49,8 @@ def generate_configs(
                 outdir_basename += f"_{driver}"
 
             for i in range(iterations):
-
+                core = len(configs) % core_count if pin else None
                 outdir = path.join(results_dir, f"{outdir_basename}_{i}")
-
-                # on aloe, even cpu ids are performance cores
-                core = 2 * i if pin else None
-
                 configs.append(Config(tool, Railcar.RunArgs(
                     timeout=timeout,
                     metrics=metrics,
@@ -90,9 +86,9 @@ def generate_summary_prefix(timeout, seeds) -> str:
 def collect_coverage(configs: list[Config], results_dir: str) -> str:
     configs = [x for cs in configs for x in cs]
     results = []
+    db = path.join(results_dir, "metrics.db")
+    conn = sqlite3.connect(db)
     for config in configs:
-        db = path.join(results_dir, "metrics.db")
-        conn = sqlite3.connect(db)
         cur = conn.cursor()
         row = cur.execute("""
             select coverage, total_edges, valid_execs, execs from heartbeat
@@ -156,18 +152,13 @@ def arguments():
     parser.add_argument("--mode", action='append',
                         choices=["bytes", "graph", "parametric", "sequence"],
                         help="modes to run railcar in")
-    parser.add_argument("-p", "--pin", action="store_true", help="pin fuzzer processes to a core")
+    parser.add_argument("-p", "--pin", action="store_true", default=True,
+                        help="pin fuzzer processes to a core")
     args = parser.parse_args()
 
     # minutes to seconds
     args.timeout = args.timeout * 60 if args.timeout is not None else None
     args.mode = args.mode if args.mode is not None else ["graph"]
-
-    # don't know how to pin stuff when running multiple projects
-    assert not args.pin
-
-    # don't pin stuff if running long running experiments
-    assert args.timeout is not None or not args.pin
 
     return args
 
