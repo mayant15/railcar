@@ -14,7 +14,7 @@ npx railcar entry-point.js
 where `entry-point.js` is the root of your JavaScript library. See `npx railcar --help` for more
 options.
 
-For more details and other features, see `docs/`.
+For more details and other features, see [the docs](https://mayantm.com/railcar/).
 
 ## License
 Railcar is distributed under [AGPL-3.0-or-later](https://spdx.org/licenses/AGPL-3.0-or-later.html).
