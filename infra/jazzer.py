@@ -64,7 +64,7 @@ def find_jazzer_entrypoint(project: str) -> list[str]:
     # if there's a jazzer/ directory, look into it for fuzz drivers
     drivers_dir = path.join(base, "jazzer")
     if path.exists(drivers_dir):
-        return list(listdir(drivers_dir))
+        return [path.join(drivers_dir, driver) for driver in listdir(drivers_dir)]
 
     # if there's a jazzer.js, assume there's only one fuzz driver
     jazzer = path.join(base, "jazzer.js")
