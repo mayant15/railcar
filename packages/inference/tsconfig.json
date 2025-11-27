@@ -12,7 +12,9 @@
         "./typescript.ts",
         "./index.ts",
         "./derive.ts",
-        "./reflection.ts"
+        "./reflection.ts",
+        "./syntest-infer.ts",
+        "./program-transform.ts"
     ],
     "exclude": ["./derive.test.ts"]
 }
