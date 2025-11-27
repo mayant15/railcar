@@ -4,6 +4,7 @@ target/
 dist
 node_modules/
 infra/__pycache__/*
+infra/.ipynb_checkpoints/*
 
 corpus/
 crashes/
@@ -16,6 +17,8 @@ metrics.json
 *.proto
 *.log
 
+jazzer-out
+jazzer-results-*
 railcar-out
 railcar-results-*
 *.tar.xz
