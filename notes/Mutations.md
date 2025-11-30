@@ -1,8 +1,10 @@
-# Feedback
+## API Sequence Mutations
+
+We might need crossover or similar, because our [[API Progress Feedback|progress metric]] could reject sequences that fail early, but the rest of the sequence _after_ the failure could be correct.
 
 ## Schema Mutations
 
-Before/after removing schema mutations. Seems like schema mutations hurt performance.
+We used to have some basic schema mutations. The change is after removing them. Seems like schema mutations were hurting performance. (But note that this is only a 5 minute run).
 
 ```
 9437125294854ff6f783da506b43ea6cd499c467 chore: autoformat
@@ -34,6 +36,3 @@ pako             graph    33.15%  -6.22%
 xmldom           graph     4.39%  -7.98%
 angular          graph     1.55%     NaN
 ```
-
-## API Progress Feedback
-Save input if it is more progress than its own pre-mutation version or more progress globally?
