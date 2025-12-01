@@ -18,6 +18,7 @@ libafl = { workspace = true, features = ['track_hit_feedbacks'] }
 libafl_bolts.workspace = true
 log.workspace = true
 anyhow.workspace = true
+memory-stats = { version = "1.2.0", features = ["always_use_statm"] }
 
 [dev-dependencies]
 criterion.workspace = true

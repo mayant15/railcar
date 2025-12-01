@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use anyhow::Result;
+use memory_stats::memory_stats;
 use std::path::Path;
 
 use libafl::monitors::{
@@ -103,6 +104,14 @@ impl<F: FnMut(&str)> Monitor for StdMonitor<F> {
         sender_id: libafl_bolts::ClientId,
     ) -> Result<(), libafl::Error> {
         if event_msg == "Client Heartbeat" {
+            {
+                // print memory stats
+                if let Some(usage) = memory_stats() {
+                    log::info!("## physical memory stats: {}", usage.physical_mem);
+                    log::info!("##  virtual memory stats: {}", usage.virtual_mem);
+                }
+            }
+
             let event = make_heartbeat_event(mgr, self.labels.clone());
             self.metrics
                 .record(event)
