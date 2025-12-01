@@ -28,16 +28,27 @@ def generate_configs(
     seeds: list[int],
     iterations: int,
     results_dir: str,
-    timeout: Optional[int],
-    pin: bool,
+    timeout: Optional[int] = None,
+    core_count: int = os.cpu_count(),
 ) -> list[list[Config]]:
     tool = Railcar()
-    configs: list[Config] = []
-    core_count = os.cpu_count()
     metrics = path.join(results_dir, "metrics.db")
 
-    for project in projects:
-        for mode in modes:
+    assert iterations <= core_count
+    max_parallel_projects = core_count // iterations
+
+    all_configs = []
+
+    for mode in modes:
+        mode_configs = []
+        for project_idx, project in enumerate(projects):
+            row = project_idx // max_parallel_projects
+            col = project_idx % max_parallel_projects
+            core_base = iterations * col
+
+            if row >= len(mode_configs):
+                mode_configs.append([])
+            assert len(mode_configs[row]) == core_base
 
             # TODO: Just running the first entrypoint. Eventually I would like
             # railcar to be able to run multiple entrypoints in parallel
@@ -49,9 +60,9 @@ def generate_configs(
                 outdir_basename += f"_{driver}"
 
             for i in range(iterations):
-                core = len(configs) % core_count if pin else None
+                core = core_base + i
                 outdir = path.join(results_dir, f"{outdir_basename}_{i}")
-                configs.append(Config(tool, Railcar.RunArgs(
+                mode_configs[row].append(Config(tool, Railcar.RunArgs(
                     timeout=timeout,
                     metrics=metrics,
                     outdir=outdir,
@@ -62,8 +73,9 @@ def generate_configs(
                     config_file_path=config_file,
                     labels=[project, i, mode]
                 )))
+        all_configs += mode_configs
 
-    return [configs]
+    return all_configs
 
 
 def execute_config(config: Config):
@@ -152,8 +164,6 @@ def arguments():
     parser.add_argument("--mode", action='append',
                         choices=["bytes", "graph", "parametric", "sequence"],
                         help="modes to run railcar in")
-    parser.add_argument("-p", "--pin", action="store_true", default=True,
-                        help="pin fuzzer processes to a core")
     args = parser.parse_args()
 
     # minutes to seconds
@@ -181,25 +191,23 @@ def main() -> None:
         results_dir=results_dir,
         seeds=seeds,
         timeout=args.timeout,
-        pin=args.pin
+        core_count=os.process_cpu_count(),
     )
 
-    pool_size = len(projects) * len(args.mode) * args.iterations
-    assert len(configs) == 1
-    assert pool_size == len(configs[0])
-
     if args.timeout is None:
-        pool = Pool(pool_size)
-        pool.map(execute_config, configs[0])
-        pool.close()
-        pool.terminate()
+        for config in configs:
+            pool = Pool()
+            pool.map(execute_config, config, 1)
+            pool.close()
+            pool.terminate()
     else:
         summary = generate_summary_prefix(args.timeout, seeds)
 
-        pool = Pool(pool_size)
-        pool.map(execute_config, configs[0])
-        pool.close()
-        pool.terminate()
+        for config in configs:
+            pool = Pool()
+            pool.map(execute_config, config, 1)
+            pool.close()
+            pool.terminate()
 
         coverage = collect_coverage(configs, results_dir)
 
