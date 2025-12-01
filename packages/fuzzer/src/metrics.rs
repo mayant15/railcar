@@ -2,7 +2,7 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use anyhow::Result;
+use anyhow::{bail, Result};
 use chrono::{DateTime, Utc};
 use rusqlite::Connection;
 
@@ -70,17 +70,14 @@ impl Event for HeartbeatEvent {
             labels TEXT
         )";
 
-        static CHECK_SQL: &str = "
-        SELECT name from sqlite_schema
-        WHERE name = 'heartbeat'
-        ";
-
-        let mut check = conn.prepare(CHECK_SQL)?;
-        let mut rows = check.query(())?;
-
-        // create a new heartbeat table if none exists
-        if rows.next()?.is_none() {
-            _ = conn.execute(CREATE_SQL, ())?;
+        // if we're sharing a database between multiple fuzzers, the table might already exist
+        if let Err(e) = conn.execute(CREATE_SQL, ()) {
+            let rusqlite::Error::SqliteFailure(_, Some(msg)) = &e else {
+                bail!("{}", e)
+            };
+            if msg != "table heartbeat already exists" {
+                bail!("{}", e);
+            }
         }
 
         Ok(())
