@@ -17,7 +17,8 @@ use libafl_bolts::{
     tuples::tuple_list,
 };
 use railcar::{
-    inputs::{ApiSeq, Graph, ParametricGraph, ToFuzzerInput},
+    inputs::{Graph, ParametricGraph, ToFuzzerInput},
+    seq::ApiSeq,
     FuzzerConfig, FuzzerMode, ReplayRestartingManager, ReplayState, Worker,
 };
 

@@ -137,12 +137,10 @@ fn main() -> Result<()> {
 
     let cores = if let Some(cores) = args.cores {
         Cores::from_cmdline(cores.as_str())
+    } else if args.ensemble {
+        Cores::from_cmdline("1,2")
     } else {
-        if args.ensemble {
-            Cores::from_cmdline("1,2")
-        } else {
-            Cores::from_cmdline("1")
-        }
+        Cores::from_cmdline("1")
     }?;
 
     let outdir = args.outdir.map(to_absolute).unwrap_or_else(|| {

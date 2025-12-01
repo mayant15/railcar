@@ -9,7 +9,8 @@ use libafl_bolts::{
     shmem::{MmapShMemProvider, ShMemProvider},
 };
 use railcar::{
-    inputs::{ApiSeq, Graph, ParametricGraph, ToFuzzerInput},
+    inputs::{Graph, ParametricGraph, ToFuzzerInput},
+    seq::ApiSeq,
     FuzzerConfig, FuzzerMode, ReplayRestartingManager, Worker,
 };
 

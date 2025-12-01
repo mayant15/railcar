@@ -5,11 +5,9 @@ use crate::FuzzerConfig;
 
 pub mod graph;
 pub mod parametric;
-pub mod seq;
 
 pub use graph::Graph;
 pub use parametric::ParametricGraph;
-pub use seq::ApiSeq;
 
 pub trait HasSeqLen {
     fn seq_len(&self) -> usize;

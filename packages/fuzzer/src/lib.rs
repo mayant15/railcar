@@ -23,6 +23,7 @@ pub mod observer;
 pub mod rng;
 pub mod scheduler;
 pub mod schema;
+pub mod seq;
 pub mod shmem;
 pub mod worker;
 

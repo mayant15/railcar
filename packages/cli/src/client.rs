@@ -25,12 +25,12 @@ use libafl_bolts::{
 };
 use railcar::{
     feedback::{StdFeedback, UniqCrashFeedback},
-    generators::{ApiSeqGenerator, GraphGenerator, ParametricGenerator},
-    inputs::{ApiSeq, Graph, ParametricGraph, ToFuzzerInput},
-    mutations::{parametric_mutations, sequence_mutations, GraphMutator},
+    generators::{GraphGenerator, ParametricGenerator},
+    inputs::{Graph, ParametricGraph, ToFuzzerInput},
+    mutations::{parametric_mutations, GraphMutator},
     observer::make_observers,
     scheduler::StdScheduler,
-    FuzzerConfig, FuzzerMode, RestartingManager, State, Worker,
+    seq, FuzzerConfig, FuzzerMode, RestartingManager, State, Worker,
 };
 use serde::{Deserialize, Serialize};
 
@@ -253,49 +253,6 @@ fn graph_client(
     })
 }
 
-fn seq_client(
-    state: Option<State<ApiSeq>>,
-    restarting_mgr: RestartingManager<ApiSeq>,
-    config: &FuzzerConfig,
-) -> Result<()> {
-    let mut worker = Worker::new(config.into())?;
-
-    let observers = make_observers(worker.shmem_mut().expect("must init shmem for fuzzing"));
-    let coverage = &observers.0;
-
-    let mut feedback = StdFeedback::new(config.use_validity, &observers);
-    let mut objective = UniqCrashFeedback::new(coverage);
-
-    let mut state = state.unwrap_or_else(|| {
-        StdState::new(
-            StdRand::with_seed(config.seed),
-            CachedOnDiskCorpus::no_meta(config.corpus.clone(), CORPUS_CACHE_SIZE).unwrap(),
-            OnDiskCorpus::new(config.crashes.clone()).unwrap(),
-            &mut feedback,
-            &mut objective,
-        )
-        .expect("failed to create state")
-    });
-
-    let scheduler = StdScheduler::new(&mut state, coverage);
-
-    let schema = worker.schema().unwrap().clone();
-    let generator = ApiSeqGenerator::new(&schema);
-
-    start_client_fuzzer(FuzzerLaunchArgs {
-        config,
-        observers,
-        feedback,
-        objective,
-        scheduler,
-        mutator: HavocScheduledMutator::new(sequence_mutations(&schema)),
-        generator,
-        state,
-        worker,
-        manager: restarting_mgr,
-    })
-}
-
 fn launch_parent_impl<M, F, I>(
     start: F,
     config: FuzzerConfig,
@@ -344,8 +301,6 @@ where
         FuzzerMode::Parametric => {
             launch_parent_impl(parametric_client, config, shmem_provider, monitor, cores)
         }
-        FuzzerMode::Sequence => {
-            launch_parent_impl(seq_client, config, shmem_provider, monitor, cores)
-        }
+        FuzzerMode::Sequence => seq::launch(config, shmem_provider, monitor, cores),
     }
 }

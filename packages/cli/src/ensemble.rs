@@ -11,11 +11,9 @@ use libafl_bolts::{
 };
 use railcar::{
     feedback::{StdFeedback, UniqCrashFeedback},
-    generators::ApiSeqGenerator,
-    inputs::ApiSeq,
-    mutations::{ExtendSeq, RemoveSuffixSeq, SpliceSeq},
     observer::make_observers,
     scheduler::StdScheduler,
+    seq::{ApiSeq, ApiSeqGenerator, ExtendSeq, RemoveSuffixSeq, SpliceSeq},
     FuzzerConfig, FuzzerMode, RestartingManager, Worker,
 };
 

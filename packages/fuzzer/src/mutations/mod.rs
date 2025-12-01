@@ -28,16 +28,15 @@ use libafl_bolts::{
 use crate::{
     inputs::{
         graph::{IncomingEdge, Node, NodeId, NodePayload, OutgoingEdge, RailcarError},
-        seq::ApiCallArg,
-        ApiSeq, CanValidate, Graph, HasSeqLen,
+        CanValidate, Graph,
     },
     rng::{
         context_byte_seq, extend_context_byte_seq, redistribute, string, BytesRand, Distribution,
         TrySample,
     },
     schema::{
-        CallConvention, EndpointName, HasSchema, Schema, Signature, SignatureGuess, SignatureQuery,
-        Type, TypeGuess, TypeKind,
+        CallConvention, EndpointName, HasSchema, Signature, SignatureGuess, SignatureQuery, Type,
+        TypeGuess, TypeKind,
     },
 };
 
@@ -154,16 +153,6 @@ pub type ComplexGraphMutationsType = tuple_list_type!(
     ExtendConstructor,
 );
 
-type FuzzSeqConsts = HavocScheduledMutator<HavocMutationsType>;
-
-pub type SequenceMutationsType<'a> = tuple_list_type!(
-    SpliceSeq<'a>,
-    ExtendSeq<'a>,
-    RemoveSuffixSeq,
-    RemovePrefixSeq<'a>,
-    FuzzSeqConsts
-);
-
 pub type ParametricMutationsType = HavocMutationsType;
 
 pub struct GraphMutator<S> {
@@ -237,16 +226,6 @@ fn simple_graph_mutations() -> SimpleGraphMutationsType {
 
 pub fn parametric_mutations() -> ParametricMutationsType {
     havoc_mutations()
-}
-
-pub fn sequence_mutations<'a>(schema: &'a Schema) -> SequenceMutationsType<'a> {
-    tuple_list!(
-        SpliceSeq { schema },
-        ExtendSeq { schema },
-        RemoveSuffixSeq {},
-        RemovePrefixSeq { schema },
-        HavocScheduledMutator::new(havoc_mutations()),
-    )
 }
 
 impl Truncate {
@@ -1400,176 +1379,5 @@ where
 {
     fn perform(&mut self, state: &mut S, input: &mut I) -> Result<MutationResult, libafl::Error> {
         apply_schema_mutation(state.rand_mut(), input, Self::make_nullable)
-    }
-}
-
-pub struct SpliceSeq<'a> {
-    pub schema: &'a Schema,
-}
-
-impl<'a> Named for SpliceSeq<'a> {
-    fn name(&self) -> &Cow<'static, str> {
-        static NAME: Cow<'static, str> = Cow::Borrowed("SpliceSeq");
-        &NAME
-    }
-}
-
-impl<'a, S: HasRand> Mutator<ApiSeq, S> for SpliceSeq<'a> {
-    fn mutate(
-        &mut self,
-        state: &mut S,
-        input: &mut ApiSeq,
-    ) -> Result<LibAflMutationResult, libafl::Error> {
-        if input.seq_len() < 2 {
-            return Ok(LibAflMutationResult::Skipped);
-        }
-
-        // remove a random API call
-        let rand = state.rand_mut();
-        let to_remove = rand.between(0, input.seq_len() - 1);
-
-        input.remove_call(to_remove);
-        input
-            .complete(rand, self.schema)
-            .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
-
-        input.is_valid();
-        Ok(LibAflMutationResult::Mutated)
-    }
-
-    fn post_exec(
-        &mut self,
-        _state: &mut S,
-        _new_corpus_id: Option<CorpusId>,
-    ) -> Result<(), libafl::Error> {
-        Ok(())
-    }
-}
-
-pub struct ExtendSeq<'a> {
-    pub schema: &'a Schema,
-}
-
-impl<'a> Named for ExtendSeq<'a> {
-    fn name(&self) -> &Cow<'static, str> {
-        static NAME: Cow<'static, str> = Cow::Borrowed("ExtendSeq");
-        &NAME
-    }
-}
-
-impl<'a, S: HasRand> Mutator<ApiSeq, S> for ExtendSeq<'a> {
-    fn mutate(
-        &mut self,
-        state: &mut S,
-        input: &mut ApiSeq,
-    ) -> Result<LibAflMutationResult, libafl::Error> {
-        let rand = state.rand_mut();
-        let key = rand.choose(self.schema.keys()).unwrap();
-        let sig = self.schema.get(key).unwrap();
-
-        input.append_call(key.clone(), sig.args.len(), sig.callconv);
-        input
-            .complete(rand, self.schema)
-            .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
-
-        input.is_valid();
-        Ok(LibAflMutationResult::Mutated)
-    }
-
-    fn post_exec(
-        &mut self,
-        _state: &mut S,
-        _new_corpus_id: Option<CorpusId>,
-    ) -> Result<(), libafl::Error> {
-        Ok(())
-    }
-}
-
-/// Remove the last call
-pub struct RemoveSuffixSeq {}
-
-impl Named for RemoveSuffixSeq {
-    fn name(&self) -> &Cow<'static, str> {
-        static NAME: Cow<'static, str> = Cow::Borrowed("RemoveSuffixSeq");
-        &NAME
-    }
-}
-
-impl<S: HasRand> Mutator<ApiSeq, S> for RemoveSuffixSeq {
-    fn mutate(
-        &mut self,
-        _state: &mut S,
-        input: &mut ApiSeq,
-    ) -> Result<LibAflMutationResult, libafl::Error> {
-        if input.seq_len() < 2 {
-            return Ok(LibAflMutationResult::Skipped);
-        }
-
-        let new_size = input.seq_len() - 1;
-        input.seq_mut().truncate(new_size);
-
-        input.is_valid();
-
-        Ok(LibAflMutationResult::Mutated)
-    }
-
-    fn post_exec(
-        &mut self,
-        _state: &mut S,
-        _new_corpus_id: Option<CorpusId>,
-    ) -> Result<(), libafl::Error> {
-        Ok(())
-    }
-}
-
-/// Remove the first call
-pub struct RemovePrefixSeq<'a> {
-    schema: &'a Schema,
-}
-
-impl<'a> Named for RemovePrefixSeq<'a> {
-    fn name(&self) -> &Cow<'static, str> {
-        static NAME: Cow<'static, str> = Cow::Borrowed("RemovePrefixSeq");
-        &NAME
-    }
-}
-
-impl<'a, S: HasRand> Mutator<ApiSeq, S> for RemovePrefixSeq<'a> {
-    fn mutate(
-        &mut self,
-        state: &mut S,
-        input: &mut ApiSeq,
-    ) -> Result<LibAflMutationResult, libafl::Error> {
-        if input.seq_len() < 2 {
-            return Ok(LibAflMutationResult::Skipped);
-        }
-
-        input.seq_mut().remove(0);
-        for call in input.seq_mut() {
-            for arg in &mut call.args {
-                if let ApiCallArg::Output(index) = arg {
-                    if *index == 0 {
-                        *arg = ApiCallArg::Missing;
-                    } else {
-                        *index -= 1;
-                    }
-                }
-            }
-        }
-
-        input
-            .complete(state.rand_mut(), self.schema)
-            .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
-
-        input.is_valid();
-        Ok(LibAflMutationResult::Mutated)
-    }
-
-    fn post_exec(
-        &mut self,
-        _state: &mut S,
-        _new_corpus_id: Option<CorpusId>,
-    ) -> Result<(), libafl::Error> {
-        Ok(())
     }
 }
