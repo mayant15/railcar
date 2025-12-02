@@ -1,5 +1,8 @@
+from typing import TypeVar, Generic
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+
+T = TypeVar("T")
 
 
 class Tool(ABC):
@@ -12,9 +15,9 @@ class Tool(ABC):
 
 
 @dataclass
-class Config:
+class Config(Generic[T]):
     tool: Tool
-    args: object
+    args: T
 
     def run(self):
         self.tool.run(self.args)

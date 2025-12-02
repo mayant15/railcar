@@ -23,7 +23,7 @@ class Railcar(Tool):
         outdir: str
         entrypoint: str
         seed: Optional[int] = None
-        core: Optional[int] = None
+        cores: Optional[list[int]] = None
         timeout: Optional[int] = None
         metrics: Optional[str] = None
         labels: Optional[list[str]] = None
@@ -58,8 +58,9 @@ class Railcar(Tool):
             for label in args.labels:
                 cmd += ["--label", str(label)]
 
-        if args.core is not None:
-            cmd += ["--cores", str(args.core)]
+        if args.cores is not None:
+            cores = ",".join(map(str, args.cores))
+            cmd += ["--cores", cores]
 
         cmd += [args.entrypoint]
 
