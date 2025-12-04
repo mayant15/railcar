@@ -27,7 +27,7 @@ use crate::{
     },
 };
 
-type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
+pub type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 struct ValidityMetadata {

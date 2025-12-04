@@ -6,3 +6,10 @@ We run Railcar on 18 OSS-Fuzz projects (in `examples/`). We exclude the followin
 5. **promise-polyfill:** Railcar only supports `Promise`-based asynchronous code. It needs `instanceof Promise` checks in a few places. The `Promise` class exported by `promise-polyfill` is _not the same_ as the standard `Promise` class, so these `instanceof` checks fail.
 6. **d3:** it includes several non-Promise async and browser-dependent methods for interactive visualization. The d3 OSS-Fuzz driver only tests its CSV parser.
 7. **fastify:** Requires plugins and harnesses across multiple packages. Still evaluating, might add this later.
+
+## Memory Requirements
+Ran a 24 hour run of 16 benchmarks in sequence mode. Needs about ~2.5 GB storage and ~100 MB peak memory usage (per process).
+
+So that's about ~30 GB for 18 benchmarks run for 10 iterations.
+
+If we need to run them for 3 schema modes, say ~100 GB.

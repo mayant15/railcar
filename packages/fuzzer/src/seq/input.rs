@@ -1,25 +1,33 @@
-use anyhow::{anyhow, bail, Result};
+use anyhow::{bail, Result};
 use libafl::{
     inputs::{HasMutatorBytes, Input, ResizableMutator},
     state::DEFAULT_MAX_SIZE,
 };
 use libafl_bolts::{rands::Rand, HasLen};
 use serde::{Deserialize, Serialize};
+
+#[expect(clippy::disallowed_types)]
+use std::collections::{HashMap, HashSet};
+
 use std::{
     hash::{Hash, Hasher},
+    num::NonZeroUsize,
     path::Path,
 };
 
 use crate::{
-    config::SEQUENCE_COMPLETION_REUSE_RATE,
     inputs::{CanValidate, HasSeqLen, ToFuzzerInput},
     rng::{redistribute, TrySample},
-    schema::{CallConvention, EndpointName, Schema, Type, TypeGuess, TypeKind},
+    schema::{CallConvention, EndpointName, Schema, SignatureGuess, Type, TypeGuess, TypeKind},
     FuzzerConfig, FuzzerMode,
 };
 
+// TODO: Something other than String might be faster to work with
+type CallId = String;
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ApiCall {
+    pub id: CallId,
     pub name: EndpointName,
     pub args: Vec<ApiCallArg>,
     pub conv: CallConvention,
@@ -27,7 +35,7 @@ pub struct ApiCall {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum ApiCallArg {
-    Output(usize),
+    Output(CallId),
     Constant(Type),
     Missing,
 }
@@ -39,9 +47,68 @@ pub struct ApiSeq {
     seq: Vec<ApiCall>,
 }
 
+enum ArgFillStrategy {
+    Constant,
+    Reuse,
+    New,
+}
+
+impl ArgFillStrategy {
+    fn pick<R: Rand>(rand: &mut R, guess: &TypeGuess) -> ArgFillStrategy {
+        if Self::only_class(guess) {
+            // either reuse, or new API call
+            if rand.coinflip(0.5) {
+                ArgFillStrategy::Reuse
+            } else {
+                ArgFillStrategy::New
+            }
+        } else {
+            // pick one of three
+            let idx = rand.below(NonZeroUsize::new(3).unwrap());
+            match idx {
+                0 => ArgFillStrategy::New,
+                1 => ArgFillStrategy::Reuse,
+                2 => ArgFillStrategy::Constant,
+                _ => unreachable!(),
+            }
+        }
+    }
+
+    #[inline]
+    fn only_class(guess: &TypeGuess) -> bool {
+        guess.kind.len() == 1 && guess.kind.contains_key(&TypeKind::Class)
+    }
+}
+
 impl ApiSeq {
+    fn next_id() -> CallId {
+        // TODO: Can replace this with any other more lightweight ID, as long as we
+        // handle potential collisions during sequence crossover
+        uuid::Uuid::new_v4().to_string()
+    }
+
     pub fn seq_mut(&mut self) -> &mut Vec<ApiCall> {
         &mut self.seq
+    }
+
+    /// Regenerate new call IDs. Useful for handling collisions during crossover.
+    pub fn generate_fresh_ids(&mut self) {
+        #[expect(clippy::disallowed_types)]
+        let new_ids: HashMap<CallId, CallId> = self
+            .seq
+            .iter()
+            .map(|call| (call.id.clone(), Self::next_id()))
+            .collect();
+
+        for call in &mut self.seq {
+            call.id = new_ids.get(&call.id).unwrap().clone();
+            for arg in &mut call.args {
+                if let ApiCallArg::Output(out) = arg {
+                    let new_id = new_ids.get(out).unwrap().clone();
+                    *arg = ApiCallArg::Output(new_id);
+                }
+            }
+        }
     }
 
     pub fn create<R: Rand>(rand: &mut R, schema: &Schema, fuzz: Vec<u8>) -> Result<Self> {
@@ -53,11 +120,11 @@ impl ApiSeq {
             fuzz,
             seq: Vec::new(),
         };
-        seq.append_call(name.clone(), sig.args.len(), sig.callconv);
+        let first = seq.append(name.clone(), sig.args.len(), sig.callconv);
 
-        let mut worklist = vec![0];
+        let mut worklist = vec![first.id.clone()];
         while let Some(index) = worklist.pop() {
-            seq.complete_with_consts(rand, schema, &mut worklist, index)?;
+            seq.complete_one(rand, schema, &mut worklist, index)?;
         }
 
         Ok(seq)
@@ -65,126 +132,146 @@ impl ApiSeq {
 
     pub fn complete<R: Rand>(&mut self, rand: &mut R, schema: &Schema) -> Result<()> {
         let mut worklist = vec![];
-        for (i, call) in self.seq.iter().enumerate() {
+        for call in &self.seq {
             let is_incomplete = call
                 .args
                 .iter()
                 .any(|arg| matches!(arg, ApiCallArg::Missing));
             if is_incomplete {
-                worklist.push(i)
+                worklist.push(call.id.clone())
             }
         }
 
-        while let Some(index) = worklist.pop() {
-            self.complete_with_consts(rand, schema, &mut worklist, index)?;
+        while let Some(id) = worklist.pop() {
+            self.complete_one(rand, schema, &mut worklist, id)?;
         }
 
         Ok(())
     }
 
-    pub fn remove_call(&mut self, index: usize) {
+    /// Find the index of the specified call ID
+    fn index_of(&self, id: CallId) -> Option<usize> {
+        for (index, call) in self.seq.iter().enumerate() {
+            if call.id == id {
+                return Some(index);
+            }
+        }
+        None
+    }
+
+    /// Remove the call at the specified index
+    pub fn remove(&mut self, index: usize) {
+        let id = self.seq[index].id.clone();
         self.seq.remove(index);
 
         // adjust references to the removed call
         for idx in index..self.seq.len() {
             for arg in &mut self.seq[idx].args {
-                match arg {
-                    ApiCallArg::Output(out) => {
-                        if *out < index {
-                        } else if *out == index {
-                            *arg = ApiCallArg::Missing;
-                        } else {
-                            *out -= 1;
-                        }
+                if let ApiCallArg::Output(out) = arg {
+                    if *out == id {
+                        *arg = ApiCallArg::Missing;
                     }
-                    ApiCallArg::Constant(_) => {}
-                    ApiCallArg::Missing => unreachable!(),
                 }
             }
         }
     }
 
-    pub fn append_call(&mut self, name: EndpointName, argc: usize, conv: CallConvention) {
+    /// Add a new call to the end of the sequence
+    pub fn append(&mut self, name: EndpointName, argc: usize, conv: CallConvention) -> &ApiCall {
         let mut args = Vec::new();
         args.resize(argc, ApiCallArg::Missing);
-        self.seq.push(ApiCall { name, args, conv });
+        self.seq.push(ApiCall {
+            name,
+            args,
+            conv,
+            id: Self::next_id(),
+        });
+        self.seq.last().unwrap()
     }
 
-    fn complete_with_consts<R: Rand>(
+    /// Remove the first node in the sequence
+    pub fn shift(&mut self) {
+        let id = self.seq[0].id.clone();
+        for call in &mut self.seq {
+            for arg in &mut call.args {
+                if let ApiCallArg::Output(out) = arg {
+                    if *out == id {
+                        *arg = ApiCallArg::Missing;
+                    }
+                }
+            }
+        }
+    }
+
+    #[inline]
+    fn arg(&self, call_index: usize, arg_index: usize) -> &ApiCallArg {
+        &self.seq[call_index].args[arg_index]
+    }
+
+    #[inline]
+    fn arg_mut(&mut self, call_index: usize, arg_index: usize) -> &mut ApiCallArg {
+        &mut self.seq[call_index].args[arg_index]
+    }
+
+    /// Fill in missing arguments for a single API call
+    fn complete_one<R: Rand>(
         &mut self,
         rand: &mut R,
         schema: &Schema,
-        worklist: &mut Vec<usize>,
-        index: usize,
+        worklist: &mut Vec<CallId>,
+        id: CallId,
     ) -> Result<()> {
-        assert!(self.seq.len() > index);
+        let mut call_idx = self.index_of(id).unwrap();
+        let sig = schema.get(&self.seq[call_idx].name).unwrap();
 
-        let sig = schema.get(&self.seq[index].name).unwrap();
-
-        let mut prefix = vec![];
-        for (i, guess) in sig.args.iter().enumerate() {
-            let call = self.seq.get(index).unwrap();
-            if !matches!(call.args[i], ApiCallArg::Missing) {
+        for (arg_idx, guess) in sig.args.iter().enumerate() {
+            if !matches!(self.arg(call_idx, arg_idx), ApiCallArg::Missing) {
                 continue;
             }
 
-            let should_reuse = rand.coinflip(SEQUENCE_COMPLETION_REUSE_RATE);
-            if should_reuse {
-                if let Some(out_idx) = self.find_output_before(rand, index, guess, schema) {
-                    self.seq[index].args[i] = ApiCallArg::Output(out_idx);
+            let strat = ArgFillStrategy::pick(rand, guess);
+
+            if let ArgFillStrategy::Reuse = strat {
+                if let Some(out) = self.find_output_before(rand, call_idx, guess, schema) {
+                    *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Output(out.clone());
                     continue;
                 }
             }
 
-            if guess.kind.len() == 1 && guess.kind.contains_key(&TypeKind::Class) {
-                let name = guess
-                    .class_type
-                    .as_ref()
-                    .ok_or(anyhow!(
-                        "guess with non-zero probability of Class must have class_type"
-                    ))?
-                    .sample(rand)?;
-                let argc = schema
-                    .get(&name)
-                    .ok_or(anyhow!("missing constructor for class {}", name))?
-                    .args
-                    .len();
+            // At this point we either chose to add a new API call, or couldn't reuse anything
 
-                worklist.push(index + prefix.len());
-                self.seq[index].args[i] = ApiCallArg::Output(index + prefix.len());
+            if matches!(strat, ArgFillStrategy::New | ArgFillStrategy::Reuse) {
+                if let Some((new_api_name, new_api_sig)) = Self::pick_api(rand, schema, guess) {
+                    let argc = new_api_sig.args.len();
+                    let mut args = Vec::new();
+                    args.resize(argc, ApiCallArg::Missing);
 
-                let mut args = Vec::new();
-                args.resize(argc, ApiCallArg::Missing);
-                prefix.push(ApiCall {
-                    name,
-                    args,
-                    conv: CallConvention::Constructor,
-                });
-            } else {
-                let guess = Self::strip_class(rand, guess);
-                let typ = guess.sample(rand)?;
-                self.seq[index].args[i] = ApiCallArg::Constant(typ);
-            }
-        }
+                    let new_call_id = Self::next_id();
+                    *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Output(new_call_id.clone());
 
-        // insert new required API calls
-        let (head, tail) = self.seq.split_at(index);
-        self.seq = [head, prefix.as_slice(), tail].concat();
+                    // insert the new API call right before the one we're trying to fill
+                    self.seq.insert(
+                        call_idx,
+                        ApiCall {
+                            id: new_call_id.clone(),
+                            name: new_api_name.clone(),
+                            args,
+                            conv: new_api_sig.callconv,
+                        },
+                    );
+                    call_idx += 1; // we added a call, so adjust this accordingly
+                    worklist.push(new_call_id);
 
-        // adjust argument indices for every call after the one we just completed
-        let new_index = prefix.len() + index;
-        for i in (new_index + 1)..self.seq.len() {
-            let call = self.seq.get_mut(i).unwrap();
-            for arg in &mut call.args {
-                let old_arg_index = if let ApiCallArg::Output(index) = arg {
-                    *index
-                } else {
                     continue;
-                };
-                if old_arg_index >= index {
-                    *arg = ApiCallArg::Output(old_arg_index + prefix.len());
                 }
             }
+
+            // At this point we either chose to add a constant or nothing else worked.
+            assert!(!ArgFillStrategy::only_class(guess));
+
+            let guess = Self::strip_class(rand, guess);
+            let typ = guess.sample(rand)?;
+            *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(typ);
         }
 
         Ok(())
@@ -204,20 +291,27 @@ impl ApiSeq {
         index: usize,
         guess: &TypeGuess,
         schema: &Schema,
-    ) -> Option<usize> {
+    ) -> Option<&CallId> {
         rand.choose(
             self.seq
                 .iter()
-                .enumerate()
                 .take(index)
-                .filter(|(_, call)| {
+                .filter(|call| {
                     let sig = schema.get(&call.name).unwrap();
 
                     // TODO: probability scores will help here
                     sig.ret.overlaps(guess)
                 })
-                .map(|(i, _)| i),
+                .map(|call| &call.id),
         )
+    }
+
+    fn pick_api<'a, R: Rand>(
+        rand: &mut R,
+        schema: &'a Schema,
+        target: &TypeGuess,
+    ) -> Option<(&'a EndpointName, &'a SignatureGuess)> {
+        rand.choose(schema.iter().filter(|(_, sig)| sig.ret.overlaps(target)))
     }
 }
 
@@ -309,15 +403,17 @@ impl ResizableMutator<u8> for ApiSeq {
 
 impl CanValidate for ApiSeq {
     fn is_valid(&self) {
-        for (index, call) in self.seq.iter().enumerate() {
+        let mut found = HashSet::new();
+        for call in &self.seq {
             for arg in &call.args {
                 match arg {
                     ApiCallArg::Constant(_) => (),
                     ApiCallArg::Missing => unreachable!(), // missing argument
                     // this should be an output of a previous call
-                    ApiCallArg::Output(out) => assert!(*out < index),
+                    ApiCallArg::Output(out) => assert!(found.contains(out)),
                 }
             }
+            assert!(found.insert(&call.id));
         }
     }
 }

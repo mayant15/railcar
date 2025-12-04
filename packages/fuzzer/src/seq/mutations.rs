@@ -1,4 +1,4 @@
-use std::borrow::Cow;
+use std::{borrow::Cow, collections::HashSet};
 
 use libafl::{
     corpus::{Corpus, CorpusId},
@@ -70,7 +70,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for SpliceSeq<'a> {
         let rand = state.rand_mut();
         let to_remove = rand.between(0, input.seq_len() - 1);
 
-        input.remove_call(to_remove);
+        input.remove(to_remove);
         input
             .complete(rand, self.schema)
             .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
@@ -111,7 +111,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for ExtendSeq<'a> {
         let key = rand.choose(self.schema.keys()).unwrap();
         let sig = self.schema.get(key).unwrap();
 
-        input.append_call(key.clone(), sig.args.len(), sig.callconv);
+        input.append(key.clone(), sig.args.len(), sig.callconv);
         input
             .complete(rand, self.schema)
             .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
@@ -191,19 +191,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for RemovePrefixSeq<'a> {
             return Ok(MutationResult::Skipped);
         }
 
-        input.seq_mut().remove(0);
-        for call in input.seq_mut() {
-            for arg in &mut call.args {
-                if let ApiCallArg::Output(index) = arg {
-                    if *index == 0 {
-                        *arg = ApiCallArg::Missing;
-                    } else {
-                        *index -= 1;
-                    }
-                }
-            }
-        }
-
+        input.shift();
         input
             .complete(state.rand_mut(), self.schema)
             .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
@@ -250,20 +238,33 @@ where
             let other = other_testcase.load_input(state.corpus())?;
             other.clone()
         };
+        other.generate_fresh_ids();
+
         let rand = state.rand_mut();
 
-        // get me a tail of the other sequence, replace all arguments with "missing"
+        // get me a tail of the other sequence
         let other_idx = rand.between(0, other.seq_len());
         let mut suffix = other.seq_mut().split_off(other_idx);
+
+        // mark arguments in the suffix that don't exist any more
+        let suffix_ids: HashSet<String> = suffix.iter().map(|call| call.id.clone()).collect();
         for call in &mut suffix {
             for arg in &mut call.args {
-                *arg = ApiCallArg::Missing;
+                if let ApiCallArg::Output(out) = arg {
+                    if !suffix_ids.contains(out) {
+                        *arg = ApiCallArg::Missing;
+                    }
+                }
             }
         }
 
         let self_new_len = rand.between(0, input.seq_len());
         let seq = input.seq_mut();
         seq.truncate(self_new_len);
+
+        let prefix_ids: HashSet<String> = seq.iter().map(|call| call.id.clone()).collect();
+        assert!(prefix_ids.intersection(&suffix_ids).count() == 0);
+
         seq.append(&mut suffix);
 
         input

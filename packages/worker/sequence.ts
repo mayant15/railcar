@@ -18,18 +18,21 @@ import {
     STRING_MAX_LENGTH,
 } from "./config.js";
 
+export type CallId = number;
+
 export type ApiSeq = {
     fuzz: Uint8Array;
     seq: ApiCall[];
 };
 
 export type ApiCall = {
+    id: CallId;
     name: EndpointName;
     args: ApiCallArg[];
     conv: CallConvention;
 };
 
-export type ApiCallArg = { Constant: Type } | { Output: number } | "Missing";
+export type ApiCallArg = { Constant: Type } | { Output: CallId } | "Missing";
 
 export class SequenceExecutor {
     _executor: (seq: ApiSeq) => Promise<ExitKind> = (_) =>
@@ -80,7 +83,7 @@ export class SequenceExecutor {
         const ctx = {
             fdp: new FuzzedDataProvider(fuzz),
             endpoints,
-            objects: new Array(seq.length).fill(null),
+            objects: new Map(),
         };
 
         for (let i = 0; i < seq.length; ++i) {
@@ -88,7 +91,9 @@ export class SequenceExecutor {
             const args = call.args.map((arg) => getArg(ctx, arg));
             const result = await invokeEndpoint(ctx, call, args);
             this._num_executed += 1;
-            ctx.objects[i] = result;
+
+            assert(!ctx.objects.has(call.id));
+            ctx.objects.set(call.id, result);
         }
     }
 }
@@ -96,7 +101,7 @@ export class SequenceExecutor {
 type Context = {
     endpoints: Endpoints;
     fdp: FuzzedDataProvider;
-    objects: unknown[];
+    objects: Map<CallId, unknown>;
 };
 
 interface UnknownConstructor {
@@ -113,7 +118,9 @@ function invokeEndpoint(
         case "Method": {
             assert(args.length >= 1, "methods must receive atleast 1 argument");
             const [thisArg, ...rest] = args;
-            return Promise.resolve(fn.apply(thisArg, rest)); // invoke this method with a class object as `this`
+
+            // invoke this method with a class object as `this`
+            return Promise.resolve(fn.apply(thisArg, rest));
         }
         case "Constructor": {
             const Constr = fn as unknown as UnknownConstructor;
@@ -128,7 +135,8 @@ function getArg(ctx: Context, spec: ApiCallArg): unknown {
     assert(spec !== "Missing");
 
     if ("Output" in spec) {
-        return ctx.objects[spec.Output];
+        assert(ctx.objects.has(spec.Output));
+        return ctx.objects.get(spec.Output);
     }
 
     assert("Constant" in spec);

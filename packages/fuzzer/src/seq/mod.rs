@@ -7,7 +7,7 @@ use libafl::{
     executors::{ExitKind, InProcessExecutor},
     generators::{Generator, RandBytesGenerator},
     monitors::Monitor,
-    mutators::HavocScheduledMutator,
+    mutators::{LoggerScheduledMutator, SingleChoiceScheduledMutator},
     stages::StdMutationalStage,
     state::{HasCorpus, HasRand, StdState},
     Fuzzer, StdFuzzer,
@@ -17,7 +17,7 @@ use libafl_bolts::{
 };
 
 use crate::{
-    feedback::{StdFeedback, UniqCrashFeedback},
+    feedback::{CoverageFeedback, UniqCrashFeedback},
     inputs::ToFuzzerInput,
     observer::make_observers,
     scheduler::StdScheduler,
@@ -70,7 +70,7 @@ fn client(
     let observers = make_observers(worker.shmem_mut().expect("must init shmem for fuzzing"));
     let coverage = &observers.0;
 
-    let mut feedback = StdFeedback::new(config.use_validity, &observers);
+    let mut feedback = CoverageFeedback::with_name("TotalCoverage", coverage);
     let mut objective = UniqCrashFeedback::new(coverage);
 
     let mut state = state.unwrap_or_else(|| {
@@ -140,8 +140,8 @@ fn client(
         }
     }
 
-    let mut stages = tuple_list!(StdMutationalStage::new(HavocScheduledMutator::new(
-        sequence_mutations(&schema)
+    let mut stages = tuple_list!(StdMutationalStage::new(LoggerScheduledMutator::new(
+        SingleChoiceScheduledMutator::new(sequence_mutations(&schema))
     )));
 
     fuzzer.fuzz_loop(&mut stages, &mut executor, &mut state, &mut manager)?;

@@ -1193,6 +1193,7 @@ dependencies = [
  "serde_bytes",
  "serde_json",
  "static_assertions",
+ "uuid",
 ]
 
 [[package]]
