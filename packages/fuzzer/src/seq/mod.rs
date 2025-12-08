@@ -5,6 +5,8 @@ use libafl::{
     corpus::{CachedOnDiskCorpus, Corpus, OnDiskCorpus},
     events::{EventConfig, Launcher},
     executors::{ExitKind, InProcessExecutor},
+    feedback_and, feedback_not,
+    feedbacks::CrashFeedback,
     generators::{Generator, RandBytesGenerator},
     monitors::Monitor,
     mutators::{LoggerScheduledMutator, SingleChoiceScheduledMutator},
@@ -70,8 +72,13 @@ fn client(
     let observers = make_observers(worker.shmem_mut().expect("must init shmem for fuzzing"));
     let coverage = &observers.0;
 
-    let mut feedback = CoverageFeedback::with_name("TotalCoverage", coverage);
     let mut objective = UniqCrashFeedback::new(coverage);
+    let mut feedback = feedback_and!(
+        // We might have a crash that isn't an objective because it doesn't have unique coverage.
+        // We don't want to save these to the corpus.
+        feedback_not!(CrashFeedback::new()),
+        CoverageFeedback::with_name("TotalCoverage", coverage)
+    );
 
     let mut state = state.unwrap_or_else(|| {
         StdState::new(
