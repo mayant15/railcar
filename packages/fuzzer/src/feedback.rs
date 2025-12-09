@@ -132,14 +132,14 @@ where
     }
 }
 
-struct TotalEdgesFeedback {
+pub struct TotalEdgesFeedback {
     edges: u32,
     last_result: bool,
     handle: Handle<TotalEdgesObserver>,
 }
 
 impl TotalEdgesFeedback {
-    fn new(handle: Handle<TotalEdgesObserver>) -> Self {
+    pub fn new(handle: Handle<TotalEdgesObserver>) -> Self {
         Self {
             edges: 0,
             last_result: false,
