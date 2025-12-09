@@ -229,21 +229,21 @@ function getParentClasses(_ctx: Context, sym: ts.Symbol): EndpointName[] {
 }
 
 function isClassSymbol(sym: ts.Symbol): boolean {
-    const decls = sym.getDeclarations()
-    assert(decls !== undefined)
-    return decls.every(d => d.kind === ts.SyntaxKind.ClassDeclaration)
+    const decls = sym.getDeclarations();
+    assert(decls !== undefined);
+    return decls.every((d) => d.kind === ts.SyntaxKind.ClassDeclaration);
 }
 
 function isFunctionSymbol(sym: ts.Symbol): boolean {
-    const decls = sym.getDeclarations()
-    assert(decls !== undefined)
-    return decls.every(d => d.kind === ts.SyntaxKind.FunctionDeclaration)
+    const decls = sym.getDeclarations();
+    assert(decls !== undefined);
+    return decls.every((d) => d.kind === ts.SyntaxKind.FunctionDeclaration);
 }
 
 function isAlias(sym: ts.Symbol): boolean {
-    const decls = sym.getDeclarations()
-    assert(decls !== undefined)
-    return decls.every(d => d.kind === ts.SyntaxKind.ExportSpecifier)
+    const decls = sym.getDeclarations();
+    assert(decls !== undefined);
+    return decls.every((d) => d.kind === ts.SyntaxKind.ExportSpecifier);
 }
 
 function extractExports(ctx: Context, source: ts.SourceFile): ts.Symbol[] {
@@ -253,17 +253,17 @@ function extractExports(ctx: Context, source: ts.SourceFile): ts.Symbol[] {
 
     const exports = ctx.checker.getExportsOfModule(sym);
 
-    const exported: ts.Symbol[] = []
+    const exported: ts.Symbol[] = [];
     for (const exp of exports) {
-        const decls = exp.getDeclarations()
+        const decls = exp.getDeclarations();
         if (decls === undefined || decls.length === 0) continue;
 
         if (isFunctionSymbol(exp) || isClassSymbol(exp)) {
-            exported.push(exp)
+            exported.push(exp);
         } else if (isAlias(exp)) {
-            const target = ctx.checker.getAliasedSymbol(exp)
+            const target = ctx.checker.getAliasedSymbol(exp);
             if (isFunctionSymbol(target) || isClassSymbol(target)) {
-                exported.push(target)
+                exported.push(target);
             }
         }
     }

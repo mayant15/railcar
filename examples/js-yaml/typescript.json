@@ -1,723 +1,723 @@
 {
-  "Uint8Array": {
-    "args": [],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "Uint8Array": 1
-      }
-    },
-    "callconv": "Constructor",
-    "builtin": true
-  },
-  "ArrayBuffer": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "Number": 1
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "ArrayBuffer": 1
-      }
-    },
-    "callconv": "Constructor",
-    "builtin": true
-  },
-  "RegExp": {
-    "args": [],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "RegExp": 1
-      }
-    },
-    "callconv": "Constructor",
-    "builtin": true
-  },
-  "Buffer": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "String": 1
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "Buffer": 1
-      }
-    },
-    "callconv": "Constructor",
-    "builtin": true
-  },
-  "SharedArrayBuffer": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "Number": 1
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "SharedArrayBuffer": 1
-      }
-    },
-    "callconv": "Constructor",
-    "builtin": true
-  },
-  "Error": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "String": 0.5,
-          "Undefined": 0.5
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "Error": 1
-      }
-    },
-    "callconv": "Constructor",
-    "builtin": true
-  },
-  "Duplex": {
-    "args": [],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "Duplex": 1
-      }
-    },
-    "callconv": "Constructor",
-    "builtin": true
-  },
-  "load": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "String": 1
-        }
-      },
-      {
-        "isAny": false,
-        "kind": {
-          "Object": 0.5,
-          "Undefined": 0.5
-        },
-        "objectShape": {
-          "filename": {
+    "Uint8Array": {
+        "args": [],
+        "ret": {
             "isAny": false,
             "kind": {
-              "String": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "schema": {
-            "isAny": false,
-            "kind": {
-              "Class": 0.5,
-              "Undefined": 0.5
+                "Class": 1
             },
             "classType": {
-              "Schema": 1
+                "Uint8Array": 1
             }
-          },
-          "json": {
-            "isAny": false,
-            "kind": {
-              "Boolean": 0.5,
-              "Undefined": 0.5
-            }
-          }
-        }
-      }
-    ],
-    "ret": {
-      "isAny": true,
-      "kind": {}
-    },
-    "callconv": "Free"
-  },
-  "loadAll": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "String": 1
-        }
-      },
-      {
-        "isAny": false,
-        "kind": {
-          "Undefined": 0.75,
-          "Null": 0.25
-        }
-      },
-      {
-        "isAny": false,
-        "kind": {
-          "Object": 0.5,
-          "Undefined": 0.5
         },
-        "objectShape": {
-          "filename": {
-            "isAny": false,
-            "kind": {
-              "String": 0.5,
-              "Undefined": 0.5
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
             }
-          },
-          "schema": {
+        ],
+        "ret": {
             "isAny": false,
             "kind": {
-              "Class": 0.5,
-              "Undefined": 0.5
+                "Class": 1
             },
             "classType": {
-              "Schema": 1
+                "ArrayBuffer": 1
             }
-          },
-          "json": {
-            "isAny": false,
-            "kind": {
-              "Boolean": 0.5,
-              "Undefined": 0.5
-            }
-          }
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Array": 0.5,
-        "Undefined": 0.5
-      },
-      "arrayValueType": {
-        "isAny": true,
-        "kind": {}
-      }
-    },
-    "callconv": "Free"
-  },
-  "dump": {
-    "args": [
-      {
-        "isAny": true,
-        "kind": {}
-      },
-      {
-        "isAny": false,
-        "kind": {
-          "Object": 0.5,
-          "Undefined": 0.5
         },
-        "objectShape": {
-          "indent": {
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "RegExp": {
+        "args": [],
+        "ret": {
             "isAny": false,
             "kind": {
-              "Number": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "noArrayIndent": {
-            "isAny": false,
-            "kind": {
-              "Boolean": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "skipInvalid": {
-            "isAny": false,
-            "kind": {
-              "Boolean": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "flowLevel": {
-            "isAny": false,
-            "kind": {
-              "Number": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "styles": {
-            "isAny": false,
-            "kind": {
-              "Object": 0.5,
-              "Undefined": 0.5
-            },
-            "objectShape": {}
-          },
-          "schema": {
-            "isAny": false,
-            "kind": {
-              "Class": 0.5,
-              "Undefined": 0.5
+                "Class": 1
             },
             "classType": {
-              "Schema": 1
+                "RegExp": 1
             }
-          },
-          "sortKeys": {
-            "isAny": false,
-            "kind": {
-              "Boolean": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "lineWidth": {
-            "isAny": false,
-            "kind": {
-              "Number": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "noRefs": {
-            "isAny": false,
-            "kind": {
-              "Boolean": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "noCompatMode": {
-            "isAny": false,
-            "kind": {
-              "Boolean": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "condenseFlow": {
-            "isAny": false,
-            "kind": {
-              "Boolean": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "quotingType": {
-            "isAny": false,
-            "kind": {
-              "String": 0.5,
-              "Undefined": 0.5
-            }
-          },
-          "forceQuotes": {
-            "isAny": false,
-            "kind": {
-              "Boolean": 0.5,
-              "Undefined": 0.5
-            }
-          }
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "String": 1
-      }
-    },
-    "callconv": "Free"
-  },
-  "Type": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "String": 1
-        }
-      },
-      {
-        "isAny": false,
-        "kind": {
-          "Object": 0.5,
-          "Undefined": 0.5
         },
-        "objectShape": {
-          "kind": {
-            "isAny": false,
-            "kind": {
-              "String": 0.5,
-              "Undefined": 0.5
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
-          },
-          "instanceOf": {
+        ],
+        "ret": {
             "isAny": false,
             "kind": {
-              "Object": 0.5,
-              "Undefined": 0.5
+                "Class": 1
             },
-            "objectShape": {}
-          },
-          "represent": {
-            "isAny": false,
-            "kind": {
-              "Object": 0.5,
-              "Undefined": 0.5
-            },
-            "objectShape": {}
-          },
-          "defaultStyle": {
-            "isAny": false,
-            "kind": {
-              "String": 0.5,
-              "Undefined": 0.5
+            "classType": {
+                "Buffer": 1
             }
-          },
-          "multi": {
-            "isAny": false,
-            "kind": {
-              "Boolean": 0.5,
-              "Undefined": 0.5
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
             }
-          },
-          "styleAliases": {
+        ],
+        "ret": {
             "isAny": false,
             "kind": {
-              "Object": 0.5,
-              "Undefined": 0.5
+                "Class": 1
             },
-            "objectShape": {}
-          }
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "Type": 1
-      }
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
     },
-    "callconv": "Constructor"
-  },
-  "Type.resolve": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "Class": 1
-        },
-        "classType": {
-          "Type": 1
-        }
-      },
-      {
-        "isAny": true,
-        "kind": {}
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Boolean": 1
-      }
-    },
-    "callconv": "Method"
-  },
-  "Type.construct": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "Class": 1
-        },
-        "classType": {
-          "Type": 1
-        }
-      },
-      {
-        "isAny": true,
-        "kind": {}
-      },
-      {
-        "isAny": false,
-        "kind": {
-          "String": 0.5,
-          "Undefined": 0.5
-        }
-      }
-    ],
-    "ret": {
-      "isAny": true,
-      "kind": {}
-    },
-    "callconv": "Method"
-  },
-  "Schema": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "Object": 0.3333333333333333,
-          "Class": 0.3333333333333333,
-          "Array": 0.3333333333333333
-        },
-        "classType": {
-          "Type": 1
-        },
-        "arrayValueType": {
-          "isAny": false,
-          "kind": {
-            "Class": 1
-          },
-          "classType": {
-            "Type": 1
-          }
-        },
-        "objectShape": {
-          "implicit": {
+    "Error": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
+        "ret": {
             "isAny": false,
             "kind": {
-              "Array": 0.5,
-              "Undefined": 0.5
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Duplex": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "load": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {
+                    "filename": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "schema": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "classType": {
+                            "Schema": 1
+                        }
+                    },
+                    "json": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
+            }
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
+    },
+    "loadAll": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.75,
+                    "Null": 0.25
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {
+                    "filename": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "schema": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "classType": {
+                            "Schema": 1
+                        }
+                    },
+                    "json": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Array": 0.5,
+                "Undefined": 0.5
             },
             "arrayValueType": {
-              "isAny": false,
-              "kind": {
-                "Class": 1
-              },
-              "classType": {
-                "Type": 1
-              }
+                "isAny": true,
+                "kind": {}
             }
-          },
-          "explicit": {
-            "isAny": false,
-            "kind": {
-              "Array": 0.5,
-              "Undefined": 0.5
+        },
+        "callconv": "Free"
+    },
+    "dump": {
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
             },
-            "arrayValueType": {
-              "isAny": false,
-              "kind": {
-                "Class": 1
-              },
-              "classType": {
-                "Type": 1
-              }
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {
+                    "indent": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "noArrayIndent": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "skipInvalid": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "flowLevel": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "styles": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "objectShape": {}
+                    },
+                    "schema": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "classType": {
+                            "Schema": 1
+                        }
+                    },
+                    "sortKeys": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "lineWidth": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "noRefs": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "noCompatMode": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "condenseFlow": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "quotingType": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "forceQuotes": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "Schema": 1
-      }
-    },
-    "callconv": "Constructor"
-  },
-  "Schema.extend": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "Class": 1
-        },
-        "classType": {
-          "Schema": 1
-        }
-      },
-      {
-        "isAny": false,
-        "kind": {
-          "Object": 0.3333333333333333,
-          "Class": 0.3333333333333333,
-          "Array": 0.3333333333333333
-        },
-        "classType": {
-          "Type": 1
-        },
-        "arrayValueType": {
-          "isAny": false,
-          "kind": {
-            "Class": 1
-          },
-          "classType": {
-            "Type": 1
-          }
-        },
-        "objectShape": {
-          "implicit": {
+        ],
+        "ret": {
             "isAny": false,
             "kind": {
-              "Array": 0.5,
-              "Undefined": 0.5
+                "String": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "Type": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
-            "arrayValueType": {
-              "isAny": false,
-              "kind": {
-                "Class": 1
-              },
-              "classType": {
-                "Type": 1
-              }
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {
+                    "kind": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "instanceOf": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "objectShape": {}
+                    },
+                    "represent": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "objectShape": {}
+                    },
+                    "defaultStyle": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "multi": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "styleAliases": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "objectShape": {}
+                    }
+                }
             }
-          },
-          "explicit": {
+        ],
+        "ret": {
             "isAny": false,
             "kind": {
-              "Array": 0.5,
-              "Undefined": 0.5
+                "Class": 1
             },
-            "arrayValueType": {
-              "isAny": false,
-              "kind": {
-                "Class": 1
-              },
-              "classType": {
+            "classType": {
                 "Type": 1
-              }
             }
-          }
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "Schema": 1
-      }
-    },
-    "callconv": "Method"
-  },
-  "YAMLException": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "String": 0.5,
-          "Undefined": 0.5
-        }
-      },
-      {
-        "isAny": false,
-        "kind": {
-          "Object": 0.5,
-          "Undefined": 0.5
         },
-        "objectShape": {
-          "buffer": {
-            "isAny": false,
-            "kind": {
-              "String": 1
-            }
-          },
-          "column": {
-            "isAny": false,
-            "kind": {
-              "Number": 1
-            }
-          },
-          "line": {
-            "isAny": false,
-            "kind": {
-              "Number": 1
-            }
-          },
-          "name": {
-            "isAny": false,
-            "kind": {
-              "String": 1
-            }
-          },
-          "position": {
-            "isAny": false,
-            "kind": {
-              "Number": 1
-            }
-          },
-          "snippet": {
-            "isAny": false,
-            "kind": {
-              "String": 1
-            }
-          }
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "YAMLException": 1
-      }
+        "callconv": "Constructor"
     },
-    "callconv": "Constructor"
-  },
-  "YAMLException.toString": {
-    "args": [
-      {
-        "isAny": false,
-        "kind": {
-          "Class": 1
+    "Type.resolve": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Type": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Boolean": 1
+            }
         },
-        "classType": {
-          "YAMLException": 1
-        }
-      },
-      {
-        "isAny": false,
-        "kind": {
-          "Boolean": 0.5,
-          "Undefined": 0.5
-        }
-      }
-    ],
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "String": 1
-      }
+        "callconv": "Method"
     },
-    "callconv": "Method"
-  }
+    "Type.construct": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Type": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Method"
+    },
+    "Schema": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.3333333333333333,
+                    "Class": 0.3333333333333333,
+                    "Array": 0.3333333333333333
+                },
+                "classType": {
+                    "Type": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Class": 1
+                    },
+                    "classType": {
+                        "Type": 1
+                    }
+                },
+                "objectShape": {
+                    "implicit": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Class": 1
+                            },
+                            "classType": {
+                                "Type": 1
+                            }
+                        }
+                    },
+                    "explicit": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Class": 1
+                            },
+                            "classType": {
+                                "Type": 1
+                            }
+                        }
+                    }
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Schema": 1
+            }
+        },
+        "callconv": "Constructor"
+    },
+    "Schema.extend": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Schema": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.3333333333333333,
+                    "Class": 0.3333333333333333,
+                    "Array": 0.3333333333333333
+                },
+                "classType": {
+                    "Type": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Class": 1
+                    },
+                    "classType": {
+                        "Type": 1
+                    }
+                },
+                "objectShape": {
+                    "implicit": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Class": 1
+                            },
+                            "classType": {
+                                "Type": 1
+                            }
+                        }
+                    },
+                    "explicit": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Class": 1
+                            },
+                            "classType": {
+                                "Type": 1
+                            }
+                        }
+                    }
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Schema": 1
+            }
+        },
+        "callconv": "Method"
+    },
+    "YAMLException": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {
+                    "buffer": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    },
+                    "column": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "line": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "name": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    },
+                    "position": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "snippet": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    }
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "YAMLException": 1
+            }
+        },
+        "callconv": "Constructor"
+    },
+    "YAMLException.toString": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "YAMLException": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "String": 1
+            }
+        },
+        "callconv": "Method"
+    }
 }
