@@ -22,6 +22,7 @@ class Railcar(Tool):
         mode: str
         outdir: str
         entrypoint: str
+        schema: Optional[str] = None
         seed: Optional[int] = None
         cores: Optional[list[int]] = None
         timeout: Optional[int] = None
@@ -57,6 +58,9 @@ class Railcar(Tool):
         if args.labels is not None:
             for label in args.labels:
                 cmd += ["--label", str(label)]
+
+        if args.schema is not None:
+            cmd += ["--schema", args.schema]
 
         if args.cores is not None:
             cores = ",".join(map(str, args.cores))
