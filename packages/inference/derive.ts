@@ -228,6 +228,24 @@ function getParentClasses(_ctx: Context, sym: ts.Symbol): EndpointName[] {
     return parents;
 }
 
+function isClassSymbol(sym: ts.Symbol): boolean {
+    const decls = sym.getDeclarations()
+    assert(decls !== undefined)
+    return decls.every(d => d.kind === ts.SyntaxKind.ClassDeclaration)
+}
+
+function isFunctionSymbol(sym: ts.Symbol): boolean {
+    const decls = sym.getDeclarations()
+    assert(decls !== undefined)
+    return decls.every(d => d.kind === ts.SyntaxKind.FunctionDeclaration)
+}
+
+function isAlias(sym: ts.Symbol): boolean {
+    const decls = sym.getDeclarations()
+    assert(decls !== undefined)
+    return decls.every(d => d.kind === ts.SyntaxKind.ExportSpecifier)
+}
+
 function extractExports(ctx: Context, source: ts.SourceFile): ts.Symbol[] {
     assert("symbol" in source);
     const sym: ts.Symbol = source.symbol as any;
@@ -235,18 +253,22 @@ function extractExports(ctx: Context, source: ts.SourceFile): ts.Symbol[] {
 
     const exports = ctx.checker.getExportsOfModule(sym);
 
-    return exports.filter((exp) => {
-        return (
-            exp.declarations !== undefined &&
-            exp.declarations.length > 0 &&
-            (exp.declarations.every(
-                (decl) => decl.kind === ts.SyntaxKind.FunctionDeclaration,
-            ) ||
-                exp.declarations.every(
-                    (decl) => decl.kind === ts.SyntaxKind.ClassDeclaration,
-                ))
-        );
-    });
+    const exported: ts.Symbol[] = []
+    for (const exp of exports) {
+        const decls = exp.getDeclarations()
+        if (decls === undefined || decls.length === 0) continue;
+
+        if (isFunctionSymbol(exp) || isClassSymbol(exp)) {
+            exported.push(exp)
+        } else if (isAlias(exp)) {
+            const target = ctx.checker.getAliasedSymbol(exp)
+            if (isFunctionSymbol(target) || isClassSymbol(target)) {
+                exported.push(target)
+            }
+        }
+    }
+
+    return exported;
 }
 
 function isFunction(type: ts.Type): boolean {
