@@ -1,0 +1,671 @@
+{
+    "Uint8Array": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "RegExp": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Error": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Duplex": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "distance": {
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Number": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "compareHashes": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Number": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "measureText": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "chars": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {}
+                    },
+                    "kernings": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {}
+                    },
+                    "common": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "lineHeight": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            }
+                        }
+                    },
+                    "info": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {}
+                    },
+                    "pages": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 1
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "background": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 1
+                                    }
+                                },
+                                "bitmap": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Object": 1
+                                    },
+                                    "objectShape": {
+                                        "data": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Class": 1
+                                            },
+                                            "classType": {
+                                                "Buffer": 1
+                                            }
+                                        },
+                                        "width": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 1
+                                            }
+                                        },
+                                        "height": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 1
+                                            }
+                                        }
+                                    }
+                                },
+                                "getPixelIndex": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Function": 1
+                                    }
+                                },
+                                "getPixelColor": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Function": 1
+                                    }
+                                },
+                                "setPixelColor": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Function": 1
+                                    }
+                                },
+                                "scan": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Function": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Number": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "measureTextHeight": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "chars": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {}
+                    },
+                    "kernings": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {}
+                    },
+                    "common": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "lineHeight": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            }
+                        }
+                    },
+                    "info": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {}
+                    },
+                    "pages": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 1
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "background": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 1
+                                    }
+                                },
+                                "bitmap": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Object": 1
+                                    },
+                                    "objectShape": {
+                                        "data": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Class": 1
+                                            },
+                                            "classType": {
+                                                "Buffer": 1
+                                            }
+                                        },
+                                        "width": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 1
+                                            }
+                                        },
+                                        "height": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 1
+                                            }
+                                        }
+                                    }
+                                },
+                                "getPixelIndex": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Function": 1
+                                    }
+                                },
+                                "getPixelColor": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Function": 1
+                                    }
+                                },
+                                "setPixelColor": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Function": 1
+                                    }
+                                },
+                                "scan": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Function": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Number": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "diff": {
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "percent": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 1
+                    }
+                },
+                "image": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        },
+        "callconv": "Free"
+    },
+    "intToRGBA": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "r": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 1
+                    }
+                },
+                "g": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 1
+                    }
+                },
+                "b": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 1
+                    }
+                },
+                "a": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 1
+                    }
+                }
+            }
+        },
+        "callconv": "Free"
+    },
+    "rgbaToInt": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Number": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "colorDiff": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "r": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "g": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "b": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "a": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "r": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "g": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "b": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "a": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Number": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "limit255": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Number": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "cssColorToHex": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 0.5,
+                    "String": 0.5
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Number": 1
+            }
+        },
+        "callconv": "Free"
+    }
+}

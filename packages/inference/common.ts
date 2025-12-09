@@ -92,6 +92,10 @@ export const Types = {
         return "String";
     },
 
+    func(): Type {
+        return "Function";
+    },
+
     class(cls: EndpointName): Type {
         return {
             Class: cls,
@@ -242,7 +246,7 @@ export const Guess = {
         const noAny = gs.filter((g) => !g.isAny);
         assert(noAny.length > 0);
         assert(
-            gs.every(
+            noAny.every(
                 (g) => g.objectShape !== undefined && g.kind.Object! === 1,
             ),
             "intersections can only be computed on objects",
@@ -303,6 +307,10 @@ export const Guess = {
 
     null(): TypeGuess {
         return Guess.exact(Types.null());
+    },
+
+    func(): TypeGuess {
+        return Guess.exact(Types.func());
     },
 };
 

@@ -230,19 +230,19 @@ function getParentClasses(_ctx: Context, sym: ts.Symbol): EndpointName[] {
 
 function isClassSymbol(sym: ts.Symbol): boolean {
     const decls = sym.getDeclarations();
-    assert(decls !== undefined);
+    if (decls === undefined) return false;
     return decls.every((d) => d.kind === ts.SyntaxKind.ClassDeclaration);
 }
 
 function isFunctionSymbol(sym: ts.Symbol): boolean {
     const decls = sym.getDeclarations();
-    assert(decls !== undefined);
+    if (decls === undefined) return false;
     return decls.every((d) => d.kind === ts.SyntaxKind.FunctionDeclaration);
 }
 
 function isAlias(sym: ts.Symbol): boolean {
     const decls = sym.getDeclarations();
-    assert(decls !== undefined);
+    if (decls === undefined) return false;
     return decls.every((d) => d.kind === ts.SyntaxKind.ExportSpecifier);
 }
 
@@ -309,6 +309,9 @@ function fromUnionType(ctx: Context, type: ts.UnionType): TypeGuess {
         }
         if (type.types.some((ty) => ty.flags & ts.TypeFlags.BooleanLiteral)) {
             gs.push(Guess.boolean());
+        }
+        if (type.types.some(isFunction)) {
+            gs.push(Guess.func());
         }
     }
 
@@ -435,7 +438,7 @@ function fromType(ctx: Context, ty: ts.Type): TypeGuess {
 
             // treat array of functions as array of undefineds
             if (isFunction(typeArgs[0])) {
-                return Guess.array(Guess.undefined());
+                return Guess.array(Guess.func());
             }
 
             return Guess.array(fromType(ctx, typeArgs[0]));
@@ -454,7 +457,7 @@ function fromType(ctx: Context, ty: ts.Type): TypeGuess {
                     const typ = ctx.checker.getTypeOfSymbol(sym);
 
                     if (isFunction(typ)) {
-                        return null;
+                        return [name, Guess.func()];
                     }
 
                     let guess = fromType(ctx, typ);
@@ -495,7 +498,7 @@ function fromFunctionDeclaration(
 
         // If this is a parameter that takes only functions, pass nothing
         if (isFunction(type)) {
-            return Guess.undefined();
+            return Guess.func();
         }
 
         let guess = fromType(ctx, type);
@@ -517,7 +520,7 @@ function fromFunctionDeclaration(
 
         // if this function returns only a function, assume it to be void
         if (isFunction(retTy)) {
-            return Guess.undefined();
+            return Guess.func();
         }
 
         return fromType(ctx, retTy);

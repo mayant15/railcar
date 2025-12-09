@@ -148,6 +148,12 @@
                             "Undefined": 0.5
                         }
                     },
+                    "onWarning": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
                     "schema": {
                         "isAny": false,
                         "kind": {
@@ -163,6 +169,12 @@
                         "kind": {
                             "Boolean": 0.5,
                             "Undefined": 0.5
+                        }
+                    },
+                    "listener": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
                         }
                     }
                 }
@@ -185,8 +197,9 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Undefined": 0.75,
-                    "Null": 0.25
+                    "Undefined": 0.25,
+                    "Null": 0.25,
+                    "Function": 0.5
                 }
             },
             {
@@ -201,6 +214,12 @@
                         "kind": {
                             "String": 0.5,
                             "Undefined": 0.5
+                        }
+                    },
+                    "onWarning": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
                         }
                     },
                     "schema": {
@@ -218,6 +237,12 @@
                         "kind": {
                             "Boolean": 0.5,
                             "Undefined": 0.5
+                        }
+                    },
+                    "listener": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
                         }
                     }
                 }
@@ -298,8 +323,9 @@
                     "sortKeys": {
                         "isAny": false,
                         "kind": {
-                            "Boolean": 0.5,
-                            "Undefined": 0.5
+                            "Boolean": 0.25,
+                            "Undefined": 0.5,
+                            "Function": 0.25
                         }
                     },
                     "lineWidth": {
@@ -343,6 +369,12 @@
                             "Boolean": 0.5,
                             "Undefined": 0.5
                         }
+                    },
+                    "replacer": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
                     }
                 }
             }
@@ -377,6 +409,18 @@
                             "Undefined": 0.5
                         }
                     },
+                    "resolve": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "construct": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
                     "instanceOf": {
                         "isAny": false,
                         "kind": {
@@ -385,13 +429,26 @@
                         },
                         "objectShape": {}
                     },
+                    "predicate": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
                     "represent": {
                         "isAny": false,
                         "kind": {
-                            "Object": 0.5,
-                            "Undefined": 0.5
+                            "Object": 0.25,
+                            "Undefined": 0.5,
+                            "Function": 0.25
                         },
                         "objectShape": {}
+                    },
+                    "representName": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
                     },
                     "defaultStyle": {
                         "isAny": false,
