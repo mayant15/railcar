@@ -4,9 +4,10 @@ import * as t from "@babel/types";
 import { setupLogger } from "@syntest/logging";
 import { exit } from "process";
 import * as fs from "fs";
-import { transform, bundleFile } from "./program-transform.js";
+import { transform, addLocationReturn } from "./program-transform.js";
 import { TypeNode } from "@syntest/analysis-javascript/dist/lib/type/resolving/TypeNode.js";
 import { loadSchema } from "./reflection.js";
+import { Endpoints } from "./schema.js";
 import type { Schema } from "./schema.js";
 import _generate from "@babel/generator";
 export const generate = typeof _generate === "function" ? _generate 
@@ -17,6 +18,7 @@ export const traverse = typeof _traverse === "function" ? _traverse
   // @ts-ignore
   : _traverse.default
 import { NodePath, TraverseOptions } from "@babel/traverse"
+import AhoCorasick from "ahocorasick"
 
 const SYNTAX_FROGIVING = true;
 const typeExtractor = new TypeExtractor(SYNTAX_FROGIVING); // syntaxForgiving??
@@ -29,6 +31,15 @@ export interface CustomExport {
       [k: string]: number;
   }|null|undefined,
   root?: string|null|undefined;
+  startIndex?: number,
+  endIndex?: number
+}
+
+interface CustomEndpoints {
+    [x: string]: {
+      fn: (...args: unknown[]) => unknown;
+      id: string;
+    }
 }
 
 const allTypeValues: TypeEnum[] = Object.values(TypeEnum);
@@ -50,14 +61,16 @@ function getAllFunctions(source: t.Node): CustomExport[] {
       if ("id" in node && node.id && t.isIdentifier(node.id)) {
         name = node.id.name;
       } else {
-        console.log({
-          'anon': generate(node).code
-        })
+        // console.log({
+        //   'anon': generate(node).code
+        // })
       }
 
       result.push({
         id: getId(node),
         name,
+        startIndex: node.start as number,
+        endIndex: node.end as number,
         renamedTo: name,
       });
     }
@@ -86,12 +99,6 @@ export interface MethodInfo extends CustomExport {
   className: string;
 }
 
-function isMethodInfo(obj: CustomExport | MethodInfo): obj is MethodInfo {
-  return (
-    obj !== null &&
-    "className" in obj 
-  );
-}
 
 function analyizeAllClasses(source: t.Node): Record<string, MethodInfo> {
   const result: Record<string, MethodInfo> = {};
@@ -157,10 +164,37 @@ function analyizeAllClasses(source: t.Node): Record<string, MethodInfo> {
   return result;
 }
 
+function indexToLineCol(source:string, index:number) {
+  const upToIndex = source.slice(0, index);
+  const lines = upToIndex.split("\n");
+
+  const line = lines.length; // 1-based line number
+  const column = lines[lines.length - 1].length; // 0-based column
+  return { line, column };
+}
+
+
+function mapToCustomEnpoints(endpoints: Endpoints): CustomEndpoints {
+  const custom: CustomEndpoints = {};
+
+  for (const [name, fn] of Object.entries(endpoints)) {
+    custom[name] = {
+      fn,
+      id: "", 
+    };
+  }
+
+  return custom;
+}
+
+
 export async function syntestSchema(fileName: string, schemeAllFunction: Boolean = false) {
   const filePath = "";
   const readSrc = fs.readFileSync(fileName, "utf8");
   const source = transform(readSrc, fileName + ".transformed.js");
+  // const prototype = addLocationReturn(source);
+  // fs.writeFileSync('prototype.js', prototype);
+
   // const transformedAfterRewrite = bundleFile(fileName);
   // console.log(transformedAfterRewrite); 
   // const lines = source.split(/\r?\n/);
@@ -173,6 +207,7 @@ export async function syntestSchema(fileName: string, schemeAllFunction: Boolean
   }
   console.log('Generated AST')
   const astUnwrapped = unwrap(result);
+
   // get ALL functions:
   const allFunctions = getAllFunctions(astUnwrapped);
   const allClassMethods = analyizeAllClasses(astUnwrapped);
@@ -180,34 +215,46 @@ export async function syntestSchema(fileName: string, schemeAllFunction: Boolean
   // re-assign names to functions that are exported (discovered from dynamic analysis)
   const dynamicAnalysis = (await loadSchema(fileName + ".transformed.js"))
   const dynamicSchema = dynamicAnalysis.schema;
-  const validNames = new Set(
-    Object.values(dynamicAnalysis.endpoints).map(fnObj => fnObj.name).filter((name:string) => name !== "Buffer")
-  )
 
-  const filteredFunctions = allFunctions
-    .filter(func => schemeAllFunction ? true : validNames.has(func.name))
-    .map(func => {
-      for (const key of Object.keys(dynamicAnalysis.endpoints)) {
-        const endpointFuncName =  dynamicAnalysis.endpoints[key].name;
-        if (dynamicSchema[key].callconv == "Free" && func.name === endpointFuncName) {
-          return { ...func, renamedTo: key };
-        }
-      }
-    return func; 
-  });
+  const dynamicEndpoints:CustomEndpoints = mapToCustomEnpoints(dynamicAnalysis.endpoints)
+  console.log(`There are ${Object.entries(dynamicEndpoints).length} dynamic endpoints. Source code length is: ${source.length}`)
 
-
-  // fs.writeFileSync('./allFunctions.json', JSON.stringify(filteredFunctions, null, 2));
-  // fs.writeFileSync('./allEndpoints.json', JSON.stringify(Object.keys(dynamicAnalysis.endpoints).map((k: any) => [k, dynamicAnalysis.endpoints[k].name, dynamicSchema[k].callconv]), null, 2));
-  // Get exported functions
-  // libraries/analysis-javascript/lib/target/export/ExportFactory.ts
-  // const exportResult: Result<Export[]> = exportFactory.extract(filePath, astUnwrapped);
-  // if (!exportResult.success) {
-  //   return {};
-  // }
-  // console.log('Secured all exports from AST')
-  // const exportedFunctions: CustomExport[] = exportResult.result;
-
+  const patternToKey = new Map();
+  const patterns = Object.entries(dynamicEndpoints).map(([key, value]) => {
+    const pattern = value.fn.toString();
+    if (pattern) {
+      patternToKey.set(pattern, key);
+      return pattern;
+    } else {
+      return key // lodash: lodash._ returns error
+    }
+  })
+  const ahoCorasickPatterns = new AhoCorasick(patterns);
+  console.log(`Loaded ahoCorasickPatterns`)
+  const searchResults = ahoCorasickPatterns.search(source)
+  const firstIndex = new Map();
+  for (const [endIndex, matchedList] of searchResults) {
+    for (const pattern of matchedList) {
+      if (firstIndex.has(pattern)) continue;
+      const startIndex = endIndex - pattern.length + 1;
+      firstIndex.set(pattern, startIndex);
+    }
+  }
+  let cnt = 0
+  for (const [key, endpoint] of Object.entries(dynamicEndpoints)) {
+    const pat = endpoint.fn.toString();
+    const startIndex = firstIndex.get(pat);
+    if (startIndex == null) {
+      continue;
+    } // no match
+    const endIndex = startIndex + pat.length;
+    const start = indexToLineCol(source, startIndex);
+    const end   = indexToLineCol(source, endIndex);
+    endpoint.id = `:${start.line}:${start.column}:::${end.line}:${end.column}:::${startIndex}:${endIndex}`;
+    cnt += 1
+  }
+  console.log("indexed ", cnt, " endpoints")
+  console.log("Done mapping all dynamic entrypoints with static ids")
   // get elements & relations
   const elementsResult: Result<Map<string, Element>>  = typeExtractor.extractElements(filePath, astUnwrapped);
   if (!elementsResult.success) {
@@ -234,18 +281,6 @@ export async function syntestSchema(fileName: string, schemeAllFunction: Boolean
   globalThis.elementsResult = elementsResult
   // @ts-ignore
   globalThis.typeModel = typeModel
-
-  // REALLY COMPUTATIONALLY EXPENSIVE IN LARGE PROJECT
-  typeModel.typeNodes.forEach((value: TypeNode, key: string) => {
-    try {
-      value.getTypeProbabilities();
-    } catch (e) {
-      console.log("It's ", value.id, " that fails")
-      exit(0);
-    }
-  });
-
-  console.log('Calculated all probabilities')
 
   const reg = /^:(\d+):(\d+):::(\d+):(\d+):::(\d+):(\d+)(.*)$/;
 
@@ -345,12 +380,24 @@ export async function syntestSchema(fileName: string, schemeAllFunction: Boolean
 
     return merged;
   }
-    
 
-  function getSchemaFromId(id: string, name: string) {
+  function idReduction(id: string): string | null {
+    const match = id.match(/^(:\d+:\d+:::\d+:\d+:::\d+:\d+)$/);
+    return match ? match[1] : null;
+  }
+
+  function getSchemaFromId(_id: string, name: string) {
+    const id = idReduction(_id)
+    if (id == null) {
+      return {
+        "isAny": true,
+        "kind": {}
+      }
+    }
     if (idMap.get(id)) {
       return idMap.get(id)
     } 
+    // console.log(_id, " ==> ", id);
     const node = typeModel.getTypeNode(id);
     const typeProbs = node.getTypeProbabilities();
     const types = [...typeProbs.keys()];
@@ -481,223 +528,68 @@ export async function syntestSchema(fileName: string, schemeAllFunction: Boolean
     return result;
   }
 
-  const functionsToBeExplored = [...filteredFunctions]
+  const startUnixTimeStamp = Math.floor(Date.now() / 1000);
+  cnt = 0
+  const tot = Object.entries(dynamicSchema).filter(([entry, sig]) => dynamicEndpoints[entry].id!= "").length
+  Object.entries(dynamicSchema).forEach(([entryPoint, sig]) => {
+    if (Math.floor(Date.now()/1000) - startUnixTimeStamp > 120) {
+      
+      return
+    }
 
-  /**
-   * functionToBeExplored has id, this method add root & probabilities
-   */
-  function traceBackFunctionId(
-    functionToBeExplored: CustomExport|MethodInfo, 
-    relationsResult: Result<Map<string, Relation>>,
-    elementsResult: Result<Map<string, Element>>
-  ): CustomExport|MethodInfo {
-    let fid: string = functionToBeExplored.id;
-    let res: CustomExport|MethodInfo = functionToBeExplored;
-    if (!relationsResult.success || !elementsResult.success) {
-      res.probabilities = {};
-      res.root = null;
-      return res;
-    } 
-    console.log('processing fid: ', fid)
-    let node: null|Relation|Element|undefined = null;
-    let targetID: string|null = null;
-    let targetProb = null;
-    /** Trace back to the function */
-    do {
-      node = relationsResult.result.get(fid);
-
-      if (node !== undefined) {
-        const typeNode = typeModel.getTypeNode(fid);
-        const probs = Object.fromEntries(typeNode.getTypeProbabilities());
-
-        if (node.type != "L=R") {
-          if (node.type == 'function L(R)') {
-            res.probabilities = probs;
-            res.root = fid
-          } else {
-            // save
-            res.probabilities = targetProb;
-            res.root = targetID;
-          }
-          break;
-        }
-        fid = node.involved[1];
-        targetID = fid;
-        targetProb = probs;
+    const id = dynamicEndpoints[entryPoint].id
+    if (id != "") {
+      if (sig.callconv == "Free") {
+          const func = typeModel.getTypeNode(id).objectType;
+          const retType = getSchemaFromIds([...func.return.values()])
+          const args = getSchemaFromIds(
+              [...func.parameters.values()],
+              [...func.parameterNames.values()]
+            )
+          const ret = isEmptyObject(retType) ? {
+              "isAny": true,
+              "kind": {}
+            } : mergeRet(retType);
+          ret.objectShape = ret.objectShape ?? {}
+          sig.args = args 
+          sig.ret = ret
       } else {
-        node = elementsResult.result.get(fid);
-        // console.log(`fid - ${fid} - is element, getting element's bindingId now`)
-        if (node !== undefined && node.bindingId !== fid) {
-          fid = node.bindingId;
-        } else {
-          break;
-        }
-      }
-    } while (node !== null && node !== undefined);
-
-    return res;
-  }
-
-  function updateSchemaFromTracedFunction(tracedFunction: CustomExport, schemaJson: any = {}) {
-    for (const key in tracedFunction.probabilities) {
-      if (key.includes("function")) {
-        const match = key.match(reg) === null ? tracedFunction.root?.match(reg) : key.match(reg)
-        // @ts-ignore
-        const [,startLine,startColumn,endLine,endColum,startIndex,endIndex,] = match;
-        const id = `:${startLine}:${startColumn}:::${endLine}:${endColum}:::${startIndex}:${endIndex}`;
-        const func = typeModel.getTypeNode(id).objectType;
-        const retType = getSchemaFromIds([...func.return.values()])
-        if (schemaJson[tracedFunction["renamedTo"]] === undefined) {
-          schemaJson[tracedFunction["renamedTo"]] = {
-          // id: id,
-          callconv: "Free",
-          args: getSchemaFromIds(
-            [...func.parameters.values()],
-            [...func.parameterNames.values()]
-          ),
-          ret: isEmptyObject(retType) ? {
-            "isAny": true,
-            "kind": {}
-          } : mergeRet(retType),
-        };
-        }
-        break;
-      }
-    }
-    return schemaJson;
-  }
-
-  for (const index in functionsToBeExplored) {
-    let fid: string = functionsToBeExplored[index].id;
-    if (fid === undefined) {
-      continue;
-    } else {
-      const tracedFunction: CustomExport = traceBackFunctionId(functionsToBeExplored[index], relationsResult, elementsResult);
-      schemaJson = updateSchemaFromTracedFunction(tracedFunction, schemaJson);
-    }
-  }
-
-  console.log("ARE YOU DONE WITH EXPORTED ??? What's going on")
-  for (const med of Object.values(allClassMethods)) {
-    if (med.id === undefined) {
-      continue;
-    } else {
-      if (!schemeAllFunction) {
-        if (!validNames.has(med.name)) {
-          continue;
-        }
-      }
-      const node = relationsResult.result.get(med.id);
-      let keyToBeModified = med["renamedTo"];
-      if (med.name === 'constructor') {
-        keyToBeModified = med.className
-      }
-      const methodArgs = getSchemaFromIds(node?.involved.slice(2));
-      const classType:any = {}
-      classType[`${med.className}`] = 1
-      const args = [
-            {
-              "isAny": false,
-              "kind": {
-                "Class": 1
-              },
-              "classType": classType
-            },
-            ...methodArgs
-      ]
-
-      if (schemaJson[keyToBeModified] === undefined) {
-        schemaJson[keyToBeModified] = {
-          callconv: "Method",
-          args,
-          ret: {
-            "isAny": true,
-            "kind": {}
-          }
-        };
-      }
-    }
-  }
-
-  /**
-   [
-    "default.Deflate", <-- k
-    "Deflate$1", <-- dynamicAnalysis.endpoints[k].name
-    "Constructor" <-- dynamicAnalysis.endpoints[k].callConv
-  ],
-  [
-    "default.Deflate.push",
-    "___railcar_anon_func_0___",
-    "Method"
-  ],
-   */
-  Object.keys(dynamicAnalysis.endpoints).forEach((k: string) => {
-      const callConv = dynamicSchema[k].callconv
-      if(callConv === "Method" || callConv === "Constructor") {
-        const methodName = dynamicAnalysis.endpoints[k].name
-        if (schemaJson[k] === undefined) {
-          // check if methodName is unique (otherwise we don't know which)
-          const filtered = allFunctions.filter((v: CustomExport) => v.name === methodName);
-          if (filtered.length === 1) {
-            const f:CustomExport = filtered[0]
-            const func = typeModel.getTypeNode(f.id).objectType;
-            const retType = getSchemaFromIds([...func.return.values()])
-            let retValue = isEmptyObject(retType) ? {
-                  "isAny": true,
-                  "kind": {}
-                } : mergeRet(retType);
-            
-            const classType:any = {}
-            if (callConv === "Constructor") {
-              classType[k] = 1
-              retValue = {
+          const node = relationsResult.result.get(id);
+          const involved = node?.involved ?? []
+          const argIds = involved.slice(2)
+          const methodArgs = getSchemaFromIds(argIds);
+          // @ts-ignore
+          if (sig.args[0] == null) {
+            sig.args = [
+              {
                 "isAny": false,
                 "kind": {
-                  "Class": 1
+                  "Array": 1
                 },
-                "classType": classType
-              };
-            } else {
-              classType[`${k.substring(0, k.lastIndexOf("."))}`] = 1
-            }
-            schemaJson[k] = {
-              callconv: dynamicSchema[k].callconv,
-              args: [
-                  {
-                    "isAny": false,
-                    "kind": {
-                      "Class": 1
-                    },
-                    "classType": classType
-                  },
-                  ...getSchemaFromIds(
-                      [...func.parameters.values()],
-                  )
-                ],
-                ret: retValue,
-            };
+                "arrayValueType": {
+                  "isAny": true,
+                  "kind": {}
+                }
+              }
+            ]
+          } else {
+            sig.args = [sig.args[0], ...methodArgs]
           }
-        }
+          
       }
-  })
-
-  const final = mergeSchemas(schemaJson, dynamicAnalysis.schema);
-  return final;
-}
-
-
-function mergeSchemas(s1: any, s2: Schema) {
-  Object.keys(s2).forEach(function(key) {
-    const value = s2[key];
-    if (!s1.hasOwnProperty(key)) {
-      s1[key] = value
-    } else {
-      const s1Value = s1[key] 
-      if (s1Value["callconv"] != value.callconv) {
-        s1[key].callconv = value.callconv
-        s1[key].ret = value.ret
+      cnt += 1
+      if (cnt % 10 == 0) {
+        console.log("processed ", cnt, "/", tot)
       }
+      
     }
-  });
-  return s1;
+  })
+  console.log("ran for 3 min, stopping, producing partial result, processed ", cnt, " IDs")
+  for (const key of Object.keys(dynamicSchema)) {
+    if (key.startsWith("default.")) {
+      delete dynamicSchema[key];
+    }
+  }
+
+  return dynamicSchema;
 }

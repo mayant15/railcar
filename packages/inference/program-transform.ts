@@ -1,4 +1,4 @@
-import * as parser from "@babel/parser";
+import parser from "@babel/parser";
 import { Export } from "@syntest/analysis-javascript";
 import { NodePath } from "@babel/traverse";
 import * as t from "@babel/types";
@@ -11,85 +11,65 @@ export const traverse = typeof _traverse === "function" ? _traverse
   // @ts-ignore
   : _traverse.default
 import * as fs from 'fs';
-import * as path from "path";
 
-export function bundleFile(entryFile: string, prefix = "") {
-  const visitedFiles = new Set();
-  const bundledNodes: any = [];
+export function addLocationReturn(source: string): string {
+  // Parse the source string into an AST
+  const ast = parser.parse(source, {
+    sourceType: "module",
+    plugins: ["typescript", "jsx"], // add plugins as needed
+  });
 
-  function processFile(filePath: string, currentPrefix: string) {
-    if (visitedFiles.has(filePath)) return;
-    visitedFiles.add(filePath);
+  traverse(ast, {
+    Function(path) {
+      const node = path.node;
 
-  const code = fs.readFileSync(filePath, "utf-8");
-    const ast = parser.parse(code, { sourceType: "module" });
+      if (!node.loc) return;
 
-    function modulePrefixFor(filePath: string) {
-      return path.basename(filePath, ".js");
-    }
+      const startRow = node.loc.start.line;
+      const startCol = node.loc.start.column;
+      const endRow = node.loc.end.line;
+      const endCol = node.loc.end.column;
+      const startInd = node.start ?? -1;
+      const endInd = node.end ?? -1;
 
-    const importMap: any = {};
-    traverse(ast, {
-      ImportDeclaration(pathNode: NodePath<t.ImportDeclaration>) {
-        const sourcePath = pathNode.node.source.value;
-        const currentDir = path.dirname(filePath);
-        const resolvedPath = path.resolve(currentDir, sourcePath + (sourcePath.endsWith('.js') ? '' : '.js'));
+      const locString  = `:${startRow}:${startCol}:::${endRow}:${endCol}:::${startInd}:${endInd}`;
+      const assignStmt = t.expressionStatement(
+        t.assignmentExpression(
+          "=",
+          t.memberExpression(t.thisExpression(), t.identifier("loc")),
+          t.stringLiteral(locString)
+        )
+      );
 
-        pathNode.node.specifiers.forEach(spec => {
-          importMap[spec.local.name] = resolvedPath;
-        });
 
-        const importCode = generate(pathNode.node).code;
-        pathNode.replaceWith(t.expressionStatement(t.stringLiteral(`/* Inlined import: ${importCode} */`)));
+      if (t.isBlockStatement(node.body)) {
+        // Avoid double‑inserting
+        const alreadyInserted =
+          node.body.body.length > 0 &&
+          t.isReturnStatement(node.body.body[0]) &&
+          t.isStringLiteral(node.body.body[0].argument) &&
+          node.body.body[0].argument.value.startsWith(":");
+
+        if (!alreadyInserted) {
+          node.body.body.unshift(assignStmt);
+        }
+      } else {
+        // Arrow function with expression body → wrap in block
+        node.body = t.blockStatement([assignStmt]);
       }
-    });
+    },
+  });
 
-    traverse(ast, {
-      Program(path: NodePath<t.Program>) {
-        path.node.body.forEach((node, index) => {
-          if (t.isFunctionDeclaration(node) && node.id) {
-            const oldName = node.id.name;
-            const newName = `${currentPrefix}${oldName}`;
-            path.scope.rename(oldName, newName);  
-          }
-
-          if (t.isClassDeclaration(node) && node.id) {
-            const oldName = node.id.name;
-            const newName = `${currentPrefix}${oldName}`;
-            path.scope.rename(oldName, newName);
-          }
-
-          if (t.isVariableDeclaration(node)) {
-            node.declarations.forEach(decl => {
-              if (t.isIdentifier(decl.id)) {
-                const oldName = decl.id.name;
-                const newName = `${currentPrefix}${oldName}`;
-                path.scope.rename(oldName, newName);
-              }
-            });
-          }
-
-          
-          if (t.isExportNamedDeclaration(node) && node.declaration) {
-            // Replace the export node with its inner declaration
-            path.node.body[index] = node.declaration;
-          }
-
-        });
-      }
-    });
-
-    for (const [name, importedFile] of Object.entries(importMap)) {
-      processFile(importedFile as string, currentPrefix + modulePrefixFor(importedFile as string) + "_" + name + "_");
-    }
-
-    bundledNodes.push(...ast.program.body);
-  }
-
-  processFile(entryFile, prefix);
-
-  const finalAst = t.file(t.program(bundledNodes));
-  return generate(finalAst).code;
+  // Print the transformed AST back to source code
+  const { code } = generate(ast, {
+    retainLines: false,
+    compact: false,
+    concise: false,
+    retainFunctionParens: true,
+    decoratorsBeforeExport: true,
+    jsescOption: { minimal: true },
+  });
+  return code;
 }
 
 function transformDestructuringAssignment (path: NodePath<t.VariableDeclaration>) {
