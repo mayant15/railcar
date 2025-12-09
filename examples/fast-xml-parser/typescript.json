@@ -1,0 +1,751 @@
+{
+  "Uint8Array": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "ArrayBuffer": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ArrayBuffer": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "RegExp": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "RegExp": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "Buffer": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Buffer": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "SharedArrayBuffer": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "SharedArrayBuffer": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "Error": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Error": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "Duplex": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Duplex": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "XMLParser.getMetaDataSymbol": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "description": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    },
+    "callconv": "Free"
+  },
+  "XMLParser": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "preserveOrder": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "attributeNamePrefix": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "attributesGroupName": {
+            "isAny": false,
+            "kind": {
+              "String": 0.25,
+              "Boolean": 0.25,
+              "Undefined": 0.5
+            }
+          },
+          "textNodeName": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "ignoreAttributes": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.25,
+              "Array": 0.25,
+              "Undefined": 0.5
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "String": 0.5,
+                "Class": 0.5
+              },
+              "classType": {
+                "RegExp": 1
+              }
+            }
+          },
+          "removeNSPrefix": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "allowBooleanAttributes": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "parseTagValue": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "parseAttributeValue": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "trimValues": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "cdataPropName": {
+            "isAny": false,
+            "kind": {
+              "String": 0.25,
+              "Boolean": 0.25,
+              "Undefined": 0.5
+            }
+          },
+          "commentPropName": {
+            "isAny": false,
+            "kind": {
+              "String": 0.25,
+              "Boolean": 0.25,
+              "Undefined": 0.5
+            }
+          },
+          "numberParseOptions": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {
+              "hex": {
+                "isAny": false,
+                "kind": {
+                  "Boolean": 1
+                }
+              },
+              "leadingZeros": {
+                "isAny": false,
+                "kind": {
+                  "Boolean": 1
+                }
+              },
+              "skipLike": {
+                "isAny": false,
+                "kind": {
+                  "Class": 0.5,
+                  "Undefined": 0.5
+                },
+                "classType": {
+                  "RegExp": 1
+                }
+              },
+              "eNotation": {
+                "isAny": false,
+                "kind": {
+                  "Boolean": 0.5,
+                  "Undefined": 0.5
+                }
+              }
+            }
+          },
+          "stopNodes": {
+            "isAny": false,
+            "kind": {
+              "Array": 0.5,
+              "Undefined": 0.5
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "String": 1
+              }
+            }
+          },
+          "unpairedTags": {
+            "isAny": false,
+            "kind": {
+              "Array": 0.5,
+              "Undefined": 0.5
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "String": 1
+              }
+            }
+          },
+          "alwaysCreateTextNode": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "processEntities": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "htmlEntities": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "ignoreDeclaration": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "ignorePiTags": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "transformTagName": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "transformAttributeName": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "captureMetaData": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "XMLParser": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "XMLParser.parse": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "XMLParser": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Class": 0.5
+        },
+        "classType": {
+          "Buffer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.25,
+          "Object": 0.25,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "allowBooleanAttributes": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "unpairedTags": {
+            "isAny": false,
+            "kind": {
+              "Array": 0.5,
+              "Undefined": 0.5
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "String": 1
+              }
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "XMLParser.addEntity": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "XMLParser": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "XMLValidator.validate": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "allowBooleanAttributes": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "unpairedTags": {
+            "isAny": false,
+            "kind": {
+              "Array": 0.5,
+              "Undefined": 0.5
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "String": 1
+              }
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 0.5,
+        "Object": 0.5
+      },
+      "objectShape": {
+        "err": {
+          "isAny": false,
+          "kind": {
+            "Object": 1
+          },
+          "objectShape": {
+            "code": {
+              "isAny": false,
+              "kind": {
+                "String": 1
+              }
+            },
+            "msg": {
+              "isAny": false,
+              "kind": {
+                "String": 1
+              }
+            },
+            "line": {
+              "isAny": false,
+              "kind": {
+                "Number": 1
+              }
+            },
+            "col": {
+              "isAny": false,
+              "kind": {
+                "Number": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "callconv": "Free"
+  },
+  "XMLBuilder": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "attributeNamePrefix": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "attributesGroupName": {
+            "isAny": false,
+            "kind": {
+              "String": 0.25,
+              "Boolean": 0.25,
+              "Undefined": 0.5
+            }
+          },
+          "textNodeName": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "ignoreAttributes": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.25,
+              "Array": 0.25,
+              "Undefined": 0.5
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "String": 0.5,
+                "Class": 0.5
+              },
+              "classType": {
+                "RegExp": 1
+              }
+            }
+          },
+          "cdataPropName": {
+            "isAny": false,
+            "kind": {
+              "String": 0.25,
+              "Boolean": 0.25,
+              "Undefined": 0.5
+            }
+          },
+          "commentPropName": {
+            "isAny": false,
+            "kind": {
+              "String": 0.25,
+              "Boolean": 0.25,
+              "Undefined": 0.5
+            }
+          },
+          "format": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "indentBy": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "arrayNodeName": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "suppressEmptyNode": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "suppressUnpairedNode": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "suppressBooleanAttributes": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "preserveOrder": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "unpairedTags": {
+            "isAny": false,
+            "kind": {
+              "Array": 0.5,
+              "Undefined": 0.5
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "String": 1
+              }
+            }
+          },
+          "stopNodes": {
+            "isAny": false,
+            "kind": {
+              "Array": 0.5,
+              "Undefined": 0.5
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "String": 1
+              }
+            }
+          },
+          "processEntities": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "oneListGroup": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "XMLBuilder": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "XMLBuilder.build": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "XMLBuilder": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  }
+}

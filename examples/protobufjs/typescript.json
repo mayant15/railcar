@@ -1,0 +1,10572 @@
+{
+  "Uint8Array": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "ArrayBuffer": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ArrayBuffer": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "RegExp": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "RegExp": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "Buffer": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Buffer": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "SharedArrayBuffer": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "SharedArrayBuffer": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "Error": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Error": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "Duplex": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Duplex": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "decoder": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "encoder": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "load": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 0.5,
+          "Undefined": 0.5
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Undefined": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 0.3333333333333333,
+        "Undefined": 0.6666666666666666
+      },
+      "classType": {
+        "Root": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "loadSync": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 0.5,
+          "Undefined": 0.5
+        },
+        "classType": {
+          "Root": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Root": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "configure": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "parse": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.25,
+          "Class": 0.5,
+          "Undefined": 0.25
+        },
+        "classType": {
+          "Root": 1
+        },
+        "objectShape": {
+          "keepCase": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "alternateCommentMode": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "preferTrailingComment": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.25,
+          "Undefined": 0.75
+        },
+        "objectShape": {
+          "keepCase": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "alternateCommentMode": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "preferTrailingComment": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "package": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        },
+        "imports": {
+          "isAny": false,
+          "kind": {
+            "Array": 1
+          },
+          "arrayValueType": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          }
+        },
+        "weakImports": {
+          "isAny": false,
+          "kind": {
+            "Array": 1
+          },
+          "arrayValueType": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          }
+        },
+        "syntax": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        },
+        "root": {
+          "isAny": false,
+          "kind": {
+            "Class": 1
+          },
+          "classType": {
+            "Root": 1
+          }
+        }
+      }
+    },
+    "callconv": "Free"
+  },
+  "verifier": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Enum.fromJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "values": {
+            "isAny": false,
+            "kind": {
+              "Object": 1
+            },
+            "objectShape": {}
+          },
+          "options": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Enum": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Enum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Enum": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "Enum.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Enum.add": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Enum": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Enum.remove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Enum": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Enum.isReservedId": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Enum.isReservedName": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Field.fromJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "rule": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "type": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          },
+          "id": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "options": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Field": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Field.d": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Object": 0.5
+        },
+        "objectShape": {
+          "prototype": {
+            "isAny": true,
+            "kind": {}
+          },
+          "length": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "arguments": {
+            "isAny": true,
+            "kind": {}
+          },
+          "name": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Field": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.25,
+          "Object": 0.25,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.25,
+          "Object": 0.25,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Field": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "FieldBase": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.25,
+          "Object": 0.25,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.25,
+          "Object": 0.25,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "FieldBase": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "FieldBase.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "FieldBase": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "FieldBase.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "FieldBase": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "MapField.fromJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "keyType": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          },
+          "rule": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "type": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          },
+          "id": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "options": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "MapField": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "MapField.d": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.3333333333333333,
+          "Object": 0.6666666666666666
+        },
+        "objectShape": {
+          "prototype": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          },
+          "length": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "arguments": {
+            "isAny": true,
+            "kind": {}
+          },
+          "name": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "MapField": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "MapField": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "MapField.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "MapField": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Message.create": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "prototype": {
+            "isAny": true,
+            "kind": {}
+          },
+          "length": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "arguments": {
+            "isAny": true,
+            "kind": {}
+          },
+          "name": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "$type": {
+          "isAny": false,
+          "kind": {
+            "Class": 1
+          },
+          "classType": {
+            "Type": 1
+          }
+        }
+      }
+    },
+    "callconv": "Free"
+  },
+  "Message.encode": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "prototype": {
+            "isAny": true,
+            "kind": {}
+          },
+          "length": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "arguments": {
+            "isAny": true,
+            "kind": {}
+          },
+          "name": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 0.5,
+          "Undefined": 0.5
+        },
+        "classType": {
+          "Writer": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Message.encodeDelimited": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "prototype": {
+            "isAny": true,
+            "kind": {}
+          },
+          "length": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "arguments": {
+            "isAny": true,
+            "kind": {}
+          },
+          "name": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 0.5,
+          "Undefined": 0.5
+        },
+        "classType": {
+          "Writer": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Message.decode": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "prototype": {
+            "isAny": true,
+            "kind": {}
+          },
+          "length": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "arguments": {
+            "isAny": true,
+            "kind": {}
+          },
+          "name": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "Reader": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Free"
+  },
+  "Message.decodeDelimited": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "prototype": {
+            "isAny": true,
+            "kind": {}
+          },
+          "length": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "arguments": {
+            "isAny": true,
+            "kind": {}
+          },
+          "name": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "Reader": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Free"
+  },
+  "Message.verify": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Message.fromObject": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "prototype": {
+            "isAny": true,
+            "kind": {}
+          },
+          "length": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "arguments": {
+            "isAny": true,
+            "kind": {}
+          },
+          "name": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Free"
+  },
+  "Message.toObject": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "prototype": {
+            "isAny": true,
+            "kind": {}
+          },
+          "length": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "arguments": {
+            "isAny": true,
+            "kind": {}
+          },
+          "name": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "defaults": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "arrays": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "objects": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "oneofs": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "json": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Free"
+  },
+  "Message": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Message": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "Message.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Message": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Method.fromJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "type": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "requestType": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          },
+          "responseType": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          },
+          "requestStream": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "responseStream": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "options": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          },
+          "comment": {
+            "isAny": false,
+            "kind": {
+              "String": 1
+            }
+          },
+          "parsedOptions": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Method": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Method": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.25,
+          "Object": 0.25,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.25,
+          "Object": 0.25,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Method": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "Method.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Method": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Namespace.fromJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Namespace.arrayToJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Array": 1
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "Class": 1
+          },
+          "classType": {
+            "ReflectionObject": 1
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "keepComments": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Free"
+  },
+  "Namespace.isReservedId": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Array": 1
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 0.5,
+            "Array": 0.5
+          },
+          "arrayValueType": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Namespace.isReservedName": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Array": 1
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 0.5,
+            "Array": 0.5
+          },
+          "arrayValueType": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Namespace": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "NamespaceBase.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.addJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.get": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.getEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.add": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.remove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.define": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.resolveAll": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.lookup": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.25,
+          "Undefined": 0.75
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.lookupType": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.lookupEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Enum": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.lookupTypeOrEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.lookupService": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Service": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "NamespaceBase": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "ReflectionObject.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "ReflectionObject.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "ReflectionObject.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "ReflectionObject.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "ReflectionObject.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "ReflectionObject.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "ReflectionObject.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "ReflectionObject.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "ReflectionObject.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "ReflectionObject": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "OneOf.fromJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "oneof": {
+            "isAny": false,
+            "kind": {
+              "Array": 1
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "String": 1
+              }
+            }
+          },
+          "options": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "OneOf": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "OneOf.d": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Array": 1
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "OneOf": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.25,
+          "Array": 0.25,
+          "Undefined": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "OneOf": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "OneOf.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "OneOf.add": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "OneOf": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "OneOf.remove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "OneOf": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.create": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "Buffer": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Reader": 0.5,
+        "BufferReader": 0.5
+      }
+    },
+    "callconv": "Free"
+  },
+  "Reader": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Reader": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "Reader.uint32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.int32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.sint32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.int64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "low": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "high": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "unsigned": {
+          "isAny": false,
+          "kind": {
+            "Boolean": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.uint64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "low": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "high": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "unsigned": {
+          "isAny": false,
+          "kind": {
+            "Boolean": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.sint64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "low": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "high": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "unsigned": {
+          "isAny": false,
+          "kind": {
+            "Boolean": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.bool": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.fixed32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.sfixed32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.fixed64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "low": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "high": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "unsigned": {
+          "isAny": false,
+          "kind": {
+            "Boolean": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.sfixed64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "low": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "high": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "unsigned": {
+          "isAny": false,
+          "kind": {
+            "Boolean": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.float": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.double": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.bytes": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.string": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.skip": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Reader": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Reader.skipType": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Reader": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Reader": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Buffer": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "BufferReader": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "BufferReader.bytes": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.fromJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "options": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          },
+          "nested": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 0.5,
+          "Undefined": 0.5
+        },
+        "classType": {
+          "Root": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Root": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Root": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Root": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "Root.resolvePath": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.fetch": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Undefined": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.load": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "keepCase": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "alternateCommentMode": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "preferTrailingComment": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Undefined": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 0.3333333333333333,
+        "Undefined": 0.6666666666666666
+      },
+      "classType": {
+        "Root": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.loadSync": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "keepCase": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "alternateCommentMode": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "preferTrailingComment": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Root": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.fromJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "methods": {
+            "isAny": false,
+            "kind": {
+              "Object": 1
+            },
+            "objectShape": {}
+          },
+          "options": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          },
+          "nested": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Service": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Service": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Service": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "Service.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Service.create": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Undefined": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Service": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.generateConstructor": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Type.fromJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "oneofs": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          },
+          "fields": {
+            "isAny": false,
+            "kind": {
+              "Object": 1
+            },
+            "objectShape": {}
+          },
+          "extensions": {
+            "isAny": false,
+            "kind": {
+              "Array": 0.5,
+              "Undefined": 0.5
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "Array": 1
+              },
+              "arrayValueType": {
+                "isAny": false,
+                "kind": {
+                  "Number": 1
+                }
+              }
+            }
+          },
+          "reserved": {
+            "isAny": false,
+            "kind": {
+              "Array": 0.5,
+              "Undefined": 0.5
+            },
+            "arrayValueType": {
+              "isAny": false,
+              "kind": {
+                "Array": 1
+              },
+              "arrayValueType": {
+                "isAny": false,
+                "kind": {
+                  "Number": 1
+                }
+              }
+            }
+          },
+          "group": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "options": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          },
+          "nested": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {}
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Type.d": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Type": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "Type.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Type.add": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.remove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.isReservedId": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.isReservedName": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.create": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "$type": {
+          "isAny": false,
+          "kind": {
+            "Class": 1
+          },
+          "classType": {
+            "Type": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.setup": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.encode": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "$type": {
+            "isAny": false,
+            "kind": {
+              "Class": 0.5,
+              "Undefined": 0.5
+            },
+            "classType": {
+              "Type": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 0.5,
+          "Undefined": 0.5
+        },
+        "classType": {
+          "Writer": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.encodeDelimited": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "$type": {
+            "isAny": false,
+            "kind": {
+              "Class": 0.5,
+              "Undefined": 0.5
+            },
+            "classType": {
+              "Type": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 0.5,
+          "Undefined": 0.5
+        },
+        "classType": {
+          "Writer": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.decode": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "Reader": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "$type": {
+          "isAny": false,
+          "kind": {
+            "Class": 1
+          },
+          "classType": {
+            "Type": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.decodeDelimited": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "Reader": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "$type": {
+          "isAny": false,
+          "kind": {
+            "Class": 1
+          },
+          "classType": {
+            "Type": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.verify": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.fromObject": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "$type": {
+          "isAny": false,
+          "kind": {
+            "Class": 1
+          },
+          "classType": {
+            "Type": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.toObject": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {
+          "$type": {
+            "isAny": false,
+            "kind": {
+              "Class": 1
+            },
+            "classType": {
+              "Type": 1
+            }
+          }
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "defaults": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "arrays": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "objects": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "oneofs": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "json": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Writer.create": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 0.5,
+        "BufferWriter": 0.5
+      }
+    },
+    "callconv": "Free"
+  },
+  "Writer.alloc": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Writer": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "Writer.uint32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.int32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.sint32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.uint64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.3333333333333333,
+          "String": 0.3333333333333333,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "low": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "high": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "unsigned": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 1
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.int64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.3333333333333333,
+          "String": 0.3333333333333333,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "low": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "high": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "unsigned": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 1
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.sint64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.3333333333333333,
+          "String": 0.3333333333333333,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "low": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "high": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "unsigned": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 1
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.bool": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.fixed32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.sfixed32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.fixed64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.3333333333333333,
+          "String": 0.3333333333333333,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "low": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "high": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "unsigned": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 1
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.sfixed64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.3333333333333333,
+          "String": 0.3333333333333333,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "low": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "high": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "unsigned": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 1
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.float": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.double": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.bytes": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Class": 0.5
+        },
+        "classType": {
+          "Uint8Array": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.string": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.fork": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.reset": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.ldelim": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Writer.finish": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Writer": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.alloc": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Buffer": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "BufferWriter": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "BufferWriter": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "BufferWriter.finish": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Enum.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Enum.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Enum.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Enum.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "Enum.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Enum.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Enum.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Enum.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Enum": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "FieldBase.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "FieldBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "FieldBase.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "FieldBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "FieldBase.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "FieldBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "FieldBase.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "FieldBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "FieldBase.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "FieldBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "FieldBase.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "FieldBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "FieldBase.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "FieldBase": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Field.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Field.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Field.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Field.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Field.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "Field.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Field.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Field.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Field.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Field": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "MapField.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "MapField": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "MapField.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "MapField": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "MapField.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "MapField": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "MapField.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "MapField": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "MapField.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "MapField": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "MapField.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "MapField": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "MapField.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "MapField": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "MapField.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "MapField": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Method.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Method": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Method.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Method": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Method.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Method": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Method.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Method": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "Method.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Method": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Method.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Method": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Method.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Method": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Method.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Method": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "NamespaceBase.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "NamespaceBase": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Namespace.addJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.get": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.getEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Namespace.add": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.remove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.define": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.resolveAll": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.lookup": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.25,
+          "Undefined": 0.75
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.lookupType": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.lookupEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Enum": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.lookupTypeOrEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.lookupService": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Service": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "Namespace.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Namespace.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Namespace": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "OneOf.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "OneOf.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "OneOf.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "OneOf.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "OneOf.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "OneOf.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "OneOf.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "OneOf.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "OneOf": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.uint32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.int32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.sint32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.int64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "low": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "high": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "unsigned": {
+          "isAny": false,
+          "kind": {
+            "Boolean": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.uint64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "low": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "high": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "unsigned": {
+          "isAny": false,
+          "kind": {
+            "Boolean": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.sint64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "low": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "high": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "unsigned": {
+          "isAny": false,
+          "kind": {
+            "Boolean": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.bool": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.fixed32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.sfixed32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.fixed64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "low": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "high": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "unsigned": {
+          "isAny": false,
+          "kind": {
+            "Boolean": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.sfixed64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {
+        "low": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "high": {
+          "isAny": false,
+          "kind": {
+            "Number": 1
+          }
+        },
+        "unsigned": {
+          "isAny": false,
+          "kind": {
+            "Boolean": 1
+          }
+        }
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.float": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.double": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Number": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.string": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.skip": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Reader": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferReader.skipType": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferReader": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Reader": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.toJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Root.addJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.get": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.getEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Root.add": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.remove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.define": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.resolveAll": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.lookup": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.25,
+          "Undefined": 0.75
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.lookupType": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.lookupEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Enum": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.lookupTypeOrEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.lookupService": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Service": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "Root.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Root.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Root": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.addJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.get": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.getEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Service.add": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.remove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.define": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.resolveAll": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.lookup": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.25,
+          "Undefined": 0.75
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.lookupType": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.lookupEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Enum": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.lookupTypeOrEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.lookupService": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Service": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "Service.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Service.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Service": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.addJSON": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.get": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.getEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 1
+      },
+      "objectShape": {}
+    },
+    "callconv": "Method"
+  },
+  "Type.define": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.resolveAll": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Namespace": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.lookup": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.25,
+          "Undefined": 0.75
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.lookupType": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.lookupEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Enum": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.lookupTypeOrEnum": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Type": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.lookupService": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Array": 0.5
+        },
+        "arrayValueType": {
+          "isAny": false,
+          "kind": {
+            "String": 1
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Service": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.onAdd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.onRemove": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "ReflectionObject": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.resolve": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.getOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "callconv": "Method"
+  },
+  "Type.setOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.setParsedOption": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.setOptions": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 1
+        },
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ReflectionObject": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Type.toString": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Type": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.uint32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.int32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.sint32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.uint64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.3333333333333333,
+          "String": 0.3333333333333333,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "low": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "high": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "unsigned": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 1
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.int64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.3333333333333333,
+          "String": 0.3333333333333333,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "low": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "high": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "unsigned": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 1
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.sint64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.3333333333333333,
+          "String": 0.3333333333333333,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "low": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "high": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "unsigned": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 1
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.bool": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.fixed32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.sfixed32": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.fixed64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.3333333333333333,
+          "String": 0.3333333333333333,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "low": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "high": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "unsigned": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 1
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.sfixed64": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.3333333333333333,
+          "String": 0.3333333333333333,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "low": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "high": {
+            "isAny": false,
+            "kind": {
+              "Number": 1
+            }
+          },
+          "unsigned": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 1
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.float": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.double": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.bytes": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Class": 0.5
+        },
+        "classType": {
+          "Uint8Array": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.string": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.fork": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.reset": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "BufferWriter.ldelim": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "BufferWriter": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Writer": 1
+      }
+    },
+    "callconv": "Method"
+  }
+}

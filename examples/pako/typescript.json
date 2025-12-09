@@ -1,0 +1,897 @@
+{
+  "Uint8Array": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "ArrayBuffer": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ArrayBuffer": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "RegExp": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "RegExp": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "Buffer": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Buffer": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "SharedArrayBuffer": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "SharedArrayBuffer": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "Error": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.5,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Error": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "Duplex": {
+    "args": [],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Duplex": 1
+      }
+    },
+    "callconv": "Constructor",
+    "builtin": true
+  },
+  "deflate": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.3333333333333333,
+          "Class": 0.6666666666666666
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "ArrayBuffer": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "level": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "windowBits": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "memLevel": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "strategy": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "dictionary": {
+            "isAny": true,
+            "kind": {}
+          },
+          "raw": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "deflateRaw": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.3333333333333333,
+          "Class": 0.6666666666666666
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "ArrayBuffer": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "level": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "windowBits": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "memLevel": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "strategy": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "dictionary": {
+            "isAny": true,
+            "kind": {}
+          },
+          "raw": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "gzip": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.3333333333333333,
+          "Class": 0.6666666666666666
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "ArrayBuffer": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "level": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "windowBits": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "memLevel": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "strategy": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "dictionary": {
+            "isAny": true,
+            "kind": {}
+          },
+          "raw": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "inflate": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "ArrayBuffer": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.75,
+          "Undefined": 0.25
+        },
+        "objectShape": {
+          "windowBits": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "raw": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "to": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 0.5,
+        "Class": 0.5
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "inflateRaw": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "ArrayBuffer": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.75,
+          "Undefined": 0.25
+        },
+        "objectShape": {
+          "windowBits": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "raw": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "to": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 0.5,
+        "Class": 0.5
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "ungzip": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "ArrayBuffer": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.75,
+          "Undefined": 0.25
+        },
+        "objectShape": {
+          "windowBits": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "raw": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "to": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "String": 0.5,
+        "Class": 0.5
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "callconv": "Free"
+  },
+  "Deflate": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "level": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "windowBits": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "memLevel": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "strategy": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "dictionary": {
+            "isAny": true,
+            "kind": {}
+          },
+          "raw": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "chunkSize": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "gzip": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "header": {
+            "isAny": false,
+            "kind": {
+              "Object": 0.5,
+              "Undefined": 0.5
+            },
+            "objectShape": {
+              "text": {
+                "isAny": false,
+                "kind": {
+                  "Boolean": 0.5,
+                  "Undefined": 0.5
+                }
+              },
+              "time": {
+                "isAny": false,
+                "kind": {
+                  "Number": 0.5,
+                  "Undefined": 0.5
+                }
+              },
+              "os": {
+                "isAny": false,
+                "kind": {
+                  "Number": 0.5,
+                  "Undefined": 0.5
+                }
+              },
+              "extra": {
+                "isAny": false,
+                "kind": {
+                  "Array": 0.5,
+                  "Undefined": 0.5
+                },
+                "arrayValueType": {
+                  "isAny": false,
+                  "kind": {
+                    "Number": 1
+                  }
+                }
+              },
+              "name": {
+                "isAny": false,
+                "kind": {
+                  "String": 0.5,
+                  "Undefined": 0.5
+                }
+              },
+              "comment": {
+                "isAny": false,
+                "kind": {
+                  "String": 0.5,
+                  "Undefined": 0.5
+                }
+              },
+              "hcrc": {
+                "isAny": false,
+                "kind": {
+                  "Boolean": 0.5,
+                  "Undefined": 0.5
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Deflate": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "Deflate.onData": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Deflate": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "ArrayBuffer": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Deflate.onEnd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Deflate": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Deflate.push": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Deflate": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.3333333333333333,
+          "Class": 0.6666666666666666
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "ArrayBuffer": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.25,
+          "Boolean": 0.25,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Inflate": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Object": 0.5,
+          "Undefined": 0.5
+        },
+        "objectShape": {
+          "windowBits": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "dictionary": {
+            "isAny": true,
+            "kind": {}
+          },
+          "raw": {
+            "isAny": false,
+            "kind": {
+              "Boolean": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "to": {
+            "isAny": false,
+            "kind": {
+              "String": 0.5,
+              "Undefined": 0.5
+            }
+          },
+          "chunkSize": {
+            "isAny": false,
+            "kind": {
+              "Number": 0.5,
+              "Undefined": 0.5
+            }
+          }
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Inflate": 1
+      }
+    },
+    "callconv": "Constructor"
+  },
+  "Inflate.onData": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Inflate": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "ArrayBuffer": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Inflate.onEnd": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Inflate": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 1
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 1
+      }
+    },
+    "callconv": "Method"
+  },
+  "Inflate.push": {
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Inflate": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Uint8Array": 0.5,
+          "ArrayBuffer": 0.5
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Number": 0.25,
+          "Boolean": 0.25,
+          "Undefined": 0.5
+        }
+      }
+    ],
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      }
+    },
+    "callconv": "Method"
+  }
+}
