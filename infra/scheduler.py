@@ -31,7 +31,6 @@ def _validate_schedule(schedule: list[list[Job[T]]], requests: list[Request[T]],
 
         cores = []
         for job in row:
-            print(job)
             cores += (job.cores)
 
             # 2. Each job must have a non-empty list of cores

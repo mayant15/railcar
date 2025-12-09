@@ -185,7 +185,7 @@ def main() -> None:
     summary = generate_summary_prefix(args.timeout, seeds)
 
     for row in jobs:
-        pool = Pool()
+        pool = Pool(num_procs)
         pool.map(execute_job, row, 1)
         pool.close()
         pool.terminate()
