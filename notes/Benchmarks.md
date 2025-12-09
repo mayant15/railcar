@@ -13,3 +13,5 @@ Ran a 24 hour run of 16 benchmarks in sequence mode. Needs about ~2.5 GB storage
 So that's about ~30 GB for 18 benchmarks run for 10 iterations.
 
 If we need to run them for 3 schema modes, say ~100 GB.
+
+Redux TypeScript has huge logs for some reason. Maybe disable console log or something.

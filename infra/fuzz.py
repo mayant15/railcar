@@ -25,7 +25,7 @@ def git_version():
 
 def generate_job_requests(
     projects: list[str],
-    modes: list[str],
+    mode_schema_pairs: list[tuple[str, str]],
     seeds: list[int],
     iterations: int,
     results_dir: str,
@@ -35,28 +35,32 @@ def generate_job_requests(
     metrics = path.join(results_dir, "metrics.db")
 
     reqs = []
-    for mode in modes:
+    for mode, schema_type in mode_schema_pairs:
         for project in projects:
-            entrypoints = util.find_entrypoints(project, mode)
-            outdir_basename = f"{project}_{mode}"
+            entrypoints = [util.find_entrypoints(project, mode)[0]]
+
+            schema = None
+            if schema_type is not None:
+                schema = util.find_schema(project, schema_type)
+                assert schema is not None
 
             for entrypoint, config in entrypoints:
                 driver = path.basename(entrypoint).split('.')[0]
 
-                if mode == "bytes":
-                    outdir_basename += f"_{driver}"
-
                 for i in range(iterations):
-                    outdir = path.join(results_dir, f"{outdir_basename}_{i}")
+                    outdir = f"{project}_{mode}_{schema_type}_{driver}_{i}"
+                    outdir = path.join(results_dir, outdir)
+
                     payload = Config(tool, Railcar.RunArgs(
                         timeout=timeout,
                         metrics=metrics,
                         outdir=outdir,
                         seed=seeds[i],
                         mode=mode,
+                        schema=schema,
                         entrypoint=entrypoint,
                         config_file_path=config,
-                        labels=[project, i, mode, driver]
+                        labels=[project, mode, schema_type, driver, i]
                     ))
                     reqs.append(Request(payload=payload, request=1, library=project))
 
@@ -155,8 +159,8 @@ def arguments():
     # minutes to seconds
     args.timeout = args.timeout * 60
 
-    # cannot use default here, argparse will always append a "graph"
-    args.mode = args.mode if args.mode is not None else ["graph"]
+    # cannot use default here, argparse will always append a "sequence"
+    args.mode = args.mode if args.mode is not None else ["sequence"]
 
     return args
 
@@ -164,16 +168,31 @@ def arguments():
 def main() -> None:
     args = arguments()
 
-    num_procs = os.process_cpu_count()
+    num_procs = 8  # os.process_cpu_count()
     projects = util.discover_projects()
     old_results_dir = util.get_old_results_dir()
     results_dir = util.ensure_results_dir()
 
     seeds = [randint(0, 100000) for i in range(args.iterations)]
 
+    projects = [
+        "fast-xml-parser",
+        "tslib",
+        "pako",
+        "sharp",
+        "redux",
+        "jimp",
+        "jpeg-js",
+        "js-yaml",
+    ]
+
     reqs = generate_job_requests(
         projects=projects,
-        modes=args.mode,
+        mode_schema_pairs=[
+            ("sequence", None),
+            ("sequence", "typescript"),
+            ("bytes", None),
+        ],
         iterations=args.iterations,
         results_dir=results_dir,
         seeds=seeds,
@@ -181,6 +200,13 @@ def main() -> None:
     )
 
     jobs = schedule(reqs, num_procs)
+    print("Estimated time:", len(jobs) * args.timeout / (60 * 60), "hour(s)")
+    for row in jobs:
+        for job in row:
+            job.cores[0] *= 2
+        #     labels = job.payload.args.labels
+        #     print(labels[0], labels[1], labels[2], job.cores, end=", ")
+        # print("|")
 
     summary = generate_summary_prefix(args.timeout, seeds)
 

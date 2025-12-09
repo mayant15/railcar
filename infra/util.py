@@ -67,11 +67,10 @@ def find_entrypoints(project: str, mode: str) -> list[tuple[str, str]]:
         return [(ep, project_root_config_file)]
 
 
-def find_schema(project: str, kind: str) -> str:
+def find_schema(project: str, kind: str) -> Optional[str]:
     base = path.join(get_examples_dir(), project)
     schema = path.join(base, f"{kind}.json")
-    assert path.exists(schema)
-    return schema
+    return schema if path.exists(schema) else None
 
 
 def find_graph_entrypoint(project: str) -> str:
