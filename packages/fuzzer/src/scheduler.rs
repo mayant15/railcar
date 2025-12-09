@@ -13,6 +13,7 @@ impl<I, S> TestcaseScore<I, S> for ValidityTestcaseScore
 where
     S: HasCorpus<I> + HasMetadata,
 {
+    // TODO: save validity information in testcase metadata
     fn compute(state: &S, entry: &mut Testcase<I>) -> Result<f64, libafl::Error> {
         let is_valid = entry
             .hit_feedbacks()
