@@ -371,6 +371,10 @@ function fromType(ctx: Context, ty: ts.Type): TypeGuess {
         return Guess.undefined();
     }
 
+    if (flags & ts.TypeFlags.Undefined) {
+        return Guess.undefined();
+    }
+
     if (flags & ts.TypeFlags.Null) {
         return Guess.null();
     }
