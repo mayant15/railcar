@@ -47,11 +47,13 @@ pub trait Event {
 }
 
 pub struct HeartbeatEvent {
-    pub coverage: u64,
+    pub objectives: u64,
     pub execs: u64,
+    pub corpus: u64,
+    pub coverage: u64,
     pub valid_execs: u64,
     pub valid_corpus: u64,
-    pub corpus: u64,
+    pub valid_coverage: u64,
     pub total_edges: u64,
     pub labels: String,
 }
@@ -61,11 +63,13 @@ impl Event for HeartbeatEvent {
         static CREATE_SQL: &str = "
         CREATE TABLE heartbeat (
             timestamp INTEGER NOT NULL,
-            coverage UINT32 NOT NULL,
+            objectives UINT32 NOT NULL,
             execs UINT32 NOT NULL,
+            corpus UINT32 NOT NULL,
+            coverage UINT32 NOT NULL,
             valid_execs UINT32 NOT NULL,
             valid_corpus UINT32 NOT NULL,
-            corpus UINT32 NOT NULL,
+            valid_coverage UINT32 NOT NULL,
             total_edges UINT32 NOT NULL,
             labels TEXT
         )";
@@ -84,7 +88,8 @@ impl Event for HeartbeatEvent {
     }
 
     fn append(&self, conn: &Connection) -> Result<()> {
-        static SQL: &str = "INSERT INTO heartbeat VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8);";
+        static SQL: &str =
+            "INSERT INTO heartbeat VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10);";
 
         let now: DateTime<Utc> = std::time::SystemTime::now().into();
 
@@ -92,11 +97,13 @@ impl Event for HeartbeatEvent {
             SQL,
             (
                 now.timestamp(),
-                self.coverage,
+                self.objectives,
                 self.execs,
+                self.corpus,
+                self.coverage,
                 self.valid_execs,
                 self.valid_corpus,
-                self.corpus,
+                self.valid_coverage,
                 self.total_edges,
                 &self.labels,
             ),

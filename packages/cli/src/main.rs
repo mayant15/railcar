@@ -44,7 +44,7 @@ struct Arguments {
     metrics: Option<PathBuf>,
 
     /// Fuzz driver variant to use
-    #[arg(long, value_enum, default_value_t = FuzzerMode::Graph)]
+    #[arg(long, value_enum, default_value_t = FuzzerMode::Sequence)]
     mode: FuzzerMode,
 
     /// Run the fuzzer in ensemble mode. This runs two sub-fuzzers: one to search for API

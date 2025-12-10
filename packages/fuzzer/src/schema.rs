@@ -362,6 +362,10 @@ impl TypeGuess {
     }
 
     pub fn overlaps(&self, other: &TypeGuess) -> bool {
+        if self.is_any || other.is_any {
+            return true;
+        }
+
         let mine: HashSet<&TypeKind> = self.kind.keys().collect();
         let theirs: HashSet<&TypeKind> = other.kind.keys().collect();
         mine.intersection(&theirs).count() > 0

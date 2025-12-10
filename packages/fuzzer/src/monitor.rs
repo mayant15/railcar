@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use anyhow::Result;
-use memory_stats::memory_stats;
 use std::path::Path;
 
 use libafl::monitors::{
@@ -24,6 +23,14 @@ where
 
 fn coverage(stats: &ClientStats) -> Option<u64> {
     let stat = stats.get_user_stats("totalcoverage")?;
+    let UserStatsValue::Ratio(covered, _) = stat.value() else {
+        return None;
+    };
+    Some(*covered)
+}
+
+fn valid_coverage(stats: &ClientStats) -> Option<u64> {
+    let stat = stats.get_user_stats("validcoverage")?;
     let UserStatsValue::Ratio(covered, _) = stat.value() else {
         return None;
     };
@@ -58,6 +65,7 @@ fn make_heartbeat_event(mgr: &ClientStatsManager, labels: String) -> HeartbeatEv
     HeartbeatEvent {
         // max
         coverage: fold(mgr, coverage, std::cmp::max),
+        valid_coverage: fold(mgr, valid_coverage, std::cmp::max),
 
         // sum these
         execs: fold(mgr, |s| Some(s.executions()), std::ops::Add::add),
@@ -67,6 +75,7 @@ fn make_heartbeat_event(mgr: &ClientStatsManager, labels: String) -> HeartbeatEv
         total_edges: fold(mgr, total_edges, snd),
         valid_corpus: fold(mgr, valid_corpus, snd),
         corpus: fold(mgr, |s| Some(s.corpus_size()), snd),
+        objectives: fold(mgr, |s| Some(s.objective_size()), snd),
 
         labels,
     }
@@ -104,14 +113,6 @@ impl<F: FnMut(&str)> Monitor for StdMonitor<F> {
         sender_id: libafl_bolts::ClientId,
     ) -> Result<(), libafl::Error> {
         if event_msg == "Client Heartbeat" {
-            {
-                // print memory stats
-                if let Some(usage) = memory_stats() {
-                    log::info!("## physical memory stats: {}", usage.physical_mem);
-                    log::info!("##  virtual memory stats: {}", usage.virtual_mem);
-                }
-            }
-
             let event = make_heartbeat_event(mgr, self.labels.clone());
             self.metrics
                 .record(event)
