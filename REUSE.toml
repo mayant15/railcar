@@ -16,6 +16,7 @@ path = [
   "*.toml",
   "*.json",
   "*.md",
+  "*.cff",
   ".**",
 ]
 SPDX-FileCopyrightText = "2025 Mayant Mukul"

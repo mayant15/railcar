@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+type: software
+title: Railcar
+url: "https://github.com/mayant15/railcar"
+message: "If you use this software, please cite it as below."
+authors:
+  - given-names: Mayant
+    family-names: Mukul
+    affiliation: University of British Columbia
+  - given-names: Dung
+    family-names: Nguyen Duy Chi
+    affiliation: University of British Columbia
+  - given-names: Caroline
+    family-names: Lemieux
+    affiliation: University of British Columbia
