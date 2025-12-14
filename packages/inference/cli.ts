@@ -96,14 +96,14 @@ async function main() {
         })
         .option("syntest", {
             type: "string",
-            describe: "Derive a schema from a js file"
+            describe: "Derive a schema from a js file",
         })
-        .option('full', {
-            alias: 'f',
-            type: 'boolean',
-            describe: 'Enable full mode'
+        .option("full", {
+            alias: "f",
+            type: "boolean",
+            describe: "Enable full mode",
         })
-        .implies('full', 'syntest')
+        .implies("full", "syntest")
         .option("outFile", {
             alias: "o",
             type: "string",
@@ -115,14 +115,16 @@ async function main() {
         args.syntest || args.hardcoded || args.decl || args.syntestPlus,
         "must either give a project name for hardcoded schemas or a declaration file, or use Syntest",
     );
-    const schema = !args.syntest ? (() => {
-        if (args.hardcoded) {
-            return tsSchema[args.hardcoded];
-        }
+    const schema = !args.syntest
+        ? (() => {
+              if (args.hardcoded) {
+                  return tsSchema[args.hardcoded];
+              }
 
-        assert(args.decl);
-        return deriveFromDeclFile(absolute(args.decl));
-    })() : await syntestSchema(absolute(args.syntest), args.full);
+              assert(args.decl);
+              return deriveFromDeclFile(absolute(args.decl));
+          })()
+        : await syntestSchema(absolute(args.syntest), args.full);
 
     validateSchema(schema);
 
