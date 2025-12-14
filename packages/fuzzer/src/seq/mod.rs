@@ -13,7 +13,7 @@ use libafl::{
     Fuzzer, StdFuzzer,
 };
 use libafl_bolts::{
-    core_affinity::Cores, rands::StdRand, shmem::MmapShMemProvider, tuples::tuple_list,
+    core_affinity::Cores, rands::StdRand, shmem::StdShMemProvider, tuples::tuple_list,
 };
 
 use crate::{
@@ -150,7 +150,7 @@ fn client(
 
 pub fn launch<M>(
     config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
+    shmem_provider: StdShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>

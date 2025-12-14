@@ -7,7 +7,7 @@ use libafl::{
     state::StdState,
 };
 use libafl_bolts::{
-    core_affinity::Cores, rands::StdRand, shmem::MmapShMemProvider, tuples::tuple_list,
+    core_affinity::Cores, rands::StdRand, shmem::StdShMemProvider, tuples::tuple_list,
 };
 use railcar::{
     feedback::{StdFeedback, UniqCrashFeedback},
@@ -26,7 +26,7 @@ pub const CORPUS_CACHE_SIZE: usize = 512;
 
 pub fn launch<M>(
     config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
+    shmem_provider: StdShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>

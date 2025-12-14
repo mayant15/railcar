@@ -6,7 +6,7 @@ use libafl::{
 };
 use libafl_bolts::{
     core_affinity::Cores,
-    shmem::{MmapShMemProvider, ShMemProvider},
+    shmem::{ShMemProvider, StdShMemProvider},
 };
 use railcar::{
     inputs::{Graph, ParametricGraph, ToFuzzerInput},
@@ -39,7 +39,7 @@ fn client<I: ToFuzzerInput, SP: ShMemProvider>(
 
 fn launch_impl<I, M>(
     config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
+    shmem_provider: StdShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>
@@ -66,7 +66,7 @@ where
 
 pub fn launch<M>(
     config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
+    shmem_provider: StdShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>

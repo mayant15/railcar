@@ -11,7 +11,7 @@ use std::{
 };
 
 use anyhow::{bail, Result};
-use libafl_bolts::shmem::{MmapShMem, MmapShMemProvider, ShMem, ShMemDescription, ShMemProvider};
+use libafl_bolts::shmem::{ShMem, ShMemDescription, ShMemProvider, StdShMem, StdShMemProvider};
 use nix::{
     sys::wait::WaitStatus,
     unistd::{ForkResult, Pid},
@@ -124,7 +124,7 @@ impl Child {
 pub struct Worker {
     proc: Child,
     schema: Option<Schema>,
-    shmem: Option<MmapShMem>,
+    shmem: Option<StdShMem>,
 }
 
 /// Spawn a NodeJS subprocess to run the target
@@ -176,9 +176,9 @@ impl Worker {
             // we don't need any shmem for replay
             None
         } else {
-            // MmapShMemProvider is stateless, don't need to save it. Can create new
+            // StdShMemProvider is stateless, don't need to save it. Can create new
             // providers as required (see Self::release_shmem)
-            let mut provider = MmapShMemProvider::new()?;
+            let mut provider = StdShMemProvider::new()?;
             Some(ShMemView::alloc(&mut provider)?)
         };
 
@@ -248,13 +248,13 @@ impl Worker {
         self.schema.as_ref()
     }
 
-    pub fn shmem_mut(&mut self) -> Option<&mut MmapShMem> {
+    pub fn shmem_mut(&mut self) -> Option<&mut StdShMem> {
         self.shmem.as_mut()
     }
 
     fn release_shmem(&mut self) -> Result<()> {
         if let Some(shmem) = self.shmem_mut() {
-            let mut provider = MmapShMemProvider::new()?;
+            let mut provider = StdShMemProvider::new()?;
             provider.release_shmem(shmem);
         }
         Ok(())

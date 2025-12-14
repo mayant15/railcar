@@ -21,7 +21,7 @@ use libafl::{
     Fuzzer, StdFuzzer,
 };
 use libafl_bolts::{
-    core_affinity::Cores, rands::StdRand, shmem::MmapShMemProvider, tuples::tuple_list,
+    core_affinity::Cores, rands::StdRand, shmem::StdShMemProvider, tuples::tuple_list,
 };
 use railcar::{
     feedback::{StdFeedback, UniqCrashFeedback},
@@ -256,7 +256,7 @@ fn graph_client(
 fn launch_parent_impl<M, F, I>(
     start: F,
     config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
+    shmem_provider: StdShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>
@@ -284,7 +284,7 @@ where
 
 pub fn launch<M>(
     config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
+    shmem_provider: StdShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>

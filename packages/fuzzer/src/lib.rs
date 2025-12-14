@@ -9,7 +9,7 @@ use libafl::{
 use libafl_bolts::{
     core_affinity::Cores,
     rands::StdRand,
-    shmem::{MmapShMem, MmapShMemProvider, ShMemProvider},
+    shmem::{ShMemProvider, StdShMem, StdShMemProvider},
 };
 use serde::{Deserialize, Serialize};
 
@@ -33,7 +33,7 @@ pub use worker::Worker;
 
 pub type State<I> = StdState<CachedOnDiskCorpus<I>, I, StdRand, OnDiskCorpus<I>>;
 pub type RestartingManager<I> =
-    LlmpRestartingEventManager<(), I, State<I>, MmapShMem, MmapShMemProvider>;
+    LlmpRestartingEventManager<(), I, State<I>, StdShMem, StdShMemProvider>;
 
 pub type ReplayState<I> = StdState<InMemoryCorpus<I>, I, StdRand, InMemoryCorpus<I>>;
 pub type ReplayRestartingManager<I, SP> =

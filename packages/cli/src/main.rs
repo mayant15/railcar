@@ -6,7 +6,7 @@ use anyhow::Result;
 use clap::Parser;
 use libafl_bolts::{
     core_affinity::Cores,
-    shmem::{MmapShMemProvider, ShMemProvider},
+    shmem::{ShMemProvider, StdShMemProvider},
 };
 use railcar::{monitor::StdMonitor, FuzzerConfig, FuzzerMode};
 
@@ -174,7 +174,7 @@ fn main() -> Result<()> {
         labels: args.label,
     };
 
-    let shmem_provider = MmapShMemProvider::new()?;
+    let shmem_provider = StdShMemProvider::new()?;
 
     // let monitor = TuiMonitor::builder()
     //     .title("railcar")

@@ -13,7 +13,7 @@ use libafl::{
 use libafl_bolts::{
     core_affinity::Cores,
     rands::StdRand,
-    shmem::{MmapShMemProvider, ShMemProvider},
+    shmem::{ShMemProvider, StdShMemProvider},
     tuples::tuple_list,
 };
 use railcar::{
@@ -88,7 +88,7 @@ fn client<I: ToFuzzerInput, SP: ShMemProvider>(
 
 fn launch_impl<I, M>(
     config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
+    shmem_provider: StdShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>
@@ -116,7 +116,7 @@ where
 
 pub fn launch<M>(
     config: FuzzerConfig,
-    shmem_provider: MmapShMemProvider,
+    shmem_provider: StdShMemProvider,
     monitor: M,
     cores: Cores,
 ) -> Result<()>

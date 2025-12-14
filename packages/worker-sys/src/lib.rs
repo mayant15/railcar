@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use libafl_bolts::shmem::{MmapShMem, MmapShMemProvider, ShMemDescription, ShMemProvider};
+use libafl_bolts::shmem::{ShMemDescription, ShMemProvider, StdShMem, StdShMemProvider};
 use napi::{Env, JsObject};
 
 use railcar::shmem::ShMemView;
@@ -10,7 +10,7 @@ extern crate napi_derive;
 
 #[napi]
 pub struct SharedExecutionData {
-    shmem: MmapShMem,
+    shmem: StdShMem,
 }
 
 #[napi]
@@ -18,7 +18,7 @@ impl SharedExecutionData {
     #[napi(constructor)]
     pub fn new(env: Env, desc: JsObject) -> napi::Result<Self> {
         let desc: ShMemDescription = env.from_js_value(desc)?;
-        let mut provider = MmapShMemProvider::new().unwrap();
+        let mut provider = StdShMemProvider::new().unwrap();
         let shmem = provider.shmem_from_description(desc).unwrap();
         Ok(Self { shmem })
     }
