@@ -120,6 +120,14 @@ fn find_config_file(path: Option<PathBuf>) -> Result<Option<PathBuf>> {
     }
 }
 
+// NOTE: Can maybe change this to pick an appropriate core from the available ones
+// For now though, just pick in whatever order libafl puts them in
+fn get_n_cores(n: usize) -> Result<Cores, libafl::Error> {
+    let mut cores = Cores::all()?;
+    cores.trim(n)?;
+    Ok(cores)
+}
+
 fn main() -> Result<()> {
     env_logger::builder()
         .filter(None, log::LevelFilter::Info)
@@ -138,9 +146,9 @@ fn main() -> Result<()> {
     let cores = if let Some(cores) = args.cores {
         Cores::from_cmdline(cores.as_str())
     } else if args.ensemble {
-        Cores::from_cmdline("1,2")
+        get_n_cores(2)
     } else {
-        Cores::from_cmdline("1")
+        get_n_cores(1)
     }?;
 
     let outdir = args.outdir.map(to_absolute).unwrap_or_else(|| {
