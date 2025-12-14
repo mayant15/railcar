@@ -5,7 +5,7 @@ use libafl::{
     mutators::{
         havoc_mutations, HavocMutationsType, HavocScheduledMutator, MutationResult, Mutator,
     },
-    random_corpus_id_with_disabled,
+    random_corpus_id,
     state::{HasCorpus, HasRand},
 };
 use libafl_bolts::{
@@ -233,7 +233,7 @@ where
         input: &mut ApiSeq,
     ) -> Result<MutationResult, libafl::Error> {
         let mut other = {
-            let id = random_corpus_id_with_disabled!(state.corpus(), state.rand_mut());
+            let id = random_corpus_id!(state.corpus(), state.rand_mut());
             let mut other_testcase = state.corpus().get_from_all(id)?.borrow_mut();
             let other = other_testcase.load_input(state.corpus())?;
             other.clone()

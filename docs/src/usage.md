@@ -49,3 +49,14 @@ module.exports.fuzz = bytes => {
     // ...
 }
 ```
+
+## Resuming
+
+The `--outdir OUTDIR` flag can point to an output directory from a previous run. In this case, Railcar will
+replay all inputs in `OUTDIR/corpus` and resume fuzzing. However, we do not save any other state,
+so there are a few caveats:
+1. Metrics start from scratch. Client heartbeat logs will only display metrics from the current
+run. Railcar will also append new metrics as new rows to the _existing_ metrics database.
+1. Corpus will be different. Since the order of execution for corpus inputs is not the same, it is
+possible some inputs that were previously interesting are not interesting any more (if a better input
+was run before this one). In this case, the uninteresting input will be _disabled_.
