@@ -76,7 +76,7 @@ fn client(
     let mut state = state.unwrap_or_else(|| {
         StdState::new(
             StdRand::with_seed(config.seed),
-            CachedOnDiskCorpus::no_meta(config.corpus.clone(), CORPUS_CACHE_SIZE).unwrap(),
+            CachedOnDiskCorpus::new(config.corpus.clone(), CORPUS_CACHE_SIZE).unwrap(),
             OnDiskCorpus::new(config.crashes.clone()).unwrap(),
             &mut feedback,
             &mut objective,

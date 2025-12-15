@@ -7,19 +7,19 @@ use libafl::{
     HasMetadata,
 };
 
+use crate::feedback::InputValidityMetadata;
+
 pub struct ValidityTestcaseScore;
 
 impl<I, S> TestcaseScore<I, S> for ValidityTestcaseScore
 where
     S: HasCorpus<I> + HasMetadata,
 {
-    // TODO: save validity information in testcase metadata
     fn compute(state: &S, entry: &mut Testcase<I>) -> Result<f64, libafl::Error> {
-        let is_valid = entry
-            .hit_feedbacks()
-            .iter()
-            .any(|cow| *cow == "ValidityFeedback");
-
+        let is_valid = {
+            let meta = entry.metadata::<InputValidityMetadata>()?;
+            meta.is_valid
+        };
         CorpusWeightTestcaseScore::compute(state, entry).map(|weight| {
             if is_valid {
                 weight * 2.0

@@ -12,7 +12,7 @@ use libafl::{
     inputs::Input,
     monitors::stats::{AggregatorOps, UserStats, UserStatsValue},
     state::{HasCorpus, HasExecutions},
-    HasNamedMetadata,
+    HasMetadata, HasNamedMetadata,
 };
 use libafl_bolts::{
     tuples::{Handle, Handled, MatchFirstType, MatchName, MatchNameRef},
@@ -29,6 +29,7 @@ use crate::{
 
 pub type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
 
+/// State metadata with stats about valid inputs processed so far.
 #[derive(Serialize, Deserialize, Debug, Default)]
 struct ValidInputsMetadata {
     /// Number of valid inputs executed so far
@@ -39,6 +40,14 @@ struct ValidInputsMetadata {
 }
 
 libafl_bolts::impl_serdeany!(ValidInputsMetadata);
+
+/// Input metadata that labels each input as valid or invalid in the corpus.
+#[derive(Serialize, Deserialize, Debug, Default)]
+pub struct InputValidityMetadata {
+    pub is_valid: bool,
+}
+
+libafl_bolts::impl_serdeany!(InputValidityMetadata);
 
 /// Checks if the validity observer is true.
 pub struct ValidityFeedback {
@@ -111,10 +120,14 @@ where
         state: &mut S,
         manager: &mut EM,
         _observers: &OT,
-        _testcase: &mut Testcase<I>,
+        testcase: &mut Testcase<I>,
     ) -> Result<(), libafl::Error> {
-        // if a new valid input is going into the corpus, record it in stats
         let is_valid = <ValidityFeedback as Feedback<EM, I, OT, S>>::last_result(self)?;
+
+        let testcase_metadata_map = testcase.metadata_map_mut();
+        testcase_metadata_map.insert(InputValidityMetadata { is_valid });
+
+        // if a new valid input is going into the corpus, record it in stats
         if is_valid {
             let count = {
                 let meta = state.named_metadata_mut::<ValidInputsMetadata>(self.name())?;
@@ -374,6 +387,7 @@ where
             .api_progress
             .is_interesting(state, manager, input, observers, exit_kind)?;
 
+        // TODO: should we save invalid inputs to the corpus at all?
         let is_interesting = if self.use_validity {
             is_new_total_coverage || is_new_valid_coverage
         } else {
@@ -393,18 +407,6 @@ where
         ))
     }
 
-    /// The scheduler needs to know if a testcase is valid or not. Append ValidityFeedback to the
-    /// list of hit feedbacks if that is the case.
-    fn append_hit_feedbacks(&self, list: &mut Vec<Cow<'static, str>>) -> Result<(), libafl::Error> {
-        // TODO: use append_metadata to add validity metadata to corpus inputs, then pick it up
-        // from there in scheduler
-        let is_valid = <ValidityFeedback as Feedback<EM, I, OT, S>>::last_result(&self.validity)?;
-        if is_valid {
-            list.push(self.validity.name().clone());
-        }
-        Ok(())
-    }
-
     fn append_metadata(
         &mut self,
         state: &mut S,
@@ -420,6 +422,11 @@ where
             debug_assert!(is_interesting);
         }
 
+        *testcase.executions_mut() = *state.executions();
+
+        self.validity
+            .append_metadata(state, manager, observers, testcase)?;
+
         // update stats for total coverage
         self.total_coverage
             .append_metadata(state, manager, observers, testcase)?;
@@ -430,9 +437,6 @@ where
             self.valid_coverage
                 .append_metadata(state, manager, observers, testcase)?;
         }
-
-        self.validity
-            .append_metadata(state, manager, observers, testcase)?;
 
         Ok(())
     }
