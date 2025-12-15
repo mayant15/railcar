@@ -7,7 +7,7 @@ use std::{
         unix::process::CommandExt,
     },
     path::PathBuf,
-    process::Command,
+    process::{Command, Stdio},
 };
 
 use anyhow::{bail, Result};
@@ -127,6 +127,10 @@ pub struct Worker {
     shmem: Option<StdShMem>,
 }
 
+struct SpawnNodeChildOptions {
+    discard_stderr: bool,
+}
+
 /// Spawn a NodeJS subprocess to run the target
 ///
 /// In case the fuzzer exits (crash or timeout), the default LibAFL signal handler calls
@@ -134,7 +138,7 @@ pub struct Worker {
 /// process. Set a death signal with `set_pdeathsig` so that we send a SIGKILL to the child
 /// process when the fuzzer process terminates for any reason. This also pipes stdout and
 /// stdin of the child process for IPC.
-fn spawn_node_child() -> Result<Child> {
+fn spawn_node_child(opts: SpawnNodeChildOptions) -> Result<Child> {
     use nix::unistd;
 
     let worker_script = find_worker_script()?;
@@ -161,10 +165,18 @@ fn spawn_node_child() -> Result<Child> {
             drop(in_write);
             drop(out_read);
 
-            unistd::dup2(in_read.as_raw_fd(), 0).expect("failed to set stdin");
-            unistd::dup2(out_write.as_raw_fd(), 1).expect("failed to set stdout");
+            let stderr = if opts.discard_stderr {
+                Stdio::null()
+            } else {
+                Stdio::inherit()
+            };
 
-            let err = Command::new("node").arg(worker_script).exec();
+            let err = Command::new("node")
+                .arg(worker_script)
+                .stdin(Stdio::from(in_read))
+                .stdout(Stdio::from(out_write))
+                .stderr(stderr)
+                .exec();
             panic!("failed to spawn node subprocess: {}", err);
         }
     }
@@ -182,7 +194,9 @@ impl Worker {
             Some(ShMemView::alloc(&mut provider)?)
         };
 
-        let proc = spawn_node_child()?;
+        let proc = spawn_node_child(SpawnNodeChildOptions {
+            discard_stderr: !cfg!(debug_assertions),
+        })?;
 
         let mut worker = Self {
             proc,
