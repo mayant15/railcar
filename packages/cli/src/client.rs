@@ -71,17 +71,9 @@ where
             return ExitKind::Ok;
         };
 
-        let code = match args.worker.invoke(&bytes) {
-            Ok(code) => code,
-            Err(e) => panic!("failed to invoke worker {}", e),
-        };
-
-        // From worker/common.ts
-        match code {
-            0 | 1 => ExitKind::Ok,
-            2 => ExitKind::Crash,
-            _ => unreachable!(),
-        }
+        args.worker
+            .invoke(&bytes)
+            .unwrap_or_else(|e| panic!("failed to invoke worker {}", e))
     };
 
     let mut executor = InProcessExecutor::with_timeout(

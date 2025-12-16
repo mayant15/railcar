@@ -15,12 +15,12 @@ import {
 import type { Oracle } from "@railcar/support";
 import type { SharedExecutionData } from "@railcar/worker-sys";
 
-import { ExitKind, withOracle } from "./common.js";
+import { withOracle } from "./common.js";
 import { ENABLE_DEBUG_INFO, ENABLE_HEAVY_ASSERTIONS } from "./config.js";
 
 export class GraphExecutor {
-    _executor: (graph: Graph) => Promise<ExitKind> = (_) =>
-        Promise.resolve(ExitKind.Ok);
+    _executor: (graph: Graph) => Promise<boolean> = (_) =>
+        Promise.resolve(true);
     _shmem: SharedExecutionData | null = null;
 
     constructor(shmem: SharedExecutionData | null) {
@@ -55,7 +55,7 @@ export class GraphExecutor {
         return schema;
     }
 
-    async execute(graph: Graph): Promise<ExitKind> {
+    async execute(graph: Graph): Promise<boolean> {
         if (ENABLE_DEBUG_INFO) {
             console.log(
                 JSON.stringify(

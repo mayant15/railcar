@@ -3,19 +3,16 @@
 import type { Oracle } from "@railcar/support";
 import type { SharedExecutionData } from "@railcar/worker-sys";
 
-export enum ExitKind {
-    Ok = 0,
-    Invalid = 1,
-    Crash = 2,
-    Abort = 3,
-}
-
+/**
+ * Run a fuzz target with an oracle. Return a boolean that is true
+ * if run was ok (no crash).
+ */
 export function withOracle<I>(
     fuzz: (_: I) => void | Promise<void>,
     oracle: Oracle,
     logError: boolean = false,
     shmem: SharedExecutionData | null = null,
-): (_: I) => Promise<ExitKind> {
+): (_: I) => Promise<boolean> {
     return async (data: I) => {
         try {
             // handles both sync and async functions
@@ -29,18 +26,17 @@ export function withOracle<I>(
                 if (shmem) {
                     shmem.setValid(true);
                 }
-                return ExitKind.Crash;
             } else {
                 if (shmem) {
                     shmem.setValid(false);
                 }
-                return ExitKind.Invalid;
             }
+            return false;
         }
 
         if (shmem) {
             shmem.setValid(true);
         }
-        return ExitKind.Ok;
+        return true;
     };
 }

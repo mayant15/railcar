@@ -11,6 +11,7 @@ use std::{
 };
 
 use anyhow::{bail, Result};
+use libafl::executors::ExitKind;
 use libafl_bolts::shmem::{ShMem, ShMemDescription, ShMemProvider, StdShMem, StdShMemProvider};
 use nix::{
     sys::wait::WaitStatus,
@@ -47,15 +48,13 @@ pub struct WorkerArgs {
     pub config_file: Option<PathBuf>,
 }
 
-type ExitCode = u8;
-
 // NOTE: Keep in sync with worker/worker.ts
 #[derive(Serialize, Deserialize, Debug)]
 pub enum Message {
     Init(InitArgs),
     InitOk(Option<Schema>),
     Invoke(InvokeArgs),
-    InvokeOk(ExitCode),
+    InvokeOk(bool),
     Log(String),
     Terminate,
 }
@@ -119,67 +118,68 @@ impl Child {
         ));
         Ok(status)
     }
+
+    /// Spawn a NodeJS subprocess to run the target
+    ///
+    /// In case the fuzzer exits (crash or timeout), the default LibAFL signal handler calls
+    /// `libc::exit`. When simply invoked with a `Command::spawn`, this didn't close the child
+    /// process. Set a death signal with `set_pdeathsig` so that we send a SIGKILL to the child
+    /// process when the fuzzer process terminates for any reason. This also pipes stdout and
+    /// stdin of the child process for IPC.
+    fn spawn(opts: SpawnNodeChildOptions) -> Result<Child> {
+        use nix::unistd;
+
+        let worker_script = find_worker_script()?;
+
+        let (in_read, in_write) = unistd::pipe()?;
+        let (out_read, out_write) = unistd::pipe()?;
+        let result = unsafe { unistd::fork() }?;
+        match result {
+            ForkResult::Parent { child } => {
+                drop(in_read);
+                drop(out_write);
+
+                Ok(Child {
+                    pid: child,
+                    stdout: PipeReader(out_read),
+                    stdin: PipeWriter(in_write),
+                })
+            }
+            ForkResult::Child => {
+                use nix::sys::{prctl, signal::Signal};
+
+                prctl::set_pdeathsig(Signal::SIGKILL).expect("failed to set death signal");
+
+                drop(in_write);
+                drop(out_read);
+
+                let stderr = if opts.discard_stderr {
+                    Stdio::null()
+                } else {
+                    Stdio::inherit()
+                };
+
+                let err = Command::new("node")
+                    .arg(worker_script)
+                    .stdin(Stdio::from(in_read))
+                    .stdout(Stdio::from(out_write))
+                    .stderr(stderr)
+                    .exec();
+                panic!("failed to spawn node subprocess: {}", err);
+            }
+        }
+    }
 }
 
 pub struct Worker {
     proc: Child,
     schema: Option<Schema>,
     shmem: Option<StdShMem>,
+    args: WorkerArgs,
 }
 
 struct SpawnNodeChildOptions {
     discard_stderr: bool,
-}
-
-/// Spawn a NodeJS subprocess to run the target
-///
-/// In case the fuzzer exits (crash or timeout), the default LibAFL signal handler calls
-/// `libc::exit`. When simply invoked with a `Command::spawn`, this didn't close the child
-/// process. Set a death signal with `set_pdeathsig` so that we send a SIGKILL to the child
-/// process when the fuzzer process terminates for any reason. This also pipes stdout and
-/// stdin of the child process for IPC.
-fn spawn_node_child(opts: SpawnNodeChildOptions) -> Result<Child> {
-    use nix::unistd;
-
-    let worker_script = find_worker_script()?;
-
-    let (in_read, in_write) = unistd::pipe()?;
-    let (out_read, out_write) = unistd::pipe()?;
-    let result = unsafe { unistd::fork() }?;
-    match result {
-        ForkResult::Parent { child } => {
-            drop(in_read);
-            drop(out_write);
-
-            Ok(Child {
-                pid: child,
-                stdout: PipeReader(out_read),
-                stdin: PipeWriter(in_write),
-            })
-        }
-        ForkResult::Child => {
-            use nix::sys::{prctl, signal::Signal};
-
-            prctl::set_pdeathsig(Signal::SIGKILL).expect("failed to set death signal");
-
-            drop(in_write);
-            drop(out_read);
-
-            let stderr = if opts.discard_stderr {
-                Stdio::null()
-            } else {
-                Stdio::inherit()
-            };
-
-            let err = Command::new("node")
-                .arg(worker_script)
-                .stdin(Stdio::from(in_read))
-                .stdout(Stdio::from(out_write))
-                .stderr(stderr)
-                .exec();
-            panic!("failed to spawn node subprocess: {}", err);
-        }
-    }
 }
 
 impl Worker {
@@ -194,48 +194,31 @@ impl Worker {
             Some(ShMemView::alloc(&mut provider)?)
         };
 
-        let proc = spawn_node_child(SpawnNodeChildOptions {
+        let proc = Child::spawn(SpawnNodeChildOptions {
             discard_stderr: !cfg!(debug_assertions),
         })?;
 
         let mut worker = Self {
             proc,
             shmem,
+            args,
             schema: None,
         };
 
-        worker.send(Message::Init(InitArgs {
-            mode: args.mode,
-            entrypoint: args.entrypoint,
-            schema_file: args.schema_file,
-            replay: args.replay,
-            shmem: worker.shmem.as_ref().map(|c| c.description()),
-            config_file: args.config_file,
-        }))?;
-
-        let ok = worker.recv()?;
-
-        if let Message::InitOk(schema) = ok {
-            worker.schema = schema;
-        } else {
-            bail!("expected Message::InitOk. received {:?}", ok)
-        }
+        worker.init_child_process()?;
 
         Ok(worker)
     }
 
     pub fn send(&mut self, msg: Message) -> io::Result<()> {
         let bytes = rmp_serde::to_vec_named(&msg).map_err(io::Error::other)?;
-
         self.proc.stdin.write_all(&bytes)?;
-
         Ok(())
     }
 
-    pub fn recv(&mut self) -> io::Result<Message> {
+    pub fn recv(&mut self) -> Result<Message> {
         loop {
-            let msg: Message =
-                rmp_serde::from_read(&mut self.proc.stdout).map_err(io::Error::other)?;
+            let msg = rmp_serde::from_read(&mut self.proc.stdout)?;
             if let Message::Log(msg) = msg {
                 log::info!("[worker] {}", msg);
             } else {
@@ -244,15 +227,26 @@ impl Worker {
         }
     }
 
-    pub fn invoke(&mut self, buf: &[u8]) -> Result<ExitCode> {
+    pub fn invoke(&mut self, buf: &[u8]) -> Result<ExitKind> {
+        let Ok(ok) = self.throwing_invoke(buf) else {
+            // something went wrong when invoking the input.
+            // restart the child process and mark this a crash.
+            self.restart_child_process()?;
+            return Ok(ExitKind::Crash);
+        };
+
+        Ok(if ok { ExitKind::Ok } else { ExitKind::Crash })
+    }
+
+    fn throwing_invoke(&mut self, buf: &[u8]) -> Result<bool> {
         let msg = Message::Invoke(InvokeArgs {
             bytes: buf.to_vec(),
         });
         self.send(msg)?;
         let ok = self.recv()?;
 
-        if let Message::InvokeOk(code) = ok {
-            Ok(code)
+        if let Message::InvokeOk(ok) = ok {
+            Ok(ok)
         } else {
             bail!("expected Message::InvokeOk(..). received {:?}", ok)
         }
@@ -267,23 +261,65 @@ impl Worker {
     }
 
     fn release_shmem(&mut self) -> Result<()> {
-        if let Some(shmem) = self.shmem_mut() {
-            let mut provider = StdShMemProvider::new()?;
-            provider.release_shmem(shmem);
+        if let Some(shmem) = self.shmem.take() {
+            drop(shmem)
         }
         Ok(())
     }
 
+    /// NOTE: child process must already be running
+    fn init_child_process(&mut self) -> Result<()> {
+        let args = InitArgs {
+            mode: self.args.mode.clone(),
+            entrypoint: self.args.entrypoint.clone(),
+            schema_file: self.args.schema_file.clone(),
+            replay: self.args.replay,
+            shmem: self.shmem.as_ref().map(|c| c.description()),
+            config_file: self.args.config_file.clone(),
+        };
+        self.send(Message::Init(args))?;
+
+        let ok = self.recv()?;
+
+        if let Message::InitOk(schema) = ok {
+            self.schema = schema;
+        } else {
+            bail!("expected Message::InitOk. received {:?}", ok)
+        }
+
+        Ok(())
+    }
+
+    fn restart_child_process(&mut self) -> Result<()> {
+        self.stop_child_process()?;
+
+        // This calls Drop on the old self.proc, which cleans up parent's end of pipes
+        self.proc = Child::spawn(SpawnNodeChildOptions {
+            discard_stderr: !cfg!(debug_assertions),
+        })?;
+
+        self.init_child_process()
+    }
+
     /// Try to terminate the process with IPC
-    pub fn terminate(&mut self) -> Result<()> {
+    fn stop_child_process(&mut self) -> Result<()> {
         if let Err(e) = self.send(Message::Terminate) {
             // assume the process is already dead if broken pipe
             if !matches!(e.kind(), io::ErrorKind::BrokenPipe) {
-                self.release_shmem()?;
-                bail!("{}", e)
+                return Err(e.into());
             }
-        };
-        self.proc.wait()?;
+        }
+
+        // need a wait to avoid zombies
+        // https://www.man7.org/linux/man-pages/man2/wait.2.html
+        _ = self.proc.wait()?;
+
+        Ok(())
+    }
+
+    /// Close the child process and release all resources
+    pub fn terminate(mut self) -> Result<()> {
+        self.stop_child_process()?;
         self.release_shmem()?;
         Ok(())
     }

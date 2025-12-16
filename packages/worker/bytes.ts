@@ -5,11 +5,11 @@ import assert from "node:assert";
 import type { Oracle } from "@railcar/support";
 import type { SharedExecutionData } from "@railcar/worker-sys";
 
-import { ExitKind, withOracle } from "./common.js";
+import { withOracle } from "./common.js";
 
 export class BytesExecutor {
-    _executor: (bytes: Uint8Array) => Promise<ExitKind> = (_) =>
-        Promise.resolve(ExitKind.Ok);
+    _executor: (bytes: Uint8Array) => Promise<boolean> = (_) =>
+        Promise.resolve(true);
     _shmem: SharedExecutionData | null = null;
 
     constructor(shmem: SharedExecutionData | null) {

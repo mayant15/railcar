@@ -11,7 +11,6 @@ import type { Schema, Graph } from "@railcar/inference";
 import { makeRailcarConfig } from "@railcar/support";
 import { SharedExecutionData } from "@railcar/worker-sys";
 
-import type { ExitKind } from "./common.ts";
 import { codeCoverage } from "./instrument.js";
 import { BytesExecutor } from "./bytes.js";
 import { GraphExecutor } from "./graph.js";
@@ -46,7 +45,7 @@ type Message =
     | { Init: InitArgs }
     | { InitOk: Schema | null }
     | { Invoke: { bytes: Uint8Array } }
-    | { InvokeOk: ExitKind }
+    | { InvokeOk: boolean }
     | { Log: string }
     | "Terminate";
 
@@ -107,7 +106,7 @@ async function init(args: InitArgs): Promise<Schema | null> {
     }
 }
 
-async function invoke(bytes: Uint8Array): Promise<ExitKind> {
+async function invoke(bytes: Uint8Array): Promise<boolean> {
     assert(_executor !== null);
     if (_executor instanceof BytesExecutor) {
         return _executor.execute(bytes);
@@ -133,9 +132,9 @@ async function handleMessage(msg: Message) {
     }
 
     if ("Invoke" in msg) {
-        const kind = await invoke(msg.Invoke.bytes);
+        const ok = await invoke(msg.Invoke.bytes);
         send({
-            InvokeOk: kind,
+            InvokeOk: ok,
         });
         return;
     }

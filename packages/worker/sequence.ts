@@ -10,7 +10,7 @@ import {
 } from "@railcar/inference";
 import type { SharedExecutionData } from "@railcar/worker-sys";
 
-import { ExitKind, withOracle } from "./common.js";
+import { withOracle } from "./common.js";
 import { FuzzedDataProvider, type Oracle } from "@railcar/support";
 import {
     ENABLE_DEBUG_INFO,
@@ -35,8 +35,7 @@ export type ApiCall = {
 export type ApiCallArg = { Constant: Type } | { Output: CallId } | "Missing";
 
 export class SequenceExecutor {
-    _executor: (seq: ApiSeq) => Promise<ExitKind> = (_) =>
-        Promise.resolve(ExitKind.Ok);
+    _executor: (seq: ApiSeq) => Promise<boolean> = (_) => Promise.resolve(true);
     _shmem: SharedExecutionData | null = null;
     _num_executed: number = 0;
 
@@ -72,7 +71,7 @@ export class SequenceExecutor {
         return schema;
     }
 
-    async execute(sequence: ApiSeq): Promise<ExitKind> {
+    async execute(sequence: ApiSeq): Promise<boolean> {
         this._num_executed = 0;
         const result = await this._executor(sequence);
         this._shmem?.setNumCallsExecuted(this._num_executed);
