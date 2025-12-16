@@ -30,7 +30,7 @@ mod input;
 mod mutations;
 
 pub use input::ApiSeq;
-pub use mutations::{ExtendSeq, RemovePrefixSeq, RemoveSuffixSeq, SpliceSeq};
+pub use mutations::{Crossover, ExtendSeq, RemovePrefixSeq, RemoveSuffixSeq, SpliceSeq};
 
 pub const CORPUS_CACHE_SIZE: usize = 512;
 pub const INITIAL_CORPUS_SIZE: usize = 32;

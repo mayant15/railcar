@@ -171,7 +171,7 @@ impl<S: HasRand> Mutator<ApiSeq, S> for RemoveSuffixSeq {
 
 /// Remove the first call
 pub struct RemovePrefixSeq<'a> {
-    schema: &'a Schema,
+    pub schema: &'a Schema,
 }
 
 impl<'a> Named for RemovePrefixSeq<'a> {
@@ -213,7 +213,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for RemovePrefixSeq<'a> {
 
 /// Merge together two sequences
 pub struct Crossover<'a> {
-    schema: &'a Schema,
+    pub schema: &'a Schema,
 }
 
 impl<'a> Named for Crossover<'a> {

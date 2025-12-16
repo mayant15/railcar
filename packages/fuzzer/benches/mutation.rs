@@ -4,41 +4,40 @@
 
 use criterion::{criterion_group, criterion_main, Criterion};
 use libafl::{
-    corpus::NopCorpus,
+    corpus::{Corpus, InMemoryCorpus, NopCorpus, Testcase},
     feedbacks::ConstFeedback,
-    mutators::Mutator,
-    state::{HasRand, StdState},
+    mutators::{havoc_mutations, HavocScheduledMutator, Mutator},
+    state::{HasCorpus, HasRand},
 };
 use libafl_bolts::rands::{Rand, StdRand};
-use railcar::mutation as muta;
-use railcar_graph::{Graph, Schema};
+use railcar::{
+    schema::Schema,
+    seq::{self, ApiSeq},
+};
 
 const SEED: u64 = 1234;
+const FUZZ_BUF_LEN: usize = 1024;
+const SCHEMA: &str = include_str!("schema.json");
 
-type State = StdState<NopCorpus<Graph>, Graph, StdRand, NopCorpus<Graph>>;
+type StdState<C> = libafl::state::StdState<C, ApiSeq, StdRand, NopCorpus<ApiSeq>>;
+type State = StdState<NopCorpus<ApiSeq>>;
 
-fn generate_graphs<R: Rand>(rand: &mut R, schema: &Schema, nr: usize) -> Vec<Graph> {
-    let mut graphs = Vec::with_capacity(nr);
-    let mut buf: Vec<u8> = Vec::with_capacity(256);
+fn generate_seqs<R: Rand>(rand: &mut R, schema: &Schema, nr: usize) -> Vec<ApiSeq> {
+    let mut seqs = Vec::with_capacity(nr);
 
     for _ in 0..nr {
-        let seed = rand.next();
-        let buf_size = rand.between(16, 256);
-        buf.resize(buf_size, 0);
-
-        for i in 0..buf_size {
-            buf[i] = rand.between(0, 256) as u8;
+        let mut buf = Vec::new();
+        buf.resize(rand.between(0, FUZZ_BUF_LEN - 1), 0);
+        for i in 0..buf.len() {
+            buf[i] = rand.between(0, FUZZ_BUF_LEN - 1) as u8;
         }
 
-        if let Ok(graph) = Graph::create_from_bytes(seed, buf.as_slice(), schema) {
-            graphs.push(graph);
-        } else {
-            // failed to generate a graph, just make another
-            continue;
+        if let Ok(seq) = ApiSeq::create(rand, schema, buf) {
+            seqs.push(seq)
         }
     }
 
-    return graphs;
+    return seqs;
 }
 
 fn make_state(rand: StdRand) -> State {
@@ -54,62 +53,98 @@ fn make_state(rand: StdRand) -> State {
     .expect("failed to create state")
 }
 
-const SCHEMA: &str = include_str!("schema.json");
+fn bench<M>(c: &mut Criterion, name: &str, mutation: &mut M, schema: &Schema)
+where
+    M: Mutator<ApiSeq, State>,
+{
+    let mut rand = StdRand::with_seed(SEED);
+    let nr_inputs = rand.between(0, 256);
+    let mut inputs = generate_seqs(&mut rand, &schema, nr_inputs as usize);
+    let mut state = make_state(rand);
 
-macro_rules! make_bench_for {
-    ($x:ident) => {
-        pub fn $x(c: &mut Criterion) {
-            let mut rand = StdRand::with_seed(SEED);
-
-            let schema: Schema =
-                serde_json::from_slice(SCHEMA.as_bytes()).expect("failed to deserialize schema");
-
-            let nr_inputs = rand.between(0, 256);
-            let mut inputs = generate_graphs(&mut rand, &schema, nr_inputs as usize);
-            let mut state = make_state(rand);
-            let mut mutation = muta::$x::new();
-
-            c.bench_function(stringify!($x), |b| {
-                b.iter(|| {
-                    let idx = state.rand_mut().between(0, inputs.len() - 1);
-                    let _ = mutation.mutate(&mut state, inputs.get_mut(idx).unwrap());
-                });
-            });
-        }
-    };
+    c.bench_function(name, |b| {
+        b.iter(|| {
+            let idx = state.rand_mut().between(0, inputs.len() - 1);
+            let _ = mutation.mutate(&mut state, inputs.get_mut(idx).unwrap());
+        });
+    });
 }
 
-make_bench_for!(Truncate);
-make_bench_for!(Extend);
-make_bench_for!(SpliceIn);
-make_bench_for!(SpliceOut);
-make_bench_for!(Crossover);
-make_bench_for!(Context);
-make_bench_for!(Swap);
-make_bench_for!(Priority);
-make_bench_for!(TruncateDestructor);
-make_bench_for!(ExtendDestructor);
-make_bench_for!(TruncateConstructor);
-make_bench_for!(ExtendConstructor);
-make_bench_for!(SchemaVariationArgc);
-make_bench_for!(SchemaVariationWeights);
-make_bench_for!(SchemaVariationMakeNullable);
+fn parse_schema() -> Schema {
+    serde_json::from_slice(SCHEMA.as_bytes()).expect("failed to deserialize schema")
+}
+
+fn SpliceSeq(c: &mut Criterion) {
+    let schema: Schema = parse_schema();
+    let mut mutation = seq::SpliceSeq { schema: &schema };
+    bench(c, "SpliceSeq", &mut mutation, &schema);
+}
+
+fn ExtendSeq(c: &mut Criterion) {
+    let schema: Schema = parse_schema();
+    let mut mutation = seq::ExtendSeq { schema: &schema };
+    bench(c, "ExtendSeq", &mut mutation, &schema);
+}
+
+fn RemovePrefixSeq(c: &mut Criterion) {
+    let schema: Schema = parse_schema();
+    let mut mutation = seq::RemovePrefixSeq { schema: &schema };
+    bench(c, "RemovePrefixSeq", &mut mutation, &schema);
+}
+
+fn RemoveSuffixSeq(c: &mut Criterion) {
+    let schema: Schema = parse_schema();
+    let mut mutation = seq::RemoveSuffixSeq {};
+    bench(c, "RemoveSuffixSeq", &mut mutation, &schema);
+}
+
+fn Havoc(c: &mut Criterion) {
+    let schema: Schema = parse_schema();
+    let mut mutation = HavocScheduledMutator::new(havoc_mutations());
+    bench(c, "Havoc", &mut mutation, &schema);
+}
+
+fn Crossover(c: &mut Criterion) {
+    let schema: Schema = parse_schema();
+    let mut mutation = seq::Crossover { schema: &schema };
+
+    let mut rand = StdRand::with_seed(SEED);
+    let nr_inputs = rand.between(0, 256);
+    let mut inputs = generate_seqs(&mut rand, &schema, nr_inputs as usize);
+
+    let mut feedback = ConstFeedback::new(false);
+    let mut objective = ConstFeedback::new(false);
+    let mut state = StdState::new(
+        rand,
+        InMemoryCorpus::new(),
+        NopCorpus::new(),
+        &mut feedback,
+        &mut objective,
+    )
+    .expect("failed to create state");
+
+    for input in &inputs {
+        _ = state
+            .corpus_mut()
+            .add(Testcase::from(input.clone()))
+            .unwrap();
+    }
+
+    c.bench_function("Crossover", |b| {
+        b.iter(|| {
+            let idx = state.rand_mut().between(0, inputs.len() - 1);
+            let _ = mutation.mutate(&mut state, inputs.get_mut(idx).unwrap());
+        });
+    });
+}
 
 criterion_group!(
     mutation,
-    Truncate,
-    Extend,
-    SpliceIn,
-    SpliceOut,
-    Context,
-    Swap,
-    Priority,
-    TruncateDestructor,
-    ExtendDestructor,
-    TruncateConstructor,
-    ExtendConstructor,
-    SchemaVariationArgc,
-    SchemaVariationWeights,
-    SchemaVariationMakeNullable,
+    SpliceSeq,
+    ExtendSeq,
+    RemovePrefixSeq,
+    RemoveSuffixSeq,
+    Crossover,
+    Havoc,
 );
 criterion_main!(mutation);
