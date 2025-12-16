@@ -32,7 +32,7 @@ struct Arguments {
     replay_input: Option<String>,
 
     /// Per-testcase timeout in seconds
-    #[arg(long, default_value_t = 5)]
+    #[arg(long, default_value_t = 10)]
     timeout: u64,
 
     /// Directory to save corpus, crashes and temporary files
