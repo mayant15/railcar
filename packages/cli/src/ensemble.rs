@@ -63,7 +63,7 @@ fn run_client(
     let observers = make_observers(worker.shmem_mut().expect("must init shmem for fuzzing"));
     let coverage = &observers.0;
 
-    let mut feedback = StdFeedback::new(true, &observers);
+    let mut feedback = StdFeedback::new(false, &observers);
     let mut objective = UniqCrashFeedback::new(coverage);
 
     let mut state = state.unwrap_or_else(|| {

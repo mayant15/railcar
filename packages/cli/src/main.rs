@@ -69,15 +69,6 @@ struct Arguments {
     #[arg(long)]
     schema: Option<String>,
 
-    /// Use simple mutations when using the graph driver
-    #[arg(long, default_value_t = false)]
-    simple_mutations: bool,
-
-    /// Use validity feedback. Enabled by default for graph and parametric drivers. Disabled by
-    /// default for bytes driver.
-    #[arg(long)]
-    use_validity: Option<bool>,
-
     /// Configuration file to pick options from
     #[arg(long)]
     config: Option<PathBuf>,
@@ -172,10 +163,8 @@ fn main() -> Result<()> {
         }),
         entrypoint: to_absolute(args.entrypoint)?,
         schema_file: args.schema.map(|s| to_absolute(s).unwrap()),
-        simple_mutations: args.simple_mutations,
         replay: args.replay,
         port: args.port,
-        use_validity: args.use_validity.unwrap_or(args.mode != FuzzerMode::Bytes),
         replay_input: args.replay_input,
         config_file: find_config_file(args.config)?,
         cores: cores.clone(),
@@ -247,6 +236,5 @@ fn log_start(config: &FuzzerConfig) {
     log::info!("      target: {:?}", config.entrypoint);
     log::info!("      driver: {:?}", config.mode);
     log::info!("      schema: {:?}", config.schema_file);
-    log::info!("      simple: {}", config.simple_mutations);
     log::info!("        seed: {}", config.seed);
 }

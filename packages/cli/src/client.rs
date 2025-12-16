@@ -128,7 +128,7 @@ fn bytes_client(
     let coverage = &observers.0;
 
     // we don't want coverage feedback but we still want to count valid execution stats
-    let mut feedback = StdFeedback::new(config.use_validity, &observers);
+    let mut feedback = StdFeedback::new(false, &observers);
     let mut objective = UniqCrashFeedback::new(coverage);
 
     let mut state = state.unwrap_or_else(|| {
@@ -169,7 +169,7 @@ fn parametric_client(
     let observers = make_observers(worker.shmem_mut().expect("must init shmem for fuzzing"));
     let coverage = &observers.0;
 
-    let mut feedback = StdFeedback::new(config.use_validity, &observers);
+    let mut feedback = StdFeedback::new(true, &observers);
     let mut objective = UniqCrashFeedback::new(coverage);
 
     let mut state = state.unwrap_or_else(|| {
@@ -212,7 +212,7 @@ fn graph_client(
     let observers = make_observers(worker.shmem_mut().expect("must init shmem for fuzzing"));
     let coverage = &observers.0;
 
-    let mut feedback = StdFeedback::new(config.use_validity, &observers);
+    let mut feedback = StdFeedback::new(true, &observers);
     let mut objective = UniqCrashFeedback::new(coverage);
 
     let mut state = state.unwrap_or_else(|| {
@@ -237,7 +237,7 @@ fn graph_client(
         feedback,
         objective,
         scheduler,
-        mutator: GraphMutator::new(config.simple_mutations),
+        mutator: GraphMutator::new(false),
         generator,
         state,
         worker,
