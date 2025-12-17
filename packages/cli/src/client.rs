@@ -129,7 +129,7 @@ fn bytes_client(
 
     // we don't want coverage feedback but we still want to count valid execution stats
     let mut feedback = StdFeedback::new(false, &observers);
-    let mut objective = UniqCrashFeedback::new(coverage);
+    let mut objective = UniqCrashFeedback::new(&observers);
 
     let mut state = state.unwrap_or_else(|| {
         StdState::new(
@@ -170,7 +170,7 @@ fn parametric_client(
     let coverage = &observers.0;
 
     let mut feedback = StdFeedback::new(true, &observers);
-    let mut objective = UniqCrashFeedback::new(coverage);
+    let mut objective = UniqCrashFeedback::new(&observers);
 
     let mut state = state.unwrap_or_else(|| {
         StdState::new(
@@ -213,7 +213,7 @@ fn graph_client(
     let coverage = &observers.0;
 
     let mut feedback = StdFeedback::new(true, &observers);
-    let mut objective = UniqCrashFeedback::new(coverage);
+    let mut objective = UniqCrashFeedback::new(&observers);
 
     let mut state = state.unwrap_or_else(|| {
         StdState::new(

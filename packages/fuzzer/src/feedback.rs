@@ -41,6 +41,22 @@ struct ValidInputsMetadata {
 
 libafl_bolts::impl_serdeany!(ValidInputsMetadata);
 
+impl ValidInputsMetadata {
+    const NAME: &'static str = "ValidInputsMetadata";
+
+    #[inline]
+    fn get<S: HasNamedMetadata>(state: &mut S) -> Result<&mut ValidInputsMetadata, libafl::Error> {
+        state.named_metadata_mut::<Self>(Self::NAME)
+    }
+
+    #[inline]
+    fn init<S: HasNamedMetadata>(state: &mut S) {
+        if !state.has_named_metadata::<Self>(Self::NAME) {
+            state.add_named_metadata(Self::NAME, Self::default());
+        }
+    }
+}
+
 /// Input metadata that labels each input as valid or invalid in the corpus.
 #[derive(Serialize, Deserialize, Debug, Default)]
 pub struct InputValidityMetadata {
@@ -88,7 +104,7 @@ where
 
         if is_interesting {
             let execs = {
-                let meta = state.named_metadata_mut::<ValidInputsMetadata>(self.name())?;
+                let meta = ValidInputsMetadata::get(state)?;
                 meta.num_valid_executions += 1;
                 meta.num_valid_executions
             };
@@ -130,7 +146,7 @@ where
         // if a new valid input is going into the corpus, record it in stats
         if is_valid {
             let count = {
-                let meta = state.named_metadata_mut::<ValidInputsMetadata>(self.name())?;
+                let meta = ValidInputsMetadata::get(state)?;
                 meta.num_valid_corpus += 1;
                 meta.num_valid_corpus
             };
@@ -159,7 +175,8 @@ impl Named for ValidityFeedback {
 
 impl<S: HasNamedMetadata> StateInitializer<S> for ValidityFeedback {
     fn init_state(&mut self, state: &mut S) -> Result<(), libafl::Error> {
-        state.add_named_metadata_checked(self.name(), ValidInputsMetadata::default())
+        ValidInputsMetadata::init(state);
+        Ok(())
     }
 }
 
@@ -320,6 +337,7 @@ pub struct StdFeedback {
     last_result: Option<bool>,
 
     // sub feedbacks
+    // TODO: what if we merged all of these into a big StdFeedback
     total_edges: TotalEdgesFeedback,
     validity: ValidityFeedback,
     total_coverage: CoverageFeedback,
@@ -357,19 +375,22 @@ where
         observers: &OT,
         exit_kind: &ExitKind,
     ) -> Result<bool, libafl::Error> {
-        if !matches!(exit_kind, ExitKind::Ok) {
-            // this is a crash that was deemed uninteresting by UniqCrashFeedback,
-            // no need to save this to the corpus
+        let is_valid = self
+            .validity
+            .is_interesting(state, manager, input, observers, exit_kind)?;
+
+        // must be ExitKind::Ok or invalid.
+        // valid crashes deemed uninteresting by UniqCrashFeedback should not
+        // go into the corpus.
+        // TODO: should we save invalid inputs to the corpus at all?
+        let should_consider = matches!(exit_kind, ExitKind::Ok) || !is_valid;
+        if !should_consider {
             self.last_result = Some(false);
             return Ok(false);
         }
 
         let is_new_total_coverage = self
             .total_coverage
-            .is_interesting(state, manager, input, observers, exit_kind)?;
-
-        let is_valid = self
-            .validity
             .is_interesting(state, manager, input, observers, exit_kind)?;
 
         let is_new_valid_coverage = if is_valid {
@@ -387,7 +408,6 @@ where
             .api_progress
             .is_interesting(state, manager, input, observers, exit_kind)?;
 
-        // TODO: should we save invalid inputs to the corpus at all?
         let is_interesting = if self.use_validity {
             is_new_total_coverage || is_new_valid_coverage
         } else {
@@ -463,15 +483,20 @@ impl Named for StdFeedback {
     }
 }
 
+/// Reports true if the input crashes, is valid, and covers new edges.
+/// Assumes this is an objective and used alongside StdFeedback.
 pub struct UniqCrashFeedback {
     coverage: CoverageFeedback,
+    validity_observer: Handle<ValidityObserver>,
     last_result: Option<bool>,
 }
 
 impl UniqCrashFeedback {
-    pub fn new(coverage_map: &CoverageObserver) -> Self {
+    pub fn new(observers: &Observers) -> Self {
+        let (coverage, (validity, _)) = observers;
         Self {
-            coverage: CoverageFeedback::with_name("CrashCoverage", coverage_map),
+            coverage: CoverageFeedback::with_name("CrashCoverage", coverage),
+            validity_observer: validity.handle(),
             last_result: None,
         }
     }
@@ -492,17 +517,48 @@ where
         observers: &OT,
         exit_kind: &ExitKind,
     ) -> Result<bool, libafl::Error> {
-        if !matches!(exit_kind, ExitKind::Crash | ExitKind::Timeout) {
+        if matches!(exit_kind, ExitKind::Ok) {
             self.last_result = Some(false);
             return Ok(false);
         }
+
+        let Some(validity_observer) = observers.get(&self.validity_observer) else {
+            return Err(libafl::Error::illegal_state(
+                "missing validity observer".to_string(),
+            ));
+        };
+
+        let is_valid = validity_observer.is_valid();
 
         let is_new_coverage = self
             .coverage
             .is_interesting(state, manager, input, observers, exit_kind)?;
 
-        self.last_result = Some(is_new_coverage);
-        Ok(is_new_coverage)
+        let is_interesting = is_valid && is_new_coverage;
+
+        // if this is interesting, we're not going to run feedbacks. Update stats
+        // that we would have updated in feedback otherwise.
+        if is_interesting {
+            let execs = {
+                let meta = ValidInputsMetadata::get(state)?;
+                meta.num_valid_executions += 1;
+                meta.num_valid_executions
+            };
+            manager.fire(
+                state,
+                EventWithStats::with_current_time(
+                    Event::UpdateUserStats {
+                        name: Cow::Borrowed("validexecs"),
+                        value: UserStats::new(UserStatsValue::Number(execs), AggregatorOps::Sum),
+                        phantom: PhantomData,
+                    },
+                    *state.executions(),
+                ),
+            )?
+        }
+
+        self.last_result = Some(is_interesting);
+        Ok(is_interesting)
     }
 
     fn last_result(&self) -> Result<bool, libafl::Error> {
@@ -528,6 +584,7 @@ where
     S: HasNamedMetadata,
 {
     fn init_state(&mut self, state: &mut S) -> Result<(), libafl::Error> {
+        ValidInputsMetadata::init(state);
         self.coverage.init_state(state)
     }
 }

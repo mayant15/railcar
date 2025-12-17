@@ -64,7 +64,7 @@ fn run_client(
     let coverage = &observers.0;
 
     let mut feedback = StdFeedback::new(false, &observers);
-    let mut objective = UniqCrashFeedback::new(coverage);
+    let mut objective = UniqCrashFeedback::new(&observers);
 
     let mut state = state.unwrap_or_else(|| {
         StdState::new(
