@@ -188,10 +188,7 @@ impl Worker {
             // we don't need any shmem for replay
             None
         } else {
-            // StdShMemProvider is stateless, don't need to save it. Can create new
-            // providers as required (see Self::release_shmem)
-            let mut provider = StdShMemProvider::new()?;
-            Some(ShMemView::alloc(&mut provider)?)
+            Some(ShMemView::alloc()?)
         };
 
         let proc = Child::spawn(SpawnNodeChildOptions {
@@ -260,13 +257,6 @@ impl Worker {
         self.shmem.as_mut()
     }
 
-    fn release_shmem(&mut self) -> Result<()> {
-        if let Some(shmem) = self.shmem.take() {
-            drop(shmem)
-        }
-        Ok(())
-    }
-
     /// NOTE: child process must already be running
     fn init_child_process(&mut self) -> Result<()> {
         let args = InitArgs {
@@ -301,7 +291,7 @@ impl Worker {
         self.init_child_process()
     }
 
-    /// Try to terminate the process with IPC
+    /// Try to stop the child process with IPC
     fn stop_child_process(&mut self) -> Result<()> {
         if let Err(e) = self.send(Message::Terminate) {
             // assume the process is already dead if broken pipe
@@ -317,10 +307,22 @@ impl Worker {
         Ok(())
     }
 
-    /// Close the child process and release all resources
+    /// Close the child process and release all resources.
+    ///
+    /// This takes ownership of `self` and drops it.
     pub fn terminate(mut self) -> Result<()> {
         self.stop_child_process()?;
-        self.release_shmem()?;
+
+        // NOTE: Since we use CommonUnixShMem, this is a no-op. CommonUnixShMem
+        // clears up shmem resources on drop. However, I'm leaving this here in
+        // case we change the shmem implementation.
+        // NOTE: If we change to a stateful ShMemProvider, this will need to be
+        // updated both here and in `Self::new`.
+        if let Some(shmem) = &mut self.shmem {
+            let mut provider = StdShMemProvider::new()?;
+            provider.release_shmem(shmem);
+        }
+
         Ok(())
     }
 }

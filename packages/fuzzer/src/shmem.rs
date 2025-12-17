@@ -1,5 +1,5 @@
 use anyhow::Result;
-use libafl_bolts::shmem::{ShMem, ShMemProvider};
+use libafl_bolts::shmem::{ShMem, UnixShMem};
 
 use crate::config::COVERAGE_MAP_SIZE;
 
@@ -12,10 +12,30 @@ pub struct ShMemView {
 }
 
 impl ShMemView {
-    #[inline]
-    pub fn alloc<SP: ShMemProvider>(provider: &mut SP) -> Result<SP::ShMem> {
+    pub fn alloc() -> Result<UnixShMem> {
         const SIZE: usize = std::mem::size_of::<ShMemView>();
-        let shmem = provider.new_shmem(SIZE)?;
+        let shmem = UnixShMem::new(SIZE)?;
+
+        // NOTE: mark this for deletion once all processes detach from it.
+        // this shmem segment should have at most two attachments: the current
+        // client and the node child. the node child will only try to attach to
+        // this segment while the fuzzer client is attached, so it is safe to call
+        // shmctl(IPC_RMID) *BEFORE* node has had the chance to attach to it.
+        //
+        // Attaching with shmat after marking for deletion with shmctl is a Linux-specific
+        // feature. See https://www.man7.org/linux/man-pages/man2/shmctl.2.html
+        let ok = unsafe {
+            nix::libc::shmctl(shmem.id().into(), nix::libc::IPC_RMID, std::ptr::null_mut())
+        };
+
+        if ok < 0 {
+            let errno = nix::errno::Errno::last();
+            anyhow::bail!(
+                "failed to mark coverage map shmem for deletion. errno {}",
+                errno
+            )
+        }
+
         Ok(shmem)
     }
 
