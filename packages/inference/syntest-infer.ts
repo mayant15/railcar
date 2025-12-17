@@ -535,7 +535,7 @@ export async function syntestSchema(
                 mergedKind[key] = (mergedKind[key] || 0) + value;
                 totProbabilities += value as number;
             }
-            if (!isEmptyObject(obj.objectShape)) {
+            if (obj.objectShape && !isEmptyObject(obj.objectShape)) {
                 objShapes.push(obj.objectShape);
             }
         }
@@ -604,16 +604,17 @@ export async function syntestSchema(
                       }
                     : mergeRet(retType);
                 ret.objectShape = ret.objectShape ?? {};
-                sig.args = args;
-                sig.ret = ret;
+                dynamicSchema[entryPoint].args = args;
+                dynamicSchema[entryPoint].ret = ret;
             } else {
                 const node = relationsResult.result.get(id);
                 const involved = node?.involved ?? [];
-                const argIds = involved.slice(2);
+                const argIds = involved.slice(1);
                 const methodArgs = getSchemaFromIds(argIds);
+                
                 // @ts-ignore
                 if (sig.args[0] == null) {
-                    sig.args = [
+                    dynamicSchema[entryPoint].args = [
                         {
                             isAny: false,
                             kind: {
@@ -626,20 +627,29 @@ export async function syntestSchema(
                         },
                     ];
                 } else {
-                    sig.args = [sig.args[0], ...methodArgs];
+                    dynamicSchema[entryPoint].args = [sig.args[0], ...methodArgs];
                 }
             }
+            
             cnt += 1;
             if (cnt % 10 == 0) {
                 console.log("processed ", cnt, "/", tot);
             }
         }
     });
-    console.log(
-        "ran for 3 min, stopping, producing partial result, processed ",
-        cnt,
-        " IDs",
-    );
+    if (cnt < tot) {
+        console.log(
+            "ran for 3 min, stopping, producing partial result, processed ",
+            cnt,
+            " IDs",
+        );
+    } else {
+        console.log(
+            "processed all",
+            tot,
+            " IDs",
+        );
+    }
     for (const key of Object.keys(dynamicSchema)) {
         if (key.startsWith("default.")) {
             delete dynamicSchema[key];

@@ -1,0 +1,811 @@
+{
+  "Uint8Array": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "args": [],
+    "builtin": true
+  },
+  "ArrayBuffer": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ArrayBuffer": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "RegExp": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "RegExp": 1
+      }
+    },
+    "args": [],
+    "builtin": true
+  },
+  "SharedArrayBuffer": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "SharedArrayBuffer": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "Error": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Error": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "Duplex": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Duplex": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "Buffer": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "__DO_NOT_USE__ActionTypes.PROBE_UNKNOWN_ACTION": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {},
+      "objectShape": {}
+    },
+    "args": []
+  },
+  "applyMiddleware": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Function": 1
+      },
+      "objectShape": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Array": 0.6666666666666666,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "map": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      }
+    ]
+  },
+  "bindActionCreators": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Object": 0.5625,
+        "Function": 0.25,
+        "String": 0.0625,
+        "Undefined": 0.0625,
+        "Array": 0.0625
+      },
+      "objectShape": {},
+      "arrayValueType": {
+        "isAny": true,
+        "kind": {}
+      }
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.07700181741335589,
+          "Null": 0.08271701855836473,
+          "Undefined": 0.16965226792438334,
+          "Array": 0.1543243026204565,
+          "Object": 0.3965930550219012,
+          "Function": 0.11971153846153851
+        },
+        "objectShape": {
+          "apply": {
+            "isAny": true,
+            "kind": {}
+          },
+          "toDateString": {
+            "isAny": true,
+            "kind": {}
+          },
+          "getDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "setDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "message": {
+            "isAny": true,
+            "kind": {}
+          },
+          "type": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "next": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Function": 1
+        },
+        "objectShape": {}
+      }
+    ]
+  },
+  "combineReducers": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Function": 1
+      },
+      "objectShape": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.25,
+          "Array": 0.25,
+          "Object": 0.5
+        },
+        "objectShape": {},
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      }
+    ]
+  },
+  "compose": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Function": 0.5404761904761906,
+        "Number": 0.4595238095238096
+      },
+      "objectShape": {},
+      "arrayValueType": {
+        "isAny": true,
+        "kind": {}
+      }
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.16666666666666666,
+          "Array": 0.41666666666666663,
+          "Object": 0.25,
+          "Function": 0.16666666666666666
+        },
+        "objectShape": {
+          "length": {
+            "isAny": true,
+            "kind": {}
+          },
+          "reduce": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      }
+    ]
+  },
+  "createStore": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 0.1111111111111111,
+        "Object": 0.8888888888888888
+      },
+      "objectShape": {
+        "dispatch": {
+          "isAny": true,
+          "kind": {},
+          "arrayValueType": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "subscribe": {
+          "isAny": true,
+          "kind": {},
+          "arrayValueType": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "getState": {
+          "isAny": true,
+          "kind": {},
+          "arrayValueType": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "replaceReducer": {
+          "isAny": true,
+          "kind": {},
+          "arrayValueType": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "symbol_observable_default": {
+          "isAny": true,
+          "kind": {},
+          "arrayValueType": {
+            "isAny": true,
+            "kind": {}
+          }
+        }
+      },
+      "arrayValueType": {
+        "isAny": true,
+        "kind": {}
+      }
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.025942032967032968,
+          "Null": 0.01800655594405594,
+          "Undefined": 0.3383197427572427,
+          "Array": 0.05466318681318682,
+          "Object": 0.32541271228771235,
+          "Function": 0.23765576923076928
+        },
+        "objectShape": {
+          "toDateString": {
+            "isAny": true,
+            "kind": {}
+          },
+          "getDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "setDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "message": {
+            "isAny": true,
+            "kind": {}
+          },
+          "type": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "next": {
+            "isAny": true,
+            "kind": {}
+          },
+          "apply": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.013659420787545788,
+          "Null": 0.00622809222027972,
+          "Undefined": 0.6863714072385947,
+          "Array": 0.027666231684981682,
+          "Object": 0.17022204358141863,
+          "Function": 0.09585280448717948
+        },
+        "objectShape": {
+          "toDateString": {
+            "isAny": true,
+            "kind": {}
+          },
+          "getDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "setDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "message": {
+            "isAny": true,
+            "kind": {}
+          },
+          "type": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "next": {
+            "isAny": true,
+            "kind": {}
+          },
+          "apply": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.023416149921507073,
+          "Null": 0.010676729520479523,
+          "Undefined": 0.4623509838375911,
+          "Array": 0.047427825745682904,
+          "Object": 0.2918092175681463,
+          "Function": 0.16431909340659345
+        },
+        "objectShape": {
+          "toDateString": {
+            "isAny": true,
+            "kind": {}
+          },
+          "getDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "setDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "message": {
+            "isAny": true,
+            "kind": {}
+          },
+          "type": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "next": {
+            "isAny": true,
+            "kind": {}
+          },
+          "apply": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      }
+    ]
+  },
+  "isAction": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      },
+      "objectShape": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.002367739403453691,
+          "Null": 0.07412868381618386,
+          "Undefined": 0.22019216497787936,
+          "Array": 0.17128028519099947,
+          "Object": 0.5166210991389564,
+          "Function": 0.015410027472527484
+        },
+        "objectShape": {
+          "type": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "toDateString": {
+            "isAny": true,
+            "kind": {}
+          },
+          "getDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "setDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "message": {
+            "isAny": true,
+            "kind": {}
+          },
+          "next": {
+            "isAny": true,
+            "kind": {}
+          },
+          "apply": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      }
+    ]
+  },
+  "isPlainObject": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Boolean": 1
+      },
+      "objectShape": {},
+      "arrayValueType": {
+        "isAny": true,
+        "kind": {}
+      }
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.0033148351648351637,
+          "Null": 0.10280659965034956,
+          "Undefined": 0.3082690309690307,
+          "Array": 0.10678358516483506,
+          "Object": 0.4572519105894103,
+          "Function": 0.021574038461538454
+        },
+        "objectShape": {
+          "type": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "toDateString": {
+            "isAny": true,
+            "kind": {}
+          },
+          "getDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "setDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "message": {
+            "isAny": true,
+            "kind": {}
+          },
+          "next": {
+            "isAny": true,
+            "kind": {}
+          },
+          "apply": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      }
+    ]
+  },
+  "legacy_createStore": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Undefined": 0.1111111111111111,
+        "Object": 0.8888888888888888
+      },
+      "objectShape": {
+        "dispatch": {
+          "isAny": true,
+          "kind": {}
+        },
+        "subscribe": {
+          "isAny": true,
+          "kind": {}
+        },
+        "getState": {
+          "isAny": true,
+          "kind": {}
+        },
+        "replaceReducer": {
+          "isAny": true,
+          "kind": {}
+        },
+        "symbol_observable_default": {
+          "isAny": true,
+          "kind": {}
+        }
+      }
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.025942032967032957,
+          "Null": 0.018006555944055938,
+          "Undefined": 0.33831974275724264,
+          "Array": 0.0546631868131868,
+          "Object": 0.3254127122877122,
+          "Function": 0.23765576923076917
+        },
+        "objectShape": {
+          "toDateString": {
+            "isAny": true,
+            "kind": {}
+          },
+          "getDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "setDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "message": {
+            "isAny": true,
+            "kind": {}
+          },
+          "type": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "next": {
+            "isAny": true,
+            "kind": {}
+          },
+          "apply": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.013659420787545791,
+          "Null": 0.006228092220279723,
+          "Undefined": 0.6863714072385949,
+          "Array": 0.02766623168498169,
+          "Object": 0.17022204358141868,
+          "Function": 0.0958528044871795
+        },
+        "objectShape": {
+          "toDateString": {
+            "isAny": true,
+            "kind": {}
+          },
+          "getDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "setDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "message": {
+            "isAny": true,
+            "kind": {}
+          },
+          "type": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "next": {
+            "isAny": true,
+            "kind": {}
+          },
+          "apply": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.023416149921507066,
+          "Null": 0.010676729520479522,
+          "Undefined": 0.46235098383759093,
+          "Array": 0.04742782574568289,
+          "Object": 0.2918092175681462,
+          "Function": 0.1643190934065934
+        },
+        "objectShape": {
+          "toDateString": {
+            "isAny": true,
+            "kind": {}
+          },
+          "getDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "setDate": {
+            "isAny": true,
+            "kind": {}
+          },
+          "message": {
+            "isAny": true,
+            "kind": {}
+          },
+          "type": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "next": {
+            "isAny": true,
+            "kind": {}
+          },
+          "apply": {
+            "isAny": true,
+            "kind": {}
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      }
+    ]
+  }
+}

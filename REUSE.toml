@@ -35,6 +35,23 @@ path = "examples/**/testcases/**"
 SPDX-License-Identifier = "CC0-1.0"
 SPDX-FileCopyrightText = "2025"
 
+# Generated bundles we keep in here
+
+[[annotations]]
+path = "examples/fast-xml-parser/fxp.full.js"
+SPDX-FileCopyrightText = "2017 Amit Kumar Gupta"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "examples/jimp/jimp.browser.js"
+SPDX-FileCopyrightText = "2018 Oliver Moran"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "examples/jpeg-js/jpeg-js.bundle.js"
+SPDX-FileCopyrightText = "2014 Eugene Ware"
+SPDX-License-Identifier = "BSD-3-Clause"
+
 # @railcar/support is Apache-2.0
 [[annotations]]
 path = [

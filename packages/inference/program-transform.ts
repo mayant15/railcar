@@ -133,6 +133,9 @@ function transformObjectAssignmentInAssignmentExpression(
     path: NodePath<t.AssignmentExpression>,
 ) {
     const node = path.node;
+    if (!path.parentPath.isExpressionStatement()) {
+        return;
+    }
     if (
         t.isAssignmentExpression(path.node) &&
         t.isObjectExpression(path.node.right) &&
@@ -199,8 +202,11 @@ function transformObjectAssignment(path: NodePath<t.VariableDeclaration>) {
                     // prop.value = t.nullLiteral();
                 }
             }
-
-            path.insertAfter(newStatements);
+            try {
+                path.insertAfter(newStatements);
+            } catch (e) {
+                // not worth it, skip
+            }
         }
     }
 }
@@ -210,17 +216,7 @@ export function transform(source: string, output: string | null = null) {
         sourceType: "module",
         plugins: ["jsx"],
     });
-
-    traverse(ast, {
-        VariableDeclaration(path: NodePath<t.VariableDeclaration>) {
-            transformObjectAssignment(path);
-            transformDestructuringAssignment(path);
-        },
-        AssignmentExpression(path: NodePath<t.AssignmentExpression>) {
-            transformObjectAssignmentInAssignmentExpression(path);
-        },
-    });
-
+    
     let anonCounter = 0;
 
     traverse(ast, {
@@ -269,6 +265,16 @@ export function transform(source: string, output: string | null = null) {
                     path.get("right").replaceWith(t.identifier(name));
                 }
             }
+        },
+    });
+
+    traverse(ast, {
+        VariableDeclaration(path: NodePath<t.VariableDeclaration>) {
+            transformObjectAssignment(path);
+            transformDestructuringAssignment(path);
+        },
+        AssignmentExpression(path: NodePath<t.AssignmentExpression>) {
+            transformObjectAssignmentInAssignmentExpression(path);
         },
     });
 
