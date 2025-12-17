@@ -19,7 +19,7 @@ mod replay_input;
 #[derive(Parser)]
 #[command(version)]
 struct Arguments {
-    /// Entrypoint for the library to test for graph and parametric drivers.
+    /// Entrypoint for the library to test for graph and sequence drivers.
     /// File that exports a `fuzz` function for bytes driver.
     entrypoint: String,
 

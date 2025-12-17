@@ -44,7 +44,6 @@ pub type ReplayRestartingManager<I, SP> =
 pub enum FuzzerMode {
     Bytes,
     Graph,
-    Parametric,
     Sequence,
 }
 

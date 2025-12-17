@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 use clap::{Parser, ValueEnum};
-use libafl::inputs::{HasMutatorBytes, Input};
+use libafl::inputs::Input;
 use railcar::{
     inputs::{
         graph::{Node, NodePayload},
-        Graph, ParametricGraph,
+        Graph,
     },
-    schema::{ConstantValue, HasSchema},
+    schema::ConstantValue,
 };
 use serde::{Deserialize, Serialize};
 
@@ -71,19 +71,10 @@ impl ToDot for Graph {
     }
 }
 
-impl ToDot for ParametricGraph {
-    fn to_dot(&self, seed: Option<u64>) -> String {
-        let graph =
-            Graph::create_from_bytes(seed.unwrap(), self.mutator_bytes(), self.schema()).unwrap();
-        graph.to_dot(None)
-    }
-}
-
 #[derive(ValueEnum, Serialize, Deserialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub enum FuzzerMode {
     Graph,
-    Parametric,
 }
 
 #[derive(Parser)]
@@ -103,10 +94,6 @@ pub fn main() {
     let dot = match args.mode {
         FuzzerMode::Graph => {
             let graph = Graph::from_file(args.path).unwrap();
-            graph.to_dot(args.seed)
-        }
-        FuzzerMode::Parametric => {
-            let graph = ParametricGraph::from_file(args.path).unwrap();
             graph.to_dot(args.seed)
         }
     };

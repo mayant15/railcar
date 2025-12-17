@@ -29,9 +29,6 @@ const_assert!(FILL_REUSE_RATE <= 1.0);
 /// Size of the coverage map
 pub const COVERAGE_MAP_SIZE: usize = 1 << 15;
 
-pub const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(4096).unwrap();
-pub const MIN_INPUT_LENGTH: NonZero<usize> = NonZero::new(8).unwrap();
-
 pub const MAX_CONTEXT_MUTATION_ITERATIONS_LOG2: usize = 7;
 const_assert!(MAX_CONTEXT_MUTATION_ITERATIONS_LOG2 > 0);
 

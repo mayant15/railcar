@@ -4,10 +4,8 @@ use libafl::inputs::{BytesInput, HasMutatorBytes, Input};
 use crate::FuzzerConfig;
 
 pub mod graph;
-pub mod parametric;
 
 pub use graph::Graph;
-pub use parametric::ParametricGraph;
 
 pub trait HasSeqLen {
     fn seq_len(&self) -> usize;

@@ -12,7 +12,7 @@ use libafl::{
     corpus::{Corpus, CorpusId},
     inputs::Input,
     mutators::{
-        havoc_mutations, havoc_mutations_no_crossover, HavocMutationsType, HavocScheduledMutator,
+        havoc_mutations_no_crossover, HavocScheduledMutator,
         MutationResult as LibAflMutationResult, Mutator, MutatorsTuple,
     },
     random_corpus_id_with_disabled,
@@ -153,8 +153,6 @@ pub type ComplexGraphMutationsType = tuple_list_type!(
     ExtendConstructor,
 );
 
-pub type ParametricMutationsType = HavocMutationsType;
-
 pub struct GraphMutator<S> {
     inner: Box<dyn Mutator<Graph, S>>,
 }
@@ -222,10 +220,6 @@ fn complex_graph_mutations() -> ComplexGraphMutationsType {
 
 fn simple_graph_mutations() -> SimpleGraphMutationsType {
     tuple_list!(Truncate::new(), Extend::new(),)
-}
-
-pub fn parametric_mutations() -> ParametricMutationsType {
-    havoc_mutations()
 }
 
 impl Truncate {

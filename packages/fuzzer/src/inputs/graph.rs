@@ -21,7 +21,7 @@ use crate::{
         FILL_CONSTANT_RATE, FILL_REUSE_RATE, MAX_COMPLETE_WITH_ENDPOINTS, MAX_COMPLETION_ITER,
     },
     inputs::{CanValidate, HasSeqLen, ToFuzzerInput},
-    rng::{self, BytesRand, TrySample},
+    rng::{self, TrySample},
     schema::{
         CallConvention, ConstantValue, EndpointName, HasSchema, Schema, Signature, SignatureQuery,
         Type,
@@ -227,32 +227,6 @@ impl Graph {
 
     pub fn schema_mut(&mut self) -> &mut Schema {
         &mut self.schema
-    }
-
-    /// If the parametric generator tries to create a graph with a byte seq that's not even 8 bytes (we
-    /// need atleast a u64 for BytesRand to work), use the fuzzer's seed to fill in rest of the bytes.
-    /// This is because we can't really pass in state.rand_mut() here since this is called by both the
-    /// harness and JS during replay. Filling in with the fuzzer seed is one way to still keep this
-    /// deterministic.
-    pub fn create_from_bytes(
-        seed: u64,
-        bytes: &[u8],
-        schema: &Schema,
-    ) -> Result<Graph, RailcarError> {
-        if bytes.len() >= 8 {
-            let mut rand = BytesRand::new(bytes);
-            Graph::create(&mut rand, schema)
-        } else {
-            // Use big-endian bytes here. In most cases the seed won't be a huge number, so the array
-            // returned by to_be_bytes() will have zeroes at the start, and then actual information. Write
-            // `bytes` to the zero part to retain information in the seed. In all other places I use
-            // little-endian by default.
-            let mut seed_bytes = seed.to_be_bytes();
-            seed_bytes[0..bytes.len()].copy_from_slice(bytes);
-
-            let mut rand = BytesRand::new(&seed_bytes);
-            Graph::create(&mut rand, schema)
-        }
     }
 }
 

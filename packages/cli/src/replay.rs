@@ -17,7 +17,7 @@ use libafl_bolts::{
     tuples::tuple_list,
 };
 use railcar::{
-    inputs::{Graph, ParametricGraph, ToFuzzerInput},
+    inputs::{Graph, ToFuzzerInput},
     seq::ApiSeq,
     FuzzerConfig, FuzzerMode, ReplayRestartingManager, ReplayState, Worker,
 };
@@ -126,9 +126,6 @@ where
     match config.mode {
         FuzzerMode::Bytes => launch_impl::<BytesInput, _>(config, shmem_provider, monitor, cores),
         FuzzerMode::Graph => launch_impl::<Graph, _>(config, shmem_provider, monitor, cores),
-        FuzzerMode::Parametric => {
-            launch_impl::<ParametricGraph, _>(config, shmem_provider, monitor, cores)
-        }
         FuzzerMode::Sequence => launch_impl::<ApiSeq, _>(config, shmem_provider, monitor, cores),
     }
 }

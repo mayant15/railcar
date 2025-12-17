@@ -23,7 +23,7 @@ declare global {
     };
 }
 
-type Mode = "bytes" | "parametric" | "graph" | "sequence";
+type Mode = "bytes" | "graph" | "sequence";
 
 type ShMemDescription = {
     size: number;
@@ -79,8 +79,7 @@ async function init(args: InitArgs): Promise<Schema | null> {
         _executor = new BytesExecutor(_shmem);
         await _executor.init(args.entrypoint, config.isBug, args.replay);
         return null;
-    } else if (args.mode === "graph" || args.mode === "parametric") {
-        // both parametric and graph should use the same executor
+    } else if (args.mode === "graph") {
         _executor = new GraphExecutor(_shmem);
 
         const schema = await _executor.init(

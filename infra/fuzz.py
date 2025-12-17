@@ -152,7 +152,7 @@ def arguments():
             "--iterations", type=int, default=1,
             help="number of parallel iterations")
     parser.add_argument("--mode", action='append',
-                        choices=["bytes", "graph", "parametric", "sequence"],
+                        choices=["bytes", "graph", "sequence"],
                         help="modes to run railcar in")
     args = parser.parse_args()
 
