@@ -1,0 +1,631 @@
+{
+  "Uint8Array": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "args": [],
+    "builtin": true
+  },
+  "ArrayBuffer": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ArrayBuffer": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "RegExp": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "RegExp": 1
+      }
+    },
+    "args": [],
+    "builtin": true
+  },
+  "SharedArrayBuffer": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "SharedArrayBuffer": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "Error": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Error": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "Duplex": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Duplex": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "Buffer": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "Deflate": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Deflate": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.875,
+          "Object": 0.125
+        },
+        "objectShape": {}
+      }
+    ]
+  },
+  "Deflate.push": {
+    "callconv": "Method",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Deflate": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.17936274427973642,
+          "Boolean": 0.04250372023809523,
+          "Null": 0.006905691964285713,
+          "Undefined": 0.13076414326414326,
+          "Array": 0.18569096467045682,
+          "Object": 0.3264907880386396,
+          "Function": 0.12828194754464284
+        },
+        "objectShape": {
+          "subarray": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "set": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "length": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.14285720641894958,
+          "Undefined": 0.26391651944358896,
+          "Number": 0.5932262741374603
+        },
+        "objectShape": {}
+      }
+    ]
+  },
+  "Deflate.onData": {
+    "callconv": "Method",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Deflate": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {},
+        "objectShape": {}
+      }
+    ]
+  },
+  "Deflate.onEnd": {
+    "callconv": "Method",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Deflate": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.00833568814821882,
+          "Undefined": 0.7161095829012963,
+          "Number": 0.2755547289504849
+        },
+        "objectShape": {}
+      }
+    ]
+  },
+  "Deflate.toString": {
+    "callconv": "Method",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Deflate": 1
+        }
+      }
+    ]
+  },
+  "Inflate": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Inflate": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.7499999999999998,
+          "Object": 0.24999999999999994
+        },
+        "objectShape": {
+          "windowBits": {
+            "isAny": true,
+            "kind": {}
+          }
+        }
+      }
+    ]
+  },
+  "Inflate.push": {
+    "callconv": "Method",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Inflate": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "String": 0.22199166232691314,
+          "Boolean": 0.016880886970172693,
+          "Null": 0.0027484791993720586,
+          "Undefined": 0.05174332306887254,
+          "Array": 0.22455626805085954,
+          "Object": 0.4231259732998231,
+          "Function": 0.05895340708398746
+        },
+        "objectShape": {
+          "subarray": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "set": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          },
+          "length": {
+            "isAny": true,
+            "kind": {},
+            "arrayValueType": {
+              "isAny": true,
+              "kind": {}
+            }
+          }
+        },
+        "arrayValueType": {
+          "isAny": true,
+          "kind": {}
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.14285720261630583,
+          "Undefined": 0.3300911956290502,
+          "Number": 0.5270516017546449
+        },
+        "objectShape": {}
+      }
+    ]
+  },
+  "Inflate.onData": {
+    "callconv": "Method",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Inflate": 1
+        }
+      },
+      {
+        "isAny": true,
+        "kind": {},
+        "objectShape": {}
+      }
+    ]
+  },
+  "Inflate.onEnd": {
+    "callconv": "Method",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Inflate": 1
+        }
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.008347947222675999,
+          "Undefined": 0.7160207166710137,
+          "Number": 0.2756313361063101
+        },
+        "objectShape": {}
+      }
+    ]
+  },
+  "Inflate.toString": {
+    "callconv": "Method",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": false,
+        "kind": {
+          "Class": 1
+        },
+        "classType": {
+          "Inflate": 1
+        }
+      }
+    ]
+  },
+  "deflate": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {},
+      "objectShape": {}
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {},
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.6666666666666666,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "raw": {
+            "isAny": true,
+            "kind": {}
+          },
+          "gzip": {
+            "isAny": true,
+            "kind": {}
+          }
+        }
+      }
+    ]
+  },
+  "deflateRaw": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {},
+      "objectShape": {}
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {},
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.6666666666666665,
+          "Object": 0.3333333333333332
+        },
+        "objectShape": {
+          "gzip": {
+            "isAny": true,
+            "kind": {}
+          },
+          "raw": {
+            "isAny": true,
+            "kind": {}
+          }
+        }
+      }
+    ]
+  },
+  "gzip": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {},
+      "objectShape": {}
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {},
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.6666666666666665,
+          "Object": 0.3333333333333332
+        },
+        "objectShape": {
+          "raw": {
+            "isAny": true,
+            "kind": {}
+          },
+          "gzip": {
+            "isAny": true,
+            "kind": {}
+          }
+        }
+      }
+    ]
+  },
+  "inflate": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {},
+      "objectShape": {}
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {},
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.6666666666666666,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "raw": {
+            "isAny": true,
+            "kind": {}
+          }
+        }
+      }
+    ]
+  },
+  "inflateRaw": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {},
+      "objectShape": {}
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {},
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.6666666666666665,
+          "Object": 0.33333333333333326
+        },
+        "objectShape": {
+          "raw": {
+            "isAny": true,
+            "kind": {}
+          }
+        }
+      }
+    ]
+  },
+  "ungzip": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {},
+      "objectShape": {}
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {},
+        "objectShape": {}
+      },
+      {
+        "isAny": false,
+        "kind": {
+          "Boolean": 0.6666666666666666,
+          "Object": 0.3333333333333333
+        },
+        "objectShape": {
+          "raw": {
+            "isAny": true,
+            "kind": {}
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "Uint8Array": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Uint8Array": 1
+      }
+    },
+    "args": [],
+    "builtin": true
+  },
+  "ArrayBuffer": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "ArrayBuffer": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "RegExp": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "RegExp": 1
+      }
+    },
+    "args": [],
+    "builtin": true
+  },
+  "SharedArrayBuffer": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "SharedArrayBuffer": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "Error": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Error": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "Duplex": {
+    "callconv": "Constructor",
+    "ret": {
+      "isAny": false,
+      "kind": {
+        "Class": 1
+      },
+      "classType": {
+        "Duplex": 1
+      }
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "Buffer": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": [
+      {
+        "isAny": true,
+        "kind": {}
+      }
+    ],
+    "builtin": true
+  },
+  "metadata": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "pipeline": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "cache": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "concurrency": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "counters": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "simd": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "libvipsVersion": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "format": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "block": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "_maxColourDistance": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "_isUsingJemalloc": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "_isUsingX64V2": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  },
+  "stats": {
+    "callconv": "Free",
+    "ret": {
+      "isAny": true,
+      "kind": {}
+    },
+    "args": []
+  }
+}
