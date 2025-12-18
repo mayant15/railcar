@@ -216,7 +216,7 @@ export function transform(source: string, output: string | null = null) {
         sourceType: "module",
         plugins: ["jsx"],
     });
-    
+
     let anonCounter = 0;
 
     traverse(ast, {

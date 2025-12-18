@@ -611,7 +611,7 @@ export async function syntestSchema(
                 const involved = node?.involved ?? [];
                 const argIds = involved.slice(1);
                 const methodArgs = getSchemaFromIds(argIds);
-                
+
                 // @ts-ignore
                 if (sig.args[0] == null) {
                     dynamicSchema[entryPoint].args = [
@@ -627,10 +627,13 @@ export async function syntestSchema(
                         },
                     ];
                 } else {
-                    dynamicSchema[entryPoint].args = [sig.args[0], ...methodArgs];
+                    dynamicSchema[entryPoint].args = [
+                        sig.args[0],
+                        ...methodArgs,
+                    ];
                 }
             }
-            
+
             cnt += 1;
             if (cnt % 10 == 0) {
                 console.log("processed ", cnt, "/", tot);
@@ -644,11 +647,7 @@ export async function syntestSchema(
             " IDs",
         );
     } else {
-        console.log(
-            "processed all",
-            tot,
-            " IDs",
-        );
+        console.log("processed all", tot, " IDs");
     }
     for (const key of Object.keys(dynamicSchema)) {
         if (key.startsWith("default.")) {

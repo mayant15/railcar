@@ -1,224 +1,224 @@
 {
-  "Uint8Array": {
-    "callconv": "Constructor",
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "Uint8Array": 1
-      }
+    "Uint8Array": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "args": [],
+        "builtin": true
     },
-    "args": [],
-    "builtin": true
-  },
-  "ArrayBuffer": {
-    "callconv": "Constructor",
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "ArrayBuffer": 1
-      }
+    "ArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
     },
-    "args": [
-      {
-        "isAny": true,
-        "kind": {}
-      }
-    ],
-    "builtin": true
-  },
-  "RegExp": {
-    "callconv": "Constructor",
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "RegExp": 1
-      }
+    "RegExp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "args": [],
+        "builtin": true
     },
-    "args": [],
-    "builtin": true
-  },
-  "SharedArrayBuffer": {
-    "callconv": "Constructor",
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "SharedArrayBuffer": 1
-      }
+    "SharedArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
     },
-    "args": [
-      {
-        "isAny": true,
-        "kind": {}
-      }
-    ],
-    "builtin": true
-  },
-  "Error": {
-    "callconv": "Constructor",
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "Error": 1
-      }
+    "Error": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
     },
-    "args": [
-      {
-        "isAny": true,
-        "kind": {}
-      }
-    ],
-    "builtin": true
-  },
-  "Duplex": {
-    "callconv": "Constructor",
-    "ret": {
-      "isAny": false,
-      "kind": {
-        "Class": 1
-      },
-      "classType": {
-        "Duplex": 1
-      }
+    "Duplex": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
     },
-    "args": [
-      {
-        "isAny": true,
-        "kind": {}
-      }
-    ],
-    "builtin": true
-  },
-  "Buffer": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "Buffer": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
     },
-    "args": [
-      {
-        "isAny": true,
-        "kind": {}
-      }
-    ],
-    "builtin": true
-  },
-  "metadata": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "metadata": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "pipeline": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "pipeline": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "cache": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "cache": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "concurrency": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "concurrency": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "counters": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "counters": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "simd": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "simd": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "libvipsVersion": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "libvipsVersion": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "format": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "format": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "block": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "block": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "_maxColourDistance": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "_maxColourDistance": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "_isUsingJemalloc": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "_isUsingJemalloc": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "_isUsingX64V2": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
+    "_isUsingX64V2": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     },
-    "args": []
-  },
-  "stats": {
-    "callconv": "Free",
-    "ret": {
-      "isAny": true,
-      "kind": {}
-    },
-    "args": []
-  }
+    "stats": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
+    }
 }
