@@ -19,8 +19,8 @@ module.exports.fuzz = async function (data) {
         writeFileSync(jimpInput, Buffer.from(content));
     }
 
-    Jimp.read(jimpInput, (err, image) => {
-        if (err) return;
+    try {
+        const image = await Jimp.read(jimpInput);
 
         const width = provider.consumeIntegralInRange(0, image.bitmap.width);
         const height = provider.consumeIntegralInRange(0, image.bitmap.height);
@@ -85,9 +85,9 @@ module.exports.fuzz = async function (data) {
         const fontX = provider.consumeIntegralInRange(0, image.bitmap.width);
         const fontY = provider.consumeIntegralInRange(0, image.bitmap.height);
         const text = provider.consumeString(10);
-        Jimp.loadFont(fontPath).then((font) => {
-            image.print(font, fontX, fontY, text, fontSize, fontColor);
-        });
+
+        const font = await Jimp.loadFont(fontPath);
+        image.print(font, fontX, fontY, text, fontSize, fontColor);
 
         const color = Jimp.color([
             provider.consumeIntegralInRange(0, 256),
@@ -192,7 +192,7 @@ module.exports.fuzz = async function (data) {
             backgroundWidth,
             backgroundHeight,
         );
-    });
+    } catch {}
 };
 
 function pickRandom(array) {
