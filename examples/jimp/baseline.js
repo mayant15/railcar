@@ -3,7 +3,7 @@
 // Modified to support Railcar instead of Jazzer.js
 
 const { FuzzedDataProvider } = require("@railcar/support");
-const Jimp = require("jimp");
+const { Jimp, BlendMode } = require("jimp");
 const { writeFileSync } = require("node:fs");
 
 module.exports.fuzz = async function (data) {
@@ -48,9 +48,7 @@ module.exports.fuzz = async function (data) {
         const contrastImage = blurImage.contrast(contrastValue);
         const brightnessValue = provider.consumeNumberinRange(-1, 1);
         const brightnessImage = contrastImage.brightness(brightnessValue);
-        const hueValue = provider.consumeNumberinRange(-1, 1);
-        const hueImage = brightnessImage.hue(hueValue);
-        const invertImage = hueImage.invert();
+        const invertImage = brightnessImage.invert();
         const greyscaleImage = invertImage.greyscale();
         const sepiaImage = greyscaleImage.sepia();
         const thresholdValue = provider.consumeNumberinRange(0, 1);
@@ -64,62 +62,6 @@ module.exports.fuzz = async function (data) {
             image.bitmap.height,
         );
         image.getPixelColor(pixelColorX, pixelColorY);
-        const fontPath = pickRandom([
-            provider.consumeString(128),
-            Jimp.FONT_SANS_8_BLACK,
-            Jimp.FONT_SANS_10_BLACK,
-            Jimp.FONT_SANS_12_BLACK,
-            Jimp.FONT_SANS_14_BLACK,
-            Jimp.FONT_SANS_16_BLACK,
-            Jimp.FONT_SANS_32_BLACK,
-            Jimp.FONT_SANS_64_BLACK,
-            Jimp.FONT_SANS_128_BLACK,
-            Jimp.FONT_SANS_8_WHITE,
-            Jimp.FONT_SANS_16_WHITE,
-            Jimp.FONT_SANS_32_WHITE,
-            Jimp.FONT_SANS_64_WHITE,
-            Jimp.FONT_SANS_128_WHITE,
-        ]);
-        const fontColor = provider.consumeNumber();
-        const fontSize = provider.consumeIntegralInRange(0, 100);
-        const fontX = provider.consumeIntegralInRange(0, image.bitmap.width);
-        const fontY = provider.consumeIntegralInRange(0, image.bitmap.height);
-        const text = provider.consumeString(10);
-
-        const font = await Jimp.loadFont(fontPath);
-        image.print(font, fontX, fontY, text, fontSize, fontColor);
-
-        const color = Jimp.color([
-            provider.consumeIntegralInRange(0, 256),
-            provider.consumeIntegralInRange(0, 256),
-            provider.consumeIntegralInRange(0, 256),
-            provider.consumeIntegralInRange(0, 256),
-        ]);
-        image.color([
-            { apply: "hue", params: [provider.consumeNumberinRange(-1, 1)] },
-            {
-                apply: "lighten",
-                params: [provider.consumeNumberinRange(-1, 1)],
-            },
-            {
-                apply: "saturate",
-                params: [provider.consumeNumberinRange(-1, 1)],
-            },
-            {
-                apply: "mix",
-                params: [color, provider.consumeNumberinRange(0, 1)],
-            },
-        ]);
-
-        const filterType = pickRandom([
-            Jimp.AUTO,
-            Jimp.BLUR,
-            Jimp.SHARPEN,
-            Jimp.EDGE_DETECT,
-            Jimp.EMBOSS,
-            Jimp.GAUSSIAN,
-        ]);
-        image.filter(filterType);
 
         const kernel = [
             [-1, -1, -1],
@@ -129,10 +71,12 @@ module.exports.fuzz = async function (data) {
         image.convolution(kernel);
 
         const bufferType = pickRandom([
-            Jimp.MIME_PNG,
-            Jimp.MIME_JPEG,
-            Jimp.MIME_BMP,
-            Jimp.MIME_TIFF,
+            "image/bmp",
+            "image/tiff",
+            "image/x-ms-bmp",
+            "image/gif",
+            "image/jpeg",
+            "image/png",
         ]);
         image.getBuffer(bufferType);
 
@@ -147,51 +91,21 @@ module.exports.fuzz = async function (data) {
         );
         compositeImage.composite(image, compositeX, compositeY, {
             mode: pickRandom([
-                Jimp.BLEND_SOURCE_OVER,
-                Jimp.BLEND_DESTINATION_OVER,
-                Jimp.BLEND_MULTIPLY,
-                Jimp.BLEND_ADD,
-                Jimp.BLEND_SCREEN,
-                Jimp.BLEND_OVERLAY,
-                Jimp.BLEND_DARKEN,
-                Jimp.BLEND_LIGHTEN,
-                Jimp.BLEND_HARDLIGHT,
-                Jimp.BLEND_DIFFERENCE,
-                Jimp.BLEND_EXCLUSION,
+                BlendMode.SRC_OVER,
+                BlendMode.DST_OVER,
+                BlendMode.MULTIPLY,
+                BlendMode.ADD,
+                BlendMode.SCREEN,
+                BlendMode.OVERLAY,
+                BlendMode.DARKEN,
+                BlendMode.LIGHTEN,
+                BlendMode.HARD_LIGHT,
+                BlendMode.DIFFERENCE,
+                BlendMode.EXCLUSION,
             ]),
             opacitySource: provider.consumeNumberinRange(-1, 1),
             opacityDest: provider.consumeNumberinRange(-1, 1),
         });
-
-        const backgroundColor = Jimp.color([
-            provider.consumeIntegralInRange(0, 256),
-            provider.consumeIntegralInRange(0, 256),
-            provider.consumeIntegralInRange(0, 256),
-            provider.consumeIntegralInRange(0, 256),
-        ]);
-        const backgroundX = provider.consumeIntegralInRange(
-            0,
-            image.bitmap.width,
-        );
-        const backgroundY = provider.consumeIntegralInRange(
-            0,
-            image.bitmap.height,
-        );
-        const backgroundWidth = provider.consumeIntegralInRange(
-            0,
-            image.bitmap.width - backgroundX,
-        );
-        const backgroundHeight = provider.consumeIntegralInRange(
-            0,
-            image.bitmap.height - backgroundY,
-        );
-        image.background(
-            backgroundColor,
-            backgroundX,
-            backgroundY,
-            backgroundWidth,
-            backgroundHeight,
-        );
     } catch {}
 };
 
