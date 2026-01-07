@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 
 use std::{
+    collections::VecDeque,
     hash::{Hash, Hasher},
     num::NonZeroUsize,
     path::Path,
@@ -24,6 +25,8 @@ use crate::{
 
 // TODO: Something other than String might be faster to work with
 type CallId = String;
+
+const MAX_SEQ_LEN: usize = 15;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ApiCall {
@@ -51,33 +54,6 @@ enum ArgFillStrategy {
     Constant,
     Reuse,
     New,
-}
-
-impl ArgFillStrategy {
-    fn pick<R: Rand>(rand: &mut R, guess: &TypeGuess) -> ArgFillStrategy {
-        if Self::only_class(guess) {
-            // either reuse, or new API call
-            if rand.coinflip(0.5) {
-                ArgFillStrategy::Reuse
-            } else {
-                ArgFillStrategy::New
-            }
-        } else {
-            // pick one of three
-            let idx = rand.below(NonZeroUsize::new(3).unwrap());
-            match idx {
-                0 => ArgFillStrategy::New,
-                1 => ArgFillStrategy::Reuse,
-                2 => ArgFillStrategy::Constant,
-                _ => unreachable!(),
-            }
-        }
-    }
-
-    #[inline]
-    fn only_class(guess: &TypeGuess) -> bool {
-        guess.kind.len() == 1 && guess.kind.contains_key(&TypeKind::Class)
-    }
 }
 
 impl ApiSeq {
@@ -122,8 +98,10 @@ impl ApiSeq {
         };
         let first = seq.append(name.clone(), sig.args.len(), sig.callconv);
 
-        let mut worklist = vec![first.id.clone()];
-        while let Some(index) = worklist.pop() {
+        let mut worklist = VecDeque::new();
+        worklist.push_back(first.id.clone());
+
+        while let Some(index) = worklist.pop_front() {
             seq.complete_one(rand, schema, &mut worklist, index)?;
         }
 
@@ -131,18 +109,18 @@ impl ApiSeq {
     }
 
     pub fn complete<R: Rand>(&mut self, rand: &mut R, schema: &Schema) -> Result<()> {
-        let mut worklist = vec![];
+        let mut worklist = VecDeque::new();
         for call in &self.seq {
             let is_incomplete = call
                 .args
                 .iter()
                 .any(|arg| matches!(arg, ApiCallArg::Missing));
             if is_incomplete {
-                worklist.push(call.id.clone())
+                worklist.push_back(call.id.clone())
             }
         }
 
-        while let Some(id) = worklist.pop() {
+        while let Some(id) = worklist.pop_front() {
             self.complete_one(rand, schema, &mut worklist, id)?;
         }
 
@@ -213,12 +191,41 @@ impl ApiSeq {
         &mut self.seq[call_index].args[arg_index]
     }
 
+    fn pick_arg_fill_strat<R: Rand>(&self, rand: &mut R, guess: &TypeGuess) -> ArgFillStrategy {
+        if self.seq.len() > MAX_SEQ_LEN {
+            return ArgFillStrategy::Constant;
+        }
+
+        if Self::only_class(guess) {
+            // either reuse, or new API call
+            if rand.coinflip(0.5) {
+                ArgFillStrategy::Reuse
+            } else {
+                ArgFillStrategy::New
+            }
+        } else {
+            // pick one of three
+            let idx = rand.below(NonZeroUsize::new(3).unwrap());
+            match idx {
+                0 => ArgFillStrategy::New,
+                1 => ArgFillStrategy::Reuse,
+                2 => ArgFillStrategy::Constant,
+                _ => unreachable!(),
+            }
+        }
+    }
+
+    #[inline]
+    fn only_class(guess: &TypeGuess) -> bool {
+        guess.kind.len() == 1 && guess.kind.contains_key(&TypeKind::Class)
+    }
+
     /// Fill in missing arguments for a single API call
     fn complete_one<R: Rand>(
         &mut self,
         rand: &mut R,
         schema: &Schema,
-        worklist: &mut Vec<CallId>,
+        worklist: &mut VecDeque<CallId>,
         id: CallId,
     ) -> Result<()> {
         let mut call_idx = self.index_of(id).unwrap();
@@ -229,7 +236,7 @@ impl ApiSeq {
                 continue;
             }
 
-            let strat = ArgFillStrategy::pick(rand, guess);
+            let strat = self.pick_arg_fill_strat(rand, guess);
 
             if let ArgFillStrategy::Reuse = strat {
                 if let Some(out) = self.find_output_before(rand, call_idx, guess, schema) {
@@ -260,18 +267,22 @@ impl ApiSeq {
                         },
                     );
                     call_idx += 1; // we added a call, so adjust this accordingly
-                    worklist.push(new_call_id);
+                    worklist.push_back(new_call_id);
 
                     continue;
                 }
             }
 
             // At this point we either chose to add a constant or nothing else worked.
-            assert!(!ArgFillStrategy::only_class(guess));
 
-            let guess = Self::strip_class(rand, guess);
-            let typ = guess.sample(rand)?;
-            *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(typ);
+            // if this can only be a class, we can't create it here, pass null
+            if Self::only_class(guess) {
+                *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(Type::Null);
+            } else {
+                let guess = Self::strip_class(rand, guess);
+                let typ = guess.sample(rand)?;
+                *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(typ);
+            }
         }
 
         Ok(())
