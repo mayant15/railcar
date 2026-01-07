@@ -192,11 +192,11 @@ impl ApiSeq {
     }
 
     fn pick_arg_fill_strat<R: Rand>(&self, rand: &mut R, guess: &TypeGuess) -> ArgFillStrategy {
-        if self.seq.len() > MAX_SEQ_LEN {
-            return ArgFillStrategy::Constant;
-        }
-
         if Self::only_class(guess) {
+            if self.seq.len() > MAX_SEQ_LEN {
+                return ArgFillStrategy::Reuse;
+            }
+
             // either reuse, or new API call
             if rand.coinflip(0.5) {
                 ArgFillStrategy::Reuse
@@ -204,6 +204,10 @@ impl ApiSeq {
                 ArgFillStrategy::New
             }
         } else {
+            if self.seq.len() > MAX_SEQ_LEN {
+                return ArgFillStrategy::Constant;
+            }
+
             // pick one of three
             let idx = rand.below(NonZeroUsize::new(3).unwrap());
             match idx {
