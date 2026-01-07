@@ -43,9 +43,9 @@ fn client<I: ToFuzzerInput, SP: ShMemProvider>(
 
     let scheduler = QueueScheduler::new();
 
-    let mut harness = |input: &I| {
-        let mut worker = Worker::new(config.into()).expect("failed to create worker");
+    let mut worker = Worker::new(config.into())?;
 
+    let mut harness = |input: &I| {
         let bytes = match input.to_fuzzer_input(config) {
             Ok(bytes) => bytes,
             Err(e) => {
@@ -55,12 +55,10 @@ fn client<I: ToFuzzerInput, SP: ShMemProvider>(
         };
 
         if let Err(e) = worker.invoke(&bytes) {
-            worker.terminate().expect("failed to terminate worker");
-            panic!("failed to invoke worker: {}", e)
-        } else {
-            worker.terminate().expect("failed to terminate worker");
-            ExitKind::Ok
+            panic!("failed to invoke worker: {}", e);
         }
+
+        ExitKind::Ok
     };
 
     let mut fuzzer = StdFuzzer::new(scheduler, feedback, objective);
