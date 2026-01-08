@@ -88,19 +88,24 @@ fn snd<T>(_: T, b: T) -> T {
 #[derive(Clone)]
 pub struct StdMonitor<F: FnMut(&str)> {
     terminal: MultiMonitor<F>,
-    metrics: Metrics,
+    metrics: Option<Metrics>,
     labels: String,
 }
 
 impl<F: FnMut(&str)> StdMonitor<F> {
-    pub fn new<P: AsRef<Path>>(print_fn: F, path: P, labels: &[String]) -> Result<Self> {
-        let metrics = Metrics::new(Some(path))?;
-        metrics.init_for_event::<HeartbeatEvent>()?;
+    pub fn new<P: AsRef<Path>>(print_fn: F, path: Option<P>, labels: &[String]) -> Result<Self> {
+        let metrics = if let Some(path) = path {
+            let metrics = Metrics::new(Some(path))?;
+            metrics.init_for_event::<HeartbeatEvent>()?;
+            Some(metrics)
+        } else {
+            None
+        };
 
         Ok(StdMonitor {
-            terminal: MultiMonitor::new(print_fn),
             metrics,
             labels: labels.join(","),
+            terminal: MultiMonitor::new(print_fn),
         })
     }
 }
@@ -112,13 +117,15 @@ impl<F: FnMut(&str)> Monitor for StdMonitor<F> {
         event_msg: &str,
         sender_id: libafl_bolts::ClientId,
     ) -> Result<(), libafl::Error> {
-        if event_msg == "Client Heartbeat" {
-            let event = make_heartbeat_event(mgr, self.labels.clone());
-            self.metrics
-                .record(event)
-                .map_err(|err| libafl::Error::unknown(err.to_string()))?;
-        }
         self.terminal.display(mgr, event_msg, sender_id)?;
+        if event_msg == "Client Heartbeat" {
+            if let Some(metrics) = &self.metrics {
+                let event = make_heartbeat_event(mgr, self.labels.clone());
+                metrics
+                    .record(event)
+                    .map_err(|err| libafl::Error::unknown(err.to_string()))?;
+            }
+        }
         Ok(())
     }
 }

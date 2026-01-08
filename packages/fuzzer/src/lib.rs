@@ -65,3 +65,10 @@ pub struct FuzzerConfig {
     pub cores: Cores,
     pub labels: Vec<String>,
 }
+
+impl FuzzerConfig {
+    #[inline]
+    pub fn is_replay(&self) -> bool {
+        self.replay_input.is_some() || self.replay
+    }
+}

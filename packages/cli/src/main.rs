@@ -185,11 +185,17 @@ fn main() -> Result<()> {
                 log::debug!("{msg}")
             }
         },
-        &config.metrics,
+        if config.is_replay() {
+            None
+        } else {
+            Some(&config.metrics)
+        },
         &config.labels,
     )?;
 
-    dump_run_metadata(outdir, &config)?;
+    if !config.is_replay() {
+        dump_run_metadata(outdir, &config)?;
+    }
     log_start(&config);
 
     if config.replay_input.is_some() {
