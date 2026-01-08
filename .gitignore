@@ -21,6 +21,7 @@ jazzer-out
 jazzer-results-*
 railcar-out
 railcar-results-*
+railcar-replay-coverage-*
 *.tar.xz
 
 .env

@@ -10,7 +10,11 @@ class Tool(ABC):
         pass
 
     @abstractmethod
-    def run(self, args: object) -> str:
+    def run(self, args: object):
+        pass
+
+    @abstractmethod
+    def coverage(self, outdir: object):
         pass
 
 
@@ -21,3 +25,6 @@ class Config(Generic[T]):
 
     def run(self):
         self.tool.run(self.args)
+
+    def coverage(self):
+        self.tool.coverage(self.args)

@@ -5,6 +5,30 @@ from os import path, makedirs
 
 import subprocess as sp
 import socket
+import json
+
+
+class FuzzerConfig:
+    config_file: str
+    cores: list[int]
+    corpus: str
+    entrypoint: str
+    mode: str
+    schema: Optional[str]
+    seed: int
+
+    def __init__(self, path: str) -> None:
+        js = None
+        with open(path) as file:
+            js = json.load(file)['config']
+
+        self.config_file = js['config_file']
+        self.cores = js['cores']['ids']
+        self.corpus = js['corpus']
+        self.entrypoint = js['entrypoint']
+        self.mode = js['mode']
+        self.schema = js['schema_file']
+        self.seed = js['seed']
 
 
 def find_open_port() -> int:
@@ -30,7 +54,52 @@ class Railcar(Tool):
         labels: Optional[list[str]] = None
         config_file_path: Optional[str] = None
 
-    def run(self, args: RunArgs) -> str:
+    @dataclass
+    class CoverageArgs:
+        run_config_path: str
+        coverage_dir: str
+        cores: Optional[list[int]] = None
+
+
+    def coverage(self, args: CoverageArgs):
+        conf = FuzzerConfig(args.run_config_path)
+        port = find_open_port()
+        logfile = path.join(args.coverage_dir, "logs.txt")
+
+        temp_dir = path.join(args.coverage_dir, "nyc_output")
+
+        cmd: list[str] = [
+            "npx", "nyc",
+            "--all",
+            "--clean",
+            "--exclude", "**",
+            "--include", "node_modules",
+            "--temp_dir", temp_dir,
+            "--reporter", "lcov",
+            "--report-dir", args.coverage_dir,
+            "cargo", "run", "--release", "--bin", "railcar", "--",
+            "--mode", conf.mode,
+            "--port", str(port),
+            "--outdir", path.dirname(args.run_config_path),
+            "--config", conf.config_file,
+            "--seed", str(conf.seed),
+            "--replay",
+        ]
+
+        if conf.schema is not None:
+            cmd += ["--schema", conf.schema]
+
+        if args.cores is not None:
+            cmd += ["--cores", ",".join(map(str, args.cores))]
+
+        cmd += [conf.entrypoint]
+
+        makedirs(args.coverage_dir, exist_ok=False)
+        with open(logfile, "a") as f:
+            sp.run(cmd, stderr=sp.STDOUT, stdout=f)
+
+
+    def run(self, args: RunArgs):
         port = find_open_port()
         logfile = path.join(args.outdir, "logs.txt")
 
