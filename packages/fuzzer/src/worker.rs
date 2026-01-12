@@ -333,7 +333,7 @@ impl From<&FuzzerConfig> for WorkerArgs {
             mode: config.mode.clone(),
             entrypoint: config.entrypoint.clone(),
             schema_file: config.schema_file.clone(),
-            replay: config.replay,
+            replay: config.is_replay(),
             config_file: config.config_file.clone(),
         }
     }
