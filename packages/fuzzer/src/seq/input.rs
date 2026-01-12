@@ -56,6 +56,63 @@ enum ArgFillStrategy {
     New,
 }
 
+impl PartialEq for ApiSeq {
+    /// Checks if the same APIs are called in the same order and with the same arguments
+    fn eq(&self, other: &Self) -> bool {
+        use std::iter::zip;
+
+        if self.fuzz != other.fuzz {
+            return false;
+        }
+
+        let call_id_index_a: HashMap<&String, usize> = self
+            .seq()
+            .iter()
+            .enumerate()
+            .map(|(index, call)| (&call.id, index))
+            .collect();
+
+        let call_id_index_b: HashMap<&String, usize> = other
+            .seq()
+            .iter()
+            .enumerate()
+            .map(|(index, call)| (&call.id, index))
+            .collect();
+
+        for (call_a, call_b) in zip(self.seq(), other.seq()) {
+            if call_a.name != call_b.name {
+                return false;
+            }
+
+            for args in zip(&call_a.args, &call_b.args) {
+                match args {
+                    (ApiCallArg::Missing, ApiCallArg::Missing) => {}
+
+                    (ApiCallArg::Constant(ta), ApiCallArg::Constant(tb)) => {
+                        if ta != tb {
+                            return false;
+                        }
+                    }
+
+                    (ApiCallArg::Output(ia), ApiCallArg::Output(ib)) => {
+                        let ida = call_id_index_a[ia];
+                        let idb = call_id_index_b[ib];
+
+                        if ida != idb {
+                            return false;
+                        }
+                    }
+
+                    // they're different tags, cannot be equal
+                    _ => return false,
+                }
+            }
+        }
+
+        true
+    }
+}
+
 impl ApiSeq {
     fn next_id() -> CallId {
         // TODO: Can replace this with any other more lightweight ID, as long as we
@@ -65,6 +122,14 @@ impl ApiSeq {
 
     pub fn seq_mut(&mut self) -> &mut Vec<ApiCall> {
         &mut self.seq
+    }
+
+    pub fn seq(&self) -> &[ApiCall] {
+        self.seq.as_slice()
+    }
+
+    pub fn bytes(&self) -> &[u8] {
+        self.fuzz.as_slice()
     }
 
     /// Regenerate new call IDs. Useful for handling collisions during crossover.

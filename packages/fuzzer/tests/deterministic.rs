@@ -1,0 +1,90 @@
+use anyhow::Result;
+
+use libafl::{corpus::NopCorpus, feedbacks::ConstFeedback, generators::Generator, state::StdState};
+use libafl_bolts::{
+    generic_hash_std,
+    rands::{Rand, StdRand},
+};
+use railcar::{
+    schema::Schema,
+    seq::{ApiSeq, ApiSeqGenerator},
+};
+
+#[test]
+fn deterministic_rand() {
+    let seed = 20061;
+
+    let mut ra = StdRand::with_seed(seed);
+    let mut rb = StdRand::with_seed(seed);
+
+    for _ in 0..1000000 {
+        assert_eq!(ra.next(), rb.next())
+    }
+}
+
+#[test]
+fn deterministic_hash() -> Result<()> {
+    let schema_file = std::fs::File::open("tests/common/fast-xml-parser-typescript.json")?;
+    let schema: Schema = serde_json::from_reader(schema_file)?;
+
+    let mut feedback = ConstFeedback::False;
+    let mut objective = ConstFeedback::False;
+
+    let seed = 20061;
+
+    let mut state = StdState::new(
+        StdRand::with_seed(seed),
+        NopCorpus::<ApiSeq>::new(),
+        NopCorpus::new(),
+        &mut feedback,
+        &mut objective,
+    )?;
+    let mut generator = ApiSeqGenerator::new(&schema);
+
+    for _ in 0..1000 {
+        let input = generator.generate(&mut state)?;
+        let ha = generic_hash_std(&input);
+        let hb = generic_hash_std(&input);
+
+        assert_eq!(ha, hb);
+    }
+
+    Ok(())
+}
+
+#[test]
+fn deterministic_seq_generator() -> Result<()> {
+    let schema_file = std::fs::File::open("tests/common/fast-xml-parser-typescript.json")?;
+    let schema: Schema = serde_json::from_reader(schema_file)?;
+
+    let mut feedback = ConstFeedback::False;
+    let mut objective = ConstFeedback::False;
+
+    let seed = 20061;
+
+    let mut sa = StdState::new(
+        StdRand::with_seed(seed),
+        NopCorpus::<ApiSeq>::new(),
+        NopCorpus::new(),
+        &mut feedback,
+        &mut objective,
+    )?;
+    let mut ga = ApiSeqGenerator::new(&schema);
+
+    let mut sb = StdState::new(
+        StdRand::with_seed(seed),
+        NopCorpus::<ApiSeq>::new(),
+        NopCorpus::new(),
+        &mut feedback,
+        &mut objective,
+    )?;
+    let mut gb = ApiSeqGenerator::new(&schema);
+
+    for _ in 0..1000 {
+        let ia = ga.generate(&mut sa)?;
+        let ib = gb.generate(&mut sb)?;
+        assert_eq!(ia, ib);
+    }
+
+    Ok(())
+}
