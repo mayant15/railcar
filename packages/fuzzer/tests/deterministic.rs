@@ -1,3 +1,5 @@
+use std::path::Path;
+
 use anyhow::Result;
 
 use libafl::{corpus::NopCorpus, feedbacks::ConstFeedback, generators::Generator, state::StdState};
@@ -52,9 +54,8 @@ fn deterministic_hash() -> Result<()> {
     Ok(())
 }
 
-#[test]
-fn deterministic_seq_generator() -> Result<()> {
-    let schema_file = std::fs::File::open("tests/common/fast-xml-parser-typescript.json")?;
+fn deterministic_seq_generator_for_schema<P: AsRef<Path>>(path: P) -> Result<()> {
+    let schema_file = std::fs::File::open(path)?;
     let schema: Schema = serde_json::from_reader(schema_file)?;
 
     let mut feedback = ConstFeedback::False;
@@ -87,4 +88,14 @@ fn deterministic_seq_generator() -> Result<()> {
     }
 
     Ok(())
+}
+
+#[test]
+fn deterministic_seq_generator_fast_xml_parser() -> Result<()> {
+    deterministic_seq_generator_for_schema("tests/common/fast-xml-parser-typescript.json")
+}
+
+#[test]
+fn deterministic_seq_generator_jpeg_js() -> Result<()> {
+    deterministic_seq_generator_for_schema("tests/common/jpeg-js-typescript.json")
 }

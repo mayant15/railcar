@@ -2,8 +2,7 @@
 
 use anyhow::{bail, Result};
 
-#[expect(clippy::disallowed_types)]
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 use libafl_bolts::rands::{Rand, StdRand};
 use serde::{Deserialize, Serialize};
@@ -112,8 +111,7 @@ pub fn extend_context_byte_seq<R: Rand>(rand: &mut R, bytes: &mut Vec<u8>, len: 
     }
 }
 
-#[expect(clippy::disallowed_types)]
-pub type Distribution<K> = HashMap<K, f64>;
+pub type Distribution<K> = BTreeMap<K, f64>;
 
 pub fn redistribute<R, K>(rand: &mut R, dist: &mut Distribution<K>)
 where

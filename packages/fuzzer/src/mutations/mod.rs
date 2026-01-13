@@ -1156,7 +1156,7 @@ where
 fn generate_distribution<R, K>(rand: &mut R, keys: &[K]) -> Distribution<K>
 where
     R: Rand,
-    K: std::hash::Hash + Eq + Clone,
+    K: std::hash::Hash + Eq + Clone + Ord,
 {
     let mut map = Distribution::new();
     for key in keys {

@@ -1,0 +1,344 @@
+{
+    "Uint8Array": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "RegExp": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Error": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Duplex": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "encode": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "width": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "height": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "data": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 0.4,
+                            "Class": 0.6000000000000001
+                        },
+                        "classType": {
+                            "Buffer": 0.3333333333333333,
+                            "Uint8Array": 0.3333333333333333,
+                            "ArrayBuffer": 0.3333333333333333
+                        },
+                        "objectShape": {
+                            "length": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 0.5,
+                                    "Undefined": 0.5
+                                }
+                            }
+                        }
+                    },
+                    "comments": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "String": 1
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "width": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 1
+                    }
+                },
+                "height": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 1
+                    }
+                },
+                "data": {
+                    "isAny": false,
+                    "kind": {
+                        "Class": 1
+                    },
+                    "classType": {
+                        "Buffer": 1
+                    }
+                }
+            }
+        },
+        "callconv": "Free"
+    },
+    "decode": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.4,
+                    "Class": 0.6000000000000001
+                },
+                "classType": {
+                    "Buffer": 0.3333333333333333,
+                    "Uint8Array": 0.3333333333333333,
+                    "ArrayBuffer": 0.3333333333333333
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.75,
+                    "Undefined": 0.25
+                },
+                "objectShape": {
+                    "useTArray": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.75,
+                            "Undefined": 0.25
+                        }
+                    },
+                    "colorTransform": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "formatAsRGBA": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "tolerantDecoding": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "maxResolutionInMP": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    },
+                    "maxMemoryUsageInMB": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "width": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 1
+                    }
+                },
+                "height": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 1
+                    }
+                },
+                "data": {
+                    "isAny": false,
+                    "kind": {
+                        "Class": 1
+                    },
+                    "classType": {
+                        "Uint8Array": 0.5,
+                        "Buffer": 0.5
+                    }
+                },
+                "comments": {
+                    "isAny": false,
+                    "kind": {
+                        "Array": 0.5,
+                        "Undefined": 0.5
+                    },
+                    "arrayValueType": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    }
+                }
+            }
+        },
+        "callconv": "Free"
+    }
+}

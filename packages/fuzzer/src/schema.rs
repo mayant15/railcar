@@ -225,7 +225,7 @@ impl Schema {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, Hash, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, Hash, Eq, PartialEq)]
 pub enum TypeKind {
     Number,
     String,
@@ -236,6 +236,20 @@ pub enum TypeKind {
     Undefined,
     Null,
     Function,
+}
+
+impl PartialOrd for TypeKind {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for TypeKind {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        let self_int = *self as isize;
+        let other_int = *other as isize;
+        self_int.cmp(&other_int)
+    }
 }
 
 impl TypeKind {

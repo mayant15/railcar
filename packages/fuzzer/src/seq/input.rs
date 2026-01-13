@@ -56,6 +56,7 @@ enum ArgFillStrategy {
     New,
 }
 
+/// NOTE: This is only used in integration tests.
 impl PartialEq for ApiSeq {
     /// Checks if the same APIs are called in the same order and with the same arguments
     fn eq(&self, other: &Self) -> bool {
@@ -65,6 +66,7 @@ impl PartialEq for ApiSeq {
             return false;
         }
 
+        #[expect(clippy::disallowed_types)]
         let call_id_index_a: HashMap<&String, usize> = self
             .seq()
             .iter()
@@ -72,6 +74,7 @@ impl PartialEq for ApiSeq {
             .map(|(index, call)| (&call.id, index))
             .collect();
 
+        #[expect(clippy::disallowed_types)]
         let call_id_index_b: HashMap<&String, usize> = other
             .seq()
             .iter()
@@ -512,5 +515,77 @@ impl ToFuzzerInput for ApiSeq {
         };
 
         Ok(bytes)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use serde_json::{from_value, json};
+
+    use super::ApiSeq;
+
+    #[test]
+    fn test_unequal_seq() {
+        let seq_a: ApiSeq = from_value(json!({
+            "fuzz": [],
+            "seq": [
+                {
+                    "id": "813b25c3-a6de-455b-a43e-f2a9167a4c67",
+                    "name": "encode",
+                    "args": [
+                        {
+                            "Constant": {
+                                "Object": {
+                                    "comments": {
+                                        "Array": "String"
+                                    },
+                                    "data": {
+                                        "Class": "Uint8Array"
+                                    },
+                                    "height": "Number",
+                                    "width": "Number"
+                                }
+                            }
+                        },
+                        {
+                            "Constant": "Number"
+                        }
+                    ],
+                    "conv": "Free"
+                }
+            ]
+        }))
+        .unwrap();
+
+        let seq_b: ApiSeq = from_value(json!({
+            "fuzz": [],
+            "seq":  [
+                {
+                    "id": "a5544ca6-e17b-4bf3-994c-ebf91e08ad4c",
+                    "name": "encode",
+                    "args": [
+                        {
+                            "Constant": {
+                                "Object": {
+                                    "comments": "Undefined",
+                                    "data": {
+                                        "Class": "Buffer"
+                                    },
+                                    "height": "Number",
+                                    "width": "Number"
+                                }
+                            }
+                        },
+                        {
+                            "Constant": "Undefined"
+                        }
+                    ],
+                    "conv": "Free"
+                }
+            ]
+        }))
+        .unwrap();
+
+        assert_ne!(seq_a, seq_b);
     }
 }
