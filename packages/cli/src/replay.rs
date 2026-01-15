@@ -80,6 +80,8 @@ fn client<I: ToFuzzerInput, SP: ShMemProvider>(
     )?;
     log::info!("Replayed {} inputs", state.corpus().count());
 
+    worker.terminate()?;
+
     restarting_mgr.on_shutdown()?;
     Ok(())
 }
