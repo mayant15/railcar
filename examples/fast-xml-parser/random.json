@@ -1,0 +1,451 @@
+{
+    "Uint8Array": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "RegExp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Error": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Duplex": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Buffer": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "XMLBuilder": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "XMLBuilder": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLBuilder.build": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLBuilder": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLBuilder.j2x": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLBuilder": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLBuilder.buildAttrPairStr": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLBuilder": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLBuilder.buildObjectNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLBuilder": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLBuilder.closeTag": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLBuilder": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLBuilder.buildTextValNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLBuilder": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLBuilder.replaceEntitiesValue": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLBuilder": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLBuilder.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLBuilder": 1
+                }
+            }
+        ]
+    },
+    "XMLParser": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "XMLParser": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLParser.parse": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLParser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLParser.addEntity": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLParser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "XMLParser.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLParser": 1
+                }
+            }
+        ]
+    },
+    "XMLValidator.validate": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    }
+}

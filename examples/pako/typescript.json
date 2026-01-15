@@ -893,5 +893,41 @@
             }
         },
         "callconv": "Method"
+    },
+    "Deflate.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Deflate": 1
+                }
+            }
+        ]
+    },
+    "Inflate.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Inflate": 1
+                }
+            }
+        ]
     }
 }

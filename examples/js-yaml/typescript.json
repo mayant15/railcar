@@ -486,59 +486,6 @@
         },
         "callconv": "Constructor"
     },
-    "Type.resolve": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Type": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Boolean": 1
-            }
-        },
-        "callconv": "Method"
-    },
-    "Type.construct": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Type": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.5,
-                    "Undefined": 0.5
-                }
-            }
-        ],
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "callconv": "Method"
-    },
     "Schema": {
         "args": [
             {
@@ -776,5 +723,65 @@
             }
         },
         "callconv": "Method"
+    },
+    "Type.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Type": 1
+                }
+            }
+        ]
+    },
+    "Schema.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Schema": 1
+                }
+            }
+        ]
+    },
+    "safeLoad": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
+    },
+    "safeLoadAll": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
+    },
+    "safeDump": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
     }
 }

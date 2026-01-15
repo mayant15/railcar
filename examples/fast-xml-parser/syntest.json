@@ -640,15 +640,6 @@
             }
         ]
     },
-    "XMLParser.getMetaDataSymbol": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {},
-            "objectShape": {}
-        },
-        "args": []
-    },
     "XMLValidator.validate": {
         "callconv": "Free",
         "ret": {
