@@ -1,0 +1,889 @@
+{
+    "Uint8Array": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "RegExp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Error": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Duplex": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Buffer": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "processors.normalize": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "processors.firstCharLowerCase": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "processors.stripPrefix": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "processors.parseNumbers": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "processors.parseBooleans": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ValidationError": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ValidationError": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ValidationError.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ValidationError": 1
+                }
+            }
+        ]
+    },
+    "Builder": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Builder": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Builder.buildObject": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Builder": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Builder.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Builder": 1
+                }
+            }
+        ]
+    },
+    "Parser": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Parser": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.processAsync": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            }
+        ]
+    },
+    "Parser.assignOrPush": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.reset": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            }
+        ]
+    },
+    "Parser.parseString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.parseStringPromise": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.setMaxListeners": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.getMaxListeners": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            }
+        ]
+    },
+    "Parser.emit": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.addListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.on": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.prependListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.once": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.prependOnceListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.removeListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.off": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.removeAllListeners": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.listeners": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.rawListeners": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.listenerCount": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.eventNames": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            }
+        ]
+    },
+    "Parser.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Parser": 1
+                }
+            }
+        ]
+    },
+    "Parser.addAbortListener": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.getEventListeners": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.EventEmitter": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "Parser.EventEmitterAsyncResource": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": []
+    },
+    "Parser.init": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "parseString": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "parseStringPromise": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    }
+}

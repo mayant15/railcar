@@ -10,7 +10,7 @@ import yargs from "yargs";
 
 import { deriveFromDeclFile } from "./derive.js";
 import { syntestSchema } from "./syntest-infer.js";
-import { loadSchema } from "./reflection.js";
+import { loadSchemaFromObject } from "./reflection.js";
 
 import type { Schema, TypeGuess } from "./schema.js";
 
@@ -74,93 +74,105 @@ function validateSchema(schema: Schema) {
 }
 
 async function getSkipMethods(configFile: string): Promise<string[]> {
-    const config = await import(absolute(configFile));
-    assert(config.skipMethods);
-    assert(Array.isArray(config.skipMethods));
-    if (config.skipMethods.length > 0) {
-        assert(typeof config.skipMethods[0] === "string");
+    const mod = await import(absolute(configFile));
+    const skip = mod.default.skipMethods;
+
+    if (skip) {
+        assert(Array.isArray(skip));
+        if (skip.length > 0) {
+            assert(typeof skip[0] === "string");
+        }
+        return skip;
     }
-    return config.skipMethods;
+
+    return [];
 }
 
 async function dispatch(args: Args): Promise<Schema> {
+    const entrypoint = absolute(args.entrypoint);
+
+    let schema = {};
+
     if (args.syntest) {
-        const file = absolute(args.syntest);
-        return syntestSchema(file);
+        schema = syntestSchema(entrypoint);
     }
 
     if (args.decl) {
-        const file = absolute(args.decl);
-        return deriveFromDeclFile(file);
+        const types = absolute(args.decl);
+        schema = deriveFromDeclFile(types);
     }
 
-    if (args.dynamic) {
-        const file = absolute(args.dynamic);
-        const skip = args.config ? await getSkipMethods(args.config) : [];
-        const { schema } = await loadSchema(file, undefined, skip);
-        return schema;
-    }
+    const skip = args.config ? await getSkipMethods(args.config) : [];
 
-    throw Error("unreachable");
+    const loaded = await loadSchemaFromObject(entrypoint, schema, skip);
+
+    return loaded.schema;
 }
 
 type Args = {
-    syntest?: string;
-    dynamic?: string;
+    entrypoint: string;
+    syntest?: boolean;
+    dynamic?: boolean;
     decl?: string;
     config?: string;
 };
 
-function parseArguments() {
-    return (
-        yargs(process.argv.slice(2))
-            .scriptName("railcar-infer")
+async function parseArguments() {
+    const cmd = yargs(process.argv.slice(2))
+        .scriptName("railcar-infer")
 
-            // generic options
-            .option("config", {
-                type: "string",
-                describe:
-                    "Path to a Railcar configuration file. Useful to skip methods.",
-            })
-            .option("outFile", {
-                alias: "o",
-                type: "string",
-                description: "File to write the inferred schema to",
-            })
+        // generic options
+        .option("entrypoint", {
+            type: "string",
+            describe: "Path to a JS module you want the schema for",
+            demandOption: true,
+        })
+        .option("config", {
+            type: "string",
+            describe:
+                "Path to a Railcar configuration file. Useful to skip methods.",
+        })
+        .option("outFile", {
+            alias: "o",
+            type: "string",
+            description: "File to write the inferred schema to",
+        })
 
-            // type inference modes
-            .option("decl", {
-                type: "string",
-                describe: "Derive a schema from a TypeScript declaration file",
-            })
-            .option("syntest", {
-                type: "string",
-                describe:
-                    "Derive a schema from a JavaScript file using SynTest's static type inference",
-            })
-            .option("dynamic", {
-                type: "string",
-                describe:
-                    "Derive a schema from a JavaScript file purely using dynamic analysis",
-            })
+        // type inference modes
+        .option("decl", {
+            type: "string",
+            describe: "Derive a schema from a TypeScript declaration file",
+        })
+        .option("syntest", {
+            type: "boolean",
+            describe: "Derive a schema using SynTest's static type inference",
+        })
+        .option("dynamic", {
+            type: "boolean",
+            describe: "Derive a schema purely using dynamic type inference",
+        })
 
-            // must use at most one type inference mode
-            .conflicts("decl", ["syntest", "dynamic"])
-            .conflicts("syntest", ["decl", "dynamic"])
-            .conflicts("dynamic", ["syntest", "decl"])
+        // must use at most one type inference mode
+        .conflicts("decl", ["syntest", "dynamic"])
+        .conflicts("syntest", ["decl", "dynamic"])
+        .conflicts("dynamic", ["syntest", "decl"]);
 
-            .parse()
-    );
+    const args = await cmd.parse();
+
+    if (!args.syntest && !args.decl && !args.dynamic) {
+        cmd.showHelp();
+        console.error();
+        console.error(
+            "Must specify a type inference mode, use --decl, --syntest or --dynamic",
+        );
+        process.exit(1);
+    }
+
+    return args;
 }
 
 async function main() {
     const args = await parseArguments();
-
-    // must use at least one type inference mode
-    assert(
-        args.syntest || args.decl || args.dynamic,
-        "must specify a type inference mode, use --decl, --syntest or --dynamic",
-    );
 
     const schema = await dispatch(args);
     validateSchema(schema);

@@ -1,0 +1,2242 @@
+{
+    "Uint8Array": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "RegExp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Error": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Duplex": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Buffer": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "CSSResult": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "CSSResult": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "CSSResult.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CSSResult": 1
+                }
+            }
+        ]
+    },
+    "LitElement": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "LitElement": 1
+            }
+        },
+        "args": []
+    },
+    "LitElement.createRenderRoot": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            }
+        ]
+    },
+    "LitElement.update": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.connectedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            }
+        ]
+    },
+    "LitElement.disconnectedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            }
+        ]
+    },
+    "LitElement.render": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            }
+        ]
+    },
+    "LitElement.addController": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.removeController": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.enableUpdating": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.attributeChangedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.requestUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.C": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.scheduleUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            }
+        ]
+    },
+    "LitElement.performUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            }
+        ]
+    },
+    "LitElement.willUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.getUpdateComplete": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            }
+        ]
+    },
+    "LitElement.shouldUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.updated": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.firstUpdated": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.setAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.removeAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.toggleAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.hasAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.attachShadow": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.attachInternals": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            }
+        ]
+    },
+    "LitElement.getAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.addEventListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.removeEventListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.dispatchEvent": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            }
+        ]
+    },
+    "ReactiveElement": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ReactiveElement": 1
+            }
+        },
+        "args": []
+    },
+    "ReactiveElement.addController": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.removeController": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.createRenderRoot": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            }
+        ]
+    },
+    "ReactiveElement.connectedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            }
+        ]
+    },
+    "ReactiveElement.enableUpdating": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.disconnectedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            }
+        ]
+    },
+    "ReactiveElement.attributeChangedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.C": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.performUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            }
+        ]
+    },
+    "ReactiveElement.willUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.getUpdateComplete": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            }
+        ]
+    },
+    "ReactiveElement.shouldUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.update": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.updated": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.firstUpdated": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.setAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.removeAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.toggleAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.hasAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.attachShadow": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.attachInternals": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            }
+        ]
+    },
+    "ReactiveElement.getAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.addEventListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.removeEventListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.dispatchEvent": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ReactiveElement.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            }
+        ]
+    },
+    "_$LE._$AK": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LE._$AL": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.L": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.R": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.R": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.R.u": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.R": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.R.p": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.R": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.R.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.R": 1
+                }
+            }
+        ]
+    },
+    "_$LH.D": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.V": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.I": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.I": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.I.O": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.I.T": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.I.$": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.I.k": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.I.setConnected": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.I.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            }
+        ]
+    },
+    "_$LH.H": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.H": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.H.j": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.H": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.H.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.H": 1
+                }
+            }
+        ]
+    },
+    "_$LH.N": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.N": 1
+            }
+        },
+        "args": []
+    },
+    "_$LH.N.j": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.N": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.N.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.N": 1
+                }
+            }
+        ]
+    },
+    "_$LH.U": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.U": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.U.handleEvent": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.U": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.U.j": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.U": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.U.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.U": 1
+                }
+            }
+        ]
+    },
+    "_$LH.B": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.B": 1
+            }
+        },
+        "args": []
+    },
+    "_$LH.B.j": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.B": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.B.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.B": 1
+                }
+            }
+        ]
+    },
+    "_$LH.F": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.F": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.F.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.F": 1
+                }
+            }
+        ]
+    },
+    "adoptStyles": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "css": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "defaultConverter.toAttribute": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "defaultConverter.fromAttribute": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "getCompatibleStyle": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "html": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "mathml": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "notEqual": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "render": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "svg": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "unsafeCSS": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    }
+}

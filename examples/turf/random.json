@@ -1,0 +1,4046 @@
+{
+    "Uint8Array": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "RegExp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Error": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Duplex": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Buffer": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "clone": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "cloneProperties": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "applyFilter": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clusterEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clusterReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "createBins": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "filterProperties": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "getCluster": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "propertiesContainsFilter": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "azimuthToBearing": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "bearingToAzimuth": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "convertArea": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "convertLength": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "degreesToRadians": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "feature": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "featureCollection": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "geometry": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "geometryCollection": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "isNumber": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "isObject": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lengthToDegrees": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lengthToRadians": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineString": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineStrings": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "multiLineString": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "multiPoint": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "multiPolygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "point": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "points": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "polygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "polygons": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "radiansToDegrees": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "radiansToLength": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "round": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "validateBBox": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "validateId": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "collectionOf": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "containsNumber": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "featureOf": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "geojsonType": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "getCoord": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "getCoords": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "getGeom": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "getType": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "coordAll": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "coordEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "coordReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "featureEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "featureReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "findPoint": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "findSegment": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "flattenEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "flattenReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "geomEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "geomReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "propEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "propReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "segmentEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "segmentReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "nearestNeighborAnalysis": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "toMercator": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "toWgs84": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "quadratAnalysis": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "randomLineString": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "randomPoint": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "randomPolygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "randomPosition": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "along": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "angle": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "area": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "bbox": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "bboxClip": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "bboxPolygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "bearing": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "bezierSpline": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanClockwise": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanConcave": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanContains": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanCrosses": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanDisjoint": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanEqual": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanIntersects": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanOverlap": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanParallel": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanPointInPolygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanPointOnLine": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanTouches": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanValid": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "booleanWithin": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "buffer": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "center": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "centerMean": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "centerMedian": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "centerOfMass": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "centroid": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "circle": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "cleanCoords": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clusters.applyFilter": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clusters.clusterEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clusters.clusterReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clusters.createBins": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clusters.filterProperties": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clusters.getCluster": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clusters.propertiesContainsFilter": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clustersDbscan": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "clustersKmeans": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "collect": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "combine": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "concave": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "convex": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "destination": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "difference": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "dissolve": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "distance": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "distanceWeight": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "ellipse": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "envelope": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "explode": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "flatten": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "flip": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "geojsonRbush": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "greatCircle": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.azimuthToBearing": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.bearingToAzimuth": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.convertArea": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.convertLength": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.degreesToRadians": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.feature": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.featureCollection": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.geometry": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.geometryCollection": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.isNumber": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.isObject": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.lengthToDegrees": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.lengthToRadians": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.lineString": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.lineStrings": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.multiLineString": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.multiPoint": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.multiPolygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.point": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.points": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.polygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.polygons": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.radiansToDegrees": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.radiansToLength": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.round": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.validateBBox": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "helpers.validateId": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "hexGrid": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "interpolate": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "intersect": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "invariant.collectionOf": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "invariant.containsNumber": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "invariant.featureOf": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "invariant.geojsonType": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "invariant.getCoord": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "invariant.getCoords": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "invariant.getGeom": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "invariant.getType": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "isobands": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "isolines": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "kinks": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "length": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineArc": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineChunk": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineIntersect": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineOffset": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineOverlap": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineSegment": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineSlice": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineSliceAlong": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineSplit": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "lineToPolygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "mask": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.coordAll": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.coordEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.coordReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.featureEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.featureReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.findPoint": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.findSegment": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.flattenEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.flattenReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.geomEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.geomReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.lineEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.lineReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.propEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.propReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.segmentEach": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "meta.segmentReduce": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "midpoint": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "moranIndex": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "nearestPoint": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "nearestPointOnLine": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "nearestPointToLine": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "planepoint": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "pointGrid": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "pointOnFeature": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "pointToLineDistance": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "pointToPolygonDistance": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "pointsWithinPolygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "polygonSmooth": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "polygonTangents": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "polygonToLine": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "polygonize": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "projection.toMercator": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "projection.toWgs84": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "random.randomLineString": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "random.randomPoint": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "random.randomPolygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "random.randomPosition": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "rectangleGrid": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "rewind": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "rhumbBearing": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "rhumbDestination": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "rhumbDistance": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "sample": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "sector": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "shortestPath": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "simplify": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "square": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "squareGrid": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "standardDeviationalEllipse": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "tag": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "tesselate": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "tin": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "transformRotate": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "transformScale": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "transformTranslate": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "triangleGrid": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "truncate": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "union": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "unkinkPolygon": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "voronoi": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    }
+}
