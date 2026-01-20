@@ -76,6 +76,10 @@ struct Arguments {
     /// Label this fuzzer to find it in the reporter UI.
     #[arg(long)]
     label: Vec<String>,
+
+    /// DEBUG: Dump the fuzzer's in-memory schema to a file.
+    #[arg(long)]
+    debug_dump_schema: Option<PathBuf>,
 }
 
 fn to_absolute_path(path: PathBuf) -> Result<PathBuf> {
@@ -169,6 +173,7 @@ fn main() -> Result<()> {
         config_file: find_config_file(args.config)?,
         cores: cores.clone(),
         labels: args.label,
+        debug_dump_schema: args.debug_dump_schema,
     };
 
     let shmem_provider = StdShMemProvider::new()?;

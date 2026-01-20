@@ -39,6 +39,7 @@ type InitArgs = {
     shmem: ShMemDescription | null;
     replay: boolean;
     configFile: string | null;
+    debugDumpSchema: string | null;
 };
 
 type Message =
@@ -83,23 +84,21 @@ async function init(args: InitArgs): Promise<Schema | null> {
         // both parametric and graph should use the same executor
         _executor = new GraphExecutor(_shmem);
 
-        const schema = await _executor.init(
-            args.entrypoint,
-            config.isBug,
-            args.schemaFile ?? undefined,
-            args.replay,
-            config.skipMethods,
-        );
+        const schema = await _executor.init(args.entrypoint, config.isBug, {
+            schemaFile: args.schemaFile ?? undefined,
+            logError: args.replay,
+            methodsToSkip: config.skipMethods,
+            debugDumpSchema: args.debugDumpSchema ?? undefined,
+        });
         return schema;
     } else if (args.mode === "sequence") {
         _executor = new SequenceExecutor(_shmem);
-        const schema = await _executor.init(
-            args.entrypoint,
-            config.isBug,
-            args.schemaFile ?? undefined,
-            args.replay,
-            config.skipMethods,
-        );
+        const schema = await _executor.init(args.entrypoint, config.isBug, {
+            schemaFile: args.schemaFile ?? undefined,
+            logError: args.replay,
+            methodsToSkip: config.skipMethods,
+            debugDumpSchema: args.debugDumpSchema ?? undefined,
+        });
         return schema;
     } else {
         throw new AssertionError({ message: "unreachable" });

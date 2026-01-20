@@ -36,6 +36,7 @@ pub struct InitArgs {
     shmem: Option<ShMemDescription>,
     replay: bool,
     config_file: Option<PathBuf>,
+    debug_dump_schema: Option<PathBuf>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -46,6 +47,7 @@ pub struct WorkerArgs {
     pub schema_file: Option<PathBuf>,
     pub replay: bool,
     pub config_file: Option<PathBuf>,
+    pub debug_dump_schema: Option<PathBuf>,
 }
 
 // NOTE: Keep in sync with worker/worker.ts
@@ -266,6 +268,7 @@ impl Worker {
             replay: self.args.replay,
             shmem: self.shmem.as_ref().map(|c| c.description()),
             config_file: self.args.config_file.clone(),
+            debug_dump_schema: self.args.debug_dump_schema.clone(),
         };
         self.send(Message::Init(args))?;
 
@@ -335,6 +338,7 @@ impl From<&FuzzerConfig> for WorkerArgs {
             schema_file: config.schema_file.clone(),
             replay: config.is_replay(),
             config_file: config.config_file.clone(),
+            debug_dump_schema: config.debug_dump_schema.clone(),
         }
     }
 }

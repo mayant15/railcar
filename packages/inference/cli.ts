@@ -104,7 +104,9 @@ async function dispatch(args: Args): Promise<Schema> {
 
     const skip = args.config ? await getSkipMethods(args.config) : [];
 
-    const loaded = await loadSchemaFromObject(entrypoint, schema, skip);
+    const loaded = await loadSchemaFromObject(entrypoint, schema, {
+        methodsToSkip: skip,
+    });
 
     return loaded.schema;
 }

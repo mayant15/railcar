@@ -2,7 +2,7 @@
 
 import assert from "node:assert";
 import { Duplex } from "node:stream";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 
 import type {
     EndpointName,
@@ -362,25 +362,33 @@ function mapExportedReferences(
     mapFunctionsOnObject(0, "", schema, endpoints, exports, methodsToSkip);
 }
 
+export type LoadSchemaOpts = {
+    schemaFile?: string;
+} & LoadSchemaFromObjectOpts;
+
 export async function loadSchema(
     mainModule: string,
-    schemaFile?: string,
-    methodsToSkip?: EndpointName[],
+    opts?: LoadSchemaOpts,
 ): Promise<{ schema: Schema; endpoints: Endpoints }> {
-    const schema: Schema = schemaFile
-        ? JSON.parse(readFileSync(schemaFile).toString())
+    const schema: Schema = opts?.schemaFile
+        ? JSON.parse(readFileSync(opts.schemaFile).toString())
         : {};
-    return loadSchemaFromObject(mainModule, schema, methodsToSkip);
+    return loadSchemaFromObject(mainModule, schema, opts);
 }
+
+type LoadSchemaFromObjectOpts = {
+    methodsToSkip?: EndpointName[];
+    debugDumpSchema?: string;
+};
 
 export async function loadSchemaFromObject(
     mainModule: string,
     schema: Schema,
-    methodsToSkip?: EndpointName[],
+    opts?: LoadSchemaFromObjectOpts,
 ) {
     const main = await import(mainModule);
 
-    const toSkip = new Set(methodsToSkip ?? []);
+    const toSkip = new Set(opts?.methodsToSkip ?? []);
     const endpoints: Endpoints = {};
 
     mapStandardReferences(schema, endpoints, toSkip);
@@ -391,6 +399,10 @@ export async function loadSchemaFromObject(
     console.warn(
         `[railcar-infer] Found ${_countFnNotInSchema} endpoints that were not in schema.`,
     );
+
+    if (opts?.debugDumpSchema) {
+        writeFileSync(opts.debugDumpSchema, JSON.stringify(schema, null, 4));
+    }
 
     return {
         schema,

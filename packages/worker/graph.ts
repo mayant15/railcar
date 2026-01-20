@@ -18,6 +18,13 @@ import type { SharedExecutionData } from "@railcar/worker-sys";
 import { withOracle } from "./common.js";
 import { ENABLE_DEBUG_INFO, ENABLE_HEAVY_ASSERTIONS } from "./config.js";
 
+type InitOpts = {
+    logError?: boolean;
+    schemaFile?: string;
+    methodsToSkip?: EndpointName[];
+    debugDumpSchema?: string;
+};
+
 export class GraphExecutor {
     _executor: (graph: Graph) => Promise<boolean> = (_) =>
         Promise.resolve(true);
@@ -30,20 +37,18 @@ export class GraphExecutor {
     async init(
         mainModule: string,
         oracle: Oracle,
-        schemaFile?: string,
-        logError?: boolean,
-        methodsToSkip?: EndpointName[],
+        opts?: InitOpts,
     ): Promise<Schema> {
-        const { schema, endpoints } = await loadSchema(
-            mainModule,
-            schemaFile,
-            methodsToSkip,
-        );
+        const { schema, endpoints } = await loadSchema(mainModule, {
+            schemaFile: opts?.schemaFile,
+            methodsToSkip: opts?.methodsToSkip,
+            debugDumpSchema: opts?.debugDumpSchema,
+        });
 
         this._executor = withOracle(
             (graph) => interpret(endpoints, graph),
             oracle,
-            logError,
+            opts?.logError,
             this._shmem,
         );
 

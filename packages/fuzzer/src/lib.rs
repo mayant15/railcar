@@ -64,6 +64,7 @@ pub struct FuzzerConfig {
     pub config_file: Option<PathBuf>,
     pub cores: Cores,
     pub labels: Vec<String>,
+    pub debug_dump_schema: Option<PathBuf>,
 }
 
 impl FuzzerConfig {

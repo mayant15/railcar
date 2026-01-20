@@ -34,6 +34,13 @@ export type ApiCall = {
 
 export type ApiCallArg = { Constant: Type } | { Output: CallId } | "Missing";
 
+type InitOpts = {
+    logError?: boolean;
+    schemaFile?: string;
+    methodsToSkip?: EndpointName[];
+    debugDumpSchema?: string;
+};
+
 export class SequenceExecutor {
     _executor: (seq: ApiSeq) => Promise<boolean> = (_) => Promise.resolve(true);
     _shmem: SharedExecutionData | null = null;
@@ -46,20 +53,18 @@ export class SequenceExecutor {
     async init(
         mainModule: string,
         oracle: Oracle,
-        schemaFile?: string,
-        logError?: boolean,
-        methodsToSkip?: EndpointName[],
+        opts?: InitOpts,
     ): Promise<Schema> {
-        const { schema, endpoints } = await loadSchema(
-            mainModule,
-            schemaFile,
-            methodsToSkip,
-        );
+        const { schema, endpoints } = await loadSchema(mainModule, {
+            schemaFile: opts?.schemaFile,
+            debugDumpSchema: opts?.debugDumpSchema,
+            methodsToSkip: opts?.methodsToSkip,
+        });
 
         this._executor = withOracle(
             (seq) => this.interpret(endpoints, seq),
             oracle,
-            logError,
+            opts?.logError,
             this._shmem,
         );
 
