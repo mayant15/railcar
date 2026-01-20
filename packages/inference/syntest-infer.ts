@@ -210,10 +210,7 @@ function mapToCustomEnpoints(endpoints: Endpoints): CustomEndpoints {
     return custom;
 }
 
-export async function syntestSchema(
-    fileName: string,
-    schemeAllFunction: Boolean = false,
-) {
+export async function syntestSchema(fileName: string) {
     const filePath = "";
     const readSrc = fs.readFileSync(fileName, "utf8");
     const source = transform(readSrc, fileName + ".transformed.js");
