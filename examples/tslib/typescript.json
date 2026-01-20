@@ -127,66 +127,87 @@
         "builtin": true
     },
     "__extends": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Undefined": 1
+            }
+        },
+        "callconv": "Free"
     },
     "__assign": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__rest": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__decorate": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
             },
             {
                 "isAny": true,
@@ -200,119 +221,174 @@
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__param": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Function": 1
+            }
+        },
+        "callconv": "Free"
     },
     "__esDecorate": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Undefined": 1
+            }
+        },
+        "callconv": "Free"
     },
     "__runInitializers": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
             },
             {
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__propKey": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__setFunctionName": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
             },
             {
                 "isAny": true,
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Function": 1
+            }
+        },
+        "callconv": "Free"
     },
     "__metadata": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
@@ -322,14 +398,16 @@
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Function": 1
+            }
+        },
+        "callconv": "Free"
     },
     "__awaiter": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
@@ -340,38 +418,44 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__generator": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__exportStar": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
@@ -381,102 +465,146 @@
                 "isAny": true,
                 "kind": {}
             }
-        ]
-    },
-    "__createBinding": {
-        "callconv": "Free",
+        ],
         "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
+            "isAny": false,
+            "kind": {
+                "Undefined": 1
             }
-        ]
+        },
+        "callconv": "Free"
     },
     "__values": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__spread": {
-        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Array": 1
+                    },
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Array": 1
+            },
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
         },
-        "args": []
+        "callconv": "Free"
     },
     "__spreadArrays": {
-        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Array": 1
+                    },
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Array": 1
+            },
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
         },
-        "args": []
+        "callconv": "Free"
     },
     "__spreadArray": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
             },
             {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Array": 1
+            },
+            "arrayValueType": {
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        },
+        "callconv": "Free"
     },
     "__await": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__asyncGenerator": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
@@ -487,86 +615,392 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__asyncDelegator": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__asyncValues": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__makeTemplateObject": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "String": 1
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "String": 1
+                    }
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "raw": {
+                    "isAny": false,
+                    "kind": {
+                        "Object": 1
+                    },
+                    "objectShape": {
+                        "length": {
+                            "isAny": false,
+                            "kind": {
+                                "Number": 1
+                            }
+                        },
+                        "toString": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "toLocaleString": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "concat": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "join": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "slice": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "indexOf": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "lastIndexOf": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "every": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "some": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "forEach": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "map": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "filter": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "reduce": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "reduceRight": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "find": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "findIndex": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "entries": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "keys": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "values": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "includes": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "flatMap": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        },
+                        "flat": {
+                            "isAny": false,
+                            "kind": {
+                                "Function": 1
+                            }
+                        }
+                    }
+                },
+                "length": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 1
+                    }
+                },
+                "toString": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "toLocaleString": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "concat": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "join": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "slice": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "indexOf": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "lastIndexOf": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "every": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "some": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "forEach": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "map": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "filter": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "reduce": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "reduceRight": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "find": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "findIndex": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "entries": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "keys": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "values": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "includes": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "flatMap": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "flat": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
+            }
+        },
+        "callconv": "Free"
     },
     "__importStar": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__importDefault": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__classPrivateFieldGet": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
@@ -577,21 +1011,34 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.9166666666666665,
+                    "Undefined": 0.08333333333333333
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.16666666666666666,
+                    "Undefined": 0.16666666666666666,
+                    "Function": 0.6666666666666666
+                },
+                "objectShape": {
+                    "value": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__classPrivateFieldSet": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
                 "isAny": true,
@@ -606,22 +1053,79 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.875,
+                    "Undefined": 0.125
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.25,
+                    "Undefined": 0.25,
+                    "Function": 0.5
+                },
+                "objectShape": {
+                    "value": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
     },
     "__classPrivateFieldIn": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "has": {
+                        "isAny": false,
+                        "kind": {
+                            "Undefined": 0.5,
+                            "Function": 0.5
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Boolean": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "__createBinding": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
+            },
             {
                 "isAny": true,
                 "kind": {}
@@ -630,57 +1134,161 @@
                 "isAny": true,
                 "kind": {}
             }
-        ]
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Undefined": 1
+            }
+        },
+        "callconv": "Free"
     },
     "__addDisposableResource": {
-        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "stack": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 1
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "value": {
+                                    "isAny": true,
+                                    "kind": {}
+                                },
+                                "dispose": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Function": 1
+                                    }
+                                },
+                                "async": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Boolean": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "error": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "hasError": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 1
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                }
+            }
+        ],
         "ret": {
             "isAny": true,
             "kind": {}
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
+        "callconv": "Free"
     },
     "__disposeResources": {
-        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "stack": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 1
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "value": {
+                                    "isAny": true,
+                                    "kind": {}
+                                },
+                                "dispose": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Function": 1
+                                    }
+                                },
+                                "async": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Boolean": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "error": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "hasError": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 1
+                        }
+                    }
+                }
+            }
+        ],
         "ret": {
             "isAny": true,
             "kind": {}
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
+        "callconv": "Free"
     },
     "__rewriteRelativeImportExtension": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.5,
+                    "Undefined": 0.5
+                }
             }
-        ]
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "String": 1
+            }
+        },
+        "callconv": "Free"
     }
 }

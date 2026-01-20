@@ -537,7 +537,7 @@ function fromFunctionDeclaration(
 }
 
 function makeId(sym: ts.Symbol): EndpointName {
-    return sym.getEscapedName() as string;
+    return sym.getName();
 }
 
 function fromOverloads(
