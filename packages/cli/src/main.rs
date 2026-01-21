@@ -77,6 +77,10 @@ struct Arguments {
     #[arg(long)]
     label: Vec<String>,
 
+    /// Stop the fuzzer after a fixed number of inputs.
+    #[arg(long)]
+    iterations: Option<u64>,
+
     /// DEBUG: Dump the fuzzer's in-memory schema to a file.
     #[arg(long)]
     debug_dump_schema: Option<PathBuf>,
@@ -173,6 +177,7 @@ fn main() -> Result<()> {
         config_file: find_config_file(args.config)?,
         cores: cores.clone(),
         labels: args.label,
+        iterations: args.iterations,
         debug_dump_schema: args.debug_dump_schema,
     };
 

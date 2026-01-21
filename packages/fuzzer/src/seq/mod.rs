@@ -3,7 +3,7 @@ use std::num::NonZero;
 use anyhow::Result;
 use libafl::{
     corpus::{CachedOnDiskCorpus, Corpus, OnDiskCorpus},
-    events::{EventConfig, Launcher},
+    events::{EventConfig, Launcher, SendExiting},
     executors::{ExitKind, InProcessExecutor},
     generators::{Generator, RandBytesGenerator},
     monitors::Monitor,
@@ -136,7 +136,19 @@ fn client(
         SingleChoiceScheduledMutator::new(sequence_mutations(&schema))
     )));
 
-    fuzzer.fuzz_loop(&mut stages, &mut executor, &mut state, &mut manager)?;
+    if let Some(iters) = config.iterations {
+        // NOTE: Sometimes I pass 0 here in case I only want to test fuzzer startup code
+        // (like for schema inference or seed generation). LibAFL does not like that, so
+        // don't try to fuzz if iterations is 0.
+        if iters > 0 {
+            fuzzer.fuzz_loop_for(&mut stages, &mut executor, &mut state, &mut manager, iters)?;
+        }
+        worker.terminate()?;
+        manager.on_shutdown()?;
+    } else {
+        fuzzer.fuzz_loop(&mut stages, &mut executor, &mut state, &mut manager)?;
+    }
+
     Ok(())
 }
 
