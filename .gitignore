@@ -26,3 +26,5 @@ railcar-replay-coverage-*
 
 .env
 .DS_Store
+
+legend.json
