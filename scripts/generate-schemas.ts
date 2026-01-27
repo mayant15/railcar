@@ -27,13 +27,19 @@ async function findEntrypoint(project: Project): Promise<string> {
     return text.trim();
 }
 
-async function generateRandom(project: Project, entrypoint: string) {
+async function generateRandom(
+    project: Project,
+    entrypoint: string,
+): Promise<string[]> {
     const outFile = `examples/${project}/random.json`;
     const config = `examples/${project}/railcar.config.js`;
 
     await $`npx railcar-infer --dynamic --entrypoint ${entrypoint} --outFile ${outFile} --config ${config}`.quiet();
 
     assert(await isIdempotent(project, entrypoint, outFile));
+
+    const schema = await Bun.file(outFile).json();
+    return Object.keys(schema);
 }
 
 // async function generateSynTest(project: Project) {
@@ -45,7 +51,10 @@ async function generateRandom(project: Project, entrypoint: string) {
 //     await $`npx railcar-infer --syntest ${entrypoint} -o ${outFile} --config ${config}`.quiet();
 // }
 
-async function generateTypeScript(project: Project, entrypoint: string) {
+async function generateTypeScript(
+    project: Project,
+    entrypoint: string,
+): Promise<string[] | null> {
     const outFile = `examples/${project}/typescript.json`;
     const config = `examples/${project}/railcar.config.js`;
 
@@ -53,7 +62,7 @@ async function generateTypeScript(project: Project, entrypoint: string) {
     const decl = "decl" in spec ? spec.decl : undefined;
     if (decl === undefined) {
         console.warn("WARN: no typescript declaration file set");
-        return;
+        return null;
     }
 
     try {
@@ -61,10 +70,13 @@ async function generateTypeScript(project: Project, entrypoint: string) {
     } catch (e) {
         console.error("ERROR: Failed to infer typescript spec for", project);
         console.error(e);
-        return;
+        return null;
     }
 
     assert(await isIdempotent(project, entrypoint, outFile));
+
+    const schema = await Bun.file(outFile).json();
+    return Object.keys(schema);
 }
 
 async function isIdempotent(
@@ -110,10 +122,21 @@ async function main() {
         const entrypoint = await findEntrypoint(project);
 
         console.log("  Random");
-        await generateRandom(project, entrypoint);
+        const keysRandom = await generateRandom(project, entrypoint);
 
         console.log("  TypeScript");
-        await generateTypeScript(project, entrypoint);
+        const keysTypeScript = await generateTypeScript(project, entrypoint);
+
+        // these two should have the same set of APIs
+        assert(keysTypeScript !== null);
+        assert(keysRandom.length === keysTypeScript.length);
+
+        const sortedA = keysTypeScript.sort();
+        const sortedB = keysRandom.sort();
+
+        for (let i = 0; i < sortedA.length; ++i) {
+            assert(sortedA[i] === sortedB[i]);
+        }
 
         // console.log("  SynTest");
         // await generateSynTest(project)
