@@ -97,7 +97,7 @@ function addParentMethods(
 function getMethods(ctx: Context, cls: EndpointName): EndpointName[] {
     return Object.entries(ctx.schema)
         .filter(
-            ([name, sig]) => name.startsWith(cls) && sig.callconv === "Method",
+            ([name, sig]) => name.startsWith(`${cls}.`) && sig.callconv === "Method",
         )
         .map(([name]) => name);
 }
