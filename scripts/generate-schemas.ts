@@ -1,30 +1,8 @@
+import assert from "node:assert";
+
 import { $ } from "bun";
 
-import SPECS from "./projects.json";
-
-const PROJECTS = [
-    "fast-xml-parser",
-    "jimp",
-    "jpeg-js",
-    "redux",
-    "sharp",
-    "tslib",
-    "js-yaml",
-    "pako",
-    "lodash",
-    "lit",
-    "protobufjs",
-    "turf",
-    "typescript",
-    "ua-parser-js",
-    "xml2js",
-    "xmldom",
-    "angular",
-    "canvg",
-] as const;
-// const PROJECTS = Object.keys(SPECS) as Project[]
-
-type Project = keyof typeof SPECS;
+import { type Project, getProjectNames } from "./common";
 
 async function findEntrypoint(project: Project): Promise<string> {
     let name: string = project;
@@ -43,7 +21,10 @@ async function findEntrypoint(project: Project): Promise<string> {
         }
     }
 
-    return $`node ./examples/locate-index.js ${name}`.quiet().text();
+    const text = await $`node ./examples/locate-index.js ${name}`
+        .quiet()
+        .text();
+    return text.trim();
 }
 
 async function generateRandom(project: Project, entrypoint: string) {
@@ -51,6 +32,8 @@ async function generateRandom(project: Project, entrypoint: string) {
     const config = `examples/${project}/railcar.config.js`;
 
     await $`npx railcar-infer --dynamic --entrypoint ${entrypoint} --outFile ${outFile} --config ${config}`.quiet();
+
+    assert(await isIdempotent(project, entrypoint, outFile));
 }
 
 // async function generateSynTest(project: Project) {
@@ -62,21 +45,60 @@ async function generateRandom(project: Project, entrypoint: string) {
 //     await $`npx railcar-infer --syntest ${entrypoint} -o ${outFile} --config ${config}`.quiet();
 // }
 
-async function generateTypeScript(project: Project, entrypoint: string) {
-    const outFile = `examples/${project}/typescript.json`;
+// async function generateTypeScript(project: Project, entrypoint: string) {
+//     const outFile = `examples/${project}/typescript.json`;
+//     const config = `examples/${project}/railcar.config.js`;
+//
+//     const spec = getProjectSpec(project);
+//     const decl = "decl" in spec ? spec.decl : undefined;
+//     if (decl === undefined) {
+//         console.warn("WARN: no typescript declaration file set");
+//         return;
+//     }
+//
+//     await $`npx railcar-infer --decl ${decl} --entrypoint ${entrypoint} -o ${outFile} --config ${config}`.quiet();
+//
+//     assert(await isIdempotent(project, entrypoint, outFile));
+// }
+
+async function isIdempotent(
+    project: string,
+    entrypoint: string,
+    schema: string,
+): Promise<boolean> {
     const config = `examples/${project}/railcar.config.js`;
 
-    const decl = "decl" in SPECS[project] ? SPECS[project].decl : undefined;
-    if (decl === undefined) {
-        console.warn("WARN: no typescript declaration file set");
-        return;
-    }
+    Bun.spawnSync({
+        cmd: [
+            "cargo",
+            "run",
+            "--bin",
+            "railcar",
+            "--release",
+            "--",
+            "--config",
+            config,
+            "--mode",
+            "sequence",
+            "--schema",
+            schema,
+            "--iterations",
+            "0",
+            "--debug-dump-schema",
+            "schema.json",
+            entrypoint,
+        ],
+        stdout: "ignore",
+        stderr: "ignore",
+    });
 
-    await $`npx railcar-infer --decl ${decl} --entrypoint ${entrypoint} -o ${outFile} --config ${config}`.quiet();
+    const diff = await $`diff ${schema} schema.json`.quiet();
+    return diff.exitCode === 0;
 }
 
 async function main() {
-    for (const project of PROJECTS) {
+    const projects = getProjectNames();
+    for (const project of projects) {
         console.log("Generating", project);
 
         const entrypoint = await findEntrypoint(project);
@@ -84,9 +106,22 @@ async function main() {
         console.log("  Random");
         await generateRandom(project, entrypoint);
 
-        console.log("  TypeScript");
-        await generateTypeScript(project, entrypoint);
+        // console.log("  TypeScript");
+        // await generateTypeScript(project, entrypoint);
+        // console.log("  SynTest");
         // await generateSynTest(project)
+
+        // TODO: Assert they all have the same keys
+        /**
+  jq 'keys' $RAND > $RAND.keys.json
+  jq 'keys' $SYNTEST > $SYNTEST.keys.json
+  jq 'keys' $TYPESCRIPT > $TYPESCRIPT.keys.json
+
+  set -e
+
+  diff $RAND.keys.json $SYNTEST.keys.json
+  diff $RAND.keys.json $TYPESCRIPT.keys.json
+*/
     }
 }
 

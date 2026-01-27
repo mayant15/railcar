@@ -5,16 +5,7 @@ import { join } from "node:path";
 
 import type { Schema, SignatureGuess } from "@railcar/inference";
 
-const PROJECTS = [
-    "fast-xml-parser",
-    "tslib",
-    "pako",
-    "sharp",
-    "redux",
-    "jimp",
-    "jpeg-js",
-    "js-yaml",
-];
+import { getProjectNames } from "./common";
 
 async function schema(project: string, kind: string): Promise<Schema> {
     const path = join("examples", project, `${kind}.json`);
@@ -110,7 +101,8 @@ async function main() {
     );
     console.log("\\midrule");
 
-    for (const project of PROJECTS) {
+    const projects = getProjectNames();
+    for (const project of projects) {
         await analyze(project);
     }
 

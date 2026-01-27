@@ -180,11 +180,11 @@ async function main() {
     validateSchema(schema);
 
     if (!args.outFile) {
-        console.log(JSON.stringify(schema, null, 2));
+        console.log(JSON.stringify(schema, null, 4));
     } else {
         await writeFile(
             absolute(args.outFile),
-            JSON.stringify(schema, null, 2),
+            JSON.stringify(schema, null, 4),
         );
     }
 }
