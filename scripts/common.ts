@@ -27,17 +27,40 @@ const PROJECTS = {
         bundle: "node_modules/js-yaml/dist/js-yaml.js",
         decl: "node_modules/@types/js-yaml/index.d.ts",
     },
-    lodash: {},
-    lit: {},
-    protobufjs: {},
-    turf: {},
-    typescript: {},
-    "ua-parser-js": {},
-    xml2js: {},
-    xmldom: {},
-    angular: {},
-    canvg: {},
-    sharp: {},
+    lodash: {
+        decl: "node_modules/@types/lodash/index.d.ts",
+    },
+    "ua-parser-js": {
+        decl: "node_modules/ua-parser-js/src/main/ua-parser.d.ts",
+    },
+    sharp: {
+        decl: "node_modules/sharp/lib/index.d.ts",
+    },
+
+    // lit: {
+    //     decl: "node_modules/lit/index.d.ts"
+    // },
+    // protobufjs: {
+    //     decl: "node_modules/protobufjs/index.d.ts"
+    // },
+    // turf: {
+    //     decl: "node_modules/@turf/turf/dist/esm/index.d.ts"
+    // },
+    // typescript: {
+    //     decl: "node_modules/typescript/lib/typescript.d.ts"
+    // },
+    // xml2js: {
+    //     decl: "node_modules/@types/xml2js/index.d.ts"
+    // },
+    // xmldom: {
+    //     decl: "node_modules/@xmldom/xmldom/index.d.ts"
+    // },
+    // angular: {
+    //     decl: "node_modules/@angular/compiler/index.d.ts"
+    // },
+    // canvg: {
+    //     decl: "node_modules/canvg/dist/index.d.ts"
+    // },
 } as const;
 
 export type Project = keyof typeof PROJECTS;

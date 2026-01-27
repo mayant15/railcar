@@ -2,7 +2,7 @@ import assert from "node:assert";
 
 import { $ } from "bun";
 
-import { type Project, getProjectNames } from "./common";
+import { type Project, getProjectNames, getProjectSpec } from "./common";
 
 async function findEntrypoint(project: Project): Promise<string> {
     let name: string = project;
@@ -45,21 +45,27 @@ async function generateRandom(project: Project, entrypoint: string) {
 //     await $`npx railcar-infer --syntest ${entrypoint} -o ${outFile} --config ${config}`.quiet();
 // }
 
-// async function generateTypeScript(project: Project, entrypoint: string) {
-//     const outFile = `examples/${project}/typescript.json`;
-//     const config = `examples/${project}/railcar.config.js`;
-//
-//     const spec = getProjectSpec(project);
-//     const decl = "decl" in spec ? spec.decl : undefined;
-//     if (decl === undefined) {
-//         console.warn("WARN: no typescript declaration file set");
-//         return;
-//     }
-//
-//     await $`npx railcar-infer --decl ${decl} --entrypoint ${entrypoint} -o ${outFile} --config ${config}`.quiet();
-//
-//     assert(await isIdempotent(project, entrypoint, outFile));
-// }
+async function generateTypeScript(project: Project, entrypoint: string) {
+    const outFile = `examples/${project}/typescript.json`;
+    const config = `examples/${project}/railcar.config.js`;
+
+    const spec = getProjectSpec(project);
+    const decl = "decl" in spec ? spec.decl : undefined;
+    if (decl === undefined) {
+        console.warn("WARN: no typescript declaration file set");
+        return;
+    }
+
+    try {
+        await $`npx railcar-infer --decl ${decl} --entrypoint ${entrypoint} -o ${outFile} --config ${config}`.quiet();
+    } catch (e) {
+        console.error("ERROR: Failed to infer typescript spec for", project);
+        console.error(e);
+        return;
+    }
+
+    assert(await isIdempotent(project, entrypoint, outFile));
+}
 
 async function isIdempotent(
     project: string,
@@ -106,8 +112,9 @@ async function main() {
         console.log("  Random");
         await generateRandom(project, entrypoint);
 
-        // console.log("  TypeScript");
-        // await generateTypeScript(project, entrypoint);
+        console.log("  TypeScript");
+        await generateTypeScript(project, entrypoint);
+
         // console.log("  SynTest");
         // await generateSynTest(project)
 
