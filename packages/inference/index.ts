@@ -3,4 +3,4 @@
 export * from "./schema.js";
 export { Guess } from "./common.js";
 export { loadSchema } from "./reflection.js";
-export { deriveFromDeclFile } from "./derive.js";
+export { fromFile } from "./derive.js";

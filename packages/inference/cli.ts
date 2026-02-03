@@ -8,7 +8,7 @@ import { isAbsolute, join, normalize } from "node:path";
 
 import yargs from "yargs";
 
-import { deriveFromDeclFile } from "./derive.js";
+import { fromFile as derive } from "./derive.js";
 import { syntestSchema } from "./syntest-infer.js";
 import { loadSchemaFromObject } from "./reflection.js";
 
@@ -98,8 +98,8 @@ async function dispatch(args: Args): Promise<Schema> {
     }
 
     if (args.decl) {
-        const types = absolute(args.decl);
-        schema = deriveFromDeclFile(types);
+        const decl = absolute(args.decl);
+        schema = derive(decl);
     }
 
     const skip = args.config ? await getSkipMethods(args.config) : [];
