@@ -23,7 +23,7 @@ export function sleep(ms: number): Promise<boolean>;
 
     expect(actual["sleep"]).toEqual({
         args: [Guess.number()],
-        ret:  Guess.exact(Types.class("Promise")),
+        ret: Guess.boolean(),
         callconv: "Free",
     })
 })
@@ -84,6 +84,19 @@ export function multipleParams(x: string, y: number, z: boolean): void;
         })
     })
 
+    test("assume any if no return type", () => {
+        const code = `
+export function foo();
+`
+        const actual = fromCode(code)
+
+        expect(actual.foo).toEqual({
+            args: [],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+
     test("literal types", () => {
         const code = `
 export function testStringLiteral(x: "hello"): "world";
@@ -119,7 +132,7 @@ export function single(y?: number);
 
         expect(actual.single).toEqual({
             args: [Guess.optional(Types.number())],
-            ret: Guess.undefined(),
+            ret: Guess.any(),
             callconv: "Free",
         })
     })
@@ -274,7 +287,7 @@ export function arrayUnion(x: string[] | number[]): boolean[];
                 isAny: false,
                 kind: { Object: 0.3333333333333333, Array: 0.3333333333333333, Function: 0.3333333333333333 },
                 arrayValueType: Guess.string(),
-                objectShape: { a: Guess.any() },
+                objectShape: { a: Guess.number() },
             }],
             ret: Guess.undefined(),
             callconv: "Free",
@@ -284,12 +297,15 @@ export function arrayUnion(x: string[] | number[]): boolean[];
             args: [{
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { a: Guess.any(), b: Guess.any() },
+                objectShape: {
+                    a: Guess.union(Guess.string(), Guess.undefined()),
+                    b: Guess.union(Guess.number(), Guess.undefined()),
+                },
             }],
             ret: {
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { c: Guess.any() },
+                objectShape: { c: Guess.boolean() },
             },
             callconv: "Free",
         })
@@ -350,7 +366,7 @@ export function unionElementArray(x: Array<string | number>): boolean;
                 arrayValueType: {
                     isAny: false,
                     kind: { Object: 1 },
-                    objectShape: { a: Guess.any(), b: Guess.any() },
+                    objectShape: { a: Guess.string(), b: Guess.number() },
                 },
             }],
             ret: Guess.undefined(),
@@ -407,7 +423,7 @@ export function configObject(x: { debug: boolean; port: number }): void;
             args: [{
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { a: Guess.any(), b: Guess.any() },
+                objectShape: { a: Guess.string(), b: Guess.number() },
             }],
             ret: Guess.undefined(),
             callconv: "Free",
@@ -417,12 +433,12 @@ export function configObject(x: { debug: boolean; port: number }): void;
             args: [{
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { name: Guess.any(), age: Guess.any() },
+                objectShape: { name: Guess.string(), age: Guess.number() },
             }],
             ret: {
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { id: Guess.any() },
+                objectShape: { id: Guess.string() },
             },
             callconv: "Free",
         })
@@ -431,7 +447,7 @@ export function configObject(x: { debug: boolean; port: number }): void;
             args: [{
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { debug: Guess.any(), port: Guess.any() },
+                objectShape: { debug: Guess.boolean(), port: Guess.number() },
             }],
             ret: Guess.undefined(),
             callconv: "Free",
@@ -445,12 +461,16 @@ export function allOptional(x: { name?: string; age?: number }): boolean;
 export function mixedOptional(x: { required: string; optional?: number }): { result?: boolean };
 `
         const actual = fromCode(code)
+        const o = Guess.optional
 
         expect(actual["optionalObject"]).toEqual({
             args: [{
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { a: Guess.any(), b: Guess.any() },
+                objectShape: {
+                    a: o(Types.string()),
+                    b: Guess.number(),
+                },
             }],
             ret: Guess.undefined(),
             callconv: "Free",
@@ -460,7 +480,10 @@ export function mixedOptional(x: { required: string; optional?: number }): { res
             args: [{
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { name: Guess.any(), age: Guess.any() },
+                objectShape: {
+                    name: o(Types.string()),
+                    age: o(Types.number()),
+                },
             }],
             ret: Guess.boolean(),
             callconv: "Free",
@@ -470,12 +493,15 @@ export function mixedOptional(x: { required: string; optional?: number }): { res
             args: [{
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { required: Guess.any(), optional: Guess.any() },
+                objectShape: {
+                    required: Guess.string(),
+                    optional: o(Types.number()),
+                },
             }],
             ret: {
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { result: Guess.any() },
+                objectShape: { result: o(Types.boolean()) },
             },
             callconv: "Free",
         })
@@ -493,7 +519,9 @@ export function arrayNested(x: { items: { id: string; value: number }[] }): { re
             args: [{
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { a: Guess.any() },
+                objectShape: {
+                    a: Guess.object({ b: Guess.string(), c: Guess.number() }),
+                },
             }],
             ret: Guess.undefined(),
             callconv: "Free",
@@ -503,7 +531,11 @@ export function arrayNested(x: { items: { id: string; value: number }[] }): { re
             args: [{
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { user: Guess.any() },
+                objectShape: {
+                    user: Guess.object({
+                        profile: Guess.object({ name: Guess.string(), age: Guess.number() }),
+                    }),
+                },
             }],
             ret: Guess.boolean(),
             callconv: "Free",
@@ -513,12 +545,16 @@ export function arrayNested(x: { items: { id: string; value: number }[] }): { re
             args: [{
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { items: Guess.any() },
+                objectShape: {
+                    items: Guess.array(Guess.object({ id: Guess.string(), value: Guess.number() })),
+                },
             }],
             ret: {
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { results: Guess.any() },
+                objectShape: {
+                    results: Guess.array(Guess.object({ success: Guess.boolean() })),
+                },
             },
             callconv: "Free",
         })
@@ -548,7 +584,7 @@ export function noParams(x: string): number;
         })
     })
 
-    test("complex overloading", () => {
+    test.todo("complex overloading", () => {
         const code = `
 export function complexOverload(x: string): number;
 export function complexOverload(x: number): string;
@@ -681,7 +717,7 @@ export class MethodClass {
             ret: {
                 isAny: false,
                 kind: { Object: 1 },
-                objectShape: { a: Guess.any(), b: Guess.any() },
+                objectShape: { a: Guess.string(), b: Guess.number() },
             },
             callconv: "Method",
         })

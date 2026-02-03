@@ -109,7 +109,8 @@ function guessSignature(checker: ts.TypeChecker, sig: ts.Signature, callconv: Ca
     const argTypeGuesses = args.map(p => functionArgTypeGuess(checker, p))
 
     const returnType = sig.getReturnType()
-    const returnTypeGuess = toTypeGuess(returnType)
+    const unwrappedReturnType = unwrapPromise(returnType)
+    const returnTypeGuess = toTypeGuess(checker, unwrappedReturnType)
 
     return {
         args: argTypeGuesses,
@@ -118,12 +119,39 @@ function guessSignature(checker: ts.TypeChecker, sig: ts.Signature, callconv: Ca
     }
 }
 
-function functionArgTypeGuess(checker: ts.TypeChecker, arg: ts.Symbol): TypeGuess {
-    const type = checker.getTypeOfSymbol(arg)
-    return toTypeGuess(type)
+function unwrapPromise(type: ts.Type): ts.Type {
+    const symbol = type.getSymbol()
+    if (symbol?.getName() === "Promise") {
+        const typeArgs = (type as ts.TypeReference).typeArguments
+        if (typeArgs && typeArgs.length > 0) {
+            return typeArgs[0]
+        }
+    }
+    return type
 }
 
-function toTypeGuess(type: ts.Type): TypeGuess {
+function isOptionalParameter(checker: ts.TypeChecker, arg: ts.Symbol): boolean {
+    assert(arg.declarations !== undefined)
+    assert(arg.declarations.length === 1)
+
+    const declaration = arg.declarations[0]
+    assert(ts.isParameter(declaration))
+
+    return checker.isOptionalParameter(declaration)
+}
+
+function functionArgTypeGuess(checker: ts.TypeChecker, arg: ts.Symbol): TypeGuess {
+    const type = checker.getTypeOfSymbol(arg)
+    const guess = toTypeGuess(checker, type)
+
+    if (isOptionalParameter(checker, arg)) {
+        return Guess.union(guess, Guess.undefined())
+    }
+
+    return guess
+}
+
+function toTypeGuess(checker: ts.TypeChecker, type: ts.Type): TypeGuess {
     const flags = type.getFlags()
 
     if (flags & ts.TypeFlags.Any || flags & ts.TypeFlags.Unknown) {
@@ -151,19 +179,19 @@ function toTypeGuess(type: ts.Type): TypeGuess {
     }
 
     if (type.isUnion()) {
-        const members = type.types.map(t => toTypeGuess(t))
+        const members = type.types.map(t => toTypeGuess(checker, t))
         return Guess.union(...members)
     }
 
     if (type.isIntersection()) {
-        const members = type.types.map(t => toTypeGuess(t))
+        const members = type.types.map(t => toTypeGuess(checker, t))
         return Guess.intersect(...members)
     }
 
     if (isArrayType(type)) {
         const typeArgs = (type as ts.TypeReference).typeArguments
         const elementType = typeArgs?.[0]
-        return Guess.array(elementType ? toTypeGuess(elementType) : Guess.any())
+        return Guess.array(elementType ? toTypeGuess(checker, elementType) : Guess.any())
     }
 
     if (type.isClass()) {
@@ -179,9 +207,19 @@ function toTypeGuess(type: ts.Type): TypeGuess {
         const properties = type.getProperties()
         const shape: Record<string, TypeGuess> = {}
         for (const prop of properties) {
-            shape[prop.getName()] = Guess.any()
+            const propType = prop.valueDeclaration
+                ? checker.getTypeOfSymbolAtLocation(prop, prop.valueDeclaration)
+                : checker.getTypeOfSymbol(prop)
+            let guess = toTypeGuess(checker, propType)
+
+            const isOptional = (prop.flags & ts.SymbolFlags.Optional) !== 0
+            if (isOptional) {
+                guess = Guess.union(guess, Guess.undefined())
+            }
+
+            shape[prop.getName()] = guess
         }
-        return properties.length > 0 ? Guess.object(shape) : Guess.any()
+        return Guess.object(shape)
     }
 
     return Guess.any()
