@@ -260,10 +260,10 @@ function toTypeGuess(checker: ts.TypeChecker, type: ts.Type): TypeGuess {
         return Guess.intersect(...members)
     }
 
-    if (isArrayType(type)) {
-        const typeArgs = (type as ts.TypeReference).typeArguments
-        const elementType = typeArgs?.[0]
-        return Guess.array(elementType ? toTypeGuess(checker, elementType) : Guess.any())
+    if (checker.isTupleType(type) || checker.isArrayType(type)) {
+        const typeArgs = checker.getTypeArguments(type as ts.TypeReference)
+        const elements = typeArgs.map(t => toTypeGuess(checker, t))
+        return Guess.array(Guess.union(...elements))
     }
 
     if (type.isClass()) {
@@ -295,11 +295,6 @@ function toTypeGuess(checker: ts.TypeChecker, type: ts.Type): TypeGuess {
     }
 
     return Guess.any()
-}
-
-function isArrayType(type: ts.Type): boolean {
-    const symbol = type.getSymbol()
-    return symbol?.getName() === "Array"
 }
 
 function inferClassType(ctx: Context, symbol: ts.Symbol): void {

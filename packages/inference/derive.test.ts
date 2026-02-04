@@ -395,8 +395,40 @@ export function tuple(x: [string, number, boolean]);
         })
     })
 
-// export function objectTuple(x: [string, { a: number }]): boolean;
-// export function mixedTuple(x: [string, number, { a: boolean }]): [string, boolean];
+    test("object in tuple", () => {
+        const code = `
+export function tuple(x: [string, { a: number }]);
+`
+        const actual = fromCode(code)
+
+        expect(actual.tuple).toEqual({
+            args: [
+                Guess.array(Guess.union(Guess.string(), Guess.object({ a: Guess.number() }))),
+            ],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+
+    test("tuple return", () => {
+        const code = `
+export function tuple(): [string, boolean]
+`
+        const actual = fromCode(code)
+
+        expect(actual.tuple).toEqual({
+            args: [],
+            ret: {
+                isAny: false,
+                kind: { Array: 1 },
+                arrayValueType: {
+                    isAny: false,
+                    kind: { String: 0.5, Boolean: 0.5 },
+                }
+            },
+            callconv: "Free",
+        })
+    })
 })
 
 describe("objects", () => {
