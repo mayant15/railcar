@@ -12,7 +12,7 @@ import assert from "node:assert"
 import ts from "typescript"
 
 import { SignatureGuess, type TypeGuess, type Schema, type CallConvention } from "./schema.js";
-import { Guess } from "./common.js";
+import { addStd, Guess } from "./common.js";
 
 /**
  * Produce a schema from a TypeScript declaration file.
@@ -25,6 +25,7 @@ export function fromFile(path: string): Schema {
         infer(ctx, exp)
     }
 
+    addStd(ctx.schema)
     return ctx.schema
 }
 
@@ -72,12 +73,12 @@ function getMainModule(ctx: Context): ts.Symbol {
  * Infer a signature guess for the given symbol and add it to the schema.
  */
 function infer(ctx: Context, symbol: ts.Symbol): void {
-    if (symbol.flags & ts.SymbolFlags.Class) {
+    const type = ctx.checker.getTypeOfSymbol(symbol)
+
+    if (type.isClass()) {
         inferClassType(ctx, symbol)
         return
     }
-
-    const type = ctx.checker.getTypeOfSymbol(symbol)
 
     if (isFunction(type)) {
         inferFunctionType(ctx, symbol)
@@ -96,6 +97,10 @@ function isFunction(type: ts.Type): boolean {
     return calls.length > 0
 }
 
+/**
+ * Infers a function signature for `symbol`. Adds the signature to the schema,
+ * using `symbol` to derive an endpoint name.
+ */
 function inferFunctionType(ctx: Context, symbol: ts.Symbol): void {
     const callconv = "Free"
     const type = ctx.checker.getTypeOfSymbol(symbol)

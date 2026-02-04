@@ -345,6 +345,9 @@ const Builtins = [
 export type StdTypes = Record<(typeof Builtins)[number], Type>;
 export type StdSchema = Record<(typeof Builtins)[number], SignatureGuess>;
 
+/**
+ * Add standard built-in classes to a schema.
+ */
 export function addStd(schema: Schema): StdTypes {
     return {
         Uint8Array: mkClass(schema, Uint8Array, [], true),
