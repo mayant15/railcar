@@ -186,7 +186,7 @@ export const Guess = {
         }
 
         // union with any is any
-        if (gs.some((g) => g.isAny)) {
+        if (gs.some(g => g.isAny)) {
             return Guess.any();
         }
 

@@ -1,7 +1,10 @@
 /**
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ *
  * Derive a Railcar schema from a given TypeScript declaration (.d.ts) file.
  *
- * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Main heuristics:
+ * 1. mergeUnionBooleans
  */
 
 import assert from "node:assert"
@@ -94,14 +97,25 @@ function isFunction(type: ts.Type): boolean {
 }
 
 function inferFunctionType(ctx: Context, symbol: ts.Symbol): void {
+    const callconv = "Free"
     const type = ctx.checker.getTypeOfSymbol(symbol)
 
     const calls = type.getCallSignatures()
-    const guesses = calls.map(call => guessSignature(ctx.checker, call, "Free"))
+    const guesses = calls.map(call => guessSignature(ctx.checker, call, callconv))
 
-    // TODO: merge overloads
+    assert(guesses.every(g => g.callconv === callconv))
+
+    const argc = Math.max(...guesses.map(g => g.args.length))
+    const args: TypeGuess[] = []
+    for (let i = 0; i < argc; ++i) {
+        const arg = Guess.union(...guesses.map(g => g.args[i] ?? Guess.undefined()))
+        args.push(arg)
+    }
+
+    const ret = Guess.union(...guesses.map(g => g.ret))
+
     const name = symbol.getName()
-    ctx.schema[name] = guesses[0]
+    ctx.schema[name] = { args, ret, callconv }
 }
 
 function guessSignature(checker: ts.TypeChecker, sig: ts.Signature, callconv: CallConvention): SignatureGuess {
@@ -151,6 +165,58 @@ function functionArgTypeGuess(checker: ts.TypeChecker, arg: ts.Symbol): TypeGues
     return guess
 }
 
+function isTrueLiteral(checker: ts.TypeChecker, type: ts.Type): boolean {
+    if (type.getFlags() & ts.TypeFlags.BooleanLiteral) {
+        const name = checker.typeToString(type)
+        return name === "true"
+    }
+    return false
+}
+
+function isFalseLiteral(checker: ts.TypeChecker, type: ts.Type): boolean {
+    if (type.getFlags() & ts.TypeFlags.BooleanLiteral) {
+        const name = checker.typeToString(type)
+        return name === "false"
+    }
+    return false
+}
+
+/**
+ * Merge `true | false` into `boolean`
+ *
+ * TypeScript considers `boolean` to be `true | false`, so a `boolean | string` becomes
+ * `true | false |  string` instead, which affects the relative weight in the final
+ * probability distribution.
+ */
+function mergeUnionBooleans(checker: ts.TypeChecker, types: ts.Type[]): ts.Type[] {
+    const nonBoolTypes = []
+    let trueCount = 0
+    let falseCount = 0
+    for (const type of types) {
+        if (isTrueLiteral(checker, type)) {
+            trueCount++
+        } else if (isFalseLiteral(checker, type)) {
+            falseCount++
+        } else {
+            nonBoolTypes.push(type)
+        }
+    }
+
+    while (trueCount > 0 && falseCount > 0) {
+        nonBoolTypes.push(checker.getBooleanType())
+        trueCount--
+        falseCount--
+    }
+
+    // if there's still more of these, add a boolean for each of them
+    const rem = Math.max(trueCount, falseCount)
+    for (let i = 0; i < rem; ++i) {
+        nonBoolTypes.push(checker.getBooleanType())
+    }
+
+    return nonBoolTypes
+}
+
 function toTypeGuess(checker: ts.TypeChecker, type: ts.Type): TypeGuess {
     const flags = type.getFlags()
 
@@ -179,7 +245,8 @@ function toTypeGuess(checker: ts.TypeChecker, type: ts.Type): TypeGuess {
     }
 
     if (type.isUnion()) {
-        const members = type.types.map(t => toTypeGuess(checker, t))
+        const types = mergeUnionBooleans(checker, type.types)
+        const members = types.map(t => toTypeGuess(checker, t))
         return Guess.union(...members)
     }
 

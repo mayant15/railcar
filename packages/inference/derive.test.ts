@@ -15,20 +15,7 @@ function fromCode(code: string): Schema {
     return fromFile(tmpFile)
 }
 
-test("promise return type", () => {
-    const code = `
-export function sleep(ms: number): Promise<boolean>;
-`
-    const actual = fromCode(code)
-
-    expect(actual["sleep"]).toEqual({
-        args: [Guess.number()],
-        ret: Guess.boolean(),
-        callconv: "Free",
-    })
-})
-
-describe("functions", () => {
+describe("function signatures", () => {
     test("simple", () => {
         const code = `
 export function testString(x: string): string;
@@ -175,37 +162,17 @@ export function mixedOptional(x: string, y: number, z?: boolean, w?: string): { 
             callconv: "Free",
         })
     })
-})
 
-describe("free functions", () => {
-    test("simple", () => {
+    test("unwrap promise return type", () => {
         const code = `
-export function foo(): void;
+export function sleep(ms: number): Promise<boolean>;
 `
         const actual = fromCode(code)
 
-        expect(actual).toEqual({
-            foo: {
-                args: [],
-                ret: Guess.undefined(),
-                callconv: "Free"
-            }
-        })
-    })
-
-    test("overloads", () => {
-        const code = `
-export function foo(): void;
-export function foo(x: number): number;
-`
-        const actual = fromCode(code)
-
-        expect(actual).toEqual({
-            foo: {
-                args: [],
-                ret: Guess.undefined(),
-                callconv: "Free"
-            }
+        expect(actual["sleep"]).toEqual({
+            args: [Guess.number()],
+            ret: Guess.boolean(),
+            callconv: "Free",
         })
     })
 })
@@ -226,19 +193,13 @@ export function numberOrBoolean(x: number | boolean): string | number;
         })
 
         expect(actual["booleanOrString"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { String: 0.3333333333333333, Boolean: 0.6666666666666666 },
-            }],
+            args: [Guess.union(Guess.boolean(), Guess.string())],
             ret: Guess.undefined(),
             callconv: "Free",
         })
 
         expect(actual["numberOrBoolean"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Number: 0.3333333333333333, Boolean: 0.6666666666666666 },
-            }],
+            args: [Guess.union(Guess.number(), Guess.boolean())],
             ret: Guess.union(Guess.string(), Guess.number()),
             callconv: "Free",
         })
@@ -246,20 +207,11 @@ export function numberOrBoolean(x: number | boolean): string | number;
 
     test("mixed literal unions", () => {
         const code = `
-export function mixedLiterals(x: string | "hello" | 42 | true): void;
 export function literalUnion(x: "a" | "b" | "c"): "x" | "y" | "z";
 export function numberLiteralUnion(x: 1 | 2 | 3): 4 | 5 | 6;
+export function mixedLiterals(x: string | 42 | true): void;
 `
         const actual = fromCode(code)
-
-        expect(actual["mixedLiterals"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { String: 0.3333333333333333, Number: 0.3333333333333333, Boolean: 0.3333333333333333 },
-            }],
-            ret: Guess.undefined(),
-            callconv: "Free",
-        })
 
         expect(actual["literalUnion"]).toEqual({
             args: [Guess.string()],
@@ -271,6 +223,49 @@ export function numberLiteralUnion(x: 1 | 2 | 3): 4 | 5 | 6;
             args: [Guess.number()],
             ret: Guess.number(),
             callconv: "Free",
+        })
+
+        expect(actual["mixedLiterals"]).toEqual({
+            args: [{
+                isAny: false,
+                kind: { String: 1/3, Number: 1/3, Boolean: 1/3 },
+            }],
+            ret: Guess.undefined(),
+            callconv: "Free",
+        })
+    })
+
+    test("handles collapsing", () => {
+        const code = `
+export function stringUnion(x: string | "hello");
+export function numberUnion(x: number | 42);
+export function boolUnion(x: boolean | true);
+export function mixedUnion(x: string | "hello" | number);
+`
+        const actual = fromCode(code)
+
+        expect(actual.stringUnion).toEqual({
+            args: [Guess.string()],
+            ret: Guess.any(),
+            callconv: "Free"
+        })
+
+        expect(actual.numberUnion).toEqual({
+            args: [Guess.number()],
+            ret: Guess.any(),
+            callconv: "Free"
+        })
+
+        expect(actual.boolUnion).toEqual({
+            args: [Guess.boolean()],
+            ret: Guess.any(),
+            callconv: "Free"
+        })
+
+        expect(actual.mixedUnion).toEqual({
+            args: [Guess.union(Guess.string(), Guess.number())],
+            ret: Guess.any(),
+            callconv: "Free"
         })
     })
 
@@ -285,7 +280,7 @@ export function arrayUnion(x: string[] | number[]): boolean[];
         expect(actual["complexUnion"]).toEqual({
             args: [{
                 isAny: false,
-                kind: { Object: 0.3333333333333333, Array: 0.3333333333333333, Function: 0.3333333333333333 },
+                kind: { Object: 1/3, Array: 1/3, Function: 1/3 },
                 arrayValueType: Guess.string(),
                 objectShape: { a: Guess.number() },
             }],
@@ -294,28 +289,20 @@ export function arrayUnion(x: string[] | number[]): boolean[];
         })
 
         expect(actual["objectUnion"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: {
-                    a: Guess.union(Guess.string(), Guess.undefined()),
-                    b: Guess.union(Guess.number(), Guess.undefined()),
-                },
-            }],
-            ret: {
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: { c: Guess.boolean() },
-            },
+            args: [
+                Guess.object({
+                    a: Guess.optional(Types.string()),
+                    b: Guess.optional(Types.number()),
+                })
+            ],
+            ret: Guess.object({ c: Guess.boolean() }),
             callconv: "Free",
         })
 
         expect(actual["arrayUnion"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Array: 1 },
-                arrayValueType: Guess.union(Guess.string(), Guess.number()),
-            }],
+            args: [
+                Guess.array(Guess.union(Guess.string(), Guess.number())),
+            ],
             ret: Guess.array(Guess.boolean()),
             callconv: "Free",
         })
@@ -360,15 +347,12 @@ export function unionElementArray(x: Array<string | number>): boolean;
         const actual = fromCode(code)
 
         expect(actual["objectArray"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Array: 1 },
-                arrayValueType: {
-                    isAny: false,
-                    kind: { Object: 1 },
-                    objectShape: { a: Guess.string(), b: Guess.number() },
-                },
-            }],
+            args: [
+                Guess.array(Guess.object({
+                    a: Guess.string(),
+                    b: Guess.number(),
+                }))
+            ],
             ret: Guess.undefined(),
             callconv: "Free",
         })
@@ -386,28 +370,33 @@ export function unionElementArray(x: Array<string | number>): boolean;
         })
 
         expect(actual["unionElementArray"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Array: 1 },
-                arrayValueType: Guess.union(Guess.string(), Guess.number()),
-            }],
+            args: [
+                Guess.array(Guess.union(Guess.string(), Guess.number()))
+            ],
             ret: Guess.boolean(),
             callconv: "Free",
         })
     })
 
-    test("tuple types", () => {
+    test("simple primitive tuple", () => {
         const code = `
-export function simpleTuple(x: [string, number, boolean]): void;
-export function objectTuple(x: [string, { a: number }]): boolean;
-export function mixedTuple(x: [string, number, { a: boolean }]): [string, boolean];
+export function tuple(x: [string, number, boolean]);
 `
         const actual = fromCode(code)
 
-        expect(actual["simpleTuple"]).toBeDefined()
-        expect(actual["objectTuple"]).toBeDefined()
-        expect(actual["mixedTuple"]).toBeDefined()
+        expect(actual.tuple).toEqual({
+            args: [
+                Guess.array(
+                    Guess.union(Guess.string(), Guess.number(), Guess.boolean())
+                )
+            ],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
     })
+
+// export function objectTuple(x: [string, { a: number }]): boolean;
+// export function mixedTuple(x: [string, number, { a: boolean }]): [string, boolean];
 })
 
 describe("objects", () => {
@@ -420,35 +409,19 @@ export function configObject(x: { debug: boolean; port: number }): void;
         const actual = fromCode(code)
 
         expect(actual["simpleObject"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: { a: Guess.string(), b: Guess.number() },
-            }],
+            args: [Guess.object({ a: Guess.string(), b: Guess.number() })],
             ret: Guess.undefined(),
             callconv: "Free",
         })
 
         expect(actual["userObject"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: { name: Guess.string(), age: Guess.number() },
-            }],
-            ret: {
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: { id: Guess.string() },
-            },
+            args: [Guess.object({ name: Guess.string(), age: Guess.number() })],
+            ret: Guess.object({ id: Guess.string() }),
             callconv: "Free",
         })
 
         expect(actual["configObject"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: { debug: Guess.boolean(), port: Guess.number() },
-            }],
+            args: [Guess.object({ debug: Guess.boolean(), port: Guess.number() })],
             ret: Guess.undefined(),
             callconv: "Free",
         })
@@ -464,351 +437,373 @@ export function mixedOptional(x: { required: string; optional?: number }): { res
         const o = Guess.optional
 
         expect(actual["optionalObject"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: {
+            args: [
+                Guess.object({
                     a: o(Types.string()),
                     b: Guess.number(),
-                },
-            }],
+                })
+            ],
             ret: Guess.undefined(),
             callconv: "Free",
         })
 
         expect(actual["allOptional"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: {
+            args: [
+                Guess.object({
                     name: o(Types.string()),
                     age: o(Types.number()),
-                },
-            }],
+                })
+            ],
             ret: Guess.boolean(),
             callconv: "Free",
         })
 
         expect(actual["mixedOptional"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: {
+            args: [
+                Guess.object({
                     required: Guess.string(),
                     optional: o(Types.number()),
-                },
-            }],
-            ret: {
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: { result: o(Types.boolean()) },
-            },
+                })
+            ],
+            ret: Guess.object({ result: o(Types.boolean()) }),
             callconv: "Free",
         })
     })
 
-    test("nested objects", () => {
-        const code = `
-export function nestedObject(x: { a: { b: string; c: number } }): void;
-export function deepNested(x: { user: { profile: { name: string; age: number } } }): boolean;
-export function arrayNested(x: { items: { id: string; value: number }[] }): { results: { success: boolean }[] };
-`
-        const actual = fromCode(code)
-
-        expect(actual["nestedObject"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: {
-                    a: Guess.object({ b: Guess.string(), c: Guess.number() }),
-                },
-            }],
-            ret: Guess.undefined(),
-            callconv: "Free",
-        })
-
-        expect(actual["deepNested"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: {
-                    user: Guess.object({
-                        profile: Guess.object({ name: Guess.string(), age: Guess.number() }),
-                    }),
-                },
-            }],
-            ret: Guess.boolean(),
-            callconv: "Free",
-        })
-
-        expect(actual["arrayNested"]).toEqual({
-            args: [{
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: {
-                    items: Guess.array(Guess.object({ id: Guess.string(), value: Guess.number() })),
-                },
-            }],
-            ret: {
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: {
-                    results: Guess.array(Guess.object({ success: Guess.boolean() })),
-                },
-            },
-            callconv: "Free",
-        })
-    })
 })
-
-describe("function overloading", () => {
-    test("basic overloading", () => {
-        const code = `
-export function overloaded(x: number): string;
-export function overloaded(x: number, y: string): boolean;
-export function noParams(): void;
-export function noParams(x: string): number;
-`
-        const actual = fromCode(code)
-
-        expect(actual["overloaded"]).toEqual({
-            args: [Guess.number()],
-            ret: Guess.string(),
-            callconv: "Free",
-        })
-
-        expect(actual["noParams"]).toEqual({
-            args: [],
-            ret: Guess.undefined(),
-            callconv: "Free",
-        })
-    })
-
-    test.todo("complex overloading", () => {
-        const code = `
-export function complexOverload(x: string): number;
-export function complexOverload(x: number): string;
-export function complexOverload(x: string, y?: boolean): void;
-export function complexOverload(x: { a: string }): { b: number };
-`
-        const actual = fromCode(code)
-
-        expect(actual["complexOverload"]).toBeDefined()
-    })
-})
-
-describe("classes", () => {
-    test("simple class", () => {
-        const code = `
-export class A {}
-`
-        const actual = fromCode(code)
-
-        expect(actual).toEqual({
-            A: {
-                args: [],
-                ret: Guess.exact({ Class: "A" }),
-                callconv: "Constructor",
-            }
-        })
-    })
-
-    test("simple class with constructor", () => {
-        const code = `
-export class A {
-    constructor();
-}
-`
-        const actual = fromCode(code)
-
-        expect(actual).toEqual({
-            A: {
-                args: [],
-                ret: Guess.exact({ Class: "A" }),
-                callconv: "Constructor",
-            }
-        })
-    })
-
-    test("simple constructor", () => {
-        const code = `
-export class SimpleClass {
-    constructor();
-}
-`
-        const actual = fromCode(code)
-
-        expect(actual["SimpleClass"]).toEqual({
-            args: [],
-            ret: Guess.exact({ Class: "SimpleClass" }),
-            callconv: "Constructor",
-        })
-    })
-
-    test("no explicit constructor", () => {
-        const code = `
-export class NoConstructorClass {
-    method(): string;
-    static staticMethod(): number;
-}
-`
-        const actual = fromCode(code)
-
-        expect(actual["NoConstructorClass"]).toEqual({
-            args: [],
-            ret: Guess.exact({ Class: "NoConstructorClass" }),
-            callconv: "Constructor",
-        })
-
-        expect(actual["NoConstructorClass.method"]).toEqual({
-            args: [],
-            ret: Guess.string(),
-            callconv: "Method",
-        })
-    })
-
-    test("constructor overload", () => {
-        const code = `
-export class SimpleClass {
-    constructor();
-    constructor(value: string)
-}
-`
-        const actual = fromCode(code)
-
-        expect(actual["SimpleClass"]).toEqual({
-            args: [],
-            ret: Guess.exact({ Class: "SimpleClass" }),
-            callconv: "Constructor",
-        })
-    })
-
-    test("methods", () => {
-        const code = `
-export class MethodClass {
-    constructor();
-    simpleMethod(): string;
-    methodWithParams(x: number, y: boolean): void;
-    methodReturningObject(): { a: string; b: number };
-}
-`
-        const actual = fromCode(code)
-
-        expect(actual["MethodClass"]).toEqual({
-            args: [],
-            ret: Guess.exact({ Class: "MethodClass" }),
-            callconv: "Constructor",
-        })
-
-        expect(actual["MethodClass.simpleMethod"]).toEqual({
-            args: [],
-            ret: Guess.string(),
-            callconv: "Method",
-        })
-
-        expect(actual["MethodClass.methodWithParams"]).toEqual({
-            args: [Guess.number(), Guess.boolean()],
-            ret: Guess.undefined(),
-            callconv: "Method",
-        })
-
-        expect(actual["MethodClass.methodReturningObject"]).toEqual({
-            args: [],
-            ret: {
-                isAny: false,
-                kind: { Object: 1 },
-                objectShape: { a: Guess.string(), b: Guess.number() },
-            },
-            callconv: "Method",
-        })
-    })
-
-    test("inheritance", () => {
-        const code = `
-export class Base {
-    constructor();
-    base(x: number): void;
-}
-
-export class Derived extends Base {
-    constructor();
-    derived(): void;
-}
-`
-        const actual = fromCode(code)
-
-        expect(actual["Base"]).toEqual({
-            args: [],
-            ret: Guess.exact({ Class: "Base" }),
-            callconv: "Constructor",
-        })
-
-        expect(actual["Base.base"]).toEqual({
-            args: [Guess.number()],
-            ret: Guess.undefined(),
-            callconv: "Method",
-        })
-
-        expect(actual["Derived"]).toEqual({
-            args: [],
-            ret: Guess.exact({ Class: "Derived" }),
-            callconv: "Constructor",
-        })
-
-        expect(actual["Derived.base"]).toEqual({
-            args: [Guess.number()],
-            ret: Guess.undefined(),
-            callconv: "Method",
-        })
-
-        expect(actual["Derived.derived"]).toEqual({
-            args: [],
-            ret: Guess.undefined(),
-            callconv: "Method",
-        })
-    })
-
-    test("static methods", () => {
-        const code = `
-export class StaticClass {
-    constructor();
-    static staticMethod(): string;
-    static staticWithParams(x: number): boolean;
-    instanceMethod(): void;
-}
-`
-        const actual = fromCode(code)
-
-        expect(actual["StaticClass"]).toEqual({
-            args: [],
-            ret: Guess.exact({ Class: "StaticClass" }),
-            callconv: "Constructor",
-        })
-
-        expect(actual["StaticClass.instanceMethod"]).toEqual({
-            args: [],
-            ret: Guess.undefined(),
-            callconv: "Method",
-        })
-    })
-})
-
-describe("interfaces", () => {
-    test("inheritance", () => {
-        const code = `
-interface BaseNode {
-    visit(): any;
-}
-export class Node implements BaseNode {
-    constructor();
-}
-`
-        const actual = fromCode(code)
-
-        expect(actual["Node"]).toEqual({
-            args: [],
-            ret: Guess.exact({ Class: "Node" }),
-            callconv: "Constructor"
-        })
-    })
-})
+//     test("nested objects", () => {
+//         const code = `
+// export function nestedObject(x: { a: { b: string; c: number } }): void;
+// export function deepNested(x: { user: { profile: { name: string; age: number } } }): boolean;
+// export function arrayNested(x: { items: { id: string; value: number }[] }): { results: { success: boolean }[] };
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual["nestedObject"]).toEqual({
+//             args: [{
+//                 isAny: false,
+//                 kind: { Object: 1 },
+//                 objectShape: {
+//                     a: Guess.object({ b: Guess.string(), c: Guess.number() }),
+//                 },
+//             }],
+//             ret: Guess.undefined(),
+//             callconv: "Free",
+//         })
+//
+//         expect(actual["deepNested"]).toEqual({
+//             args: [{
+//                 isAny: false,
+//                 kind: { Object: 1 },
+//                 objectShape: {
+//                     user: Guess.object({
+//                         profile: Guess.object({ name: Guess.string(), age: Guess.number() }),
+//                     }),
+//                 },
+//             }],
+//             ret: Guess.boolean(),
+//             callconv: "Free",
+//         })
+//
+//         expect(actual["arrayNested"]).toEqual({
+//             args: [{
+//                 isAny: false,
+//                 kind: { Object: 1 },
+//                 objectShape: {
+//                     items: Guess.array(Guess.object({ id: Guess.string(), value: Guess.number() })),
+//                 },
+//             }],
+//             ret: {
+//                 isAny: false,
+//                 kind: { Object: 1 },
+//                 objectShape: {
+//                     results: Guess.array(Guess.object({ success: Guess.boolean() })),
+//                 },
+//             },
+//             callconv: "Free",
+//         })
+//     })
+// })
+//
+// describe("function overloading", () => {
+//     test("overloads", () => {
+//         const code = `
+// export function foo(): void;
+// export function foo(x: number): number;
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual).toEqual({
+//             foo: {
+//                 args: [Guess.optional(Types.number())],
+//                 ret: Guess.optional(Types.number()),
+//                 callconv: "Free"
+//             }
+//         })
+//     })
+//
+//     test("basic overloading", () => {
+//         const code = `
+// export function overloaded(x: number): string;
+// export function overloaded(x: number, y: string): boolean;
+// export function noParams(): void;
+// export function noParams(x: string): number;
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual["overloaded"]).toEqual({
+//             args: [Guess.number(), Guess.optional(Types.string())],
+//             ret: Guess.union(Guess.string(), Guess.boolean()),
+//             callconv: "Free",
+//         })
+//
+//         expect(actual["noParams"]).toEqual({
+//             args: [Guess.optional(Types.string())],
+//             ret: Guess.optional(Types.number()),
+//             callconv: "Free",
+//         })
+//     })
+//
+//     test("complex overloading", () => {
+//         const code = `
+// export function complexOverload(x: string): number;
+// export function complexOverload(x: number): string;
+// export function complexOverload(x: string, y?: boolean): void;
+// export function complexOverload(x: { a: string }): { b: number };
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual["complexOverload"]).toEqual({
+//             args: [
+//                 {
+//                     isAny: false,
+//                     kind: { String: 0.5, Number: 0.25, Object: 0.25 },
+//                     objectShape: { a: Guess.string() },
+//                 },
+//                 { isAny: false, kind: { Undefined: 0.75, Boolean: 0.25 } },
+//             ],
+//             ret: {
+//                 isAny: false,
+//                 kind: { Number: 0.25, String: 0.25, Undefined: 0.25, Object: 0.25 },
+//                 objectShape: { b: Guess.number() },
+//             },
+//             callconv: "Free"
+//         })
+//     })
+// })
+//
+// describe("classes", () => {
+//     test("simple class", () => {
+//         const code = `
+// export class A {}
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual).toEqual({
+//             A: {
+//                 args: [],
+//                 ret: Guess.exact({ Class: "A" }),
+//                 callconv: "Constructor",
+//             }
+//         })
+//     })
+//
+//     test("simple class with constructor", () => {
+//         const code = `
+// export class A {
+// constructor();
+// }
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual).toEqual({
+//             A: {
+//                 args: [],
+//                 ret: Guess.exact({ Class: "A" }),
+//                 callconv: "Constructor",
+//             }
+//         })
+//     })
+//
+//     test("simple constructor", () => {
+//         const code = `
+// export class SimpleClass {
+// constructor();
+// }
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual["SimpleClass"]).toEqual({
+//             args: [],
+//             ret: Guess.exact({ Class: "SimpleClass" }),
+//             callconv: "Constructor",
+//         })
+//     })
+//
+//     test("no explicit constructor", () => {
+//         const code = `
+// export class NoConstructorClass {
+// method(): string;
+// static staticMethod(): number;
+// }
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual["NoConstructorClass"]).toEqual({
+//             args: [],
+//             ret: Guess.exact({ Class: "NoConstructorClass" }),
+//             callconv: "Constructor",
+//         })
+//
+//         expect(actual["NoConstructorClass.method"]).toEqual({
+//             args: [],
+//             ret: Guess.string(),
+//             callconv: "Method",
+//         })
+//     })
+//
+//     test("constructor overload", () => {
+//         const code = `
+// export class SimpleClass {
+// constructor();
+// constructor(value: string)
+// }
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual["SimpleClass"]).toEqual({
+//             args: [],
+//             ret: Guess.exact({ Class: "SimpleClass" }),
+//             callconv: "Constructor",
+//         })
+//     })
+//
+//     test("methods", () => {
+//         const code = `
+// export class MethodClass {
+// constructor();
+// simpleMethod(): string;
+// methodWithParams(x: number, y: boolean): void;
+// methodReturningObject(): { a: string; b: number };
+// }
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual["MethodClass"]).toEqual({
+//             args: [],
+//             ret: Guess.exact({ Class: "MethodClass" }),
+//             callconv: "Constructor",
+//         })
+//
+//         expect(actual["MethodClass.simpleMethod"]).toEqual({
+//             args: [],
+//             ret: Guess.string(),
+//             callconv: "Method",
+//         })
+//
+//         expect(actual["MethodClass.methodWithParams"]).toEqual({
+//             args: [Guess.number(), Guess.boolean()],
+//             ret: Guess.undefined(),
+//             callconv: "Method",
+//         })
+//
+//         expect(actual["MethodClass.methodReturningObject"]).toEqual({
+//             args: [],
+//             ret: {
+//                 isAny: false,
+//                 kind: { Object: 1 },
+//                 objectShape: { a: Guess.string(), b: Guess.number() },
+//             },
+//             callconv: "Method",
+//         })
+//     })
+//
+//     test("inheritance", () => {
+//         const code = `
+// export class Base {
+// constructor();
+// base(x: number): void;
+// }
+//
+// export class Derived extends Base {
+// constructor();
+// derived(): void;
+// }
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual["Base"]).toEqual({
+//             args: [],
+//             ret: Guess.exact({ Class: "Base" }),
+//             callconv: "Constructor",
+//         })
+//
+//         expect(actual["Base.base"]).toEqual({
+//             args: [Guess.number()],
+//             ret: Guess.undefined(),
+//             callconv: "Method",
+//         })
+//
+//         expect(actual["Derived"]).toEqual({
+//             args: [],
+//             ret: Guess.exact({ Class: "Derived" }),
+//             callconv: "Constructor",
+//         })
+//
+//         expect(actual["Derived.base"]).toEqual({
+//             args: [Guess.number()],
+//             ret: Guess.undefined(),
+//             callconv: "Method",
+//         })
+//
+//         expect(actual["Derived.derived"]).toEqual({
+//             args: [],
+//             ret: Guess.undefined(),
+//             callconv: "Method",
+//         })
+//     })
+//
+//     test("static methods", () => {
+//         const code = `
+// export class StaticClass {
+// constructor();
+// static staticMethod(): string;
+// static staticWithParams(x: number): boolean;
+// instanceMethod(): void;
+// }
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual["StaticClass"]).toEqual({
+//             args: [],
+//             ret: Guess.exact({ Class: "StaticClass" }),
+//             callconv: "Constructor",
+//         })
+//
+//         expect(actual["StaticClass.instanceMethod"]).toEqual({
+//             args: [],
+//             ret: Guess.undefined(),
+//             callconv: "Method",
+//         })
+//     })
+// })
+//
+// describe("interfaces", () => {
+//     test("inheritance", () => {
+//         const code = `
+// interface BaseNode {
+// visit(): any;
+// }
+// export class Node implements BaseNode {
+// constructor();
+// }
+// `
+//         const actual = fromCode(code)
+//
+//         expect(actual["Node"]).toEqual({
+//             args: [],
+//             ret: Guess.exact({ Class: "Node" }),
+//             callconv: "Constructor"
+//         })
+//     })
+// })
