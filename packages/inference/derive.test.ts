@@ -686,19 +686,19 @@ export class MethodClass {
         })
 
         expect(actual["MethodClass.simpleMethod"]).toEqual({
-            args: [],
+            args: [Guess.class("MethodClass")],
             ret: Guess.string(),
             callconv: "Method",
         })
 
         expect(actual["MethodClass.methodWithParams"]).toEqual({
-            args: [Guess.number(), Guess.boolean()],
+            args: [Guess.class("MethodClass"), Guess.number(), Guess.boolean()],
             ret: Guess.undefined(),
             callconv: "Method",
         })
 
         expect(actual["MethodClass.methodReturningObject"]).toEqual({
-            args: [],
+            args: [Guess.class("MethodClass")],
             ret: Guess.object({ a: Guess.string(), b: Guess.number() }),
             callconv: "Method",
         })
@@ -723,7 +723,7 @@ export class Derived extends Base {
         })
 
         expect(actual["Base.base"]).toEqual({
-            args: [Guess.number()],
+            args: [Guess.class("Base"), Guess.number()],
             ret: Guess.undefined(),
             callconv: "Method",
         })
@@ -735,13 +735,13 @@ export class Derived extends Base {
         })
 
         expect(actual["Derived.base"]).toEqual({
-            args: [Guess.number()],
+            args: [Guess.class("Derived"), Guess.number()],
             ret: Guess.undefined(),
             callconv: "Method",
         })
 
         expect(actual["Derived.derived"]).toEqual({
-            args: [],
+            args: [Guess.class("Derived")],
             ret: Guess.undefined(),
             callconv: "Method",
         })
@@ -776,7 +776,7 @@ export class StaticClass {
         })
 
         expect(actual["StaticClass.instanceMethod"]).toEqual({
-            args: [],
+            args: [Guess.class("StaticClass")],
             ret: Guess.undefined(),
             callconv: "Method",
         })
@@ -800,7 +800,7 @@ export class Node implements BaseNode {}
         })
 
         expect(actual["Node.visit"]).toEqual({
-            args: [],
+            args: [Guess.class("Node")],
             ret: Guess.any(),
             callconv: "Method"
         })
@@ -819,7 +819,7 @@ export class Node implements BaseNode {}
         const actual = fromCode(code)
 
         expect(actual.Node).toEqual({ args: [], ret: Guess.class("Node"), callconv: "Constructor" })
-        expect(actual["Node.visit"]).toEqual({ args: [], ret: Guess.any(), callconv: "Method" })
-        expect(actual["Node.otherVisit"]).toEqual({ args: [], ret: Guess.any(), callconv: "Method" })
+        expect(actual["Node.visit"]).toEqual({ args: [Guess.class("Node")], ret: Guess.any(), callconv: "Method" })
+        expect(actual["Node.otherVisit"]).toEqual({ args: [Guess.class("Node")], ret: Guess.any(), callconv: "Method" })
     })
 })

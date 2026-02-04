@@ -5,6 +5,8 @@
  *
  * Main heuristics:
  * 1. mergeUnionBooleans
+ * 2. Tuples are arrays with unions for values
+ * 3. A `Promise<T>` return is just `T`
  */
 
 import assert from "node:assert"
@@ -73,13 +75,12 @@ function getMainModule(ctx: Context): ts.Symbol {
  * Infer a signature guess for the given symbol and add it to the schema.
  */
 function infer(ctx: Context, symbol: ts.Symbol): void {
-    if (symbol.flags & ts.SymbolFlags.Class) {
+    if (isClass(symbol)) {
         inferClassType(ctx, symbol)
         return
     }
 
     const type = ctx.checker.getTypeOfSymbol(symbol)
-
     if (isFunction(type)) {
         inferFunctionType(ctx, symbol)
         return
@@ -89,23 +90,35 @@ function infer(ctx: Context, symbol: ts.Symbol): void {
 }
 
 /**
- * Check if a given TypeScript type is a function
- * NOTE: Classes do not count as functions this way. Use ts.Type.isClass() for classes instead.
+ * Checks if a symbol represents a class type.
+ *
+ * If the symbol is "A" in `class A {}`, then `checker.getTypeOfSymbol(symbol)` gets
+ * us `Function`. Then doing a `type.isClass()` on it isn't really what we want. Instead,
+ * we want to check if "A" itself is a class. `SymbolFlags.Class` is that marker.
  */
-function isFunction(type: ts.Type): boolean {
-    const calls = type.getCallSignatures()
-    return calls.length > 0
+function isClass(symbol: ts.Symbol): boolean {
+    return !!(symbol.flags & ts.SymbolFlags.Class)
 }
 
+/**
+ * Check if a given TypeScript type is a function. Classes do not count as functions this way.
+ */
+function isFunction(type: ts.Type): boolean {
+    return type.getCallSignatures().length > 0
+}
+
+/**
+ * Merge signature guesses derived from function overloads into a single signature guess.
+ */
 function mergeFunctionOverloads(guesses: SignatureGuess[]): SignatureGuess {
     assert(guesses.length > 0)
 
     const callconv = guesses[0].callconv
     assert(guesses.every(g => g.callconv === callconv))
 
-    const argc = Math.max(...guesses.map(g => g.args.length))
+    const maxArgc = Math.max(...guesses.map(g => g.args.length))
     const args: TypeGuess[] = []
-    for (let i = 0; i < argc; ++i) {
+    for (let i = 0; i < maxArgc; ++i) {
         const arg = Guess.union(...guesses.map(g => g.args[i] ?? Guess.undefined()))
         args.push(arg)
     }
@@ -123,8 +136,8 @@ function inferFunctionType(ctx: Context, symbol: ts.Symbol): void {
     const callconv = "Free"
     const type = ctx.checker.getTypeOfSymbol(symbol)
 
-    const calls = type.getCallSignatures()
-    const guesses = calls.map(call => guessSignature(ctx.checker, call, callconv))
+    const guesses = type.getCallSignatures()
+        .map(call => guessSignature(ctx.checker, call, callconv))
 
     const name = symbol.getName()
     ctx.schema[name] = mergeFunctionOverloads(guesses)
@@ -132,27 +145,25 @@ function inferFunctionType(ctx: Context, symbol: ts.Symbol): void {
 
 function guessSignature(checker: ts.TypeChecker, sig: ts.Signature, callconv: CallConvention): SignatureGuess {
     const args = sig.getParameters()
-    const argTypeGuesses = args.map(p => functionArgTypeGuess(checker, p))
+            .map(p => functionArgTypeGuess(checker, p))
 
-    const returnType = sig.getReturnType()
-    const unwrappedReturnType = unwrapPromise(returnType)
-    const returnTypeGuess = toTypeGuess(checker, unwrappedReturnType)
+    // Railcar calls all endpoints with an await, so we consider a `Promise<T>` to be just `T`
+    const unwrapped = unwrapPromise(checker, sig.getReturnType())
+    const ret = toTypeGuess(checker, unwrapped)
 
-    return {
-        args: argTypeGuesses,
-        ret: returnTypeGuess,
-        callconv
-    }
+    return { args, ret, callconv }
 }
 
-function unwrapPromise(type: ts.Type): ts.Type {
+function unwrapPromise(checker: ts.TypeChecker, type: ts.Type): ts.Type {
     const symbol = type.getSymbol()
-    if (symbol?.getName() === "Promise") {
-        const typeArgs = (type as ts.TypeReference).typeArguments
-        if (typeArgs && typeArgs.length > 0) {
-            return typeArgs[0]
-        }
+    if (symbol === undefined) return type
+
+    if (symbol.getName() === "Promise") {
+        const typeArgs = checker.getTypeArguments(type as ts.TypeReference)
+        assert(typeArgs.length > 0)
+        return typeArgs[0]
     }
+
     return type
 }
 
@@ -269,13 +280,16 @@ function toTypeGuess(checker: ts.TypeChecker, type: ts.Type): TypeGuess {
 
     if (checker.isTupleType(type) || checker.isArrayType(type)) {
         const typeArgs = checker.getTypeArguments(type as ts.TypeReference)
+        assert(typeArgs.length > 0)
+
         const elements = typeArgs.map(t => toTypeGuess(checker, t))
         return Guess.array(Guess.union(...elements))
     }
 
     if (type.isClass()) {
         const symbol = type.getSymbol()
-        return Guess.class(symbol?.getName() ?? "Unknown")
+        assert(symbol !== undefined)
+        return Guess.class(symbol.getName())
     }
 
     if (isFunction(type)) {
@@ -286,17 +300,15 @@ function toTypeGuess(checker: ts.TypeChecker, type: ts.Type): TypeGuess {
         const properties = type.getProperties()
         const shape: Record<string, TypeGuess> = {}
         for (const prop of properties) {
-            const propType = prop.valueDeclaration
-                ? checker.getTypeOfSymbolAtLocation(prop, prop.valueDeclaration)
-                : checker.getTypeOfSymbol(prop)
-            let guess = toTypeGuess(checker, propType)
+            const propName = prop.getName()
+            const propType = checker.getTypeOfSymbol(prop)
+            const guess = toTypeGuess(checker, propType)
 
-            const isOptional = (prop.flags & ts.SymbolFlags.Optional) !== 0
-            if (isOptional) {
-                guess = Guess.union(guess, Guess.undefined())
+            if (prop.flags & ts.SymbolFlags.Optional) {
+                shape[propName] = Guess.union(guess, Guess.undefined())
+            } else {
+                shape[propName] = guess
             }
-
-            shape[prop.getName()] = guess
         }
         return Guess.object(shape)
     }
@@ -304,19 +316,24 @@ function toTypeGuess(checker: ts.TypeChecker, type: ts.Type): TypeGuess {
     return Guess.any()
 }
 
-function inferClassType(ctx: Context, symbol: ts.Symbol): void {
-    const name = symbol.getName()
-    const type = ctx.checker.getTypeOfSymbol(symbol)
-
+function makeConstructor(checker: ts.TypeChecker, name: string, type: ts.Type): SignatureGuess {
     const guesses = type.getConstructSignatures()
-            .map(sig => guessSignature(ctx.checker, sig, "Constructor"))
+        .map(sig => guessSignature(checker, sig, "Constructor"))
 
     // merge all the overloads, but set the return type to the class we're constructing
     const constructor = mergeFunctionOverloads(guesses)
     constructor.ret = Guess.class(name)
     assert(constructor.callconv === "Constructor")
 
-    ctx.schema[name] = constructor
+    return constructor
+
+}
+
+function inferClassType(ctx: Context, symbol: ts.Symbol): void {
+    const name = symbol.getName()
+    const type = ctx.checker.getTypeOfSymbol(symbol)
+
+    ctx.schema[name] = makeConstructor(ctx.checker, name, type)
 
     // Static methods from the constructor type
     const staticProperties = type.getProperties()
@@ -326,13 +343,12 @@ function inferClassType(ctx: Context, symbol: ts.Symbol): void {
             continue
         }
 
-        const calls = propType.getCallSignatures()
-        if (calls.length === 0) {
-            continue
-        }
+        const guesses = propType.getCallSignatures()
+            .map(sig => guessSignature(ctx.checker, sig, "Free"))
+        const signature = mergeFunctionOverloads(guesses)
 
         const methodName = `${name}.${prop.getName()}`
-        ctx.schema[methodName] = guessSignature(ctx.checker, calls[0], "Free")
+        ctx.schema[methodName] = signature
     }
 
     // Instance methods from the declared type
@@ -340,31 +356,36 @@ function inferClassType(ctx: Context, symbol: ts.Symbol): void {
     const properties = instanceType.getProperties()
 
     // Also collect methods from implemented interfaces
-    const allProperties = [...properties]
-    const decl = symbol.declarations?.[0]
-    if (decl && ts.isClassDeclaration(decl)) {
-        for (const clause of decl.heritageClauses ?? []) {
+    assert(symbol.declarations)
+    assert(symbol.declarations.length > 0)
+    const decl = symbol.declarations[0]
+
+    if (ts.isClassDeclaration(decl) && decl.heritageClauses) {
+        for (const clause of decl.heritageClauses) {
             if (clause.token === ts.SyntaxKind.ImplementsKeyword) {
                 for (const typeNode of clause.types) {
                     const interfaceType = ctx.checker.getTypeAtLocation(typeNode)
-                    allProperties.push(...interfaceType.getProperties())
+                    properties.push(...interfaceType.getProperties())
                 }
             }
         }
     }
 
-    for (const prop of allProperties) {
+    for (const prop of properties) {
         const propType = ctx.checker.getTypeOfSymbol(prop)
         if (!isFunction(propType)) {
             continue
         }
 
-        const calls = propType.getCallSignatures()
-        if (calls.length === 0) {
-            continue
-        }
+        const guesses = propType.getCallSignatures()
+            .map(sig => guessSignature(ctx.checker, sig, "Method"))
+            .map(g => ({
+                args: [Guess.class(name), ...g.args],
+                ret: g.ret,
+                callconv: g.callconv,
+            }))
 
         const methodName = `${name}.${prop.getName()}`
-        ctx.schema[methodName] = guessSignature(ctx.checker, calls[0], "Method")
+        ctx.schema[methodName] = mergeFunctionOverloads(guesses)
     }
 }
