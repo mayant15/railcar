@@ -339,7 +339,21 @@ function inferClassType(ctx: Context, symbol: ts.Symbol): void {
     const instanceType = ctx.checker.getDeclaredTypeOfSymbol(symbol)
     const properties = instanceType.getProperties()
 
-    for (const prop of properties) {
+    // Also collect methods from implemented interfaces
+    const allProperties = [...properties]
+    const decl = symbol.declarations?.[0]
+    if (decl && ts.isClassDeclaration(decl)) {
+        for (const clause of decl.heritageClauses ?? []) {
+            if (clause.token === ts.SyntaxKind.ImplementsKeyword) {
+                for (const typeNode of clause.types) {
+                    const interfaceType = ctx.checker.getTypeAtLocation(typeNode)
+                    allProperties.push(...interfaceType.getProperties())
+                }
+            }
+        }
+    }
+
+    for (const prop of allProperties) {
         const propType = ctx.checker.getTypeOfSymbol(prop)
         if (!isFunction(propType)) {
             continue

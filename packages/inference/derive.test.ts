@@ -783,22 +783,43 @@ export class StaticClass {
     })
 })
 
-// describe("interfaces", () => {
-//     test("inheritance", () => {
-//         const code = `
-// interface BaseNode {
-// visit(): any;
-// }
-// export class Node implements BaseNode {
-// constructor();
-// }
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual["Node"]).toEqual({
-//             args: [],
-//             ret: Guess.exact({ Class: "Node" }),
-//             callconv: "Constructor"
-//         })
-//     })
-// })
+describe("interfaces", () => {
+    test("inheritance", () => {
+        const code = `
+interface BaseNode {
+    visit(): any;
+}
+export class Node implements BaseNode {}
+`
+        const actual = fromCode(code)
+
+        expect(actual["Node"]).toEqual({
+            args: [],
+            ret: Guess.class("Node"),
+            callconv: "Constructor"
+        })
+
+        expect(actual["Node.visit"]).toEqual({
+            args: [],
+            ret: Guess.any(),
+            callconv: "Method"
+        })
+    })
+
+    test("more inheritance", () => {
+        const code = `
+interface BaseBaseNode {
+    visit();
+}
+interface BaseNode extends BaseBaseNode {
+    otherVisit();
+}
+export class Node implements BaseNode {}
+`
+        const actual = fromCode(code)
+
+        expect(actual.Node).toEqual({ args: [], ret: Guess.class("Node"), callconv: "Constructor" })
+        expect(actual["Node.visit"]).toEqual({ args: [], ret: Guess.any(), callconv: "Method" })
+        expect(actual["Node.otherVisit"]).toEqual({ args: [], ret: Guess.any(), callconv: "Method" })
+    })
+})
