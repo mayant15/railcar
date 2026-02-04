@@ -502,324 +502,287 @@ export function mixedOptional(x: { required: string; optional?: number }): { res
         })
     })
 
+    test("nested objects", () => {
+        const code = `
+export function nestedObject(x: { a: { b: string; c: number } }): void;
+export function deepNested(x: { user: { profile: { name: string; age: number } } }): boolean;
+export function arrayNested(x: { items: { id: string; value: number }[] }): { results: { success: boolean }[] };
+`
+        const actual = fromCode(code)
+
+        expect(actual["nestedObject"]).toEqual({
+            args: [
+                Guess.object({
+                    a: Guess.object({ b: Guess.string(), c: Guess.number() }),
+                })
+            ],
+            ret: Guess.undefined(),
+            callconv: "Free",
+        })
+
+        expect(actual["deepNested"]).toEqual({
+            args: [
+                Guess.object({
+                    user: Guess.object({
+                        profile: Guess.object({ name: Guess.string(), age: Guess.number() }),
+                    }),
+                })
+            ],
+            ret: Guess.boolean(),
+            callconv: "Free",
+        })
+
+        expect(actual["arrayNested"]).toEqual({
+            args: [
+                Guess.object({
+                    items: Guess.array(Guess.object({ id: Guess.string(), value: Guess.number() })),
+                })
+            ],
+            ret: Guess.object({
+                results: Guess.array(Guess.object({ success: Guess.boolean() })),
+            }),
+            callconv: "Free",
+        })
+    })
 })
-//     test("nested objects", () => {
-//         const code = `
-// export function nestedObject(x: { a: { b: string; c: number } }): void;
-// export function deepNested(x: { user: { profile: { name: string; age: number } } }): boolean;
-// export function arrayNested(x: { items: { id: string; value: number }[] }): { results: { success: boolean }[] };
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual["nestedObject"]).toEqual({
-//             args: [{
-//                 isAny: false,
-//                 kind: { Object: 1 },
-//                 objectShape: {
-//                     a: Guess.object({ b: Guess.string(), c: Guess.number() }),
-//                 },
-//             }],
-//             ret: Guess.undefined(),
-//             callconv: "Free",
-//         })
-//
-//         expect(actual["deepNested"]).toEqual({
-//             args: [{
-//                 isAny: false,
-//                 kind: { Object: 1 },
-//                 objectShape: {
-//                     user: Guess.object({
-//                         profile: Guess.object({ name: Guess.string(), age: Guess.number() }),
-//                     }),
-//                 },
-//             }],
-//             ret: Guess.boolean(),
-//             callconv: "Free",
-//         })
-//
-//         expect(actual["arrayNested"]).toEqual({
-//             args: [{
-//                 isAny: false,
-//                 kind: { Object: 1 },
-//                 objectShape: {
-//                     items: Guess.array(Guess.object({ id: Guess.string(), value: Guess.number() })),
-//                 },
-//             }],
-//             ret: {
-//                 isAny: false,
-//                 kind: { Object: 1 },
-//                 objectShape: {
-//                     results: Guess.array(Guess.object({ success: Guess.boolean() })),
-//                 },
-//             },
-//             callconv: "Free",
-//         })
-//     })
-// })
-//
-// describe("function overloading", () => {
-//     test("overloads", () => {
-//         const code = `
-// export function foo(): void;
-// export function foo(x: number): number;
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual).toEqual({
-//             foo: {
-//                 args: [Guess.optional(Types.number())],
-//                 ret: Guess.optional(Types.number()),
-//                 callconv: "Free"
-//             }
-//         })
-//     })
-//
-//     test("basic overloading", () => {
-//         const code = `
-// export function overloaded(x: number): string;
-// export function overloaded(x: number, y: string): boolean;
-// export function noParams(): void;
-// export function noParams(x: string): number;
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual["overloaded"]).toEqual({
-//             args: [Guess.number(), Guess.optional(Types.string())],
-//             ret: Guess.union(Guess.string(), Guess.boolean()),
-//             callconv: "Free",
-//         })
-//
-//         expect(actual["noParams"]).toEqual({
-//             args: [Guess.optional(Types.string())],
-//             ret: Guess.optional(Types.number()),
-//             callconv: "Free",
-//         })
-//     })
-//
-//     test("complex overloading", () => {
-//         const code = `
-// export function complexOverload(x: string): number;
-// export function complexOverload(x: number): string;
-// export function complexOverload(x: string, y?: boolean): void;
-// export function complexOverload(x: { a: string }): { b: number };
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual["complexOverload"]).toEqual({
-//             args: [
-//                 {
-//                     isAny: false,
-//                     kind: { String: 0.5, Number: 0.25, Object: 0.25 },
-//                     objectShape: { a: Guess.string() },
-//                 },
-//                 { isAny: false, kind: { Undefined: 0.75, Boolean: 0.25 } },
-//             ],
-//             ret: {
-//                 isAny: false,
-//                 kind: { Number: 0.25, String: 0.25, Undefined: 0.25, Object: 0.25 },
-//                 objectShape: { b: Guess.number() },
-//             },
-//             callconv: "Free"
-//         })
-//     })
-// })
-//
-// describe("classes", () => {
-//     test("simple class", () => {
-//         const code = `
-// export class A {}
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual).toEqual({
-//             A: {
-//                 args: [],
-//                 ret: Guess.exact({ Class: "A" }),
-//                 callconv: "Constructor",
-//             }
-//         })
-//     })
-//
-//     test("simple class with constructor", () => {
-//         const code = `
-// export class A {
-// constructor();
-// }
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual).toEqual({
-//             A: {
-//                 args: [],
-//                 ret: Guess.exact({ Class: "A" }),
-//                 callconv: "Constructor",
-//             }
-//         })
-//     })
-//
-//     test("simple constructor", () => {
-//         const code = `
-// export class SimpleClass {
-// constructor();
-// }
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual["SimpleClass"]).toEqual({
-//             args: [],
-//             ret: Guess.exact({ Class: "SimpleClass" }),
-//             callconv: "Constructor",
-//         })
-//     })
-//
-//     test("no explicit constructor", () => {
-//         const code = `
-// export class NoConstructorClass {
-// method(): string;
-// static staticMethod(): number;
-// }
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual["NoConstructorClass"]).toEqual({
-//             args: [],
-//             ret: Guess.exact({ Class: "NoConstructorClass" }),
-//             callconv: "Constructor",
-//         })
-//
-//         expect(actual["NoConstructorClass.method"]).toEqual({
-//             args: [],
-//             ret: Guess.string(),
-//             callconv: "Method",
-//         })
-//     })
-//
-//     test("constructor overload", () => {
-//         const code = `
-// export class SimpleClass {
-// constructor();
-// constructor(value: string)
-// }
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual["SimpleClass"]).toEqual({
-//             args: [],
-//             ret: Guess.exact({ Class: "SimpleClass" }),
-//             callconv: "Constructor",
-//         })
-//     })
-//
-//     test("methods", () => {
-//         const code = `
-// export class MethodClass {
-// constructor();
-// simpleMethod(): string;
-// methodWithParams(x: number, y: boolean): void;
-// methodReturningObject(): { a: string; b: number };
-// }
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual["MethodClass"]).toEqual({
-//             args: [],
-//             ret: Guess.exact({ Class: "MethodClass" }),
-//             callconv: "Constructor",
-//         })
-//
-//         expect(actual["MethodClass.simpleMethod"]).toEqual({
-//             args: [],
-//             ret: Guess.string(),
-//             callconv: "Method",
-//         })
-//
-//         expect(actual["MethodClass.methodWithParams"]).toEqual({
-//             args: [Guess.number(), Guess.boolean()],
-//             ret: Guess.undefined(),
-//             callconv: "Method",
-//         })
-//
-//         expect(actual["MethodClass.methodReturningObject"]).toEqual({
-//             args: [],
-//             ret: {
-//                 isAny: false,
-//                 kind: { Object: 1 },
-//                 objectShape: { a: Guess.string(), b: Guess.number() },
-//             },
-//             callconv: "Method",
-//         })
-//     })
-//
-//     test("inheritance", () => {
-//         const code = `
-// export class Base {
-// constructor();
-// base(x: number): void;
-// }
-//
-// export class Derived extends Base {
-// constructor();
-// derived(): void;
-// }
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual["Base"]).toEqual({
-//             args: [],
-//             ret: Guess.exact({ Class: "Base" }),
-//             callconv: "Constructor",
-//         })
-//
-//         expect(actual["Base.base"]).toEqual({
-//             args: [Guess.number()],
-//             ret: Guess.undefined(),
-//             callconv: "Method",
-//         })
-//
-//         expect(actual["Derived"]).toEqual({
-//             args: [],
-//             ret: Guess.exact({ Class: "Derived" }),
-//             callconv: "Constructor",
-//         })
-//
-//         expect(actual["Derived.base"]).toEqual({
-//             args: [Guess.number()],
-//             ret: Guess.undefined(),
-//             callconv: "Method",
-//         })
-//
-//         expect(actual["Derived.derived"]).toEqual({
-//             args: [],
-//             ret: Guess.undefined(),
-//             callconv: "Method",
-//         })
-//     })
-//
-//     test("static methods", () => {
-//         const code = `
-// export class StaticClass {
-// constructor();
-// static staticMethod(): string;
-// static staticWithParams(x: number): boolean;
-// instanceMethod(): void;
-// }
-// `
-//         const actual = fromCode(code)
-//
-//         expect(actual["StaticClass"]).toEqual({
-//             args: [],
-//             ret: Guess.exact({ Class: "StaticClass" }),
-//             callconv: "Constructor",
-//         })
-//
-//         expect(actual["StaticClass.instanceMethod"]).toEqual({
-//             args: [],
-//             ret: Guess.undefined(),
-//             callconv: "Method",
-//         })
-//     })
-// })
-//
+
+describe("function overloading", () => {
+    test("overload with no param", () => {
+        const code = `
+export function foo(): void;
+export function foo(x: number): number;
+`
+        const actual = fromCode(code)
+
+        expect(actual.foo).toEqual({
+            args: [Guess.optional(Types.number())],
+            ret: Guess.optional(Types.number()),
+            callconv: "Free"
+        })
+    })
+
+    test("basic overloading", () => {
+        const code = `
+export function overloaded(x: number): string;
+export function overloaded(x: number, y: string): boolean;
+`
+        const actual = fromCode(code)
+
+        expect(actual["overloaded"]).toEqual({
+            args: [Guess.number(), Guess.optional(Types.string())],
+            ret: Guess.union(Guess.string(), Guess.boolean()),
+            callconv: "Free",
+        })
+    })
+
+    test("complex overloading", () => {
+        const code = `
+export function complexOverload(x: string): number;
+export function complexOverload(x: number): string;
+export function complexOverload(x: string, y?: boolean): void;
+export function complexOverload(x: { a: string }): { b: number };
+`
+        const actual = fromCode(code)
+
+        expect(actual["complexOverload"]).toEqual({
+            args: [
+                {
+                    isAny: false,
+                    kind: { String: 0.5, Number: 0.25, Object: 0.25 },
+                    objectShape: { a: Guess.string() },
+                },
+                { isAny: false, kind: { Undefined: 0.875, Boolean: 0.125 } },
+            ],
+            ret: {
+                isAny: false,
+                kind: { Number: 0.25, String: 0.25, Undefined: 0.25, Object: 0.25 },
+                objectShape: { b: Guess.number() },
+            },
+            callconv: "Free"
+        })
+    })
+})
+
+describe("classes", () => {
+    test("simple class without constructor", () => {
+        const code = `
+export class A {}
+`
+        const actual = fromCode(code)
+
+        expect(actual.A).toEqual({
+            args: [],
+            ret: Guess.class("A"),
+            callconv: "Constructor",
+        })
+    })
+
+    test("simple class with constructor", () => {
+        const code = `
+export class A {
+    constructor();
+}
+`
+        const actual = fromCode(code)
+
+        expect(actual.A).toEqual({
+            args: [],
+            ret: Guess.class("A"),
+            callconv: "Constructor",
+        })
+    })
+
+test("static method", () => {
+        const code = `
+export class NoConstructorClass {
+    static staticMethod(): number;
+}
+`
+        const actual = fromCode(code)
+
+        expect(actual["NoConstructorClass"]).toEqual({
+            args: [],
+            ret: Guess.class("NoConstructorClass" ),
+            callconv: "Constructor",
+        })
+
+        expect(actual["NoConstructorClass.staticMethod"]).toEqual({
+            args: [],
+            ret: Guess.number(),
+            callconv: "Free",
+        })
+    })
+
+    test("constructor overload", () => {
+        const code = `
+export class SimpleClass {
+    constructor();
+    constructor(value: string)
+}
+`
+        const actual = fromCode(code)
+
+        expect(actual["SimpleClass"]).toEqual({
+            args: [Guess.optional(Types.string())],
+            ret: Guess.class("SimpleClass" ),
+            callconv: "Constructor",
+        })
+    })
+
+    test("methods", () => {
+        const code = `
+export class MethodClass {
+    simpleMethod(): string;
+    methodWithParams(x: number, y: boolean): void;
+    methodReturningObject(): { a: string; b: number };
+}
+`
+        const actual = fromCode(code)
+
+        expect(actual["MethodClass"]).toEqual({
+            args: [],
+            ret: Guess.class("MethodClass"),
+            callconv: "Constructor",
+        })
+
+        expect(actual["MethodClass.simpleMethod"]).toEqual({
+            args: [],
+            ret: Guess.string(),
+            callconv: "Method",
+        })
+
+        expect(actual["MethodClass.methodWithParams"]).toEqual({
+            args: [Guess.number(), Guess.boolean()],
+            ret: Guess.undefined(),
+            callconv: "Method",
+        })
+
+        expect(actual["MethodClass.methodReturningObject"]).toEqual({
+            args: [],
+            ret: Guess.object({ a: Guess.string(), b: Guess.number() }),
+            callconv: "Method",
+        })
+    })
+
+    test("inheritance", () => {
+        const code = `
+export class Base {
+    base(x: number): void;
+}
+
+export class Derived extends Base {
+    derived(): void;
+}
+`
+        const actual = fromCode(code)
+
+        expect(actual["Base"]).toEqual({
+            args: [],
+            ret: Guess.class("Base"),
+            callconv: "Constructor",
+        })
+
+        expect(actual["Base.base"]).toEqual({
+            args: [Guess.number()],
+            ret: Guess.undefined(),
+            callconv: "Method",
+        })
+
+        expect(actual["Derived"]).toEqual({
+            args: [],
+            ret: Guess.class("Derived"),
+            callconv: "Constructor",
+        })
+
+        expect(actual["Derived.base"]).toEqual({
+            args: [Guess.number()],
+            ret: Guess.undefined(),
+            callconv: "Method",
+        })
+
+        expect(actual["Derived.derived"]).toEqual({
+            args: [],
+            ret: Guess.undefined(),
+            callconv: "Method",
+        })
+    })
+
+    test("static methods", () => {
+        const code = `
+export class StaticClass {
+    static staticMethod(): string;
+    static staticWithParams(x: number): boolean;
+    instanceMethod(): void;
+}
+`
+        const actual = fromCode(code)
+
+        expect(actual["StaticClass"]).toEqual({
+            args: [],
+            ret: Guess.class("StaticClass"),
+            callconv: "Constructor",
+        })
+
+        expect(actual["StaticClass.staticMethod"]).toEqual({
+            args: [],
+            ret: Guess.string(),
+            callconv: "Free",
+        })
+
+        expect(actual["StaticClass.staticWithParams"]).toEqual({
+            args: [Guess.number()],
+            ret: Guess.boolean(),
+            callconv: "Free",
+        })
+
+        expect(actual["StaticClass.instanceMethod"]).toEqual({
+            args: [],
+            ret: Guess.undefined(),
+            callconv: "Method",
+        })
+    })
+})
+
 // describe("interfaces", () => {
 //     test("inheritance", () => {
 //         const code = `

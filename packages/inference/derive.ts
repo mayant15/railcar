@@ -73,12 +73,12 @@ function getMainModule(ctx: Context): ts.Symbol {
  * Infer a signature guess for the given symbol and add it to the schema.
  */
 function infer(ctx: Context, symbol: ts.Symbol): void {
-    const type = ctx.checker.getTypeOfSymbol(symbol)
-
-    if (type.isClass()) {
+    if (symbol.flags & ts.SymbolFlags.Class) {
         inferClassType(ctx, symbol)
         return
     }
+
+    const type = ctx.checker.getTypeOfSymbol(symbol)
 
     if (isFunction(type)) {
         inferFunctionType(ctx, symbol)
@@ -97,17 +97,10 @@ function isFunction(type: ts.Type): boolean {
     return calls.length > 0
 }
 
-/**
- * Infers a function signature for `symbol`. Adds the signature to the schema,
- * using `symbol` to derive an endpoint name.
- */
-function inferFunctionType(ctx: Context, symbol: ts.Symbol): void {
-    const callconv = "Free"
-    const type = ctx.checker.getTypeOfSymbol(symbol)
+function mergeFunctionOverloads(guesses: SignatureGuess[]): SignatureGuess {
+    assert(guesses.length > 0)
 
-    const calls = type.getCallSignatures()
-    const guesses = calls.map(call => guessSignature(ctx.checker, call, callconv))
-
+    const callconv = guesses[0].callconv
     assert(guesses.every(g => g.callconv === callconv))
 
     const argc = Math.max(...guesses.map(g => g.args.length))
@@ -119,8 +112,22 @@ function inferFunctionType(ctx: Context, symbol: ts.Symbol): void {
 
     const ret = Guess.union(...guesses.map(g => g.ret))
 
+    return { args, ret, callconv }
+}
+
+/**
+ * Infers a function signature for `symbol`. Adds the signature to the schema,
+ * using `symbol` to derive an endpoint name.
+ */
+function inferFunctionType(ctx: Context, symbol: ts.Symbol): void {
+    const callconv = "Free"
+    const type = ctx.checker.getTypeOfSymbol(symbol)
+
+    const calls = type.getCallSignatures()
+    const guesses = calls.map(call => guessSignature(ctx.checker, call, callconv))
+
     const name = symbol.getName()
-    ctx.schema[name] = { args, ret, callconv }
+    ctx.schema[name] = mergeFunctionOverloads(guesses)
 }
 
 function guessSignature(checker: ts.TypeChecker, sig: ts.Signature, callconv: CallConvention): SignatureGuess {
@@ -301,17 +308,34 @@ function inferClassType(ctx: Context, symbol: ts.Symbol): void {
     const name = symbol.getName()
     const type = ctx.checker.getTypeOfSymbol(symbol)
 
-    const constructSignatures = type.getConstructSignatures()
-    const argTypeGuesses = constructSignatures.length > 0
-        ? constructSignatures[0].getParameters().map(p => functionArgTypeGuess(ctx.checker, p))
-        : []
+    const guesses = type.getConstructSignatures()
+            .map(sig => guessSignature(ctx.checker, sig, "Constructor"))
 
-    ctx.schema[name] = {
-        args: argTypeGuesses,
-        ret: Guess.class(name),
-        callconv: "Constructor"
+    // merge all the overloads, but set the return type to the class we're constructing
+    const constructor = mergeFunctionOverloads(guesses)
+    constructor.ret = Guess.class(name)
+    assert(constructor.callconv === "Constructor")
+
+    ctx.schema[name] = constructor
+
+    // Static methods from the constructor type
+    const staticProperties = type.getProperties()
+    for (const prop of staticProperties) {
+        const propType = ctx.checker.getTypeOfSymbol(prop)
+        if (!isFunction(propType)) {
+            continue
+        }
+
+        const calls = propType.getCallSignatures()
+        if (calls.length === 0) {
+            continue
+        }
+
+        const methodName = `${name}.${prop.getName()}`
+        ctx.schema[methodName] = guessSignature(ctx.checker, calls[0], "Free")
     }
 
+    // Instance methods from the declared type
     const instanceType = ctx.checker.getDeclaredTypeOfSymbol(symbol)
     const properties = instanceType.getProperties()
 
