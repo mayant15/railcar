@@ -963,4 +963,35 @@ declare namespace Pako {
             callconv: "Free"
         })
     })
+
+    // if there's a class and a function of the same name, prefer the function.
+    // ua-parser-js does this so that users can use both `UAParser()` and `new UAParser()`.
+    test("ua-parser-js class and function of the same name", () => {
+        const code = `
+declare namespace UAParser {
+    export function UAParser(): number;
+    export class UAParser {
+        get(): number;
+    }
+}
+export as namespace UAParser;
+export = UAParser;
+`
+        const actual = fromCode(code)
+
+        expect(actual.UAParser).toEqual({
+            args: [],
+            ret: Guess.class("UAParser"),
+            callconv: "Constructor",
+        })
+
+        expect(actual["UAParser.get"]).toEqual({
+            args: [Guess.class("UAParser")],
+            ret: Guess.number(),
+            callconv: "Method"
+        })
+
+        expect(actual["UAParser.UAParser"]).toBeUndefined()
+        expect(actual["UAParser.toString"]).toBeUndefined()
+    })
 })
