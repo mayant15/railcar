@@ -9,7 +9,6 @@
         "./schema.ts",
         "./cli.ts",
         "./common.ts",
-        "./typescript.ts",
         "./index.ts",
         "./derive.ts",
         "./reflection.ts",
