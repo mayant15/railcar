@@ -353,7 +353,10 @@ function inferClassType(ctx: Context, symbol: ts.Symbol): void {
 
     // Instance methods from the declared type
     const instanceType = ctx.checker.getDeclaredTypeOfSymbol(symbol)
-    const properties = instanceType.getProperties()
+
+    // This is a reference to the properties object on the type. Make a copy because
+    // we are going to mutate it here.
+    const properties = [...instanceType.getProperties()]
 
     // Also collect methods from implemented interfaces
     assert(symbol.declarations)
