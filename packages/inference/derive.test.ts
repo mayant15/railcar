@@ -228,7 +228,7 @@ export function mixedLiterals(x: string | 42 | true): void;
         expect(actual["mixedLiterals"]).toEqual({
             args: [{
                 isAny: false,
-                kind: { String: 1/3, Number: 1/3, Boolean: 1/3 },
+                kind: { String: 0.333, Number: 0.333, Boolean: 0.333 },
             }],
             ret: Guess.undefined(),
             callconv: "Free",
@@ -280,7 +280,7 @@ export function arrayUnion(x: string[] | number[]): boolean[];
         expect(actual["complexUnion"]).toEqual({
             args: [{
                 isAny: false,
-                kind: { Object: 1/3, Array: 1/3, Function: 1/3 },
+                kind: { Object: 0.333, Array: 0.333, Function: 0.333 },
                 arrayValueType: Guess.string(),
                 objectShape: { a: Guess.number() },
             }],
@@ -781,6 +781,94 @@ export class StaticClass {
             callconv: "Method",
         })
     })
+
+    test("use declared classes", () => {
+        const code = `
+export class A {}
+export function foo(a: A);
+`
+        const actual = fromCode(code)
+
+        expect(actual.A).toEqual({
+            args: [],
+            ret: Guess.class("A"),
+            callconv: "Constructor",
+        })
+
+        expect(actual.foo).toEqual({
+            args: [Guess.class("A")],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+})
+
+describe("aliases", () => {
+    test("custom classes via aliases", () => {
+        const code = `
+class A {}
+type Data = A;
+export function foo(d: Data);
+`
+        const actual = fromCode(code)
+
+        expect(actual.foo).toEqual({
+            args: [Guess.class("A")],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+
+    test("builtin classes via aliases", () => {
+        const code = `
+type Data = Uint8Array;
+export function foo(d: Data);
+`
+        const actual = fromCode(code)
+
+        expect(actual.foo).toEqual({
+            args: [Guess.class("Uint8Array")],
+            ret: Guess.any(),
+            callconv: "Free"
+        })
+    })
+
+    test("unions of custom and builtin types", () => {
+        const code = `
+class A = {}
+type Data = Uint8Array | ArrayBuffer | A | string;
+export function foo(d: Data);
+`
+        const actual = fromCode(code)
+
+        expect(actual.foo).toEqual({
+            args: [
+                Guess.union(
+                    Guess.class("Uint8Array"),
+                    Guess.class("ArrayBuffer"),
+                    Guess.class("A"),
+                    Guess.string(),
+                ),
+            ],
+            ret: Guess.any(),
+            callconv: "Free"
+        })
+    })
+})
+
+describe("builtins", () => {
+    test("Uint8Array", () => {
+        const code = `
+export function foo(a: Uint8Array): Uint8Array;
+`
+        const actual = fromCode(code)
+
+        expect(actual.foo).toEqual({
+            args: [Guess.class("Uint8Array")],
+            ret: Guess.class("Uint8Array"),
+            callconv: "Free",
+        })
+    })
 })
 
 describe("interfaces", () => {
@@ -834,6 +922,44 @@ export declare function __extends(d: Function, b: Function): void;
         expect(actual["__extends"]).toEqual({
             args: [Guess.func(), Guess.func()],
             ret: Guess.undefined(),
+            callconv: "Free"
+        })
+    })
+
+    test("pako deflate", () => {
+        const code = `
+export = Pako;
+export as namespace pako;
+declare namespace Pako {
+    type Uint8ArrayReturnType = InstanceType<typeof Uint8Array>;
+    type Data = Uint8Array | ArrayBuffer;
+    interface DeflateFunctionOptions {
+        level?: -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | undefined;
+        dictionary?: any;
+        raw?: boolean | undefined;
+    }
+    function deflate(data: Data | string, options?: DeflateFunctionOptions): Uint8ArrayReturnType;
+}
+`
+        const actual = fromCode(code)
+
+        expect(actual.deflate).toEqual({
+            args: [
+                Guess.union(
+                    Guess.class("Uint8Array"),
+                    Guess.class("ArrayBuffer"),
+                    Guess.string()
+                ),
+                Guess.union(
+                    Guess.undefined(),
+                    Guess.object({
+                        level: Guess.optional(Types.number()),
+                        dictionary: Guess.any(),
+                        raw: Guess.optional(Types.boolean()),
+                    })
+                )
+            ],
+            ret: Guess.class("Uint8Array"),
             callconv: "Free"
         })
     })

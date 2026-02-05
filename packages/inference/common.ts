@@ -30,7 +30,8 @@ function mergeProbabilityObjects<T extends string | number>(
             .map((p) => p / objects.length)
             .reduce((acc, x) => acc + x, 0);
 
-        result[key] = next;
+        // truncate to 3 decimal places, floating point precision issues
+        result[key] = Math.round(next * 1e3) / 1e3;
     }
     return result;
 }
@@ -332,7 +333,7 @@ export function mkClass(
     return type;
 }
 
-const Builtins = [
+export const Builtins = [
     "Uint8Array",
     "ArrayBuffer",
     "RegExp",
