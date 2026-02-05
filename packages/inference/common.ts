@@ -313,6 +313,44 @@ export const Guess = {
     func(): TypeGuess {
         return Guess.exact(Types.func());
     },
+
+    canBe(guess: TypeGuess, query: Type): boolean {
+        if (typeof query === "string") {
+            return guess.kind[query] !== undefined && guess.kind[query] > 0
+        }
+
+        if ("Class" in query) {
+            return (
+                guess.kind.Class !== undefined
+                && guess.kind.Class > 0
+                && guess.classType !== undefined
+                && guess.classType[query.Class] !== undefined
+                && guess.classType[query.Class]! > 0
+            )
+        }
+
+        if ("Array" in query) {
+            return (
+                guess.kind.Array !== undefined
+                && guess.kind.Array > 0
+                && guess.arrayValueType !== undefined
+                && Guess.canBe(guess.arrayValueType, query.Array)
+            )
+        }
+
+        if ("Object" in query) {
+            if (guess.kind.Object === undefined || guess.kind.Object <= 0) return false
+            assert(guess.objectShape)
+
+            const queryProperties = new Set(Object.keys(query.Object))
+            const shapeProperties = new Set(Object.keys(guess.objectShape))
+
+            // TODO: we don't match property types here, just keys
+            return queryProperties.isSubsetOf(shapeProperties)
+        }
+
+        throw Error("unreachable")
+    }
 };
 
 export function mkClass(

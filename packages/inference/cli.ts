@@ -13,6 +13,7 @@ import { syntestSchema } from "./syntest-infer.js";
 import { loadSchemaFromObject } from "./reflection.js";
 
 import type { Schema, TypeGuess } from "./schema.js";
+import { Guess, Types } from "./common.js";
 
 function absolute(path: string) {
     if (isAbsolute(path)) return path;
@@ -35,23 +36,59 @@ function validateTypeGuess(schema: Schema, guess: TypeGuess) {
     if (guess.kind.Class) {
         assert(guess.classType !== undefined);
         for (const key of Object.keys(guess.classType)) {
-            assert(
-                !!schema[key],
-                `Class ${key} does not have a constructor in schema`,
-            );
-            assert(
-                schema[key].callconv === "Constructor",
-                `Class ${key} does not have a constructor in schema`,
-            );
+            if (schema[key]) {
+                assert(
+                    schema[key].callconv === "Constructor",
+                    `Class ${key} does not have a constructor in schema`,
+                );
+            }
         }
     }
+}
+
+function validateTypeIsProducible(schema: Schema, type: TypeGuess) {
+    if (type.kind.Array && type.kind.Array > 0) {
+        assert(type.arrayValueType)
+        validateTypeIsProducible(schema, type.arrayValueType)
+    }
+
+    if (type.kind.Class && type.kind.Class > 0) {
+        assert(type.classType)
+
+        // check if at least one of the possible class types is viable.
+        // a class type is viable if there is an endpoint that produces the class,
+        // but does not consume that class.
+        let viable = false
+        outer: for (const className of Object.keys(type.classType)) {
+            const cls = Types.class(className)
+            for (const sig of Object.values(schema)) {
+                if (Guess.canBe(sig.ret, cls) && sig.args.every(arg => !Guess.canBe(arg, cls))) {
+                    viable = true
+                    break outer;
+                }
+            }
+        }
+
+        const classNames = Object.keys(type.classType)
+        assert(viable, `None of [${classNames.join(", ")}] are viable`)
+    }
+
+    if (type.kind.Object && type.kind.Object > 0) {
+        assert(type.objectShape)
+        for (const prop of Object.values(type.objectShape)) {
+            validateTypeIsProducible(schema, prop)
+        }
+    }
+
+    // all other type kinds are trivially producible
 }
 
 function validateSchema(schema: Schema) {
     // check if all types have backing endpoints
     for (const [name, type] of Object.entries(schema)) {
         assert(type !== null);
-        type.args.forEach((g) => validateTypeGuess(schema, g));
+        type.args.forEach(g => validateTypeGuess(schema, g));
+        type.args.forEach(g => validateTypeIsProducible(schema, g));
         validateTypeGuess(schema, type.ret);
 
         if (type.callconv === "Method") {
