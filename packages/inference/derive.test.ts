@@ -823,3 +823,18 @@ export class Node implements BaseNode {}
         expect(actual["Node.otherVisit"]).toEqual({ args: [Guess.class("Node")], ret: Guess.any(), callconv: "Method" })
     })
 })
+
+describe("example projects", () => {
+    test("tslib __extends", () => {
+        const code = `
+export declare function __extends(d: Function, b: Function): void;
+`
+        const actual = fromCode(code)
+
+        expect(actual["__extends"]).toEqual({
+            args: [Guess.func(), Guess.func()],
+            ret: Guess.undefined(),
+            callconv: "Free"
+        })
+    })
+})

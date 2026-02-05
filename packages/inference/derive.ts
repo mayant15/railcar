@@ -101,10 +101,17 @@ function isClass(symbol: ts.Symbol): boolean {
 }
 
 /**
- * Check if a given TypeScript type is a function. Classes do not count as functions this way.
+ * Check if a given TypeScript type is a function.
+ *
+ * Classes do not count as functions this way. The type `Function` is a function.
  */
 function isFunction(type: ts.Type): boolean {
-    return type.getCallSignatures().length > 0
+    if (type.getCallSignatures().length > 0) {
+        return true
+    }
+
+    const symbol = type.getSymbol()
+    return (symbol?.getName() === "Function")
 }
 
 /**
