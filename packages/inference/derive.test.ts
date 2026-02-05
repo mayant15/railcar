@@ -646,7 +646,29 @@ export class A {
         })
     })
 
-test("static method", () => {
+    test("static constructor", () => {
+        const code = `
+export class T {
+    static from(): T;
+    static fromAsync(): Promise<T>;
+}
+`
+        const actual = fromCode(code)
+
+        expect(actual.T).toEqual({ args: [], ret: Guess.class("T"), callconv: "Constructor" })
+        expect(actual["T.from"]).toEqual({
+            args: [],
+            ret: Guess.class("T"),
+            callconv: "Free",
+        })
+        expect(actual["T.fromAsync"]).toEqual({
+            args: [],
+            ret: Guess.class("T"),
+            callconv: "Free",
+        })
+    })
+
+    test("static method", () => {
         const code = `
 export class NoConstructorClass {
     static staticMethod(): number;
