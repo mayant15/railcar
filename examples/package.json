@@ -12,8 +12,6 @@
         "@types/pako": "2.0.4",
         "@types/xml2js": "0.4.14",
         "@xmldom/xmldom": "0.9.8",
-        "canvas": "3.2.0",
-        "canvg": "4.0.3",
         "fast-xml-parser": "5.2.5",
         "jimp": "1.6.0",
         "jpeg-js": "0.4.4",
