@@ -89,6 +89,8 @@ export function foo();
 export function testStringLiteral(x: "hello"): "world";
 export function testNumberLiteral(x: 42): 24;
 export function testBooleanLiteral(x: true): false;
+export function nullLiteral(x: null);
+export function undefinedLiteral(x: undefined);
 `
         const actual = fromCode(code)
 
@@ -108,6 +110,18 @@ export function testBooleanLiteral(x: true): false;
             args: [Guess.boolean()],
             ret: Guess.boolean(),
             callconv: "Free",
+        })
+
+        expect(actual["nullLiteral"]).toEqual({
+            args: [Guess.null()],
+            ret: Guess.any(),
+            callconv: "Free"
+        })
+
+        expect(actual["undefinedLiteral"]).toEqual({
+            args: [Guess.undefined()],
+            ret: Guess.any(),
+            callconv: "Free"
         })
     })
 

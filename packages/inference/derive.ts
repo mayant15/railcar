@@ -4,7 +4,7 @@
  * Derive a Railcar schema from a given TypeScript declaration (.d.ts) file.
  *
  * Main heuristics:
- * 1. mergeUnionBooleans
+ * 1. mergeUnionTypes
  * 2. Tuples are arrays with unions for values
  * 3. A `Promise<T>` return is just `T`
  */
@@ -197,56 +197,48 @@ function functionArgTypeGuess(ctx: Context, arg: ts.Symbol): TypeGuess {
     return guess
 }
 
-function isTrueLiteral(checker: ts.TypeChecker, type: ts.Type): boolean {
-    if (type.getFlags() & ts.TypeFlags.BooleanLiteral) {
-        const name = checker.typeToString(type)
-        return name === "true"
+/**
+ * Promote a literal type to a base primitive type.
+ */
+function promoteType(checker: ts.TypeChecker, type: ts.Type): ts.Type {
+    const flags = type.getFlags()
+    if (!(flags & ts.TypeFlags.Literal)) {
+        return type
     }
-    return false
-}
 
-function isFalseLiteral(checker: ts.TypeChecker, type: ts.Type): boolean {
-    if (type.getFlags() & ts.TypeFlags.BooleanLiteral) {
-        const name = checker.typeToString(type)
-        return name === "false"
+    if (flags & ts.TypeFlags.StringLiteral || flags & ts.TypeFlags.TemplateLiteral) {
+        return checker.getStringType()
     }
-    return false
+
+    if (flags & ts.TypeFlags.BooleanLiteral) {
+        return checker.getBooleanType()
+    }
+
+    if (flags & ts.TypeFlags.EnumLiteral || flags & ts.TypeFlags.NumberLiteral || flags & ts.TypeFlags.BigIntLiteral) {
+        return checker.getNumberType()
+    }
+
+    throw Error("unreachable")
 }
 
 /**
- * Merge `true | false` into `boolean`
+ * Remove duplicates of the same type from the union.
  *
- * TypeScript considers `boolean` to be `true | false`, so a `boolean | string` becomes
- * `true | false |  string` instead, which affects the relative weight in the final
- * probability distribution.
+ * TypeChecker.getXXXType() returns *the same* object for number, string, boolean types.
+ * This function therefore simply deduplicates based on object refereces, which is the
+ * default behaviour for Set.
  */
-function mergeUnionBooleans(checker: ts.TypeChecker, types: ts.Type[]): ts.Type[] {
-    const nonBoolTypes = []
-    let trueCount = 0
-    let falseCount = 0
-    for (const type of types) {
-        if (isTrueLiteral(checker, type)) {
-            trueCount++
-        } else if (isFalseLiteral(checker, type)) {
-            falseCount++
-        } else {
-            nonBoolTypes.push(type)
-        }
-    }
+function dedupeUnionTypes(types: ts.Type[]): ts.Type[] {
+    // at no point this makes new type objects. toArray() returns the same objects
+    // that are in types.
+    return (new Set(types)).values().toArray()
+}
 
-    while (trueCount > 0 && falseCount > 0) {
-        nonBoolTypes.push(checker.getBooleanType())
-        trueCount--
-        falseCount--
-    }
-
-    // if there's still more of these, add a boolean for each of them
-    const rem = Math.max(trueCount, falseCount)
-    for (let i = 0; i < rem; ++i) {
-        nonBoolTypes.push(checker.getBooleanType())
-    }
-
-    return nonBoolTypes
+/**
+ * Merge union constituents like literals into one primitive type.
+ */
+function mergeUnionTypes(checker: ts.TypeChecker, types: ts.Type[]): ts.Type[] {
+    return dedupeUnionTypes(types.map(t => promoteType(checker, t)))
 }
 
 function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
@@ -254,18 +246,6 @@ function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
 
     if (flags & ts.TypeFlags.Any || flags & ts.TypeFlags.Unknown) {
         return Guess.any()
-    }
-
-    if (flags & ts.TypeFlags.String || flags & ts.TypeFlags.StringLiteral) {
-        return Guess.string()
-    }
-
-    if (flags & ts.TypeFlags.Number || flags & ts.TypeFlags.NumberLiteral) {
-        return Guess.number()
-    }
-
-    if (flags & ts.TypeFlags.Boolean || flags & ts.TypeFlags.BooleanLiteral) {
-        return Guess.boolean()
     }
 
     if (flags & ts.TypeFlags.Undefined || flags & ts.TypeFlags.Void) {
@@ -276,8 +256,25 @@ function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
         return Guess.null()
     }
 
+    if (flags & ts.TypeFlags.Literal) {
+        return toTypeGuess(ctx, promoteType(ctx.checker, type))
+    }
+    assert(!(flags & ts.TypeFlags.Literal))
+
+    if (flags & ts.TypeFlags.String) {
+        return Guess.string()
+    }
+
+    if (flags & ts.TypeFlags.Number) {
+        return Guess.number()
+    }
+
+    if (flags & ts.TypeFlags.Boolean) {
+        return Guess.boolean()
+    }
+
     if (type.isUnion()) {
-        const types = mergeUnionBooleans(ctx.checker, type.types)
+        const types = mergeUnionTypes(ctx.checker, type.types)
         const members = types.map(t => toTypeGuess(ctx, t))
         return Guess.union(...members)
     }
