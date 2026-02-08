@@ -13,7 +13,8 @@ npm install -D @railcar/support # optional
 We use [`mise`](https://mise.jdx.dev/) to manage dependencies and run scripts. Building Railcar
 also requires a working C compiler (not managed by `mise`).
 
-In the Railcar directory, run:
+After following the steps to [install](https://mise.jdx.dev/getting-started.html#installing-mise-cli) and [activate](https://mise.jdx.dev/getting-started.html#activate-mise) `mise`,
+build Railcar with:
 ```
 mise build
 ```
