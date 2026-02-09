@@ -892,6 +892,83 @@ export function foo(d: Data);
     })
 })
 
+describe("recursive and complex types", () => {
+    test("recursive object type does not stack overflow", () => {
+        const code = `
+interface Node {
+    parent: Node;
+    name: string;
+}
+export function visit(node: Node): void;
+`
+        const actual = fromCode(code)
+
+        expect(actual.visit).toEqual({
+            args: [Guess.object({})],
+            ret: Guess.undefined(),
+            callconv: "Free",
+        })
+    })
+
+    test("intersection with non-object members", () => {
+        const code = `
+type Tagged = string & { __brand: true };
+export function tag(x: Tagged): void;
+`
+        const actual = fromCode(code)
+
+        expect(actual.tag).toEqual({
+            args: [Guess.object({__brand: Guess.boolean()})],
+            ret: Guess.undefined(),
+            callconv: "Free",
+        })
+    })
+
+    test("ambient module declaration", () => {
+        const code = `
+declare module 'my-module' {
+    function hello(name: string): string;
+    class Widget {
+        render(): void;
+    }
+}
+`
+        const actual = fromCode(code)
+
+        expect(actual.hello).toEqual({
+            args: [Guess.string()],
+            ret: Guess.string(),
+            callconv: "Free",
+        })
+
+        expect(actual.Widget).toEqual({
+            args: [],
+            ret: Guess.class("Widget"),
+            callconv: "Constructor",
+        })
+
+        expect(actual["Widget.render"]).toEqual({
+            args: [Guess.class("Widget")],
+            ret: Guess.undefined(),
+            callconv: "Method",
+        })
+    })
+
+    test("object with many properties is treated as any", () => {
+        const props = Array.from({ length: 40 }, (_, i) => `p${i}: string`).join("; ")
+        const code = `
+export function big(x: { ${props} }): void;
+`
+        const actual = fromCode(code)
+
+        expect(actual.big).toEqual({
+            args: [Guess.any()],
+            ret: Guess.undefined(),
+            callconv: "Free",
+        })
+    })
+})
+
 describe("builtins", () => {
     test("Uint8Array", () => {
         const code = `

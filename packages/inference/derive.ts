@@ -31,14 +31,19 @@ export function fromFile(path: string): Schema {
     return ctx.schema
 }
 
+const MAX_TYPE_DEPTH = 8
+const MAX_OBJECT_PROPERTIES = 30
+
 type Context = {
     checker: ts.TypeChecker
     sourceFile: ts.SourceFile
     schema: Schema
     builtins: Set<string>
+    visiting: Set<ts.Type>
+    depth: number
 }
 
-function createContext(path: string) {
+function createContext(path: string): Context {
     const program = ts.createProgram({
         rootNames: [path],
         options: {
@@ -52,7 +57,7 @@ function createContext(path: string) {
     const checker = program.getTypeChecker()
     const builtins = new Set(Builtins)
 
-    return { checker, sourceFile, builtins, schema: {} }
+    return { checker, sourceFile, builtins, schema: {}, visiting: new Set(), depth: 0 }
 }
 
 /**
@@ -64,13 +69,28 @@ function getExportedSymbols(ctx: Context): ts.Symbol[] {
 }
 
 /**
- * Get the main source module that exports all symbols
+ * Get the main source module that exports all symbols.
+ *
+ * If the source file uses `declare module 'name' { ... }` (ambient module declaration),
+ * `getSymbolAtLocation` returns undefined. In that case, find the declared module
+ * statement and resolve its symbol instead.
  */
 function getMainModule(ctx: Context): ts.Symbol {
     const symbol = ctx.checker.getSymbolAtLocation(ctx.sourceFile)
-    assert(symbol !== undefined)
+    if (symbol !== undefined) {
+        return symbol
+    }
 
-    return symbol
+    for (const statement of ctx.sourceFile.statements) {
+        if (ts.isModuleDeclaration(statement) && ts.isStringLiteral(statement.name)) {
+            const modSymbol = ctx.checker.getSymbolAtLocation(statement.name)
+            if (modSymbol !== undefined) {
+                return modSymbol
+            }
+        }
+    }
+
+    throw Error(`Could not find module symbol for ${ctx.sourceFile.fileName}`)
 }
 
 /**
@@ -242,6 +262,17 @@ function mergeUnionTypes(checker: ts.TypeChecker, types: ts.Type[]): ts.Type[] {
 }
 
 function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
+    if (ctx.visiting.has(type) || ctx.depth >= MAX_TYPE_DEPTH) {
+        return Guess.any()
+    }
+
+    ctx.depth++
+    const result = toTypeGuessInner(ctx, type)
+    ctx.depth--
+    return result
+}
+
+function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
     const flags = type.getFlags()
 
     if (flags & ts.TypeFlags.Any || flags & ts.TypeFlags.Unknown) {
@@ -274,13 +305,17 @@ function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
     }
 
     if (type.isUnion()) {
+        ctx.visiting.add(type)
         const types = mergeUnionTypes(ctx.checker, type.types)
         const members = types.map(t => toTypeGuess(ctx, t))
+        ctx.visiting.delete(type)
         return Guess.union(...members)
     }
 
     if (type.isIntersection()) {
+        ctx.visiting.add(type)
         const members = type.types.map(t => toTypeGuess(ctx, t))
+        ctx.visiting.delete(type)
         return Guess.intersect(...members)
     }
 
@@ -288,7 +323,9 @@ function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
         const typeArgs = ctx.checker.getTypeArguments(type as ts.TypeReference)
         assert(typeArgs.length > 0)
 
+        ctx.visiting.add(type)
         const elements = typeArgs.map(t => toTypeGuess(ctx, t))
+        ctx.visiting.delete(type)
         return Guess.array(Guess.union(...elements))
     }
 
@@ -313,6 +350,11 @@ function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
 
     if (flags & ts.TypeFlags.Object) {
         const properties = type.getProperties()
+        if (properties.length > MAX_OBJECT_PROPERTIES) {
+            return Guess.any()
+        }
+
+        ctx.visiting.add(type)
         const shape: Record<string, TypeGuess> = {}
         for (const prop of properties) {
             const propName = prop.getName()
@@ -325,6 +367,7 @@ function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
                 shape[propName] = guess
             }
         }
+        ctx.visiting.delete(type)
         return Guess.object(shape)
     }
 

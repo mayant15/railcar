@@ -36,11 +36,8 @@ function validateTypeGuess(schema: Schema, guess: TypeGuess) {
     if (guess.kind.Class) {
         assert(guess.classType !== undefined);
         for (const key of Object.keys(guess.classType)) {
-            if (schema[key]) {
-                assert(
-                    schema[key].callconv === "Constructor",
-                    `Class ${key} does not have a constructor in schema`,
-                );
+            if (schema[key] && schema[key].callconv !== "Constructor") {
+                console.warn(`[railcar-infer] Warning: Class ${key} does not have a constructor in schema`);
             }
         }
     }
@@ -69,8 +66,10 @@ function validateTypeIsProducible(schema: Schema, type: TypeGuess) {
             }
         }
 
-        const classNames = Object.keys(type.classType)
-        assert(viable, `None of [${classNames.join(", ")}] are viable`)
+        if (!viable) {
+            const classNames = Object.keys(type.classType)
+            console.warn(`[railcar-infer] Warning: None of [${classNames.join(", ")}] are viable`)
+        }
     }
 
     if (type.kind.Object && type.kind.Object > 0) {

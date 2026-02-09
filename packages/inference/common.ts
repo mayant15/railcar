@@ -234,7 +234,7 @@ export const Guess = {
             const keys = properties(shapes);
             for (const key of keys) {
                 const existing = shapes.map(
-                    (obj) => obj[key] ?? Guess.exact(Types.undefined()),
+                    (obj) => Object.hasOwn(obj, key) ? obj[key] : Guess.exact(Types.undefined()),
                 );
                 res.objectShape[key] = Guess.union(...existing);
             }
@@ -245,15 +245,19 @@ export const Guess = {
 
     intersect(...gs: TypeGuess[]): TypeGuess {
         const noAny = gs.filter((g) => !g.isAny);
-        assert(noAny.length > 0);
-        assert(
-            noAny.every(
-                (g) => g.objectShape !== undefined && g.kind.Object! === 1,
-            ),
-            "intersections can only be computed on objects",
+        if (noAny.length === 0) {
+            return Guess.any();
+        }
+
+        const objects = noAny.filter(
+            (g) => g.objectShape !== undefined && g.kind.Object! === 1,
         );
 
-        const objectShape = noAny
+        if (objects.length === 0) {
+            return Guess.union(...noAny);
+        }
+
+        const objectShape = objects
             .map((g) => {
                 assert(g.objectShape !== undefined);
                 return g.objectShape;
@@ -261,7 +265,7 @@ export const Guess = {
             .reduce((acc, shape) => {
                 const props = Object.keys(shape);
                 for (const prop of props) {
-                    if (!(prop in acc)) {
+                    if (!Object.hasOwn(acc, prop)) {
                         acc[prop] = shape[prop];
                     } else {
                         acc[prop] = pickBiggerGuess(acc[prop], shape[prop]);
