@@ -7,6 +7,7 @@
  * 1. mergeUnionTypes
  * 2. Tuples are arrays with unions for values
  * 3. A `Promise<T>` return is just `T`
+ * 4. Record<K, V> are Guess.object({})
  */
 
 import assert from "node:assert"

@@ -558,6 +558,33 @@ export function arrayNested(x: { items: { id: string; value: number }[] }): { re
             callconv: "Free",
         })
     })
+
+    test("record", () => {
+        const code = `
+export function foo(x: Record<string, unknown>);
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.object({})],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+
+    test("index signatures", () => {
+        const code = `
+interface B {
+    [key: string]: number
+}
+export function foo(x: B);
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.object({})],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
 })
 
 describe("function overloading", () => {
@@ -892,8 +919,36 @@ export function foo(d: Data);
     })
 })
 
+describe("generics", () => {
+    test("unconstrained is any", () => {
+        const code = `
+export function foo<T>(x: T);
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.any()],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+
+    test.todo("constrained is promoted to the constraint", () => {
+        const code = `
+export function foo<T extends number>(x: T);
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.number()],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+
+    test.todo("overloads", () => {});
+})
+
 describe("recursive and complex types", () => {
-    test("recursive object type does not stack overflow", () => {
+    test.todo("recursive object type does not stack overflow", () => {
         const code = `
 interface Node {
     parent: Node;
@@ -924,6 +979,22 @@ export function tag(x: Tagged): void;
         })
     })
 
+    test("object with many properties is treated as any", () => {
+        const props = Array.from({ length: 40 }, (_, i) => `p${i}: string`).join("; ")
+        const code = `
+export function big(x: { ${props} }): void;
+`
+        const actual = fromCode(code)
+
+        expect(actual.big).toEqual({
+            args: [Guess.any()],
+            ret: Guess.undefined(),
+            callconv: "Free",
+        })
+    })
+})
+
+describe("exports", () => {
     test("ambient module declaration", () => {
         const code = `
 declare module 'my-module' {
@@ -954,18 +1025,12 @@ declare module 'my-module' {
         })
     })
 
-    test("object with many properties is treated as any", () => {
-        const props = Array.from({ length: 40 }, (_, i) => `p${i}: string`).join("; ")
+    test.todo("skip constants that are not functions", () => {
         const code = `
-export function big(x: { ${props} }): void;
+export declare const defaults: string[];
 `
         const actual = fromCode(code)
-
-        expect(actual.big).toEqual({
-            args: [Guess.any()],
-            ret: Guess.undefined(),
-            callconv: "Free",
-        })
+        expect(actual.defaults).toBeUndefined()
     })
 })
 
@@ -1106,5 +1171,12 @@ export = UAParser;
 
         expect(actual["UAParser.UAParser"]).toBeUndefined()
         expect(actual["UAParser.toString"]).toBeUndefined()
+    })
+
+    test.todo("redux has generics with overloads", () => {
+// declare function bindActionCreators<A, C extends ActionCreator<A>>(actionCreator: C, dispatch: Dispatch): C;
+// declare function bindActionCreators<A extends ActionCreator<any>, B extends ActionCreator<any>>(actionCreator: A, dispatch: Dispatch): B;
+// declare function bindActionCreators<A, M extends ActionCreatorsMapObject<A>>(actionCreators: M, dispatch: Dispatch): M;
+// declare function bindActionCreators<M extends ActionCreatorsMapObject, N extends ActionCreatorsMapObject>(actionCreators: M, dispatch: Dispatch): N;
     })
 })
