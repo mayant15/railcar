@@ -943,41 +943,5 @@
                 "kind": {}
             }
         ]
-    },
-    "XMLBuilder.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "XMLBuilder": 1
-                }
-            }
-        ]
-    },
-    "XMLParser.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "XMLParser": 1
-                }
-            }
-        ]
     }
 }

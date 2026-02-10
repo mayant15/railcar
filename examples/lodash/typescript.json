@@ -5400,24 +5400,6 @@
             }
         ]
     },
-    "lodash.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "lodash": 1
-                }
-            }
-        ]
-    },
     "lodash.toUpper": {
         "callconv": "Method",
         "ret": {
@@ -15561,24 +15543,6 @@
         ]
     },
     "_.toSafeInteger": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "_": 1
-                }
-            }
-        ]
-    },
-    "_.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,

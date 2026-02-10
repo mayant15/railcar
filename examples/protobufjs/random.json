@@ -66,15 +66,10 @@
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "callconv": "Free",
         "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Error": 1
-            }
+            "isAny": true,
+            "kind": {}
         },
         "args": [
             {
@@ -515,24 +510,6 @@
         ]
     },
     "Writer.finish": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Writer": 1
-                }
-            }
-        ]
-    },
-    "Writer.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -999,24 +976,6 @@
             }
         ]
     },
-    "BufferWriter.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "BufferWriter": 1
-                }
-            }
-        ]
-    },
     "BufferWriter._configure": {
         "callconv": "Free",
         "ret": {
@@ -1374,24 +1333,6 @@
         ]
     },
     "Reader.sfixed64": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Reader": 1
-                }
-            }
-        ]
-    },
-    "Reader.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1767,24 +1708,6 @@
             }
         ]
     },
-    "BufferReader.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "BufferReader": 1
-                }
-            }
-        ]
-    },
     "BufferReader._configure": {
         "callconv": "Free",
         "ret": {
@@ -1881,24 +1804,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "util.EventEmitter.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "util.EventEmitter": 1
-                }
             }
         ]
     },
@@ -2070,24 +1975,6 @@
         ]
     },
     "util.LongBits.length": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "util.LongBits": 1
-                }
-            }
-        ]
-    },
-    "util.LongBits.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -3877,36 +3764,6 @@
             }
         ]
     },
-    "util.Buffer.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "util.Buffer": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
     "util.Buffer.equals": {
         "callconv": "Method",
         "ret": {
@@ -5633,24 +5490,6 @@
             }
         ]
     },
-    "util.Array.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "util.Array": 1
-                }
-            }
-        ]
-    },
     "util.Long": {
         "callconv": "Constructor",
         "ret": {
@@ -5710,28 +5549,6 @@
                 "classType": {
                     "util.Long": 1
                 }
-            }
-        ]
-    },
-    "util.Long.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "util.Long": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
@@ -7134,42 +6951,19 @@
         ]
     },
     "util.ProtocolError": {
-        "callconv": "Constructor",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "util.ProtocolError": 1
-            }
-        },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
-    "util.ProtocolError.toString": {
-        "callconv": "Method",
+        "callconv": "Free",
         "ret": {
             "isAny": true,
             "kind": {}
         },
         "args": [
             {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "util.ProtocolError": 1
-                }
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
             }
         ]
     },
@@ -7496,24 +7290,6 @@
             }
         ]
     },
-    "rpc.Service.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "rpc.Service": 1
-                }
-            }
-        ]
-    },
     "configure": {
         "callconv": "Free",
         "ret": {
@@ -7811,24 +7587,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "ReflectionObject.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "ReflectionObject": 1
-                }
             }
         ]
     },
@@ -8328,24 +8086,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "Namespace.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Namespace": 1
-                }
             }
         ]
     },
@@ -8976,24 +8716,6 @@
             }
         ]
     },
-    "Root.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Root": 1
-                }
-            }
-        ]
-    },
     "Root.fromJSON": {
         "callconv": "Free",
         "ret": {
@@ -9351,24 +9073,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "Enum.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Enum": 1
-                }
             }
         ]
     },
@@ -10129,24 +9833,6 @@
             }
         ]
     },
-    "Type.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Type": 1
-                }
-            }
-        ]
-    },
     "Type.generateConstructor": {
         "callconv": "Free",
         "ret": {
@@ -10421,24 +10107,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "Field.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Field": 1
-                }
             }
         ]
     },
@@ -10763,24 +10431,6 @@
             }
         ]
     },
-    "OneOf.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "OneOf": 1
-                }
-            }
-        ]
-    },
     "OneOf.fromJSON": {
         "callconv": "Free",
         "ret": {
@@ -11033,24 +10683,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "MapField.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "MapField": 1
-                }
             }
         ]
     },
@@ -11608,24 +11240,6 @@
             }
         ]
     },
-    "Service.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Service": 1
-                }
-            }
-        ]
-    },
     "Service.fromJSON": {
         "callconv": "Free",
         "ret": {
@@ -11885,24 +11499,6 @@
             }
         ]
     },
-    "Method.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Method": 1
-                }
-            }
-        ]
-    },
     "Method.fromJSON": {
         "callconv": "Free",
         "ret": {
@@ -11939,24 +11535,6 @@
         ]
     },
     "Message.toJSON": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Message": 1
-                }
-            }
-        ]
-    },
-    "Message.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,

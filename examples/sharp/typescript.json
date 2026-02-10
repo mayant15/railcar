@@ -2302,24 +2302,6 @@
             }
         ]
     },
-    "Sharp.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Sharp": 1
-                }
-            }
-        ]
-    },
     "Sharp.cache": {
         "callconv": "Free",
         "ret": {

@@ -66,15 +66,10 @@
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "callconv": "Free",
         "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Error": 1
-            }
+            "isAny": true,
+            "kind": {}
         },
         "args": [
             {
@@ -1624,24 +1619,6 @@
         },
         "args": []
     },
-    "Debug.DebugTypeMapper.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Debug.DebugTypeMapper": 1
-                }
-            }
-        ]
-    },
     "Debug.attachDebugPrototypeIfDebug": {
         "callconv": "Free",
         "ret": {
@@ -2324,24 +2301,6 @@
             }
         ]
     },
-    "IdentifierNameMap.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "IdentifierNameMap": 1
-                }
-            }
-        ]
-    },
     "InlayHints.provideInlayHints": {
         "callconv": "Free",
         "ret": {
@@ -2741,24 +2700,6 @@
             }
         },
         "args": []
-    },
-    "OperationCanceledException.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "OperationCanceledException": 1
-                }
-            }
-        ]
     },
     "OrganizeImports.compareImportsOrRequireStatements": {
         "callconv": "Free",
@@ -3242,24 +3183,6 @@
             }
         ]
     },
-    "ThrottledCancellationToken.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "ThrottledCancellationToken": 1
-                }
-            }
-        ]
-    },
     "Version": {
         "callconv": "Constructor",
         "ret": {
@@ -3344,24 +3267,6 @@
             }
         ]
     },
-    "Version.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Version": 1
-                }
-            }
-        ]
-    },
     "VersionRange": {
         "callconv": "Constructor",
         "ret": {
@@ -3399,24 +3304,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "VersionRange.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "VersionRange": 1
-                }
             }
         ]
     },
@@ -21243,24 +21130,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "formatting.FormattingContext.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "formatting.FormattingContext": 1
-                }
             }
         ]
     },
@@ -57448,24 +57317,6 @@
             }
         ]
     },
-    "server.AutoImportProviderProject.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.AutoImportProviderProject": 1
-                }
-            }
-        ]
-    },
     "server.AuxiliaryProject": {
         "callconv": "Constructor",
         "ret": {
@@ -60645,24 +60496,6 @@
         ]
     },
     "server.AuxiliaryProject.getCompilerOptionsForNoDtsResolutionProject": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.AuxiliaryProject": 1
-                }
-            }
-        ]
-    },
-    "server.AuxiliaryProject.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -64162,24 +63995,6 @@
             }
         ]
     },
-    "server.ConfiguredProject.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.ConfiguredProject": 1
-                }
-            }
-        ]
-    },
     "server.ExternalProject": {
         "callconv": "Constructor",
         "ret": {
@@ -67400,24 +67215,6 @@
             }
         ]
     },
-    "server.ExternalProject.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.ExternalProject": 1
-                }
-            }
-        ]
-    },
     "server.GcTimer": {
         "callconv": "Constructor",
         "ret": {
@@ -67445,24 +67242,6 @@
         ]
     },
     "server.GcTimer.scheduleCollect": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.GcTimer": 1
-                }
-            }
-        ]
-    },
-    "server.GcTimer.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -70732,24 +70511,6 @@
             }
         ]
     },
-    "server.InferredProject.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.InferredProject": 1
-                }
-            }
-        ]
-    },
     "server.LineIndex": {
         "callconv": "Constructor",
         "ret": {
@@ -71025,24 +70786,6 @@
             }
         ]
     },
-    "server.LineIndex.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.LineIndex": 1
-                }
-            }
-        ]
-    },
     "server.LineLeaf": {
         "callconv": "Constructor",
         "ret": {
@@ -71128,24 +70871,6 @@
         ]
     },
     "server.LineLeaf.lineCount": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.LineLeaf": 1
-                }
-            }
-        ]
-    },
-    "server.LineLeaf.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -71503,24 +71228,6 @@
         ]
     },
     "server.LineNode.lineCount": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.LineNode": 1
-                }
-            }
-        ]
-    },
-    "server.LineNode.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -74753,24 +74460,6 @@
         ]
     },
     "server.Project.getCompilerOptionsForNoDtsResolutionProject": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.Project": 1
-                }
-            }
-        ]
-    },
-    "server.Project.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -79070,24 +78759,6 @@
             }
         ]
     },
-    "server.ProjectService.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.ProjectService": 1
-                }
-            }
-        ]
-    },
     "server.ScriptInfo": {
         "callconv": "Constructor",
         "ret": {
@@ -79712,24 +79383,6 @@
             }
         ]
     },
-    "server.ScriptInfo.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.ScriptInfo": 1
-                }
-            }
-        ]
-    },
     "server.ScriptVersionCache": {
         "callconv": "Constructor",
         "ret": {
@@ -79968,24 +79621,6 @@
         ]
     },
     "server.ScriptVersionCache.getLineCount": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.ScriptVersionCache": 1
-                }
-            }
-        ]
-    },
-    "server.ScriptVersionCache.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -83811,24 +83446,6 @@
             }
         ]
     },
-    "server.Session.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.Session": 1
-                }
-            }
-        ]
-    },
     "server.TextStorage": {
         "callconv": "Constructor",
         "ret": {
@@ -84285,24 +83902,6 @@
             }
         ]
     },
-    "server.TextStorage.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.TextStorage": 1
-                }
-            }
-        ]
-    },
     "server.ThrottledOperations": {
         "callconv": "Constructor",
         "ret": {
@@ -84374,24 +83973,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "server.ThrottledOperations.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.ThrottledOperations": 1
-                }
             }
         ]
     },
@@ -84592,24 +84173,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "server.TypingsInstallerAdapter.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "server.TypingsInstallerAdapter": 1
-                }
             }
         ]
     },
@@ -89156,24 +88719,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "textChanges.ChangeTracker.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "textChanges.ChangeTracker": 1
-                }
             }
         ]
     },

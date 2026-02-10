@@ -3088,26 +3088,6 @@
         },
         "callconv": "Constructor"
     },
-    "CSSResult.toString": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "CSSResult": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "String": 1
-            }
-        },
-        "callconv": "Method"
-    },
     "unsafeCSS": {
         "args": [
             {
@@ -7103,24 +7083,6 @@
             }
         ]
     },
-    "LitElement.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "LitElement": 1
-                }
-            }
-        ]
-    },
     "ReactiveElement.C": {
         "callconv": "Method",
         "ret": {
@@ -7152,24 +7114,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "ReactiveElement.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "ReactiveElement": 1
-                }
             }
         ]
     },
@@ -7287,24 +7231,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "_$LH.R.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "_$LH.R": 1
-                }
             }
         ]
     },
@@ -7478,24 +7404,6 @@
             }
         ]
     },
-    "_$LH.I.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "_$LH.I": 1
-                }
-            }
-        ]
-    },
     "_$LH.H": {
         "callconv": "Constructor",
         "ret": {
@@ -7552,24 +7460,6 @@
             }
         ]
     },
-    "_$LH.H.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "_$LH.H": 1
-                }
-            }
-        ]
-    },
     "_$LH.N": {
         "callconv": "Constructor",
         "ret": {
@@ -7602,24 +7492,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "_$LH.N.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "_$LH.N": 1
-                }
             }
         ]
     },
@@ -7701,24 +7573,6 @@
             }
         ]
     },
-    "_$LH.U.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "_$LH.U": 1
-                }
-            }
-        ]
-    },
     "_$LH.B": {
         "callconv": "Constructor",
         "ret": {
@@ -7754,24 +7608,6 @@
             }
         ]
     },
-    "_$LH.B.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "_$LH.B": 1
-                }
-            }
-        ]
-    },
     "_$LH.F": {
         "callconv": "Constructor",
         "ret": {
@@ -7795,24 +7631,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "_$LH.F.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "_$LH.F": 1
-                }
             }
         ]
     },

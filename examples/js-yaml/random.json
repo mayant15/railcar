@@ -66,15 +66,10 @@
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "callconv": "Free",
         "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Error": 1
-            }
+            "isAny": true,
+            "kind": {}
         },
         "args": [
             {
@@ -139,24 +134,6 @@
             }
         ]
     },
-    "Type.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Type": 1
-                }
-            }
-        ]
-    },
     "Schema": {
         "callconv": "Constructor",
         "ret": {
@@ -194,24 +171,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "Schema.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Schema": 1
-                }
             }
         ]
     },
@@ -285,28 +244,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
-    "YAMLException.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "YAMLException": 1
-                }
             },
             {
                 "isAny": true,

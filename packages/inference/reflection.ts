@@ -87,6 +87,7 @@ const BUILTIN_METHODS = new Set([
     "propertyIsEnumerable",
     "valueOf",
     "toLocaleString",
+    "toString",
 ]);
 
 function getMethods(constr: { prototype: unknown }) {

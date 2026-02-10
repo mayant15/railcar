@@ -575,33 +575,6 @@
         },
         "callconv": "Constructor"
     },
-    "YAMLException.toString": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "YAMLException": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Boolean": 0.5,
-                    "Undefined": 0.5
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "String": 1
-            }
-        },
-        "callconv": "Method"
-    },
     "Uint8Array": {
         "args": [],
         "ret": {
@@ -728,42 +701,6 @@
         },
         "callconv": "Constructor",
         "builtin": true
-    },
-    "Type.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Type": 1
-                }
-            }
-        ]
-    },
-    "Schema.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Schema": 1
-                }
-            }
-        ]
     },
     "safeLoad": {
         "callconv": "Free",

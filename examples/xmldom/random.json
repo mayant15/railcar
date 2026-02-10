@@ -66,15 +66,10 @@
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "callconv": "Free",
         "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Error": 1
-            }
+            "isAny": true,
+            "kind": {}
         },
         "args": [
             {
@@ -195,24 +190,6 @@
             }
         ]
     },
-    "DOMException.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "DOMException": 1
-                }
-            }
-        ]
-    },
     "ParseError": {
         "callconv": "Constructor",
         "ret": {
@@ -232,24 +209,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "ParseError.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "ParseError": 1
-                }
             }
         ]
     },
@@ -762,28 +721,6 @@
         ]
     },
     "CharacterData.compareDocumentPosition": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "CharacterData": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
-    "CharacterData.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1542,28 +1479,6 @@
             }
         ]
     },
-    "Document.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Document": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
     "DocumentFragment": {
         "callconv": "Free",
         "ret": {
@@ -1712,24 +1627,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "DOMImplementation.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "DOMImplementation": 1
-                }
             }
         ]
     },
@@ -2527,28 +2424,6 @@
             }
         ]
     },
-    "Element.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Element": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
     "Entity": {
         "callconv": "Free",
         "ret": {
@@ -2598,28 +2473,6 @@
         ]
     },
     "LiveNodeList.item": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "LiveNodeList": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
-    "LiveNodeList.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -2857,24 +2710,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "NamedNodeMap.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "NamedNodeMap": 1
-                }
             }
         ]
     },
@@ -3252,28 +3087,6 @@
             }
         ]
     },
-    "Node.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Node": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
     "NodeList": {
         "callconv": "Constructor",
         "ret": {
@@ -3288,28 +3101,6 @@
         "args": []
     },
     "NodeList.item": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "NodeList": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
-    "NodeList.toString": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -3927,28 +3718,6 @@
             }
         ]
     },
-    "Text.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Text": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
     "XMLSerializer": {
         "callconv": "Constructor",
         "ret": {
@@ -3985,24 +3754,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "XMLSerializer.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "XMLSerializer": 1
-                }
             }
         ]
     },
@@ -4047,24 +3798,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "DOMParser.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "DOMParser": 1
-                }
             }
         ]
     },

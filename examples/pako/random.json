@@ -66,15 +66,10 @@
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "callconv": "Free",
         "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Error": 1
-            }
+            "isAny": true,
+            "kind": {}
         },
         "args": [
             {
@@ -202,24 +197,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "Deflate.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Deflate": 1
-                }
             }
         ]
     },
@@ -359,24 +336,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "Inflate.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Inflate": 1
-                }
             }
         ]
     },

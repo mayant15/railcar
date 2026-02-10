@@ -1843,42 +1843,6 @@
             }
         ]
     },
-    "ValidationError.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "ValidationError": 1
-                }
-            }
-        ]
-    },
-    "Builder.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Builder": 1
-                }
-            }
-        ]
-    },
     "Parser.processAsync": {
         "callconv": "Method",
         "ret": {
@@ -1924,24 +1888,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            }
-        ]
-    },
-    "Parser.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Parser": 1
-                }
             }
         ]
     },

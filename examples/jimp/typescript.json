@@ -747,24 +747,6 @@
             }
         ]
     },
-    "Jimp.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            }
-        ]
-    },
     "Jimp.getBuffer": {
         "callconv": "Method",
         "ret": {
