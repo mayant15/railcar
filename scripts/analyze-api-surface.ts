@@ -7,6 +7,8 @@ import type { Schema, SignatureGuess } from "@railcar/inference";
 
 import { getProjectNames } from "./common";
 
+const LATEX = false
+
 async function schema(project: string, kind: string): Promise<Schema> {
     const path = join("examples", project, `${kind}.json`);
     return JSON.parse((await readFile(path)).toString());
@@ -57,6 +59,23 @@ function countAny(schema: Schema): [number, number] {
     return [total, any];
 }
 
+type AnalyzeRow = {
+    project: string,
+    random: {
+        total: number,
+        any: number,
+        anyTypeP: number
+    },
+    typescript: {
+        any: number,
+        anyTypeP: number
+    },
+    syntest: {
+        any: number,
+        anyTypeP: number
+    }
+}
+
 async function analyze(project: string) {
     const p1 = await schema(project, "random");
     // const p2 = schema(project, "syntest");
@@ -64,7 +83,7 @@ async function analyze(project: string) {
     const [random, typescript] = await Promise.all([p1, p3]);
 
     const [totalRandom, anyRandom] = countNoInfoSignatures(random);
-    const [totalSyntest, anySyntest] = [0, 0] // countNoInfoSignatures(syntest);
+    const [totalSyntest, anySyntest] = [1, 0] // countNoInfoSignatures(syntest);
     const [totalTypescript, anyTypescript] = countNoInfoSignatures(typescript);
 
     // assert(totalRandom === totalSyntest);
@@ -74,23 +93,28 @@ async function analyze(project: string) {
     assert(totalRandom >= anyTypescript);
 
     const [totalRandomTypes, anyRandomTypes] = countAny(random);
-    const [totalSyntestTypes, anySyntestTypes] = [0, 0] //countAny(syntest);
+    const [totalSyntestTypes, anySyntestTypes] = [1, 0] //countAny(syntest);
     const [totalTypescriptTypes, anyTypescriptTypes] = countAny(typescript);
 
-    console.log(
-        "  %s & %d & %d & %f & %d & %f & %d & %f \\\\",
+    return {
         project,
-        totalRandom,
-        anyRandom,
-        ((anyRandomTypes * 100) / totalRandomTypes).toFixed(1),
-        anySyntest,
-        ((anySyntestTypes * 100) / totalSyntestTypes).toFixed(1),
-        anyTypescript,
-        ((anyTypescriptTypes * 100) / totalTypescriptTypes).toFixed(1),
-    );
+        random: {
+            total: totalRandom,
+            any: anyRandom,
+            anyTypeP: anyRandomTypes * 100 / totalRandomTypes,
+        },
+        typescript: {
+            any: anyTypescript,
+            anyTypeP: anyTypescriptTypes * 100 / totalTypescriptTypes
+        },
+        syntest: {
+            any: anySyntest,
+            anyTypeP: anySyntestTypes * 100 / totalSyntestTypes
+        }
+    }
 }
 
-async function main() {
+function printLatex(data: AnalyzeRow[]) {
     console.log("\\begin{tabular}{lrrrrrrr}");
     console.log("\\toprule");
     console.log(
@@ -101,13 +125,49 @@ async function main() {
     );
     console.log("\\midrule");
 
-    const projects = getProjectNames();
-    for (const project of projects) {
-        await analyze(project);
+    for (const row of data) {
+        const {project, random, typescript, syntest} = row
+        console.log(
+            "  %s & %d & %d & %f & %d & %f & %d & %f \\\\",
+            project,
+            random.total,
+            random.any,
+            random.anyTypeP.toFixed(1),
+            syntest.any,
+            syntest.anyTypeP.toFixed(1),
+            typescript.any,
+            typescript.anyTypeP.toFixed(1),
+        );
     }
 
     console.log("\\bottomrule");
     console.log("\\end{tabular}");
+}
+
+function printTable(data: AnalyzeRow[]) {
+    console.table(data.map(d => ({
+        Benchmark: d.project,
+        Total: d.random.total,
+        "Random # Any API": d.random.any,
+        "Random % Any Types": d.random.anyTypeP.toFixed(1),
+        "TypeScript # Any API": d.typescript.any,
+        "TypeScript % Any Types": d.typescript.anyTypeP.toFixed(1),
+        // "SynTest # Any API": d.syntest.any,
+        // "SynTest % Any Types": d.syntest.anyTypeP.toFixed(1),
+    })))
+}
+
+async function main() {
+    const data: AnalyzeRow[] = []
+    const projects = getProjectNames();
+    for (const project of projects) {
+        data.push(await analyze(project))
+    }
+    if (LATEX) {
+        printLatex(data)
+    } else {
+        printTable(data)
+    }
 }
 
 main();
