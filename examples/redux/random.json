@@ -112,14 +112,6 @@
         ],
         "builtin": true
     },
-    "__DO_NOT_USE__ActionTypes.PROBE_UNKNOWN_ACTION": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
-    },
     "applyMiddleware": {
         "callconv": "Free",
         "ret": {
