@@ -250,29 +250,5 @@
                 "kind": {}
             }
         ]
-    },
-    "safeLoad": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
-    },
-    "safeLoadAll": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
-    },
-    "safeDump": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
     }
 }

@@ -48,4 +48,9 @@ module.exports = {
         "bad indentation",
         "incomplete explicit mapping pair",
     ]),
+    skipMethods: [
+        "safeLoad",
+        "safeLoadAll",
+        "safeDump",
+    ]
 };
