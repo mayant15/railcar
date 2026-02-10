@@ -59,22 +59,22 @@ function countAny(schema: Schema): [number, number] {
 
 async function analyze(project: string) {
     const p1 = await schema(project, "random");
-    const p2 = schema(project, "syntest");
+    // const p2 = schema(project, "syntest");
     const p3 = schema(project, "typescript");
-    const [random, syntest, typescript] = await Promise.all([p1, p2, p3]);
+    const [random, typescript] = await Promise.all([p1, p3]);
 
     const [totalRandom, anyRandom] = countNoInfoSignatures(random);
-    const [totalSyntest, anySyntest] = countNoInfoSignatures(syntest);
+    const [totalSyntest, anySyntest] = [0, 0] // countNoInfoSignatures(syntest);
     const [totalTypescript, anyTypescript] = countNoInfoSignatures(typescript);
 
-    assert(totalRandom === totalSyntest);
+    // assert(totalRandom === totalSyntest);
     assert(totalRandom === totalTypescript);
     assert(totalRandom === anyRandom);
-    assert(totalRandom >= anySyntest);
+    // assert(totalRandom >= anySyntest);
     assert(totalRandom >= anyTypescript);
 
     const [totalRandomTypes, anyRandomTypes] = countAny(random);
-    const [totalSyntestTypes, anySyntestTypes] = countAny(syntest);
+    const [totalSyntestTypes, anySyntestTypes] = [0, 0] //countAny(syntest);
     const [totalTypescriptTypes, anyTypescriptTypes] = countAny(typescript);
 
     console.log(

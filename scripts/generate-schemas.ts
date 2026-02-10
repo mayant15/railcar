@@ -116,8 +116,10 @@ async function isIdempotent(
 
 async function main() {
     const projects = getProjectNames();
+
+    let i = 1;
     for (const project of projects) {
-        console.log("Generating", project);
+        console.log(`[${i++}/${projects.length}]`, "Generating", project);
 
         const entrypoint = await findEntrypoint(project);
 

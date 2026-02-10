@@ -1,4 +1,282 @@
 {
+    "applyMiddleware": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.143,
+                    "Undefined": 0.143,
+                    "Function": 0.714
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.429,
+                    "Function": 0.571
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.571,
+                    "Function": 0.429
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.714,
+                    "Function": 0.286
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.857,
+                    "Function": 0.143
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Function": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "bindActionCreators": {
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
+    },
+    "combineReducers": {
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Function": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "compose": {
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.143,
+                    "Undefined": 0.429,
+                    "Function": 0.429
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.714,
+                    "Function": 0.286
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.857,
+                    "Function": 0.143
+                }
+            }
+        ],
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "callconv": "Free"
+    },
+    "createStore": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.75,
+                    "Function": 0.25
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "dispatch": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "getState": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "subscribe": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "replaceReducer": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "__@observable@228": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
+            }
+        },
+        "callconv": "Free"
+    },
+    "isAction": {
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Boolean": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "isPlainObject": {
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Boolean": 1
+            }
+        },
+        "callconv": "Free"
+    },
+    "legacy_createStore": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.75,
+                    "Function": 0.25
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "dispatch": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "getState": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "subscribe": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "replaceReducer": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                },
+                "__@observable@228": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
+            }
+        },
+        "callconv": "Free"
+    },
     "Uint8Array": {
         "args": [],
         "ret": {
@@ -125,272 +403,6 @@
         },
         "callconv": "Constructor",
         "builtin": true
-    },
-    "applyMiddleware": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Array": 0.14285714285714285,
-                    "Undefined": 0.14285714285714285,
-                    "Function": 0.7142857142857142
-                },
-                "arrayValueType": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.42857142857142855,
-                    "Function": 0.5714285714285714
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.5714285714285714,
-                    "Function": 0.42857142857142855
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.7142857142857142,
-                    "Function": 0.2857142857142857
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.857142857142857,
-                    "Function": 0.14285714285714285
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Function": 0.9999999999999998
-            }
-        },
-        "callconv": "Free"
-    },
-    "bindActionCreators": {
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "callconv": "Free"
-    },
-    "combineReducers": {
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Function": 1
-            }
-        },
-        "callconv": "Free"
-    },
-    "compose": {
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Array": 0.14285714285714285,
-                    "Undefined": 0.42857142857142855,
-                    "Function": 0.42857142857142855
-                },
-                "arrayValueType": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.7142857142857142,
-                    "Function": 0.2857142857142857
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.857142857142857,
-                    "Function": 0.14285714285714285
-                }
-            }
-        ],
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "callconv": "Free"
-    },
-    "createStore": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.5,
-                    "Function": 0.5
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {
-                "dispatch": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "getState": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "subscribe": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "replaceReducer": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                }
-            }
-        },
-        "callconv": "Free"
-    },
-    "isAction": {
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Boolean": 1
-            }
-        },
-        "callconv": "Free"
-    },
-    "isPlainObject": {
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Boolean": 1
-            }
-        },
-        "callconv": "Free"
-    },
-    "legacy_createStore": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.5,
-                    "Function": 0.5
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {
-                "dispatch": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "getState": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "subscribe": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "replaceReducer": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                }
-            }
-        },
-        "callconv": "Free"
     },
     "__DO_NOT_USE__ActionTypes.PROBE_UNKNOWN_ACTION": {
         "callconv": "Free",

@@ -1,4 +1,693 @@
 {
+    "UAParser": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.25,
+                    "Object": 0.188,
+                    "Array": 0.063,
+                    "Undefined": 0.5
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Object": 1
+                    },
+                    "objectShape": {
+                        "browser": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 0.5,
+                                "Undefined": 0.5
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Array": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            }
+                        },
+                        "cpu": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 0.5,
+                                "Undefined": 0.5
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Array": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            }
+                        },
+                        "device": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 0.5,
+                                "Undefined": 0.5
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Array": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            }
+                        },
+                        "engine": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 0.5,
+                                "Undefined": 0.5
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Array": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            }
+                        },
+                        "os": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 0.5,
+                                "Undefined": 0.5
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Array": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "objectShape": {
+                    "browser": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.25,
+                            "Undefined": 0.75
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 1
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 0.333,
+                                    "Class": 0.333,
+                                    "Array": 0.333
+                                },
+                                "classType": {
+                                    "RegExp": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Function": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "cpu": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.25,
+                            "Undefined": 0.75
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 1
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 0.333,
+                                    "Class": 0.333,
+                                    "Array": 0.333
+                                },
+                                "classType": {
+                                    "RegExp": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Function": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "device": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.25,
+                            "Undefined": 0.75
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 1
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 0.333,
+                                    "Class": 0.333,
+                                    "Array": 0.333
+                                },
+                                "classType": {
+                                    "RegExp": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Function": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "engine": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.25,
+                            "Undefined": 0.75
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 1
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 0.333,
+                                    "Class": 0.333,
+                                    "Array": 0.333
+                                },
+                                "classType": {
+                                    "RegExp": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Function": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "os": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.25,
+                            "Undefined": 0.75
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 1
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 0.333,
+                                    "Class": 0.333,
+                                    "Array": 0.333
+                                },
+                                "classType": {
+                                    "RegExp": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Function": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.313,
+                    "Array": 0.063,
+                    "Undefined": 0.625
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Object": 1
+                    },
+                    "objectShape": {
+                        "browser": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 0.5,
+                                "Undefined": 0.5
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Array": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            }
+                        },
+                        "cpu": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 0.5,
+                                "Undefined": 0.5
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Array": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            }
+                        },
+                        "device": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 0.5,
+                                "Undefined": 0.5
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Array": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            }
+                        },
+                        "engine": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 0.5,
+                                "Undefined": 0.5
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Array": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            }
+                        },
+                        "os": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 0.5,
+                                "Undefined": 0.5
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Array": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "objectShape": {
+                    "browser": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.167,
+                            "Undefined": 0.833
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 1
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 0.333,
+                                    "Class": 0.333,
+                                    "Array": 0.333
+                                },
+                                "classType": {
+                                    "RegExp": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Function": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "cpu": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.167,
+                            "Undefined": 0.833
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 1
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 0.333,
+                                    "Class": 0.333,
+                                    "Array": 0.333
+                                },
+                                "classType": {
+                                    "RegExp": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Function": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "device": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.167,
+                            "Undefined": 0.833
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 1
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 0.333,
+                                    "Class": 0.333,
+                                    "Array": 0.333
+                                },
+                                "classType": {
+                                    "RegExp": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Function": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "engine": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.167,
+                            "Undefined": 0.833
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 1
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 0.333,
+                                    "Class": 0.333,
+                                    "Array": 0.333
+                                },
+                                "classType": {
+                                    "RegExp": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Function": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "os": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.167,
+                            "Undefined": 0.833
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Array": 1
+                            },
+                            "arrayValueType": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 0.333,
+                                    "Class": 0.333,
+                                    "Array": 0.333
+                                },
+                                "classType": {
+                                    "RegExp": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Class": 0.333,
+                                        "Function": 0.333
+                                    },
+                                    "classType": {
+                                        "RegExp": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.125,
+                    "Undefined": 0.875
+                },
+                "objectShape": {}
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "UAParser": 1
+            }
+        },
+        "callconv": "Constructor"
+    },
     "Uint8Array": {
         "args": [],
         "ret": {
@@ -126,7 +815,25 @@
         "callconv": "Constructor",
         "builtin": true
     },
-    "UAParser": {
+    "UAParser.toString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "UAParser": 1
+                }
+            }
+        ]
+    },
+    "UAParser.UAParser": {
         "callconv": "Free",
         "ret": {
             "isAny": true,

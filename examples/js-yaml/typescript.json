@@ -1,131 +1,4 @@
 {
-    "Uint8Array": {
-        "args": [],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Uint8Array": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "ArrayBuffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Number": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "ArrayBuffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "RegExp": {
-        "args": [],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "RegExp": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "Buffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Buffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "SharedArrayBuffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Number": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "SharedArrayBuffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "Error": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.5,
-                    "Undefined": 0.5
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Error": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "Duplex": {
-        "args": [],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Duplex": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
     "load": {
         "args": [
             {
@@ -151,7 +24,8 @@
                     "onWarning": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "schema": {
@@ -174,7 +48,8 @@
                     "listener": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     }
                 }
@@ -219,7 +94,8 @@
                     "onWarning": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "schema": {
@@ -242,7 +118,8 @@
                     "listener": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     }
                 }
@@ -373,7 +250,8 @@
                     "replacer": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     }
                 }
@@ -412,27 +290,26 @@
                     "resolve": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "construct": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "instanceOf": {
-                        "isAny": false,
-                        "kind": {
-                            "Object": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "objectShape": {}
+                        "isAny": true,
+                        "kind": {}
                     },
                     "predicate": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "represent": {
@@ -447,7 +324,8 @@
                     "representName": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "defaultStyle": {
@@ -491,9 +369,9 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Object": 0.3333333333333333,
-                    "Class": 0.3333333333333333,
-                    "Array": 0.3333333333333333
+                    "Object": 0.333,
+                    "Class": 0.333,
+                    "Array": 0.333
                 },
                 "classType": {
                     "Type": 1
@@ -568,9 +446,9 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Object": 0.3333333333333333,
-                    "Class": 0.3333333333333333,
-                    "Array": 0.3333333333333333
+                    "Object": 0.333,
+                    "Class": 0.333,
+                    "Array": 0.333
                 },
                 "classType": {
                     "Type": 1
@@ -723,6 +601,133 @@
             }
         },
         "callconv": "Method"
+    },
+    "Uint8Array": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "RegExp": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Error": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Duplex": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
     },
     "Type.toString": {
         "callconv": "Method",

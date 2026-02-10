@@ -1,138 +1,11 @@
 {
-    "Uint8Array": {
-        "args": [],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Uint8Array": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "ArrayBuffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Number": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "ArrayBuffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "RegExp": {
-        "args": [],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "RegExp": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "Buffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Buffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "SharedArrayBuffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Number": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "SharedArrayBuffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "Error": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.5,
-                    "Undefined": 0.5
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Error": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
-    "Duplex": {
-        "args": [],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Duplex": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
     "deflate": {
         "args": [
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.3333333333333333,
-                    "Class": 0.6666666666666666
+                    "String": 0.333,
+                    "Class": 0.667
                 },
                 "classType": {
                     "Uint8Array": 0.5,
@@ -204,8 +77,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.3333333333333333,
-                    "Class": 0.6666666666666666
+                    "String": 0.333,
+                    "Class": 0.667
                 },
                 "classType": {
                     "Uint8Array": 0.5,
@@ -277,8 +150,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.3333333333333333,
-                    "Class": 0.6666666666666666
+                    "String": 0.333,
+                    "Class": 0.667
                 },
                 "classType": {
                     "Uint8Array": 0.5,
@@ -720,8 +593,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.3333333333333333,
-                    "Class": 0.6666666666666666
+                    "String": 0.333,
+                    "Class": 0.667
                 },
                 "classType": {
                     "Uint8Array": 0.5,
@@ -893,6 +766,133 @@
             }
         },
         "callconv": "Method"
+    },
+    "Uint8Array": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "RegExp": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Error": {
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
+    },
+    "Duplex": {
+        "args": [],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "callconv": "Constructor",
+        "builtin": true
     },
     "Deflate.toString": {
         "callconv": "Method",
