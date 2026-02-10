@@ -28,4 +28,12 @@ module.exports = {
         "XML declaration allowed only at the start of the document",
         "Unpaired tag can not",
     ]),
+    skipMethods: [
+        "XMLBuilder.j2x",
+        "XMLBuilder.buildAttrPairStr",
+        "XMLBuilder.buildObjectNode",
+        "XMLBuilder.closeTag",
+        "XMLBuilder.buildTextValNode",
+        "XMLBuilder.replaceEntitiesValue",
+    ]
 };
