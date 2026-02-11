@@ -9,6 +9,7 @@ _.python.venv = { path = ".venv", create = true }
 _.file = ".env"
 
 [settings]
+lockfile = true
 experimental = true
 
 [tasks.dev]
