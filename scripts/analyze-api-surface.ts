@@ -7,7 +7,7 @@ import type { Schema, SignatureGuess } from "@railcar/inference";
 
 import { getProjectNames } from "./common";
 
-const LATEX = false
+const LATEX = false;
 
 async function schema(project: string, kind: string): Promise<Schema> {
     const path = join("examples", project, `${kind}.json`);
@@ -34,10 +34,11 @@ function allAny(sig: SignatureGuess): boolean {
 function countNoInfoSignatures(schema: Schema): [number, number] {
     let total = 0;
     let any = 0;
-    for (const guess of Object.values(schema)) {
+    for (const [_, guess] of Object.entries(schema)) {
         if (guess.builtin) continue;
         total += 1;
         if (allAny(guess)) {
+            // console.warn(" ", name);
             any += 1;
         }
     }
@@ -60,21 +61,21 @@ function countAny(schema: Schema): [number, number] {
 }
 
 type AnalyzeRow = {
-    project: string,
+    project: string;
     random: {
-        total: number,
-        any: number,
-        anyTypeP: number
-    },
+        total: number;
+        any: number;
+        anyTypeP: number;
+    };
     typescript: {
-        any: number,
-        anyTypeP: number
-    },
+        any: number;
+        anyTypeP: number;
+    };
     syntest: {
-        any: number,
-        anyTypeP: number
-    }
-}
+        any: number;
+        anyTypeP: number;
+    };
+};
 
 async function analyze(project: string) {
     const p1 = await schema(project, "random");
@@ -83,7 +84,9 @@ async function analyze(project: string) {
     const [random, typescript] = await Promise.all([p1, p3]);
 
     const [totalRandom, anyRandom] = countNoInfoSignatures(random);
-    const [totalSyntest, anySyntest] = [1, 0] // countNoInfoSignatures(syntest);
+    const [_totalSyntest, anySyntest] = [1, 0]; // countNoInfoSignatures(syntest);
+
+    // console.warn("typescript");
     const [totalTypescript, anyTypescript] = countNoInfoSignatures(typescript);
 
     // assert(totalRandom === totalSyntest);
@@ -93,7 +96,7 @@ async function analyze(project: string) {
     assert(totalRandom >= anyTypescript);
 
     const [totalRandomTypes, anyRandomTypes] = countAny(random);
-    const [totalSyntestTypes, anySyntestTypes] = [1, 0] //countAny(syntest);
+    const [totalSyntestTypes, anySyntestTypes] = [1, 0]; //countAny(syntest);
     const [totalTypescriptTypes, anyTypescriptTypes] = countAny(typescript);
 
     return {
@@ -101,17 +104,17 @@ async function analyze(project: string) {
         random: {
             total: totalRandom,
             any: anyRandom,
-            anyTypeP: anyRandomTypes * 100 / totalRandomTypes,
+            anyTypeP: (anyRandomTypes * 100) / totalRandomTypes,
         },
         typescript: {
             any: anyTypescript,
-            anyTypeP: anyTypescriptTypes * 100 / totalTypescriptTypes
+            anyTypeP: (anyTypescriptTypes * 100) / totalTypescriptTypes,
         },
         syntest: {
             any: anySyntest,
-            anyTypeP: anySyntestTypes * 100 / totalSyntestTypes
-        }
-    }
+            anyTypeP: (anySyntestTypes * 100) / totalSyntestTypes,
+        },
+    };
 }
 
 function printLatex(data: AnalyzeRow[]) {
@@ -126,7 +129,7 @@ function printLatex(data: AnalyzeRow[]) {
     console.log("\\midrule");
 
     for (const row of data) {
-        const {project, random, typescript, syntest} = row
+        const { project, random, typescript, syntest } = row;
         console.log(
             "  %s & %d & %d & %f & %d & %f & %d & %f \\\\",
             project,
@@ -145,28 +148,30 @@ function printLatex(data: AnalyzeRow[]) {
 }
 
 function printTable(data: AnalyzeRow[]) {
-    console.table(data.map(d => ({
-        Benchmark: d.project,
-        Total: d.random.total,
-        "Random # Any API": d.random.any,
-        "Random % Any Types": d.random.anyTypeP.toFixed(1),
-        "TypeScript # Any API": d.typescript.any,
-        "TypeScript % Any Types": d.typescript.anyTypeP.toFixed(1),
-        // "SynTest # Any API": d.syntest.any,
-        // "SynTest % Any Types": d.syntest.anyTypeP.toFixed(1),
-    })))
+    console.table(
+        data.map((d) => ({
+            Benchmark: d.project,
+            Total: d.random.total,
+            "Random # Any API": d.random.any,
+            "Random % Any Types": d.random.anyTypeP.toFixed(1),
+            "TypeScript # Any API": d.typescript.any,
+            "TypeScript % Any Types": d.typescript.anyTypeP.toFixed(1),
+            // "SynTest # Any API": d.syntest.any,
+            // "SynTest % Any Types": d.syntest.anyTypeP.toFixed(1),
+        })),
+    );
 }
 
 async function main() {
-    const data: AnalyzeRow[] = []
+    const data: AnalyzeRow[] = [];
     const projects = getProjectNames();
     for (const project of projects) {
-        data.push(await analyze(project))
+        data.push(await analyze(project));
     }
     if (LATEX) {
-        printLatex(data)
+        printLatex(data);
     } else {
-        printTable(data)
+        printTable(data);
     }
 }
 

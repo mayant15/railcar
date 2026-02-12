@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import { $ } from "bun";
 
-import { type Schema } from "@railcar/inference"
+import type { Schema } from "@railcar/inference";
 
 import { type Project, getProjectNames, getProjectSpec } from "./common";
 
@@ -30,9 +30,8 @@ async function findEntrypoint(project: Project): Promise<string> {
 
 function pruneExtraKeys(schema: Schema, keep: Set<string>): Schema {
     return Object.fromEntries(
-        Object.entries(schema)
-            .filter(([name, _]) => keep.has(name))
-    )
+        Object.entries(schema).filter(([name, _]) => keep.has(name)),
+    );
 }
 
 async function generateRandom(
@@ -47,7 +46,7 @@ async function generateRandom(
 
     const sch = await Bun.file(outFile).json();
     const filtered = pruneExtraKeys(sch, keep);
-    Bun.write(outFile, JSON.stringify(filtered, null, 4))
+    Bun.write(outFile, JSON.stringify(filtered, null, 4));
 
     assert(await isIdempotent(project, entrypoint, outFile));
 
@@ -73,7 +72,7 @@ async function generateTypeScript(
 
     const spec = getProjectSpec(project);
     const decl = "decl" in spec ? spec.decl : undefined;
-    assert(decl !== undefined)
+    assert(decl !== undefined);
 
     await $`npx railcar-infer --decl ${decl} --entrypoint ${entrypoint} -o ${outFile} --config ${config}`.quiet();
 
@@ -129,7 +128,7 @@ async function main() {
 
         console.log("  TypeScript");
         const keysTypeScript = await generateTypeScript(project, entrypoint);
-        const keep = new Set(keysTypeScript)
+        const keep = new Set(keysTypeScript);
 
         console.log("  Random");
         const keysRandom = await generateRandom(project, entrypoint, keep);
@@ -148,7 +147,7 @@ async function main() {
         // await generateSynTest(project)
 
         // TODO: Assert they all have the same keys
-/*
+        /*
   jq 'keys' $RAND > $RAND.keys.json
   jq 'keys' $SYNTEST > $SYNTEST.keys.json
   jq 'keys' $TYPESCRIPT > $TYPESCRIPT.keys.json
