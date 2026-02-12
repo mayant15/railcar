@@ -55,8 +55,12 @@
     "bindActionCreators": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Function": 0.5
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -66,8 +70,12 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Object": 0.5,
+                "Function": 0.5
+            },
+            "objectShape": {}
         },
         "callconv": "Free"
     },
@@ -89,8 +97,18 @@
     "compose": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 0.143,
+                    "Undefined": 0.143,
+                    "Function": 0.714
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -122,8 +140,10 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Function": 1
+            }
         },
         "callconv": "Free"
     },

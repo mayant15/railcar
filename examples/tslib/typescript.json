@@ -929,8 +929,26 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "has": {
+                        "isAny": false,
+                        "kind": {
+                            "Undefined": 0.5,
+                            "Function": 0.5
+                        }
+                    },
+                    "get": {
+                        "isAny": false,
+                        "kind": {
+                            "Undefined": 0.833,
+                            "Function": 0.167
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -967,8 +985,26 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "has": {
+                        "isAny": false,
+                        "kind": {
+                            "Undefined": 0.5,
+                            "Function": 0.5
+                        }
+                    },
+                    "set": {
+                        "isAny": false,
+                        "kind": {
+                            "Undefined": 0.75,
+                            "Function": 0.25
+                        }
+                    }
+                }
             },
             {
                 "isAny": true,

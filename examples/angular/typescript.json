@@ -4612,8 +4612,13 @@
     "createMayBeForwardRefExpression": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Expression": 1
+                }
             },
             {
                 "isAny": false,
@@ -4629,8 +4634,13 @@
             },
             "objectShape": {
                 "expression": {
-                    "isAny": true,
-                    "kind": {}
+                    "isAny": false,
+                    "kind": {
+                        "Class": 1
+                    },
+                    "classType": {
+                        "Expression": 1
+                    }
                 },
                 "forwardRef": {
                     "isAny": false,

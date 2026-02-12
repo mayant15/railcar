@@ -2,12 +2,138 @@
     "distance": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "background": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "bitmap": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "data": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 1
+                                },
+                                "classType": {
+                                    "Buffer": 1
+                                }
+                            },
+                            "width": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            },
+                            "height": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            }
+                        }
+                    },
+                    "getPixelIndex": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "getPixelColor": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "setPixelColor": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "scan": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "background": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "bitmap": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "data": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 1
+                                },
+                                "classType": {
+                                    "Buffer": 1
+                                }
+                            },
+                            "width": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            },
+                            "height": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            }
+                        }
+                    },
+                    "getPixelIndex": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "getPixelColor": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "setPixelColor": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "scan": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    }
+                }
             }
         ],
         "ret": {
@@ -316,12 +442,138 @@
     "diff": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "background": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "bitmap": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "data": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 1
+                                },
+                                "classType": {
+                                    "Buffer": 1
+                                }
+                            },
+                            "width": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            },
+                            "height": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            }
+                        }
+                    },
+                    "getPixelIndex": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "getPixelColor": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "setPixelColor": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "scan": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "background": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "bitmap": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "data": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 1
+                                },
+                                "classType": {
+                                    "Buffer": 1
+                                }
+                            },
+                            "width": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            },
+                            "height": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            }
+                        }
+                    },
+                    "getPixelIndex": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "getPixelColor": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "setPixelColor": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "scan": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,

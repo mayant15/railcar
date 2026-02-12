@@ -943,8 +943,74 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.021,
+                    "String": 0.021,
+                    "Boolean": 0.021,
+                    "Object": 0.021,
+                    "Class": 0.042,
+                    "Array": 0.125,
+                    "Undefined": 0.75
+                },
+                "classType": {
+                    "Uint8Array": 0.5,
+                    "Buffer": 0.5
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.167,
+                        "String": 0.167,
+                        "Boolean": 0.167,
+                        "Object": 0.167,
+                        "Class": 0.333
+                    },
+                    "classType": {
+                        "Uint8Array": 0.5,
+                        "Buffer": 0.5
+                    },
+                    "objectShape": {
+                        "low": {
+                            "isAny": false,
+                            "kind": {
+                                "Number": 1
+                            }
+                        },
+                        "high": {
+                            "isAny": false,
+                            "kind": {
+                                "Number": 1
+                            }
+                        },
+                        "unsigned": {
+                            "isAny": false,
+                            "kind": {
+                                "Boolean": 1
+                            }
+                        }
+                    }
+                },
+                "objectShape": {
+                    "low": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "high": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "unsigned": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 1
+                        }
+                    }
+                }
             }
         ],
         "ret": {
@@ -1735,8 +1801,29 @@
     "Message.encode": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "$type": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "classType": {
+                            "Type": 1
+                        }
+                    },
+                    "toJSON": {
+                        "isAny": false,
+                        "kind": {
+                            "Undefined": 0.5,
+                            "Function": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -1763,8 +1850,29 @@
     "Message.encodeDelimited": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "$type": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "classType": {
+                            "Type": 1
+                        }
+                    },
+                    "toJSON": {
+                        "isAny": false,
+                        "kind": {
+                            "Undefined": 0.5,
+                            "Function": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -1802,8 +1910,27 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "$type": {
+                    "isAny": false,
+                    "kind": {
+                        "Class": 1
+                    },
+                    "classType": {
+                        "Type": 1
+                    }
+                },
+                "toJSON": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
+            }
         },
         "callconv": "Free"
     },
@@ -1821,8 +1948,27 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "$type": {
+                    "isAny": false,
+                    "kind": {
+                        "Class": 1
+                    },
+                    "classType": {
+                        "Type": 1
+                    }
+                },
+                "toJSON": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
+            }
         },
         "callconv": "Free"
     },
@@ -1855,16 +2001,54 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "$type": {
+                    "isAny": false,
+                    "kind": {
+                        "Class": 1
+                    },
+                    "classType": {
+                        "Type": 1
+                    }
+                },
+                "toJSON": {
+                    "isAny": false,
+                    "kind": {
+                        "Function": 1
+                    }
+                }
+            }
         },
         "callconv": "Free"
     },
     "Message.toObject": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "$type": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 1
+                        },
+                        "classType": {
+                            "Type": 1
+                        }
+                    },
+                    "toJSON": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
