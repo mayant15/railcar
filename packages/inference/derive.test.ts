@@ -204,6 +204,18 @@ export function foo(x: Foo);
             callconv: "Free",
         })
     })
+
+    test("records are objects", () => {
+        const code = `
+export function foo(x: Record<string, unknown>);
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.object({})],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
 })
 
 describe("union types", () => {
@@ -1062,7 +1074,7 @@ declare module 'my-module' {
         })
     })
 
-    test.todo("skip constants that are not functions", () => {
+    test("skip constants that are not functions", () => {
         const code = `
 export declare const defaults: string[];
 `

@@ -246,7 +246,7 @@ function promoteType(checker: ts.TypeChecker, type: ts.Type): ts.Type {
  * Remove duplicates of the same type from the union.
  *
  * TypeChecker.getXXXType() returns *the same* object for number, string, boolean types.
- * This function therefore simply deduplicates based on object refereces, which is the
+ * This function therefore simply deduplicates based on object references, which is the
  * default behaviour for Set.
  */
 function dedupeUnionTypes(types: ts.Type[]): ts.Type[] {
