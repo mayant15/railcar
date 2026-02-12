@@ -128,19 +128,23 @@ async function dispatch(args: Args): Promise<Schema> {
     const entrypoint = absolute(args.entrypoint);
 
     let schema = {};
+    let skipEndpointsNotInSchema = false;
 
     if (args.syntest) {
         schema = syntestSchema(entrypoint);
+        skipEndpointsNotInSchema = true;
     }
 
     if (args.decl) {
         const decl = absolute(args.decl);
         schema = derive(decl);
+        skipEndpointsNotInSchema = true;
     }
 
     const skip = args.config ? await getSkipMethods(args.config) : [];
 
     const loaded = await loadSchemaFromObject(entrypoint, schema, {
+        skipEndpointsNotInSchema,
         methodsToSkip: skip,
     });
 

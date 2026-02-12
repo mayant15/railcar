@@ -1,6 +1,7 @@
 import assert from "node:assert";
-
 import { $ } from "bun";
+
+import { type Schema } from "@railcar/inference"
 
 import { type Project, getProjectNames, getProjectSpec } from "./common";
 
@@ -27,14 +28,26 @@ async function findEntrypoint(project: Project): Promise<string> {
     return text.trim();
 }
 
+function pruneExtraKeys(schema: Schema, keep: Set<string>): Schema {
+    return Object.fromEntries(
+        Object.entries(schema)
+            .filter(([name, _]) => keep.has(name))
+    )
+}
+
 async function generateRandom(
     project: Project,
     entrypoint: string,
+    keep: Set<string>,
 ): Promise<string[]> {
     const outFile = `examples/${project}/random.json`;
     const config = `examples/${project}/railcar.config.js`;
 
     await $`npx railcar-infer --dynamic --entrypoint ${entrypoint} --outFile ${outFile} --config ${config}`.quiet();
+
+    const sch = await Bun.file(outFile).json();
+    const filtered = pruneExtraKeys(sch, keep);
+    Bun.write(outFile, JSON.stringify(filtered, null, 4))
 
     assert(await isIdempotent(project, entrypoint, outFile));
 
@@ -54,24 +67,15 @@ async function generateRandom(
 async function generateTypeScript(
     project: Project,
     entrypoint: string,
-): Promise<string[] | null> {
+): Promise<string[]> {
     const outFile = `examples/${project}/typescript.json`;
     const config = `examples/${project}/railcar.config.js`;
 
     const spec = getProjectSpec(project);
     const decl = "decl" in spec ? spec.decl : undefined;
-    if (decl === undefined) {
-        console.warn("WARN: no typescript declaration file set");
-        return null;
-    }
+    assert(decl !== undefined)
 
-    try {
-        await $`npx railcar-infer --decl ${decl} --entrypoint ${entrypoint} -o ${outFile} --config ${config}`.quiet();
-    } catch (e) {
-        console.error("ERROR: Failed to infer typescript spec for", project);
-        console.error(e);
-        return null;
-    }
+    await $`npx railcar-infer --decl ${decl} --entrypoint ${entrypoint} -o ${outFile} --config ${config}`.quiet();
 
     assert(await isIdempotent(project, entrypoint, outFile));
 
@@ -123,14 +127,14 @@ async function main() {
 
         const entrypoint = await findEntrypoint(project);
 
-        console.log("  Random");
-        const keysRandom = await generateRandom(project, entrypoint);
-
         console.log("  TypeScript");
         const keysTypeScript = await generateTypeScript(project, entrypoint);
+        const keep = new Set(keysTypeScript)
+
+        console.log("  Random");
+        const keysRandom = await generateRandom(project, entrypoint, keep);
 
         // these two should have the same set of APIs
-        assert(keysTypeScript !== null);
         assert(keysRandom.length === keysTypeScript.length);
 
         const sortedA = keysTypeScript.sort();
@@ -144,7 +148,7 @@ async function main() {
         // await generateSynTest(project)
 
         // TODO: Assert they all have the same keys
-        /**
+/*
   jq 'keys' $RAND > $RAND.keys.json
   jq 'keys' $SYNTEST > $SYNTEST.keys.json
   jq 'keys' $TYPESCRIPT > $TYPESCRIPT.keys.json

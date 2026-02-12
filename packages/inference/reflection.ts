@@ -50,6 +50,7 @@ function mapStandardReferences(
             endpoints,
             cls as Fn,
             methodsToSkip,
+            false,
             (cls as Fn).name,
             argc,
             true,
@@ -70,6 +71,7 @@ function mapStandardReferences(
         endpoints,
         Buffer.from as Fn,
         methodsToSkip,
+        false,
         "Buffer",
         1,
         true,
@@ -226,12 +228,17 @@ function mapFunctionReference(
     endpoints: Endpoints,
     fn: Fn,
     methodsToSkip: Set<EndpointName>,
+    skipEndpointsNotInSchema: boolean,
     overrideKey?: string,
     overrideArgc?: number,
     builtin?: boolean,
 ) {
     const key = prefix + (overrideKey ?? fn.name);
     if (methodsToSkip.has(key)) {
+        return;
+    }
+
+    if (skipEndpointsNotInSchema && !schema[key]) {
         return;
     }
 
@@ -257,6 +264,10 @@ function mapFunctionReference(
                 continue;
             }
 
+            if (skipEndpointsNotInSchema && !schema[id]) {
+                continue;
+            }
+
             endpoints[id] = method;
             if (schema[id]) {
                 assert(schema[id].callconv === "Method");
@@ -275,6 +286,10 @@ function mapFunctionReference(
         for (const [staticName, staticFn] of statics) {
             const id = `${key}.${staticName}`;
             if (methodsToSkip.has(id)) {
+                continue;
+            }
+
+            if (skipEndpointsNotInSchema && !schema[id]) {
                 continue;
             }
 
@@ -307,6 +322,7 @@ function mapFunctionsOnObject(
     endpoints: Endpoints,
     obj: object,
     methodsToSkip: Set<EndpointName>,
+    skipEndpointsNotInSchema: boolean,
 ) {
     if (depth >= MAX_OBJECT_MAPPING_DEPTH) {
         return;
@@ -321,6 +337,7 @@ function mapFunctionsOnObject(
                 endpoints,
                 value,
                 methodsToSkip,
+                skipEndpointsNotInSchema,
                 key,
             );
         } else {
@@ -332,6 +349,7 @@ function mapFunctionsOnObject(
                     endpoints,
                     value,
                     methodsToSkip,
+                    skipEndpointsNotInSchema,
                 );
             }
         }
@@ -343,6 +361,7 @@ function mapExportedReferences(
     endpoints: Endpoints,
     main: Fn | Record<string, unknown>,
     methodsToSkip: Set<EndpointName>,
+    skipEndpointsNotInSchema: boolean
 ) {
     // NOTE: We assume a default exported function is a constructor (mainly for the Sharp benchmark)
     if (
@@ -352,7 +371,7 @@ function mapExportedReferences(
             typeof main.default === "function")
     ) {
         const fn: Fn = typeof main === "function" ? main : (main.default as Fn);
-        mapFunctionReference("", schema, endpoints, fn, methodsToSkip);
+        mapFunctionReference("", schema, endpoints, fn, methodsToSkip, skipEndpointsNotInSchema);
     }
 
     const exports =
@@ -360,7 +379,7 @@ function mapExportedReferences(
             ? (main.default as Record<string, unknown>)
             : main;
 
-    mapFunctionsOnObject(0, "", schema, endpoints, exports, methodsToSkip);
+    mapFunctionsOnObject(0, "", schema, endpoints, exports, methodsToSkip, skipEndpointsNotInSchema);
 }
 
 export type LoadSchemaOpts = {
@@ -374,12 +393,17 @@ export async function loadSchema(
     const schema: Schema = opts?.schemaFile
         ? JSON.parse(readFileSync(opts.schemaFile).toString())
         : {};
-    return loadSchemaFromObject(mainModule, schema, opts);
+    const skipEndpointsNotInSchema = opts?.skipEndpointsNotInSchema ?? (!!opts?.schemaFile)
+    return loadSchemaFromObject(mainModule, schema, {
+        ...opts,
+        skipEndpointsNotInSchema,
+    });
 }
 
 type LoadSchemaFromObjectOpts = {
     methodsToSkip?: EndpointName[];
     debugDumpSchema?: string;
+    skipEndpointsNotInSchema?: boolean
 };
 
 export async function loadSchemaFromObject(
@@ -393,7 +417,7 @@ export async function loadSchemaFromObject(
     const endpoints: Endpoints = {};
 
     mapStandardReferences(schema, endpoints, toSkip);
-    mapExportedReferences(schema, endpoints, main, toSkip);
+    mapExportedReferences(schema, endpoints, main, toSkip, opts?.skipEndpointsNotInSchema ?? true);
 
     schema = removeInvalidEndpoints(schema, endpoints);
 
