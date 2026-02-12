@@ -189,6 +189,21 @@ export function sleep(ms: number): Promise<boolean>;
             callconv: "Free",
         })
     })
+
+    test("interfaces with call signatures", () => {
+        const code = `
+interface Foo {
+    (...args: unknown[]): any;
+}
+export function foo(x: Foo);
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.func()],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
 })
 
 describe("union types", () => {
@@ -932,7 +947,7 @@ export function foo<T>(x: T);
         })
     })
 
-    test.todo("constrained is promoted to the constraint", () => {
+    test("constrained is promoted to the constraint", () => {
         const code = `
 export function foo<T extends number>(x: T);
 `
@@ -944,7 +959,29 @@ export function foo<T extends number>(x: T);
         })
     })
 
-    test.todo("overloads", () => {});
+    test("unconstrained return type", () => {
+        const code = `
+export function foo<T>(x: T): T;
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.any()],
+            ret: Guess.any(),
+            callconv: "Free"
+        })
+    })
+
+    test("constrained return type", () => {
+        const code = `
+export function foo<T extends number>(x: T): T;
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.number()],
+            ret: Guess.number(),
+            callconv: "Free"
+        })
+    })
 })
 
 describe("recursive and complex types", () => {
@@ -1173,10 +1210,36 @@ export = UAParser;
         expect(actual["UAParser.toString"]).toBeUndefined()
     })
 
-    test.todo("redux has generics with overloads", () => {
-// declare function bindActionCreators<A, C extends ActionCreator<A>>(actionCreator: C, dispatch: Dispatch): C;
-// declare function bindActionCreators<A extends ActionCreator<any>, B extends ActionCreator<any>>(actionCreator: A, dispatch: Dispatch): B;
-// declare function bindActionCreators<A, M extends ActionCreatorsMapObject<A>>(actionCreators: M, dispatch: Dispatch): M;
-// declare function bindActionCreators<M extends ActionCreatorsMapObject, N extends ActionCreatorsMapObject>(actionCreators: M, dispatch: Dispatch): N;
+    test("redux has generics with overloads", () => {
+        const code = `
+type Action<T extends string = string> = {
+    type: T;
+};
+interface UnknownAction extends Action {
+    [extraProps: string]: unknown;
+}
+interface ActionCreator<A, P extends any[] = any[]> {
+    (...args: P): A;
+}
+interface ActionCreatorsMapObject<A = any, P extends any[] = any[]> {
+    [key: string]: ActionCreator<A, P>;
+}
+interface Dispatch<A extends Action = UnknownAction> {
+    <T extends A>(action: T, ...extraArgs: any[]): T;
+}
+export function bindActionCreators<A, C extends ActionCreator<A>>(actionCreator: C, dispatch: Dispatch): C;
+export function bindActionCreators<A extends ActionCreator<any>, B extends ActionCreator<any>>(actionCreator: A, dispatch: Dispatch): B;
+export function bindActionCreators<A, M extends ActionCreatorsMapObject<A>>(actionCreators: M, dispatch: Dispatch): M;
+export function bindActionCreators<M extends ActionCreatorsMapObject, N extends ActionCreatorsMapObject>(actionCreators: M, dispatch: Dispatch): N;
+`
+        const actual = fromCode(code)
+        expect(actual.bindActionCreators).toEqual({
+            args: [
+                Guess.union(Guess.func(), Guess.object({})),
+                Guess.func()
+            ],
+            ret: Guess.union(Guess.func(), Guess.object({})),
+            callconv: "Free",
+        })
     })
 })

@@ -276,6 +276,14 @@ function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
 function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
     const flags = type.getFlags()
 
+    if (flags & ts.TypeFlags.TypeParameter) {
+        const constraint = (type as ts.TypeParameter).getConstraint()
+        if (constraint) {
+            return toTypeGuess(ctx, constraint)
+        }
+        return Guess.any()
+    }
+
     if (flags & ts.TypeFlags.Any || flags & ts.TypeFlags.Unknown) {
         return Guess.any()
     }
