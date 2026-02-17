@@ -1074,6 +1074,62 @@ declare module 'my-module' {
         })
     })
 
+    test("export equals variable infers properties of its type", () => {
+        const code = `
+declare const lib: LibStatic;
+declare namespace lib {}
+interface LibStatic {
+    chunk(arr: string[]): string[][];
+    compact(arr: any[]): any[];
+}
+export = lib;
+`
+        const actual = fromCode(code)
+
+        expect(actual.chunk).toEqual({
+            args: [Guess.array(Guess.string())],
+            ret: Guess.array(Guess.array(Guess.string())),
+            callconv: "Free",
+        })
+
+        expect(actual.compact).toEqual({
+            args: [Guess.array(Guess.any())],
+            ret: Guess.array(Guess.any()),
+            callconv: "Free",
+        })
+    })
+
+    test("export equals namespace uses regular export path", () => {
+        const code = `
+declare namespace Lib {
+    function hello(x: string): number;
+    class Widget {
+        render(): void;
+    }
+}
+export = Lib;
+`
+        const actual = fromCode(code)
+
+        expect(actual.hello).toEqual({
+            args: [Guess.string()],
+            ret: Guess.number(),
+            callconv: "Free",
+        })
+
+        expect(actual.Widget).toEqual({
+            args: [],
+            ret: Guess.class("Widget"),
+            callconv: "Constructor",
+        })
+
+        expect(actual["Widget.render"]).toEqual({
+            args: [Guess.class("Widget")],
+            ret: Guess.undefined(),
+            callconv: "Method",
+        })
+    })
+
     test("skip constants that are not functions", () => {
         const code = `
 export declare const defaults: string[];
