@@ -4,5 +4,5 @@
         "context": "..",
         "dockerfile": "Dockerfile"
     },
-    "postStartCommand": "mise trust && mise install"
+    "postStartCommand": "mise trust"
 }

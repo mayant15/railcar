@@ -14,6 +14,9 @@ RUN apt-get update \
 RUN curl https://mise.run | sh
 ENV PATH="/root/.local/bin:${PATH}"
 
+# Activate mise
+RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+
 # Pre-install tools defined in mise.toml so they're cached in the image
 COPY mise.toml mise.lock /tmp/mise/
 RUN cd /tmp/mise && mise trust && mise install -y && rm -rf /tmp/mise

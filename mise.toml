@@ -63,6 +63,7 @@ run = """
 [tasks.amp]
 description = "Run amp in a devcontainer"
 run = [
+  "bun i",
   "bunx devcontainer build",
   "bunx devcontainer up --workspace-folder .",
   "bunx devcontainer exec --workspace-folder . bash"
