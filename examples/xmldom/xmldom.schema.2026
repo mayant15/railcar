@@ -1,0 +1,357 @@
+{
+    "Uint8Array": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "RegExp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Error": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Duplex": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Buffer": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "DOMImplementation": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "DOMImplementation": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "DOMImplementation.hasFeature": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "DOMImplementation": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "DOMImplementation.createDocument": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "DOMImplementation": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.9166666666666666,
+                    "Null": 0.08333333333333333
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "DOMImplementation.createDocumentType": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "DOMImplementation": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.125,
+                    "Boolean": 0.875
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.125,
+                    "Boolean": 0.875
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "XMLSerializer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "XMLSerializer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "XMLSerializer.serializeToString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLSerializer": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "DOMParser": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "DOMParser": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.875,
+                    "Object": 0.125
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "DOMParser.parseFromString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "DOMParser": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1.0000000000000002
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    }
+}
