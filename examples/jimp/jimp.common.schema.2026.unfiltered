@@ -1,0 +1,1075 @@
+{
+    "Uint8Array": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "RegExp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Error": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Duplex": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Buffer": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "defaultFormats.0": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultFormats.1": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultFormats.2": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultFormats.3": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultFormats.4": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultFormats.5": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "Jimp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Jimp": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "Jimp.inspect": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.getBuffer": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.getBase64": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.31179138321995464,
+                    "Number": 0.6882086167800455
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.write": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.clone": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.getPixelIndex": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.06636736223273396,
+                    "Number": 0.9336326377672658
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.05937065309862993,
+                    "Number": 0.9406293469013708
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.getPixelColor": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.setPixelColor": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.hasAlpha": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.composite": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.25,
+                    "Number": 0.75
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.25,
+                    "Number": 0.75
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.25,
+                    "Object": 0.75
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.scan": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Jimp.scanIterator": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Jimp": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.25,
+                    "Number": 0.75
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.25,
+                    "Number": 0.75
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "distance": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "compareHashes": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "loadFont": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "measureText": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "String": 0.08217891014061125,
+                "Boolean": 0.011527283610812735,
+                "Undefined": 0.1696815534676789,
+                "Array": 0.000007552363050483345,
+                "Object": 0.00001510472610096669,
+                "Number": 0.7365895956917453
+            },
+            "objectShape": {},
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "common": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "chars": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "kernings": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.18140589569161003,
+                    "Undefined": 0.2857142857142858,
+                    "Array": 0.14880952380952386,
+                    "Object": 0.2500000000000001,
+                    "Function": 0.04761904761904764,
+                    "Number": 0.0864512471655329
+                },
+                "objectShape": {
+                    "includes": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "replace": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "measureTextHeight": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Number": 0.9999999999999998
+            },
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "chars": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "kernings": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "common": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "replace": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "diff": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "bitmap": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "bitmap": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.12500000000000003,
+                    "Number": 0.8750000000000001
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "intToRGBA": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Undefined": 0.05555555555555556,
+                "Object": 0.9444444444444446
+            },
+            "objectShape": {
+                "r": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "g": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "b": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "a": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1.0000000000000004
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "rgbaToInt": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Undefined": 0.025641025641025647,
+                "Number": 0.9743589743589749
+            },
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "colorDiff": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "String": 0.015873015873015876,
+                "Undefined": 0.027777777777777776,
+                "Number": 0.9563492063492066
+            },
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.1111111111111111,
+                    "Object": 0.8888888888888888
+                },
+                "objectShape": {
+                    "a": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "r": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "g": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "b": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.1111111111111111,
+                    "Object": 0.8888888888888888
+                },
+                "objectShape": {
+                    "a": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "r": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "g": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "b": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "limit255": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "cssColorToHex": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {},
+            "objectShape": {},
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    }
+}

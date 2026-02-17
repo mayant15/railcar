@@ -1,0 +1,28 @@
+{
+  "config": {
+    "config_file": "/home/int2k/railcar/examples/redux/railcar.config.js",
+    "cores": {
+      "cmdline": "all",
+      "ids": [
+        0
+      ]
+    },
+    "corpus": "/home/int2k/railcar/examples/redux.mjs.out/corpus",
+    "crashes": "/home/int2k/railcar/examples/redux.mjs.out/crashes",
+    "entrypoint": "/home/int2k/railcar/examples/redux/redux.mjs",
+    "labels": [],
+    "metrics": "/home/int2k/railcar/examples/redux.mjs.out/metrics.db",
+    "mode": "sequence",
+    "port": 1337,
+    "replay": false,
+    "replay_input": null,
+    "schema_file": "/home/int2k/railcar/examples/redux/redux.mjs.schema",
+    "seed": 1766007066,
+    "timeout": {
+      "nanos": 0,
+      "secs": 10
+    }
+  },
+  "pid": 361970,
+  "start_time": 1766007066
+}
