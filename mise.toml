@@ -13,6 +13,7 @@ lockfile = true
 experimental = true
 
 [tasks.dev]
+description = "Install optional dependencies useful for developing Railcar"
 run = [
   "python3 -m ensurepip",
   "pip3 install -r requirements.txt",
@@ -21,6 +22,7 @@ run = [
 ]
 
 [tasks.test]
+description = "Run smoke tests"
 run = [
   "cd packages/inference && bun test",
   "cd packages/worker && bun test",
@@ -53,6 +55,15 @@ run = [
 ]
 
 [tasks.publish]
+description = "Prepare and publish npm packages"
 run = """
 ./scripts/publish.sh {{arg(name="version")}}
 """
+
+[tasks.amp]
+description = "Run amp in a devcontainer"
+run = [
+  "bunx devcontainer build",
+  "bunx devcontainer up --workspace-folder .",
+  "bunx devcontainer exec --workspace-folder . bash"
+]
