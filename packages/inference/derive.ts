@@ -17,7 +17,7 @@ import assert from "node:assert"
 import ts from "typescript"
 
 import { SignatureGuess, type TypeGuess, type Schema, type CallConvention } from "./schema.js";
-import { addStd, Guess, Builtins } from "./common.js"
+import { addStd, Guess, STD_CLASSES, BUILTIN_METHOD_NAMES } from "./common.js"
 
 /**
  * Produce a schema from a TypeScript declaration file.
@@ -64,7 +64,7 @@ function createContext(path: string): Context {
     assert(sourceFile !== undefined)
 
     const checker = program.getTypeChecker()
-    const builtins = new Set(Builtins)
+    const builtins = new Set(STD_CLASSES)
 
     return { checker, sourceFile, builtins, schema: {}, visiting: new Set(), depth: 0 }
 }
@@ -139,6 +139,7 @@ function inferPropertiesOfType(ctx: Context, type: ts.Type): void {
         const name = prop.getName()
 
         if (isFunction(propType)) {
+            if (BUILTIN_METHOD_NAMES.has(name)) continue
             const guesses = propType.getCallSignatures()
                 .map(sig => guessSignature(ctx, sig, "Free"))
             ctx.schema[name] = mergeFunctionOverloads(guesses)
@@ -471,6 +472,8 @@ function inferClassType(ctx: Context, symbol: ts.Symbol): void {
             continue
         }
 
+        if (BUILTIN_METHOD_NAMES.has(prop.getName())) continue;
+
         const guesses = propType.getCallSignatures()
             .map(sig => guessSignature(ctx, sig, "Free"))
         const signature = mergeFunctionOverloads(guesses)
@@ -507,6 +510,8 @@ function inferClassType(ctx: Context, symbol: ts.Symbol): void {
         if (!isFunction(propType)) {
             continue
         }
+
+        if (BUILTIN_METHOD_NAMES.has(prop.getName())) continue;
 
         const guesses = propType.getCallSignatures()
             .map(sig => guessSignature(ctx, sig, "Method"))
