@@ -216,6 +216,18 @@ export function foo(x: Record<string, unknown>);
             callconv: "Free",
         })
     })
+
+    test("symbols are any", () => {
+        const code = `
+export function foo(x: Symbol);
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.any()],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
 })
 
 describe("union types", () => {
@@ -1307,6 +1319,20 @@ export function bindActionCreators<M extends ActionCreatorsMapObject, N extends 
                 Guess.func()
             ],
             ret: Guess.union(Guess.func(), Guess.object({})),
+            callconv: "Free",
+        })
+    })
+
+    test("fast-xml-parser static getMetaDataSymbol", () => {
+        const code = `
+export class XMLParser {
+    static getMetaDataSymbol(): Symbol;
+}
+`
+        const actual = fromCode(code)
+        expect(actual["XMLParser.getMetaDataSymbol"]).toEqual({
+            args: [],
+            ret: Guess.any(),
             callconv: "Free",
         })
     })

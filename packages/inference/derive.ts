@@ -8,6 +8,8 @@
  * 2. Tuples are arrays with unions for values
  * 3. A `Promise<T>` return is just `T`
  * 4. Record<K, V> are Guess.object({})
+ * 5. Promote generics to their constraints, unconstrained generics are `any`
+ * 6. Symbol becomes any
  */
 
 import assert from "node:assert"
@@ -348,6 +350,10 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
         return Guess.null()
     }
 
+    if (flags & ts.TypeFlags.ESSymbol || flags & ts.TypeFlags.UniqueESSymbol) {
+        return Guess.any()
+    }
+
     if (flags & ts.TypeFlags.Literal) {
         return toTypeGuess(ctx, promoteType(ctx.checker, type))
     }
@@ -400,6 +406,9 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
     const symbol = type.getSymbol()
     if (symbol !== undefined) {
         const name = symbol.getName()
+        if (name === "Symbol") {
+            return Guess.any()
+        }
         if (ctx.builtins.has(name)) {
             return Guess.class(name)
         }
