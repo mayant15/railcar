@@ -530,7 +530,7 @@ mod tests {
                 1 => extend.mutate(&mut state, &mut input).is_ok(),
                 2 => remove_suffix.mutate(&mut state, &mut input).is_ok(),
                 3 => remove_prefix.mutate(&mut state, &mut input).is_ok(),
-                _ => unreachable!()
+                _ => unreachable!(),
             };
 
             input.is_valid();

@@ -1019,7 +1019,9 @@ mod tests {
     #[test]
     fn test_type_sample_array() {
         let mut rand = StdRand::with_seed(42);
-        let result = Type::Array(Box::new(Type::Number)).sample(&mut rand).unwrap();
+        let result = Type::Array(Box::new(Type::Number))
+            .sample(&mut rand)
+            .unwrap();
         assert!(matches!(result, ConstantValue::Array(_)));
     }
 
