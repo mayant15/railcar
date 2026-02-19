@@ -11,7 +11,7 @@ import type {
     Schema,
     SignatureGuess,
 } from "./schema.ts";
-import { Guess } from "./common.js";
+import { BUILTIN_METHOD_NAMES, Guess } from "./common.js";
 import { MAX_OBJECT_MAPPING_DEPTH } from "./config.js";
 
 function removeInvalidEndpoints(schema: Schema, endpoints: Endpoints): Schema {
@@ -78,20 +78,6 @@ function mapStandardReferences(
     );
 }
 
-const BUILTIN_METHODS = new Set([
-    "constructor",
-    "__defineGetter__",
-    "__defineSetter__",
-    "hasOwnProperty",
-    "__lookupGetter__",
-    "__lookupSetter__",
-    "isPrototypeOf",
-    "propertyIsEnumerable",
-    "valueOf",
-    "toLocaleString",
-    "toString",
-]);
-
 function getMethods(constr: { prototype: unknown }) {
     const methods: [string, Fn][] = [];
 
@@ -103,7 +89,7 @@ function getMethods(constr: { prototype: unknown }) {
         const descs = Object.getOwnPropertyDescriptors(current);
         for (const [prop, desc] of Object.entries(descs)) {
             if (
-                !BUILTIN_METHODS.has(prop) &&
+                !BUILTIN_METHOD_NAMES.has(prop) &&
                 desc.value &&
                 typeof desc.value === "function" &&
                 !prop.startsWith("_") // skip private methods
@@ -125,7 +111,7 @@ function getStatics(constr: object) {
             continue;
         }
 
-        if (BUILTIN_METHODS.has(name)) {
+        if (BUILTIN_METHOD_NAMES.has(name)) {
             continue;
         }
 
@@ -191,7 +177,7 @@ function isConstructor(fn: Fn): boolean {
         Object.getOwnPropertyDescriptors(fn.prototype),
     ).filter(([prop, desc]) => {
         return (
-            !BUILTIN_METHODS.has(prop) &&
+            !BUILTIN_METHOD_NAMES.has(prop) &&
             desc.value &&
             typeof desc.value === "function"
         );

@@ -375,7 +375,7 @@ export function mkClass(
     return type;
 }
 
-export const Builtins = [
+export const STD_CLASSES = [
     "Uint8Array",
     "ArrayBuffer",
     "RegExp",
@@ -385,8 +385,22 @@ export const Builtins = [
     "Duplex",
 ] as const;
 
-export type StdTypes = Record<(typeof Builtins)[number], Type>;
-export type StdSchema = Record<(typeof Builtins)[number], SignatureGuess>;
+export type StdTypes = Record<(typeof STD_CLASSES)[number], Type>;
+export type StdSchema = Record<(typeof STD_CLASSES)[number], SignatureGuess>;
+
+export const BUILTIN_METHOD_NAMES = new Set([
+    "constructor",
+    "__defineGetter__",
+    "__defineSetter__",
+    "hasOwnProperty",
+    "__lookupGetter__",
+    "__lookupSetter__",
+    "isPrototypeOf",
+    "propertyIsEnumerable",
+    "valueOf",
+    "toLocaleString",
+    "toString",
+])
 
 /**
  * Add standard built-in classes to a schema.

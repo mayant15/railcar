@@ -581,3 +581,459 @@ pub trait HasSchema {
     fn schema(&self) -> &Schema;
     fn schema_mut(&mut self) -> &mut Schema;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use libafl_bolts::rands::StdRand;
+
+    fn number_guess() -> TypeGuess {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Number, 1.0);
+        TypeGuess {
+            is_any: false,
+            kind,
+            ..Default::default()
+        }
+    }
+
+    fn string_guess() -> TypeGuess {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::String, 1.0);
+        TypeGuess {
+            is_any: false,
+            kind,
+            ..Default::default()
+        }
+    }
+
+    fn boolean_guess() -> TypeGuess {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Boolean, 1.0);
+        TypeGuess {
+            is_any: false,
+            kind,
+            ..Default::default()
+        }
+    }
+
+    fn undefined_guess() -> TypeGuess {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Undefined, 1.0);
+        TypeGuess {
+            is_any: false,
+            kind,
+            ..Default::default()
+        }
+    }
+
+    fn null_guess() -> TypeGuess {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Null, 1.0);
+        TypeGuess {
+            is_any: false,
+            kind,
+            ..Default::default()
+        }
+    }
+
+    fn function_guess() -> TypeGuess {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Function, 1.0);
+        TypeGuess {
+            is_any: false,
+            kind,
+            ..Default::default()
+        }
+    }
+
+    fn make_schema(entries: Vec<(&str, SignatureGuess)>) -> Schema {
+        let map: BTreeMap<EndpointName, SignatureGuess> = entries
+            .into_iter()
+            .map(|(name, guess)| (name.to_string(), guess))
+            .collect();
+        Schema(map)
+    }
+
+    #[test]
+    fn test_can_guess_simple_types() {
+        let ng = number_guess();
+        assert!(ng.can_guess(&Type::Number));
+        assert!(!ng.can_guess(&Type::String));
+
+        let sg = string_guess();
+        assert!(sg.can_guess(&Type::String));
+        assert!(!sg.can_guess(&Type::Number));
+
+        let bg = boolean_guess();
+        assert!(bg.can_guess(&Type::Boolean));
+        assert!(!bg.can_guess(&Type::Number));
+
+        let ug = undefined_guess();
+        assert!(ug.can_guess(&Type::Undefined));
+        assert!(!ug.can_guess(&Type::Number));
+
+        let nlg = null_guess();
+        assert!(nlg.can_guess(&Type::Null));
+        assert!(!nlg.can_guess(&Type::String));
+
+        let fg = function_guess();
+        assert!(fg.can_guess(&Type::Function));
+        assert!(!fg.can_guess(&Type::Number));
+    }
+
+    #[test]
+    fn test_can_guess_any() {
+        let guess = TypeGuess::any();
+        assert!(guess.can_guess(&Type::Number));
+        assert!(guess.can_guess(&Type::String));
+        assert!(guess.can_guess(&Type::Boolean));
+        assert!(guess.can_guess(&Type::Object(BTreeMap::new())));
+        assert!(guess.can_guess(&Type::Class("Foo".to_string())));
+        assert!(guess.can_guess(&Type::Array(Box::new(Type::Number))));
+        assert!(guess.can_guess(&Type::Undefined));
+        assert!(guess.can_guess(&Type::Null));
+        assert!(guess.can_guess(&Type::Function));
+    }
+
+    #[test]
+    fn test_can_guess_class() {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Class, 1.0);
+        let mut class_dist = BTreeMap::new();
+        class_dist.insert("MyClass".to_string(), 1.0);
+        let guess = TypeGuess {
+            is_any: false,
+            kind,
+            class_type: Some(class_dist),
+            ..Default::default()
+        };
+
+        assert!(guess.can_guess(&Type::Class("MyClass".to_string())));
+        assert!(!guess.can_guess(&Type::Class("OtherClass".to_string())));
+    }
+
+    #[test]
+    fn test_can_guess_object() {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Object, 1.0);
+        let mut shape = BTreeMap::new();
+        shape.insert("x".to_string(), number_guess());
+        shape.insert("y".to_string(), string_guess());
+        let guess = TypeGuess {
+            is_any: false,
+            kind,
+            object_shape: Some(shape),
+            ..Default::default()
+        };
+
+        let mut matching_obj = BTreeMap::new();
+        matching_obj.insert("x".to_string(), Type::Number);
+        matching_obj.insert("y".to_string(), Type::String);
+        assert!(guess.can_guess(&Type::Object(matching_obj)));
+
+        let mut wrong_field = BTreeMap::new();
+        wrong_field.insert("x".to_string(), Type::String);
+        assert!(!guess.can_guess(&Type::Object(wrong_field)));
+
+        let mut missing_field = BTreeMap::new();
+        missing_field.insert("z".to_string(), Type::Number);
+        assert!(!guess.can_guess(&Type::Object(missing_field)));
+    }
+
+    #[test]
+    fn test_can_guess_array() {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Array, 1.0);
+        let guess = TypeGuess {
+            is_any: false,
+            kind,
+            array_value_type: Some(Box::new(number_guess())),
+            ..Default::default()
+        };
+
+        assert!(guess.can_guess(&Type::Array(Box::new(Type::Number))));
+        assert!(!guess.can_guess(&Type::Array(Box::new(Type::String))));
+    }
+
+    #[test]
+    fn test_overlaps_same_kind() {
+        let a = number_guess();
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Number, 0.5);
+        kind.insert(TypeKind::String, 0.5);
+        let b = TypeGuess {
+            is_any: false,
+            kind,
+            ..Default::default()
+        };
+        assert!(a.overlaps(&b));
+    }
+
+    #[test]
+    fn test_overlaps_disjoint() {
+        let a = number_guess();
+        let b = string_guess();
+        assert!(!a.overlaps(&b));
+    }
+
+    #[test]
+    fn test_overlaps_any() {
+        let a = TypeGuess::any();
+        let b = number_guess();
+        assert!(a.overlaps(&b));
+        assert!(b.overlaps(&a));
+    }
+
+    #[test]
+    fn test_probability_of_matching() {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Number, 0.7);
+        kind.insert(TypeKind::String, 0.3);
+        let guess = TypeGuess {
+            is_any: false,
+            kind,
+            ..Default::default()
+        };
+        let prob = guess.probability_of(&Type::Number);
+        assert!((prob - 0.7).abs() < f64::EPSILON);
+    }
+
+    #[test]
+    fn test_probability_of_non_matching() {
+        let guess = number_guess();
+        let prob = guess.probability_of(&Type::String);
+        assert!((prob - 0.0).abs() < f64::EPSILON);
+    }
+
+    #[test]
+    fn test_probability_of_any() {
+        let guess = TypeGuess::any();
+        let prob = guess.probability_of(&Type::Boolean);
+        assert!((prob - 1.0).abs() < f64::EPSILON);
+    }
+
+    #[test]
+    fn test_sample_type_guess_number() {
+        let guess = number_guess();
+        let mut rand = StdRand::with_seed(42);
+        let result = guess.sample(&mut rand).unwrap();
+        assert!(matches!(result, Type::Number));
+    }
+
+    #[test]
+    fn test_sample_type_guess_any() {
+        let guess = TypeGuess::any();
+        let mut rand = StdRand::with_seed(42);
+        let result = guess.sample(&mut rand);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_can_receive_matching() {
+        let sig = SignatureGuess {
+            args: vec![number_guess(), string_guess()],
+            ret: number_guess(),
+            callconv: CallConvention::Free,
+            builtin: None,
+        };
+        let ports = sig.can_receive(&[Type::Number]);
+        assert_eq!(ports, Some(vec![0]));
+    }
+
+    #[test]
+    fn test_can_receive_no_match() {
+        let sig = SignatureGuess {
+            args: vec![number_guess()],
+            ret: number_guess(),
+            callconv: CallConvention::Free,
+            builtin: None,
+        };
+        let ports = sig.can_receive(&[Type::String]);
+        assert_eq!(ports, None);
+    }
+
+    #[test]
+    fn test_can_receive_multiple_args() {
+        let sig = SignatureGuess {
+            args: vec![number_guess(), string_guess(), boolean_guess()],
+            ret: number_guess(),
+            callconv: CallConvention::Free,
+            builtin: None,
+        };
+        let ports = sig.can_receive(&[Type::String, Type::Boolean]);
+        assert_eq!(ports, Some(vec![1, 2]));
+    }
+
+    #[test]
+    fn test_concretize_by_return_type() {
+        let schema = make_schema(vec![
+            (
+                "foo",
+                SignatureGuess {
+                    args: vec![],
+                    ret: number_guess(),
+                    callconv: CallConvention::Free,
+                    builtin: None,
+                },
+            ),
+            (
+                "bar",
+                SignatureGuess {
+                    args: vec![],
+                    ret: string_guess(),
+                    callconv: CallConvention::Free,
+                    builtin: None,
+                },
+            ),
+        ]);
+        let mut rand = StdRand::with_seed(42);
+        let query = SignatureQuery {
+            args: None,
+            ret: Some(Type::String),
+            callconv: None,
+        };
+        let result = schema.concretize(&mut rand, query);
+        assert!(result.is_some());
+        let (name, sig, _) = result.unwrap();
+        assert_eq!(name, "bar");
+        assert!(matches!(sig.ret, Type::String));
+    }
+
+    #[test]
+    fn test_concretize_by_callconv() {
+        let schema = make_schema(vec![
+            (
+                "free_fn",
+                SignatureGuess {
+                    args: vec![],
+                    ret: number_guess(),
+                    callconv: CallConvention::Free,
+                    builtin: None,
+                },
+            ),
+            (
+                "ctor",
+                SignatureGuess {
+                    args: vec![],
+                    ret: number_guess(),
+                    callconv: CallConvention::Constructor,
+                    builtin: None,
+                },
+            ),
+        ]);
+        let mut rand = StdRand::with_seed(42);
+        let query = SignatureQuery {
+            args: None,
+            ret: None,
+            callconv: Some(CallConvention::Constructor),
+        };
+        let result = schema.concretize(&mut rand, query);
+        assert!(result.is_some());
+        let (name, sig, _) = result.unwrap();
+        assert_eq!(name, "ctor");
+        assert_eq!(sig.callconv, CallConvention::Constructor);
+    }
+
+    #[test]
+    fn test_concretize_no_match() {
+        let schema = make_schema(vec![(
+            "foo",
+            SignatureGuess {
+                args: vec![],
+                ret: number_guess(),
+                callconv: CallConvention::Free,
+                builtin: None,
+            },
+        )]);
+        let mut rand = StdRand::with_seed(42);
+        let query = SignatureQuery {
+            args: None,
+            ret: Some(Type::Boolean),
+            callconv: None,
+        };
+        let result = schema.concretize(&mut rand, query);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_normalize() {
+        let mut dist: BTreeMap<&str, f64> = BTreeMap::new();
+        dist.insert("a", 2.0);
+        dist.insert("b", 3.0);
+        dist.insert("c", 5.0);
+        Schema::normalize(&mut dist);
+        let total: f64 = dist.values().sum();
+        assert!((total - 1.0).abs() < f64::EPSILON);
+        assert!((dist["a"] - 0.2).abs() < f64::EPSILON);
+        assert!((dist["b"] - 0.3).abs() < f64::EPSILON);
+        assert!((dist["c"] - 0.5).abs() < f64::EPSILON);
+    }
+
+    #[test]
+    fn test_type_sample_number() {
+        let mut rand = StdRand::with_seed(42);
+        let result = Type::Number.sample(&mut rand).unwrap();
+        assert!(matches!(result, ConstantValue::Number(_)));
+    }
+
+    #[test]
+    fn test_type_sample_string() {
+        let mut rand = StdRand::with_seed(42);
+        let result = Type::String.sample(&mut rand).unwrap();
+        assert!(matches!(result, ConstantValue::String(_)));
+    }
+
+    #[test]
+    fn test_type_sample_boolean() {
+        let mut rand = StdRand::with_seed(42);
+        let result = Type::Boolean.sample(&mut rand).unwrap();
+        assert!(matches!(result, ConstantValue::Boolean(_)));
+    }
+
+    #[test]
+    fn test_type_sample_object() {
+        let mut rand = StdRand::with_seed(42);
+        let mut shape = BTreeMap::new();
+        shape.insert("a".to_string(), Type::Number);
+        shape.insert("b".to_string(), Type::String);
+        let result = Type::Object(shape).sample(&mut rand).unwrap();
+        match result {
+            ConstantValue::Object(props) => {
+                assert!(props.contains_key("a"));
+                assert!(props.contains_key("b"));
+                assert!(matches!(props["a"], ConstantValue::Number(_)));
+                assert!(matches!(props["b"], ConstantValue::String(_)));
+            }
+            _ => panic!("expected ConstantValue::Object"),
+        }
+    }
+
+    #[test]
+    fn test_type_sample_class_fails() {
+        let mut rand = StdRand::with_seed(42);
+        let result = Type::Class("Foo".to_string()).sample(&mut rand);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_type_sample_array() {
+        let mut rand = StdRand::with_seed(42);
+        let result = Type::Array(Box::new(Type::Number))
+            .sample(&mut rand)
+            .unwrap();
+        assert!(matches!(result, ConstantValue::Array(_)));
+    }
+
+    #[test]
+    fn test_find_port() {
+        let sig = Signature {
+            args: vec![Type::Number, Type::String, Type::Boolean],
+            ret: Type::Undefined,
+            callconv: CallConvention::Free,
+        };
+        assert_eq!(sig.find_port(&Type::String), Some(1));
+        assert_eq!(sig.find_port(&Type::Boolean), Some(2));
+        assert_eq!(sig.find_port(&Type::Null), None);
+    }
+}

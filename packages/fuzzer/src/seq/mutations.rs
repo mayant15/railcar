@@ -285,3 +285,255 @@ where
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::inputs::{CanValidate, HasSeqLen};
+    use crate::schema::Schema;
+    use crate::seq::input::ApiSeq;
+
+    use libafl::{
+        corpus::{Corpus, InMemoryCorpus, NopCorpus, Testcase},
+        feedbacks::ConstFeedback,
+        mutators::{MutationResult, Mutator},
+        state::StdState,
+    };
+    use libafl_bolts::rands::{Rand, StdRand};
+
+    type NopState = StdState<NopCorpus<ApiSeq>, ApiSeq, StdRand, NopCorpus<ApiSeq>>;
+    type CorpusState = StdState<InMemoryCorpus<ApiSeq>, ApiSeq, StdRand, NopCorpus<ApiSeq>>;
+
+    fn make_nop_state(seed: u64) -> NopState {
+        let mut feedback = ConstFeedback::new(false);
+        let mut objective = ConstFeedback::new(false);
+        NopState::new(
+            StdRand::with_seed(seed),
+            NopCorpus::new(),
+            NopCorpus::new(),
+            &mut feedback,
+            &mut objective,
+        )
+        .expect("failed to create state")
+    }
+
+    fn make_corpus_state(seed: u64) -> CorpusState {
+        let mut feedback = ConstFeedback::new(false);
+        let mut objective = ConstFeedback::new(false);
+        CorpusState::new(
+            StdRand::with_seed(seed),
+            InMemoryCorpus::new(),
+            NopCorpus::new(),
+            &mut feedback,
+            &mut objective,
+        )
+        .expect("failed to create state")
+    }
+
+    fn load_schema() -> Schema {
+        let file = std::fs::File::open("tests/common/jpeg-js-typescript.json")
+            .expect("failed to open schema file");
+        serde_json::from_reader(file).expect("failed to parse schema")
+    }
+
+    fn minimal_schema() -> Schema {
+        serde_json::from_value(serde_json::json!({
+            "simple_fn": {
+                "args": [],
+                "ret": {
+                    "isAny": false,
+                    "kind": { "Number": 1.0 }
+                },
+                "callconv": "Free"
+            }
+        }))
+        .unwrap()
+    }
+
+    fn generate_seq(rand: &mut impl Rand, schema: &Schema) -> ApiSeq {
+        let fuzz: Vec<u8> = (0..64).map(|_| rand.between(0, 255) as u8).collect();
+        ApiSeq::create(rand, schema, fuzz).expect("failed to create ApiSeq")
+    }
+
+    #[test]
+    fn test_splice_seq_valid() {
+        let schema = load_schema();
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+        let mut mutation = SpliceSeq { schema: &schema };
+        let _ = mutation.mutate(&mut state, &mut input);
+        input.is_valid();
+    }
+
+    #[test]
+    fn test_splice_seq_skips_short() {
+        let schema = minimal_schema();
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+        assert_eq!(input.seq_len(), 1);
+        let mut mutation = SpliceSeq { schema: &schema };
+        let result = mutation
+            .mutate(&mut state, &mut input)
+            .expect("mutation failed");
+        assert_eq!(result, MutationResult::Skipped);
+    }
+
+    #[test]
+    fn test_splice_seq_reduces_len() {
+        let schema = load_schema();
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+        let mut mutation = SpliceSeq { schema: &schema };
+        if input.seq_len() >= 2 {
+            let _ = mutation.mutate(&mut state, &mut input);
+            input.is_valid();
+        }
+    }
+
+    #[test]
+    fn test_extend_seq_valid() {
+        let schema = load_schema();
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+        let mut mutation = ExtendSeq { schema: &schema };
+        let result = mutation
+            .mutate(&mut state, &mut input)
+            .expect("mutation failed");
+        assert_eq!(result, MutationResult::Mutated);
+        input.is_valid();
+    }
+
+    #[test]
+    fn test_extend_seq_increases_len() {
+        let schema = load_schema();
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+        let original_len = input.seq_len();
+        let mut mutation = ExtendSeq { schema: &schema };
+        mutation
+            .mutate(&mut state, &mut input)
+            .expect("mutation failed");
+        assert!(input.seq_len() > original_len);
+        input.is_valid();
+    }
+
+    #[test]
+    fn test_remove_suffix_valid() {
+        let schema = load_schema();
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+        if input.seq_len() >= 2 {
+            let mut mutation = RemoveSuffixSeq {};
+            mutation
+                .mutate(&mut state, &mut input)
+                .expect("mutation failed");
+            input.is_valid();
+        }
+    }
+
+    #[test]
+    fn test_remove_suffix_skips_short() {
+        let schema = minimal_schema();
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+        assert_eq!(input.seq_len(), 1);
+        let mut mutation = RemoveSuffixSeq {};
+        let result = mutation
+            .mutate(&mut state, &mut input)
+            .expect("mutation failed");
+        assert_eq!(result, MutationResult::Skipped);
+    }
+
+    #[test]
+    fn test_remove_suffix_decreases_len() {
+        let schema = load_schema();
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+        if input.seq_len() >= 2 {
+            let original_len = input.seq_len();
+            let mut mutation = RemoveSuffixSeq {};
+            mutation
+                .mutate(&mut state, &mut input)
+                .expect("mutation failed");
+            assert_eq!(input.seq_len(), original_len - 1);
+        }
+    }
+
+    #[test]
+    fn test_remove_prefix_valid() {
+        let schema = load_schema();
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+        if input.seq_len() >= 2 {
+            let mut mutation = RemovePrefixSeq { schema: &schema };
+            mutation
+                .mutate(&mut state, &mut input)
+                .expect("mutation failed");
+            input.is_valid();
+        }
+    }
+
+    #[test]
+    fn test_remove_prefix_skips_short() {
+        let schema = minimal_schema();
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+        assert_eq!(input.seq_len(), 1);
+        let mut mutation = RemovePrefixSeq { schema: &schema };
+        let result = mutation
+            .mutate(&mut state, &mut input)
+            .expect("mutation failed");
+        assert_eq!(result, MutationResult::Skipped);
+    }
+
+    #[test]
+    fn test_crossover_valid() {
+        let schema = load_schema();
+        let mut state = make_corpus_state(42);
+
+        for seed in 0..5 {
+            let mut rand = StdRand::with_seed(seed + 100);
+            let seq = generate_seq(&mut rand, &schema);
+            state
+                .corpus_mut()
+                .add(Testcase::from(seq))
+                .expect("failed to add to corpus");
+        }
+
+        let mut input = {
+            let rand = state.rand_mut();
+            generate_seq(rand, &schema)
+        };
+        let mut mutation = Crossover { schema: &schema };
+        mutation
+            .mutate(&mut state, &mut input)
+            .expect("mutation failed");
+        input.is_valid();
+    }
+
+    #[test]
+    fn test_mutations_stress() {
+        let schema = load_schema();
+
+        let mut state = make_nop_state(42);
+        let mut input = generate_seq(state.rand_mut(), &schema);
+
+        for _ in 0..25 {
+            let mut splice = SpliceSeq { schema: &schema };
+            let mut extend = ExtendSeq { schema: &schema };
+            let mut remove_suffix = RemoveSuffixSeq {};
+            let mut remove_prefix = RemovePrefixSeq { schema: &schema };
+
+            let pick = state.rand_mut().below_or_zero(4);
+            match pick {
+                0 => splice.mutate(&mut state, &mut input).is_ok(),
+                1 => extend.mutate(&mut state, &mut input).is_ok(),
+                2 => remove_suffix.mutate(&mut state, &mut input).is_ok(),
+                3 => remove_prefix.mutate(&mut state, &mut input).is_ok(),
+                _ => unreachable!(),
+            };
+
+            input.is_valid();
+        }
+    }
+}

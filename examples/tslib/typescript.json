@@ -703,13 +703,13 @@
                         "Function": 1
                     }
                 },
-                "__@iterator@90": {
+                "__@iterator@86": {
                     "isAny": false,
                     "kind": {
                         "Function": 1
                     }
                 },
-                "__@unscopables@92": {
+                "__@unscopables@88": {
                     "isAny": false,
                     "kind": {
                         "Object": 1
@@ -876,14 +876,14 @@
                                 "Undefined": 0.5
                             }
                         },
-                        "__@iterator@90": {
+                        "__@iterator@86": {
                             "isAny": false,
                             "kind": {
                                 "Boolean": 0.5,
                                 "Undefined": 0.5
                             }
                         },
-                        "__@unscopables@92": {
+                        "__@unscopables@88": {
                             "isAny": false,
                             "kind": {
                                 "Boolean": 0.5,

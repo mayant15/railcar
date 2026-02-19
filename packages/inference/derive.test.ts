@@ -216,6 +216,18 @@ export function foo(x: Record<string, unknown>);
             callconv: "Free",
         })
     })
+
+    test("symbols are any", () => {
+        const code = `
+export function foo(x: Symbol);
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.any()],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
 })
 
 describe("union types", () => {
@@ -1074,6 +1086,62 @@ declare module 'my-module' {
         })
     })
 
+    test("export equals variable infers properties of its type", () => {
+        const code = `
+declare const lib: LibStatic;
+declare namespace lib {}
+interface LibStatic {
+    chunk(arr: string[]): string[][];
+    compact(arr: any[]): any[];
+}
+export = lib;
+`
+        const actual = fromCode(code)
+
+        expect(actual.chunk).toEqual({
+            args: [Guess.array(Guess.string())],
+            ret: Guess.array(Guess.array(Guess.string())),
+            callconv: "Free",
+        })
+
+        expect(actual.compact).toEqual({
+            args: [Guess.array(Guess.any())],
+            ret: Guess.array(Guess.any()),
+            callconv: "Free",
+        })
+    })
+
+    test("export equals namespace uses regular export path", () => {
+        const code = `
+declare namespace Lib {
+    function hello(x: string): number;
+    class Widget {
+        render(): void;
+    }
+}
+export = Lib;
+`
+        const actual = fromCode(code)
+
+        expect(actual.hello).toEqual({
+            args: [Guess.string()],
+            ret: Guess.number(),
+            callconv: "Free",
+        })
+
+        expect(actual.Widget).toEqual({
+            args: [],
+            ret: Guess.class("Widget"),
+            callconv: "Constructor",
+        })
+
+        expect(actual["Widget.render"]).toEqual({
+            args: [Guess.class("Widget")],
+            ret: Guess.undefined(),
+            callconv: "Method",
+        })
+    })
+
     test("skip constants that are not functions", () => {
         const code = `
 export declare const defaults: string[];
@@ -1251,6 +1319,20 @@ export function bindActionCreators<M extends ActionCreatorsMapObject, N extends 
                 Guess.func()
             ],
             ret: Guess.union(Guess.func(), Guess.object({})),
+            callconv: "Free",
+        })
+    })
+
+    test("fast-xml-parser static getMetaDataSymbol", () => {
+        const code = `
+export class XMLParser {
+    static getMetaDataSymbol(): Symbol;
+}
+`
+        const actual = fromCode(code)
+        expect(actual["XMLParser.getMetaDataSymbol"]).toEqual({
+            args: [],
+            ret: Guess.any(),
             callconv: "Free",
         })
     })

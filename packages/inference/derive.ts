@@ -8,6 +8,8 @@
  * 2. Tuples are arrays with unions for values
  * 3. A `Promise<T>` return is just `T`
  * 4. Record<K, V> are Guess.object({})
+ * 5. Promote generics to their constraints, unconstrained generics are `any`
+ * 6. Symbol becomes any
  */
 
 import assert from "node:assert"
@@ -15,17 +17,23 @@ import assert from "node:assert"
 import ts from "typescript"
 
 import { SignatureGuess, type TypeGuess, type Schema, type CallConvention } from "./schema.js";
-import { addStd, Guess, Builtins } from "./common.js";
+import { addStd, Guess, STD_CLASSES, BUILTIN_METHOD_NAMES } from "./common.js"
 
 /**
  * Produce a schema from a TypeScript declaration file.
  */
 export function fromFile(path: string): Schema {
     const ctx = createContext(path)
-    const exports = getExportedSymbols(ctx)
 
-    for (const exp of exports) {
-        infer(ctx, exp)
+    const exportEquals = getExportEqualsType(ctx)
+    if (exportEquals) {
+        // Module uses `export = X`. The API surface is the properties of X's type.
+        inferPropertiesOfType(ctx, exportEquals)
+    } else {
+        const exports = getExportedSymbols(ctx)
+        for (const exp of exports) {
+            infer(ctx, exp)
+        }
     }
 
     addStd(ctx.schema)
@@ -56,7 +64,7 @@ function createContext(path: string): Context {
     assert(sourceFile !== undefined)
 
     const checker = program.getTypeChecker()
-    const builtins = new Set(Builtins)
+    const builtins = new Set(STD_CLASSES)
 
     return { checker, sourceFile, builtins, schema: {}, visiting: new Set(), depth: 0 }
 }
@@ -92,6 +100,53 @@ function getMainModule(ctx: Context): ts.Symbol {
     }
 
     throw Error(`Could not find module symbol for ${ctx.sourceFile.fileName}`)
+}
+
+/**
+ * If the module uses `export = X` where X is a variable (e.g., `declare const _: _.LoDashStatic`),
+ * resolve X and return its type. The API surface is the properties of that type.
+ *
+ * Returns undefined if the module does not use `export =`, or if the export target is only
+ * a namespace (not a variable), in which case the regular `getExportedSymbols` path handles it.
+ */
+function getExportEqualsType(ctx: Context): ts.Type | null {
+    const mod = getMainModule(ctx)
+    const exports = mod.exports
+    if (!exports) return null
+
+    const exportEquals = exports.get(ts.InternalSymbolName.ExportEquals)
+    if (!exportEquals) return null
+
+    const resolved = exportEquals.flags & ts.SymbolFlags.Alias
+        ? ctx.checker.getAliasedSymbol(exportEquals)
+        : exportEquals
+
+    // Only use the type-based inference when the export target is a variable.
+    // Pure namespaces (e.g., `declare namespace X { ... }; export = X`) are handled
+    // by the regular getExportedSymbols path.
+    const isVariable = resolved.flags & (ts.SymbolFlags.Variable | ts.SymbolFlags.FunctionScopedVariable | ts.SymbolFlags.BlockScopedVariable)
+    if (!isVariable) return null
+
+    return ctx.checker.getTypeOfSymbol(resolved)
+}
+
+/**
+ * Infer signatures from the callable properties of a type and add them to the schema.
+ */
+function inferPropertiesOfType(ctx: Context, type: ts.Type): void {
+    for (const prop of type.getProperties()) {
+        const propType = ctx.checker.getTypeOfSymbol(prop)
+        const name = prop.getName()
+
+        if (isFunction(propType)) {
+            if (BUILTIN_METHOD_NAMES.has(name)) continue
+            const guesses = propType.getCallSignatures()
+                .map(sig => guessSignature(ctx, sig, "Free"))
+            ctx.schema[name] = mergeFunctionOverloads(guesses)
+        } else if (isClass(prop)) {
+            inferClassType(ctx, prop)
+        }
+    }
 }
 
 /**
@@ -296,6 +351,10 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
         return Guess.null()
     }
 
+    if (flags & ts.TypeFlags.ESSymbol || flags & ts.TypeFlags.UniqueESSymbol) {
+        return Guess.any()
+    }
+
     if (flags & ts.TypeFlags.Literal) {
         return toTypeGuess(ctx, promoteType(ctx.checker, type))
     }
@@ -348,6 +407,9 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
     const symbol = type.getSymbol()
     if (symbol !== undefined) {
         const name = symbol.getName()
+        if (name === "Symbol") {
+            return Guess.any()
+        }
         if (ctx.builtins.has(name)) {
             return Guess.class(name)
         }
@@ -410,6 +472,8 @@ function inferClassType(ctx: Context, symbol: ts.Symbol): void {
             continue
         }
 
+        if (BUILTIN_METHOD_NAMES.has(prop.getName())) continue;
+
         const guesses = propType.getCallSignatures()
             .map(sig => guessSignature(ctx, sig, "Free"))
         const signature = mergeFunctionOverloads(guesses)
@@ -446,6 +510,8 @@ function inferClassType(ctx: Context, symbol: ts.Symbol): void {
         if (!isFunction(propType)) {
             continue
         }
+
+        if (BUILTIN_METHOD_NAMES.has(prop.getName())) continue;
 
         const guesses = propType.getCallSignatures()
             .map(sig => guessSignature(ctx, sig, "Method"))
