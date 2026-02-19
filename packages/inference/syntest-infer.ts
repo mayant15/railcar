@@ -210,10 +210,19 @@ function mapToCustomEnpoints(endpoints: Endpoints): CustomEndpoints {
     return custom;
 }
 
-export async function syntestSchema(fileName: string) {
+/**
+ * 
+ * @param fileName entrypoint (library file name, often bundled)
+ * @param benchmarkTypescriptJSONPath typescript.json path whose keys are the only concerning keys you want to test
+ * @returns 
+ */
+export async function syntestSchema(fileName: string, benchmarkTypescriptJSONPath: string = "") {
     const filePath = "";
     const readSrc = fs.readFileSync(fileName, "utf8");
     const source = transform(readSrc, fileName + ".transformed.js");
+    const typescriptContent = benchmarkTypescriptJSONPath === "" ? "{}" : fs.readFileSync(benchmarkTypescriptJSONPath, "utf8");
+    const typeScriptJSON = JSON.parse(typescriptContent);
+    const interestedKeys = Object.keys(typeScriptJSON);
     // const prototype = addLocationReturn(source);
     // fs.writeFileSync('prototype.js', prototype);
 
@@ -229,14 +238,24 @@ export async function syntestSchema(fileName: string) {
     }
     console.log("Generated AST");
     const astUnwrapped = unwrap(result);
+    console.log('unwrapped result');
 
     // get ALL functions:
-    const allFunctions = getAllFunctions(astUnwrapped);
-    const allClassMethods = analyizeAllClasses(astUnwrapped);
+    // const allFunctions = getAllFunctions(astUnwrapped);
+    // const allClassMethods = analyizeAllClasses(astUnwrapped);
     // fs.writeFileSync('./allClasses.json', JSON.stringify(allClassMethods, null, 2));
     // re-assign names to functions that are exported (discovered from dynamic analysis)
-    const dynamicAnalysis = await loadSchema(fileName + ".transformed.js");
-    const dynamicSchema = dynamicAnalysis.schema;
+    const dynamicAnalysis = await loadSchema(fileName + ".transformed.js", {
+        'methodsToSkip': [
+            'sys.exit', 'sys.clearScreen'
+        ]
+    });
+    console.log('loaded schema');
+    const dynamicSchema = interestedKeys.length === 0 ? dynamicAnalysis.schema : Object.fromEntries(
+        Object.entries(dynamicAnalysis.schema).filter(([k]) => 
+            interestedKeys.includes(k as any)
+        )
+    );
 
     const dynamicEndpoints: CustomEndpoints = mapToCustomEnpoints(
         dynamicAnalysis.endpoints,
@@ -244,6 +263,11 @@ export async function syntestSchema(fileName: string) {
     console.log(
         `There are ${Object.entries(dynamicEndpoints).length} dynamic endpoints. Source code length is: ${source.length}`,
     );
+    if (benchmarkTypescriptJSONPath !== "") {
+        console.log(
+            `benchmarkTypescriptJSONPath was passed, there are ${Object.entries(dynamicSchema).length} interested endpoints.`,
+        );
+    }
 
     const patternToKey = new Map();
     const patterns = Object.entries(dynamicEndpoints).map(([key, value]) => {
@@ -277,9 +301,13 @@ export async function syntestSchema(fileName: string) {
         const start = indexToLineCol(source, startIndex);
         const end = indexToLineCol(source, endIndex);
         endpoint.id = `:${start.line}:${start.column}:::${end.line}:${end.column}:::${startIndex}:${endIndex}`;
+        // console.log({
+        //     'endpoint': pat,
+        //     'id': endpoint.id
+        // })
         cnt += 1;
     }
-    console.log("indexed ", cnt, " endpoints");
+    console.log("indexed ", cnt, " endpoints from dynamic (this is irrelevant benchmarkTypescriptJSON)");
     console.log("Done mapping all dynamic entrypoints with static ids");
     // get elements & relations
     const elementsResult: Result<Map<string, Element>> =
@@ -567,7 +595,13 @@ export async function syntestSchema(fileName: string) {
         for (const i in ids) {
             const id = ids[i];
             const name = names ? names[i] : "not_specified";
-            const schema = getSchemaFromId(id, name);
+            let schema = {};
+
+            try {
+                schema = getSchemaFromId(id, name)
+            } catch (err) {
+                console.log('Cannot get Schema from ', id, name, 'skipping');
+            }
             if (!isEmptyObject(schema)) {
                 result.push(schema);
             }
@@ -577,9 +611,21 @@ export async function syntestSchema(fileName: string) {
 
     const startUnixTimeStamp = Math.floor(Date.now() / 1000);
     cnt = 0;
+    let unidentifiable: String[] = []
     const tot = Object.entries(dynamicSchema).filter(
         ([entry, sig]) => dynamicEndpoints[entry].id != "",
     ).length;
+    Object.entries(dynamicSchema).forEach(([entry, sig]) => {
+        if (dynamicEndpoints[entry].id == "") {
+            unidentifiable.push(entry)
+        }
+    })
+    const totDynamicSchema = Object.entries(dynamicSchema).length;
+    console.log('Out of', totDynamicSchema, 'endpoints, Syntest can only find', tot, 'with identifiable ids, the rest will be using random any instead')
+    if (tot < totDynamicSchema) {
+        console.log('Unidentifiable entries: ', unidentifiable.toString())
+    }
+
     Object.entries(dynamicSchema).forEach(([entryPoint, sig]) => {
         if (Math.floor(Date.now() / 1000) - startUnixTimeStamp > 120) {
             return;
@@ -588,7 +634,12 @@ export async function syntestSchema(fileName: string) {
         const id = dynamicEndpoints[entryPoint].id;
         if (id != "") {
             if (sig.callconv == "Free") {
-                const func = typeModel.getTypeNode(id).objectType;
+                let func = null;
+                try {
+                    func = typeModel.getTypeNode(id).objectType;
+                } catch (anyErr) {
+                    return;
+                }
                 const retType = getSchemaFromIds([...func.return.values()]);
                 const args = getSchemaFromIds(
                     [...func.parameters.values()],
