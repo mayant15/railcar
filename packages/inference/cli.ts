@@ -131,8 +131,8 @@ async function dispatch(args: Args): Promise<Schema> {
     let skipEndpointsNotInSchema = false;
 
     if (args.syntest) {
-        schema = syntestSchema(entrypoint);
-        skipEndpointsNotInSchema = true;
+        schema = syntestSchema(entrypoint, args.benchmarkTypescriptJSONPath);
+        skipEndpointsNotInSchema = false;
     }
 
     if (args.decl) {
@@ -142,6 +142,10 @@ async function dispatch(args: Args): Promise<Schema> {
     }
 
     const skip = args.config ? await getSkipMethods(args.config) : [];
+
+    if (args.syntest) {
+        return schema;
+    }
 
     const loaded = await loadSchemaFromObject(entrypoint, schema, {
         skipEndpointsNotInSchema,
@@ -157,6 +161,7 @@ type Args = {
     dynamic?: boolean;
     decl?: string;
     config?: string;
+    benchmarkTypescriptJSONPath?: string;
 };
 
 async function parseArguments() {
@@ -179,6 +184,10 @@ async function parseArguments() {
             type: "string",
             description: "File to write the inferred schema to",
         })
+        .option("benchmarkTypescriptJSONPath", {
+            type: "string",
+            description: "For benchmark purpose, only infer keys in this typescript JSON file"
+        })
 
         // type inference modes
         .option("decl", {
@@ -197,7 +206,7 @@ async function parseArguments() {
         // must use at most one type inference mode
         .conflicts("decl", ["syntest", "dynamic"])
         .conflicts("syntest", ["decl", "dynamic"])
-        .conflicts("dynamic", ["syntest", "decl"]);
+        .conflicts("dynamic", ["syntest", "decl"])
 
     const args = await cmd.parse();
 
