@@ -520,9 +520,16 @@ impl ToFuzzerInput for ApiSeq {
 
 #[cfg(test)]
 mod tests {
+    #[expect(clippy::disallowed_types)]
+    use std::collections::HashSet;
+
+    use libafl::inputs::Input;
+    use libafl_bolts::rands::{Rand, StdRand};
     use serde_json::{from_value, json};
 
-    use super::ApiSeq;
+    use super::{ApiCallArg, ApiSeq};
+    use crate::inputs::CanValidate;
+    use crate::schema::Schema;
 
     #[test]
     fn test_unequal_seq() {
@@ -587,5 +594,234 @@ mod tests {
         .unwrap();
 
         assert_ne!(seq_a, seq_b);
+    }
+
+    fn load_schema(path: &str) -> Schema {
+        let file = std::fs::File::open(path).expect("failed to open schema file");
+        serde_json::from_reader(file).expect("failed to parse schema")
+    }
+
+    fn generate_seq(rand: &mut impl Rand, schema: &Schema) -> ApiSeq {
+        let fuzz: Vec<u8> = (0..64).map(|_| rand.between(0, 255) as u8).collect();
+        ApiSeq::create(rand, schema, fuzz).expect("failed to create ApiSeq")
+    }
+
+    #[test]
+    fn test_create_valid_jpeg_js() {
+        let schema = load_schema("tests/common/jpeg-js-typescript.json");
+        let mut rand = StdRand::with_seed(42);
+        let seq = generate_seq(&mut rand, &schema);
+        seq.is_valid();
+    }
+
+    #[test]
+    fn test_create_valid_fast_xml_parser() {
+        let schema = load_schema("tests/common/fast-xml-parser-typescript.json");
+        let mut rand = StdRand::with_seed(42);
+        let seq = generate_seq(&mut rand, &schema);
+        seq.is_valid();
+    }
+
+    #[test]
+    fn test_create_valid_multiple_seeds() {
+        let schema = load_schema("tests/common/jpeg-js-typescript.json");
+        for seed in 0..50 {
+            let mut rand = StdRand::with_seed(seed);
+            let seq = generate_seq(&mut rand, &schema);
+            seq.is_valid();
+        }
+    }
+
+    #[test]
+    fn test_shift_replaces_first_call_refs() {
+        let schema = load_schema("tests/common/jpeg-js-typescript.json");
+        let mut rand = StdRand::with_seed(42);
+        let mut seq = generate_seq(&mut rand, &schema);
+
+        let first_id = seq.seq()[0].id.clone();
+
+        seq.shift();
+
+        // All references to the first call's ID should now be Missing
+        for call in seq.seq() {
+            for arg in &call.args {
+                if let ApiCallArg::Output(id) = arg {
+                    assert_ne!(
+                        *id, first_id,
+                        "shift should replace all references to the first call with Missing"
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_complete_fills_missing() {
+        let schema = load_schema("tests/common/jpeg-js-typescript.json");
+        let mut rand = StdRand::with_seed(42);
+
+        let mut seq: ApiSeq = from_value(json!({
+            "fuzz": [1, 2, 3],
+            "seq": [
+                {
+                    "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+                    "name": "encode",
+                    "args": ["Missing", "Missing"],
+                    "conv": "Free"
+                }
+            ]
+        }))
+        .unwrap();
+
+        seq.complete(&mut rand, &schema).expect("complete failed");
+        seq.is_valid();
+    }
+
+    #[test]
+    fn test_generate_fresh_ids_changes_all_ids() {
+        let schema = load_schema("tests/common/jpeg-js-typescript.json");
+        let mut rand = StdRand::with_seed(42);
+        let mut seq = generate_seq(&mut rand, &schema);
+
+        let old_ids: HashSet<String> = seq.seq().iter().map(|c| c.id.clone()).collect();
+
+        seq.generate_fresh_ids();
+
+        let new_ids: HashSet<String> = seq.seq().iter().map(|c| c.id.clone()).collect();
+
+        // No new ID should match any old ID
+        assert!(
+            old_ids.is_disjoint(&new_ids),
+            "generate_fresh_ids should produce entirely new IDs"
+        );
+    }
+
+    #[test]
+    fn test_generate_fresh_ids_preserves_references() {
+        let schema = load_schema("tests/common/jpeg-js-typescript.json");
+        let mut rand = StdRand::with_seed(42);
+        let mut seq = generate_seq(&mut rand, &schema);
+
+        seq.generate_fresh_ids();
+
+        // Build a set of call IDs seen so far (before the current call)
+        let mut seen_ids: HashSet<String> = HashSet::new();
+        for call in seq.seq() {
+            for arg in &call.args {
+                if let ApiCallArg::Output(ref_id) = arg {
+                    assert!(
+                        seen_ids.contains(ref_id),
+                        "Output ref {} not found among earlier call IDs",
+                        ref_id
+                    );
+                }
+            }
+            seen_ids.insert(call.id.clone());
+        }
+    }
+
+    #[test]
+    fn test_serialization_roundtrip() {
+        let schema = load_schema("tests/common/jpeg-js-typescript.json");
+        let mut rand = StdRand::with_seed(42);
+        let seq = generate_seq(&mut rand, &schema);
+
+        let path = "/tmp/railcar_test_roundtrip.msgpack";
+        seq.to_file(&path).expect("to_file failed");
+        let loaded = ApiSeq::from_file(&path).expect("from_file failed");
+        let _ = std::fs::remove_file(&path);
+
+        assert_eq!(seq, loaded);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_is_valid_catches_missing_args() {
+        let seq: ApiSeq = from_value(json!({
+            "fuzz": [],
+            "seq": [
+                {
+                    "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+                    "name": "foo",
+                    "args": ["Missing"],
+                    "conv": "Free"
+                }
+            ]
+        }))
+        .unwrap();
+
+        seq.is_valid();
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_is_valid_catches_forward_references() {
+        // Call A references call B's output, but B comes AFTER A
+        let seq: ApiSeq = from_value(json!({
+            "fuzz": [],
+            "seq": [
+                {
+                    "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+                    "name": "foo",
+                    "args": [{"Output": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}],
+                    "conv": "Free"
+                },
+                {
+                    "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+                    "name": "bar",
+                    "args": [],
+                    "conv": "Free"
+                }
+            ]
+        }))
+        .unwrap();
+
+        seq.is_valid();
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_is_valid_catches_nonexistent_references() {
+        // References an ID that doesn't exist anywhere in the sequence
+        let seq: ApiSeq = from_value(json!({
+            "fuzz": [],
+            "seq": [
+                {
+                    "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+                    "name": "foo",
+                    "args": [{"Output": "cccccccc-cccc-cccc-cccc-cccccccccccc"}],
+                    "conv": "Free"
+                }
+            ]
+        }))
+        .unwrap();
+
+        seq.is_valid();
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_is_valid_catches_duplicate_call_ids() {
+        // Two calls with the same ID - is_valid checks via HashSet::insert which returns false on dup
+        let seq: ApiSeq = from_value(json!({
+            "fuzz": [],
+            "seq": [
+                {
+                    "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+                    "name": "foo",
+                    "args": [],
+                    "conv": "Free"
+                },
+                {
+                    "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+                    "name": "bar",
+                    "args": [],
+                    "conv": "Free"
+                }
+            ]
+        }))
+        .unwrap();
+
+        seq.is_valid();
     }
 }
