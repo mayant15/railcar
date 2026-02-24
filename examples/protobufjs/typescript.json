@@ -932,8 +932,88 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.75,
+                    "Object": 0.25
+                },
+                "objectShape": {
+                    "prototype": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "$type": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 1
+                                },
+                                "classType": {
+                                    "Type": 1
+                                }
+                            },
+                            "toJSON": {
+                                "isAny": false,
+                                "kind": {
+                                    "Function": 1
+                                }
+                            }
+                        }
+                    },
+                    "apply": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "call": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "bind": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "toString": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "arguments": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "caller": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "name": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    },
+                    "__@hasInstance@247": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -1436,8 +1516,72 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "prototype": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {}
+                    },
+                    "apply": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "call": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "bind": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "toString": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "arguments": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "caller": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    },
+                    "name": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    },
+                    "__@hasInstance@247": {
+                        "isAny": false,
+                        "kind": {
+                            "Function": 1
+                        }
+                    }
+                }
             }
         ],
         "ret": {

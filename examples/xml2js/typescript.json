@@ -682,8 +682,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -715,8 +717,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -748,8 +752,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -911,8 +917,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
         "ret": {
@@ -1156,8 +1164,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1189,8 +1199,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1222,8 +1234,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1255,8 +1269,11 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
             }
         ],
         "ret": {
@@ -1282,8 +1299,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
         "ret": {
@@ -1312,8 +1331,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
         "ret": {
@@ -1342,8 +1363,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1376,8 +1399,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1409,8 +1434,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1448,8 +1475,10 @@
                 "Array": 1
             },
             "arrayValueType": {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         },
         "callconv": "Method"

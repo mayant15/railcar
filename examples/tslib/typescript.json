@@ -57,8 +57,10 @@
                     "Array": 1
                 },
                 "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
+                    "isAny": false,
+                    "kind": {
+                        "String": 1
+                    }
                 }
             }
         ],
@@ -87,8 +89,11 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
             },
             {
                 "isAny": true,
@@ -222,8 +227,10 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "String": 1
+            }
         },
         "callconv": "Free"
     },
@@ -236,8 +243,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -866,12 +875,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.5,
+                    "String": 0.5
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.25,
+                    "String": 0.25,
+                    "Undefined": 0.5
+                }
             }
         ],
         "ret": {

@@ -378,6 +378,11 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess | null {
         return Guess.boolean()
     }
 
+    // handles `x: object`
+    if (flags & ts.TypeFlags.NonPrimitive) {
+        return Guess.object({})
+    }
+
     if (type.isUnion()) {
         ctx.visiting.add(type)
         const types = mergeUnionTypes(ctx.checker, type.types)

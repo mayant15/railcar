@@ -190,24 +190,116 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.024,
+                    "String": 0.024,
+                    "Object": 0.762,
+                    "Array": 0.024,
+                    "Undefined": 0.143,
+                    "Function": 0.024
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.833,
+                            "Undefined": 0.167
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.02,
+                    "String": 0.02,
+                    "Object": 0.633,
+                    "Array": 0.02,
+                    "Undefined": 0.286,
+                    "Function": 0.02
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.8,
+                            "Undefined": 0.2
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.018,
+                    "String": 0.018,
+                    "Object": 0.5,
+                    "Array": 0.018,
+                    "Undefined": 0.429,
+                    "Function": 0.018
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.75,
+                            "Undefined": 0.25
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.016,
+                    "String": 0.016,
+                    "Object": 0.365,
+                    "Array": 0.016,
+                    "Undefined": 0.571,
+                    "Function": 0.016
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.667,
+                            "Undefined": 0.333
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.014,
+                    "String": 0.014,
+                    "Object": 0.086,
+                    "Array": 0.157,
+                    "Undefined": 0.714,
+                    "Function": 0.014
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -408,8 +500,20 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -441,8 +545,20 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -520,8 +636,20 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -556,8 +684,20 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -861,8 +1001,27 @@
                     "Undefined": 0.1
                 },
                 "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.167,
+                        "String": 0.167,
+                        "Object": 0.333,
+                        "Array": 0.167,
+                        "Function": 0.167
+                    },
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "objectShape": {
+                        "length": {
+                            "isAny": false,
+                            "kind": {
+                                "Number": 0.5,
+                                "Undefined": 0.5
+                            }
+                        }
+                    }
                 },
                 "objectShape": {
                     "length": {
@@ -904,12 +1063,44 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.033,
+                    "String": 0.033,
+                    "Object": 0.467,
+                    "Array": 0.033,
+                    "Undefined": 0.4,
+                    "Function": 0.033
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.667,
+                            "Undefined": 0.333
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.029,
+                    "String": 0.029,
+                    "Object": 0.086,
+                    "Array": 0.229,
+                    "Undefined": 0.6,
+                    "Function": 0.029
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -1253,8 +1444,20 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.134,
+                    "String": 0.134,
+                    "Object": 0.217,
+                    "Array": 0.134,
+                    "Undefined": 0.25,
+                    "Function": 0.134
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -1382,8 +1585,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -1514,8 +1729,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -1605,8 +1832,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.2,
+                    "String": 0.2,
+                    "Object": 0.2,
+                    "Array": 0.2,
+                    "Function": 0.2
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -1692,8 +1930,19 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.2,
+                    "String": 0.2,
+                    "Object": 0.2,
+                    "Array": 0.2,
+                    "Function": 0.2
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -1831,8 +2080,20 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -1864,8 +2125,20 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -1932,20 +2205,100 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.02,
+                    "String": 0.02,
+                    "Object": 0.82,
+                    "Array": 0.02,
+                    "Undefined": 0.1,
+                    "Function": 0.02
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.8,
+                            "Undefined": 0.2
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.02,
+                    "String": 0.02,
+                    "Object": 0.62,
+                    "Array": 0.02,
+                    "Undefined": 0.3,
+                    "Function": 0.02
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.75,
+                            "Undefined": 0.25
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.02,
+                    "String": 0.02,
+                    "Object": 0.42,
+                    "Array": 0.02,
+                    "Undefined": 0.5,
+                    "Function": 0.02
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.667,
+                            "Undefined": 0.333
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.02,
+                    "String": 0.02,
+                    "Object": 0.22,
+                    "Array": 0.02,
+                    "Undefined": 0.7,
+                    "Function": 0.02
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -1954,8 +2307,27 @@
                     "Undefined": 0.8
                 },
                 "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.167,
+                        "String": 0.167,
+                        "Object": 0.333,
+                        "Array": 0.167,
+                        "Function": 0.167
+                    },
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "objectShape": {
+                        "length": {
+                            "isAny": false,
+                            "kind": {
+                                "Number": 0.5,
+                                "Undefined": 0.5
+                            }
+                        }
+                    }
                 }
             }
         ],
@@ -2100,8 +2472,19 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.2,
+                    "String": 0.2,
+                    "Object": 0.2,
+                    "Array": 0.2,
+                    "Function": 0.2
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -2325,12 +2708,52 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.033,
+                    "String": 0.033,
+                    "Object": 0.7,
+                    "Array": 0.033,
+                    "Undefined": 0.167,
+                    "Function": 0.033
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.667,
+                            "Undefined": 0.333
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.033,
+                    "String": 0.033,
+                    "Object": 0.367,
+                    "Array": 0.033,
+                    "Undefined": 0.5,
+                    "Function": 0.033
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -2339,8 +2762,27 @@
                     "Undefined": 0.667
                 },
                 "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.167,
+                        "String": 0.167,
+                        "Object": 0.333,
+                        "Array": 0.167,
+                        "Function": 0.167
+                    },
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "objectShape": {
+                        "length": {
+                            "isAny": false,
+                            "kind": {
+                                "Number": 0.5,
+                                "Undefined": 0.5
+                            }
+                        }
+                    }
                 }
             }
         ],
@@ -2753,8 +3195,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -2813,8 +3267,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -2832,8 +3298,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.04,
+                    "String": 0.04,
+                    "Object": 0.04,
+                    "Array": 0.04,
+                    "Undefined": 0.3,
+                    "Function": 0.54
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -2855,8 +3333,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.05,
+                    "String": 0.05,
+                    "Object": 0.05,
+                    "Array": 0.05,
+                    "Undefined": 0.25,
+                    "Function": 0.55
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -2879,8 +3369,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.05,
+                    "String": 0.05,
+                    "Object": 0.05,
+                    "Array": 0.05,
+                    "Undefined": 0.25,
+                    "Function": 0.55
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -3019,8 +3521,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -3104,8 +3618,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -3268,8 +3794,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.042,
+                    "String": 0.042,
+                    "Object": 0.042,
+                    "Array": 0.209,
+                    "Undefined": 0.5,
+                    "Function": 0.167
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -3307,8 +3845,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.133,
+                    "String": 0.133,
+                    "Object": 0.133,
+                    "Array": 0.133,
+                    "Function": 0.467
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -3382,8 +3931,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.067,
+                    "String": 0.067,
+                    "Object": 0.067,
+                    "Array": 0.067,
+                    "Undefined": 0.5,
+                    "Function": 0.233
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -3459,8 +4020,10 @@
     "size": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
         "ret": {
@@ -3478,8 +4041,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -3502,8 +4077,19 @@
                     "Array": 1
                 },
                 "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.167,
+                        "String": 0.167,
+                        "Object": 0.167,
+                        "Array": 0.333,
+                        "Function": 0.167
+                    },
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "objectShape": {}
                 }
             }
         ],
@@ -5242,8 +5828,20 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -5294,8 +5892,20 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -5351,8 +5961,20 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -5723,8 +6345,16 @@
                     "Array": 1
                 },
                 "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.167,
+                        "String": 0.167,
+                        "Array": 0.667
+                    },
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
                 }
             }
         ],
@@ -5931,8 +6561,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -5950,8 +6592,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -6091,8 +6745,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.237,
+                    "String": 0.187,
+                    "Array": 0.575
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             },
             {
                 "isAny": true,
@@ -6112,8 +6777,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.417,
+                    "String": 0.417,
+                    "Array": 0.167
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             }
         ],
         "ret": {
@@ -6131,8 +6807,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             }
         ],
         "ret": {
@@ -6166,8 +6853,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -6186,8 +6885,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -6255,8 +6965,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.1,
+                    "String": 0.1,
+                    "Object": 0.1,
+                    "Array": 0.1,
+                    "Undefined": 0.5,
+                    "Function": 0.1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -6362,8 +7084,19 @@
                     "Array": 1
                 },
                 "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.361,
+                        "String": 0.361,
+                        "Array": 0.278
+                    },
+                    "arrayValueType": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "String": 0.5
+                        }
+                    }
                 }
             }
         ],
@@ -6383,8 +7116,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.133,
+                    "String": 0.133,
+                    "Object": 0.133,
+                    "Array": 0.133,
+                    "Undefined": 0.333,
+                    "Function": 0.133
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -6408,8 +7153,27 @@
                     "Array": 1
                 },
                 "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.25,
+                        "String": 0.25,
+                        "Array": 0.5
+                    },
+                    "arrayValueType": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.459,
+                            "String": 0.459,
+                            "Array": 0.084
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Number": 0.5,
+                                "String": 0.5
+                            }
+                        }
+                    }
                 }
             }
         ],
@@ -6429,8 +7193,20 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.06,
+                    "String": 0.06,
+                    "Object": 0.06,
+                    "Array": 0.06,
+                    "Undefined": 0.3,
+                    "Function": 0.46
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -6449,8 +7225,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             },
             {
                 "isAny": true,
@@ -6470,8 +7257,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             },
             {
                 "isAny": true,
@@ -6491,8 +7289,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             },
             {
                 "isAny": true,
@@ -6593,8 +7402,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             }
         ],
         "ret": {
@@ -6612,8 +7432,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -6635,8 +7466,19 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -8459,8 +9301,12 @@
     "iteratee": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.25,
+                    "String": 0.25,
+                    "Function": 0.5
+                }
             }
         ],
         "ret": {
@@ -8489,8 +9335,19 @@
     "matchesProperty": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             },
             {
                 "isAny": true,
@@ -8508,8 +9365,19 @@
     "method": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -8742,8 +9610,19 @@
     "property": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.333,
+                    "String": 0.333,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "String": 0.5
+                    }
+                }
             }
         ],
         "ret": {

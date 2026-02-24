@@ -1385,4 +1385,22 @@ export class XMLParser {
         expect(sig.ret.isAny).toBeFalse()
         expect(sig.ret.kind.Object).toBe(1)
     })
+
+    test("lodash object constraint", () => {
+        const code = `
+type PropertyPath = string;
+export function set<T extends object>(object: T, path: PropertyPath, value: any): T;
+export function set<TResult>(object: object, path: PropertyPath, value: any): TResult;
+`
+        const actual = fromCode(code)
+        expect(actual.set).toEqual({
+            args: [
+                Guess.object({}),
+                Guess.string(),
+                Guess.any(),
+            ],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
 })

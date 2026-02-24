@@ -699,8 +699,55 @@
                             "Undefined": 0.889
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -782,8 +829,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -2202,8 +2301,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -2294,8 +2440,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -2397,8 +2590,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -2489,8 +2729,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -2592,8 +2879,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -2684,8 +3018,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -2803,8 +3184,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -2895,8 +3323,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -3014,8 +3489,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -3106,8 +3628,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -3225,8 +3794,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -3317,8 +3933,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -4145,8 +4808,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -4237,8 +4947,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -4340,8 +5097,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -4443,8 +5247,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -4535,8 +5386,55 @@
                             "Undefined": 0.875
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -5167,8 +6065,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -6009,8 +6959,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -8097,8 +9099,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -9941,8 +10995,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -10301,8 +11407,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -10847,8 +12005,60 @@
                             "Undefined": 0.95
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     }
                 }
@@ -11003,8 +12213,51 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": true,
+                                            "kind": {}
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -11259,8 +12512,51 @@
                         "Undefined": 0.8
                     },
                     "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "type": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 1
+                                }
+                            },
+                            "coordinates": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.929,
+                                    "Undefined": 0.072
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 0.167,
+                                        "Array": 0.833
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            },
+                            "bbox": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "arrayValueType": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            },
+                            "geometries": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
                     }
                 },
                 "geometry": {
@@ -19827,8 +21123,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -22864,8 +24212,51 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": true,
+                                            "kind": {}
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -23127,8 +24518,55 @@
                         "Undefined": 0.889
                     },
                     "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "type": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 1
+                                }
+                            },
+                            "coordinates": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 0.167,
+                                        "Array": 0.833
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.4,
+                                            "Array": 0.6
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": true,
+                                            "kind": {}
+                                        }
+                                    }
+                                }
+                            },
+                            "bbox": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 1
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "geometry": {
@@ -25135,8 +26573,51 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": true,
+                                            "kind": {}
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -25405,8 +26886,51 @@
                         "Undefined": 0.8
                     },
                     "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "type": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 1
+                                }
+                            },
+                            "coordinates": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.929,
+                                    "Undefined": 0.072
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 0.167,
+                                        "Array": 0.833
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            },
+                            "bbox": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "arrayValueType": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            },
+                            "geometries": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
                     }
                 },
                 "geometry": {
@@ -27119,8 +28643,51 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": true,
+                                            "kind": {}
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -27485,8 +29052,51 @@
                         "Undefined": 0.8
                     },
                     "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "type": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 1
+                                }
+                            },
+                            "coordinates": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.929,
+                                    "Undefined": 0.072
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 0.167,
+                                        "Array": 0.833
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            },
+                            "bbox": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "arrayValueType": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            },
+                            "geometries": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
                     }
                 },
                 "geometry": {
@@ -27728,8 +29338,51 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": true,
+                                            "kind": {}
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -28095,8 +29748,51 @@
                         "Undefined": 0.8
                     },
                     "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "type": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 1
+                                }
+                            },
+                            "coordinates": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.929,
+                                    "Undefined": 0.072
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 0.167,
+                                        "Array": 0.833
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            },
+                            "bbox": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "arrayValueType": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            },
+                            "geometries": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
                     }
                 },
                 "geometry": {
@@ -28338,8 +30034,51 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": true,
+                                            "kind": {}
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -28620,8 +30359,51 @@
                         "Undefined": 0.8
                     },
                     "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "type": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 1
+                                }
+                            },
+                            "coordinates": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.929,
+                                    "Undefined": 0.072
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 0.167,
+                                        "Array": 0.833
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            },
+                            "bbox": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "arrayValueType": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            },
+                            "geometries": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
                     }
                 },
                 "geometry": {
@@ -29130,8 +30912,51 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": true,
+                                            "kind": {}
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -29400,8 +31225,51 @@
                         "Undefined": 0.8
                     },
                     "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "type": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 1
+                                }
+                            },
+                            "coordinates": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.929,
+                                    "Undefined": 0.072
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 0.167,
+                                        "Array": 0.833
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            },
+                            "bbox": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "arrayValueType": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            },
+                            "geometries": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
                     }
                 },
                 "geometry": {
@@ -30485,8 +32353,51 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": true,
+                                            "kind": {}
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -30725,8 +32636,51 @@
                         "Undefined": 0.8
                     },
                     "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "type": {
+                                "isAny": false,
+                                "kind": {
+                                    "String": 1
+                                }
+                            },
+                            "coordinates": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.929,
+                                    "Undefined": 0.072
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 0.167,
+                                        "Array": 0.833
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": true,
+                                        "kind": {}
+                                    }
+                                }
+                            },
+                            "bbox": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "arrayValueType": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            },
+                            "geometries": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
                     }
                 },
                 "geometry": {
@@ -35116,8 +37070,55 @@
                             "Undefined": 0.889
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -35206,8 +37207,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -35491,8 +37544,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -35777,8 +37882,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -39086,8 +41243,55 @@
                             "Undefined": 0.889
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 1
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
                     "geometry": {
@@ -39250,8 +41454,60 @@
                             "Undefined": 0.8
                         },
                         "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                },
+                                "coordinates": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.929,
+                                        "Undefined": 0.072
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 0.167,
+                                            "Array": 0.833
+                                        },
+                                        "arrayValueType": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Number": 0.4,
+                                                "Array": 0.6
+                                            },
+                                            "arrayValueType": {
+                                                "isAny": true,
+                                                "kind": {}
+                                            }
+                                        }
+                                    }
+                                },
+                                "bbox": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.5,
+                                        "Undefined": 0.5
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    }
+                                },
+                                "geometries": {
+                                    "isAny": true,
+                                    "kind": {}
+                                }
+                            }
                         }
                     },
                     "geometry": {
