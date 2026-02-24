@@ -10,7 +10,11 @@ use libafl::{
     mutators::{MutationResult, Mutator},
     state::{HasRand, StdState},
 };
-use libafl_bolts::{core_affinity::Cores, generic_hash_std, rands::{Rand, StdRand}};
+use libafl_bolts::{
+    core_affinity::Cores,
+    generic_hash_std,
+    rands::{Rand, StdRand},
+};
 use railcar::{
     inputs::{CanValidate, HasSeqLen, ToFuzzerInput},
     schema::Schema,
@@ -197,7 +201,10 @@ fn mutation_determinism() -> Result<()> {
             _ => unreachable!(),
         };
 
-        assert_eq!(input_a, input_b, "inputs diverged after mutation at iteration {i}");
+        assert_eq!(
+            input_a, input_b,
+            "inputs diverged after mutation at iteration {i}"
+        );
     }
 
     Ok(())
@@ -239,10 +246,14 @@ fn to_fuzzer_input_roundtrip() -> Result<()> {
         input.is_valid();
 
         let bytes = input.to_fuzzer_input(&config)?;
-        let restored: ApiSeq = rmp_serde::from_slice(&bytes)
-            .unwrap_or_else(|e| panic!("failed to deserialize to_fuzzer_input output for seed {seed}: {e}"));
+        let restored: ApiSeq = rmp_serde::from_slice(&bytes).unwrap_or_else(|e| {
+            panic!("failed to deserialize to_fuzzer_input output for seed {seed}: {e}")
+        });
 
-        assert_eq!(input, restored, "to_fuzzer_input roundtrip failed for seed {seed}");
+        assert_eq!(
+            input, restored,
+            "to_fuzzer_input roundtrip failed for seed {seed}"
+        );
         restored.is_valid();
     }
 
@@ -275,8 +286,11 @@ fn hash_equal_inputs_produce_equal_hashes() -> Result<()> {
         let b = a.clone();
 
         assert_eq!(a, b);
-        assert_eq!(generic_hash_std(&a), generic_hash_std(&b),
-            "equal inputs must have equal hashes for seed {seed}");
+        assert_eq!(
+            generic_hash_std(&a),
+            generic_hash_std(&b),
+            "equal inputs must have equal hashes for seed {seed}"
+        );
     }
 
     Ok(())
@@ -327,13 +341,18 @@ fn create_with_single_no_arg_endpoint() {
             },
             "callconv": "Free"
         }
-    })).unwrap();
+    }))
+    .unwrap();
 
     for seed in 0..50 {
         let mut rand = StdRand::with_seed(seed);
         let seq = generate_seq(&mut rand, &schema);
         seq.is_valid();
-        assert_eq!(seq.seq().len(), 1, "single no-arg endpoint should produce 1-call seqs");
+        assert_eq!(
+            seq.seq().len(),
+            1,
+            "single no-arg endpoint should produce 1-call seqs"
+        );
     }
 }
 
@@ -349,7 +368,8 @@ fn create_with_constructor_only_schema() {
             },
             "callconv": "Constructor"
         }
-    })).unwrap();
+    }))
+    .unwrap();
 
     for seed in 0..50 {
         let mut rand = StdRand::with_seed(seed);
@@ -442,12 +462,17 @@ fn fuzz_buffer_independence() {
         let seq_b = ApiSeq::create(&mut rand_b, &schema, fuzz_b).expect("create failed");
         seq_b.is_valid();
 
-        assert_eq!(seq_a.seq().len(), seq_b.seq().len(),
-            "different fuzz buffers should not affect sequence structure for seed {seed}");
+        assert_eq!(
+            seq_a.seq().len(),
+            seq_b.seq().len(),
+            "different fuzz buffers should not affect sequence structure for seed {seed}"
+        );
 
         for (ca, cb) in seq_a.seq().iter().zip(seq_b.seq().iter()) {
-            assert_eq!(ca.name, cb.name,
-                "different fuzz buffers should not affect call names for seed {seed}");
+            assert_eq!(
+                ca.name, cb.name,
+                "different fuzz buffers should not affect call names for seed {seed}"
+            );
         }
     }
 }
