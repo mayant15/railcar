@@ -624,6 +624,32 @@ export function foo(x: B);
             callconv: "Free",
         })
     })
+
+    test("enum properties", () => {
+        const code = `
+enum Value { A, B }
+export function foo(x: { key: Value });
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.object({ key: Guess.number() })],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+
+    test("return object with optional enum", () => {
+        const code = `
+enum Value { A, B }
+export function foo(): { key?: Value };
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [],
+            ret: Guess.object({ key: Guess.optional(Types.number()) }),
+            callconv: "Free",
+        })
+    })
 })
 
 describe("function overloading", () => {
@@ -1335,5 +1361,15 @@ export class XMLParser {
             ret: Guess.any(),
             callconv: "Free",
         })
+    })
+
+    test("typescript getDefaultCompilerOptions", () => {
+        const actual = fromFile("../../node_modules/typescript/lib/typescript.d.ts")
+
+        const sig = actual["getDefaultCompilerOptions"]
+        expect(sig.args).toBeArrayOfSize(0)
+        expect(sig.ret.isAny).toBeFalse()
+        expect(sig.ret.kind.Object).toBe(1)
+        console.log(actual["getDefaultCompilerOptions"])
     })
 })

@@ -10,6 +10,8 @@
  * 4. Record<K, V> are Guess.object({})
  * 5. Promote generics to their constraints, unconstrained generics are `any`
  * 6. Symbol becomes any
+ * 7. Recursive types deeper than MAX_TYPE_DEPTH are `any`
+ * 8. Large objects with more than MAX_OBJECT_PROPERTIES only have the first MAX_OBJECT_PROPERTIES
  */
 
 import assert from "node:assert"
@@ -18,6 +20,9 @@ import ts from "typescript"
 
 import { SignatureGuess, type TypeGuess, type Schema, type CallConvention } from "./schema.js";
 import { addStd, Guess, STD_CLASSES, BUILTIN_METHOD_NAMES } from "./common.js"
+
+const MAX_TYPE_DEPTH = 8
+const MAX_OBJECT_PROPERTIES = 20
 
 /**
  * Produce a schema from a TypeScript declaration file.
@@ -39,9 +44,6 @@ export function fromFile(path: string): Schema {
     addStd(ctx.schema)
     return ctx.schema
 }
-
-const MAX_TYPE_DEPTH = 8
-const MAX_OBJECT_PROPERTIES = 30
 
 type Context = {
     checker: ts.TypeChecker
@@ -420,10 +422,7 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
     }
 
     if (flags & ts.TypeFlags.Object) {
-        const properties = type.getProperties()
-        if (properties.length > MAX_OBJECT_PROPERTIES) {
-            return Guess.any()
-        }
+        const properties = type.getProperties().slice(0, MAX_OBJECT_PROPERTIES)
 
         ctx.visiting.add(type)
         const shape: Record<string, TypeGuess> = {}

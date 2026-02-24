@@ -3256,219 +3256,6 @@
                     "kind": {
                         "Function": 1
                     }
-                },
-                "values": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "includes": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "flatMap": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "flat": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "__@iterator@15": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "__@unscopables@968": {
-                    "isAny": false,
-                    "kind": {
-                        "Object": 1
-                    },
-                    "objectShape": {
-                        "length": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "toString": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "toLocaleString": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "concat": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "join": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "slice": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "indexOf": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "lastIndexOf": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "every": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "some": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "forEach": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "map": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "filter": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "reduce": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "reduceRight": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "find": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "findIndex": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "entries": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "keys": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "values": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "includes": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "flatMap": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "flat": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "__@iterator@15": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "__@unscopables@968": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        }
-                    }
                 }
             }
         },
@@ -6917,8 +6704,593 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {
+                "pop": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "push": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "shift": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "sort": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "splice": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "unshift": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "chunk": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "compact": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "concat": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.375,
+                        "Function": 0.625
+                    }
+                },
+                "difference": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "differenceBy": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "differenceWith": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "drop": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "dropRight": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "dropRightWhile": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "dropWhile": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "fill": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "findIndex": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "findLastIndex": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "first": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "ary": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "curry": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "curryRight": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "debounce": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "flip": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "memoize": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "negate": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "once": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "overArgs": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "partial": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "partialRight": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "rearg": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "rest": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "spread": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "throttle": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "unary": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "castArray": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "flow": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "flowRight": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "iteratee": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "countBy": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "each": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "eachRight": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "every": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "filter": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "find": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "findLast": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "flatMap": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "flatMapDeep": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "flatMapDepth": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "forEach": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "forEachRight": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "groupBy": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "includes": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "keyBy": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "map": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "orderBy": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "partition": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.5,
+                        "Function": 0.5
+                    }
+                },
+                "reduce": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.75,
+                        "Function": 0.25
+                    }
+                },
+                "after": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "before": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "invokeMap": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "size": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "now": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "bind": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "bindKey": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "defer": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "delay": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "wrap": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "clone": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "cloneDeep": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "cloneDeepWith": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "cloneWith": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "conformsTo": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "eq": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "gt": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "gte": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "flatten": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "head": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "join": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "last": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "reject": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.625,
+                        "Function": 0.375
+                    }
+                },
+                "sample": {
+                    "isAny": false,
+                    "kind": {
+                        "Undefined": 0.875,
+                        "Function": 0.125
+                    }
+                }
+            }
         },
         "callconv": "Free"
     },

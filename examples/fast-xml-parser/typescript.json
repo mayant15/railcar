@@ -205,57 +205,6 @@
                             "Boolean": 0.5,
                             "Undefined": 0.5
                         }
-                    },
-                    "htmlEntities": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.5,
-                            "Undefined": 0.5
-                        }
-                    },
-                    "ignoreDeclaration": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.5,
-                            "Undefined": 0.5
-                        }
-                    },
-                    "ignorePiTags": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.5,
-                            "Undefined": 0.5
-                        }
-                    },
-                    "transformTagName": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.25,
-                            "Undefined": 0.5,
-                            "Function": 0.25
-                        }
-                    },
-                    "transformAttributeName": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.25,
-                            "Undefined": 0.5,
-                            "Function": 0.25
-                        }
-                    },
-                    "updateTag": {
-                        "isAny": false,
-                        "kind": {
-                            "Undefined": 0.5,
-                            "Function": 0.5
-                        }
-                    },
-                    "captureMetaData": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.5,
-                            "Undefined": 0.5
-                        }
                     }
                 }
             }
