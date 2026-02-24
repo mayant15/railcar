@@ -84,24 +84,6 @@
         },
         "callconv": "Free"
     },
-    "onErrorStopParsing": {
-        "args": [],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Undefined": 1
-            }
-        },
-        "callconv": "Free"
-    },
-    "onWarningStopParsing": {
-        "args": [],
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "callconv": "Free"
-    },
     "DOMException": {
         "args": [
             {

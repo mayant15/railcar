@@ -919,26 +919,5 @@
                 "kind": {}
             }
         ]
-    },
-    "onErrorStopParsing": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
-    "onWarningStopParsing": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
     }
 }
