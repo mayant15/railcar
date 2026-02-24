@@ -360,6 +360,18 @@ export function arrayUnion(x: string[] | number[]): boolean[];
             callconv: "Free",
         })
     })
+
+    test("drop unknown types from union", () => {
+        const code = `
+export function foo(x: string | symbol);
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.string()],
+            ret: Guess.any(),
+            callconv: "Free"
+        })
+    })
 })
 
 describe("arrays", () => {
@@ -1066,7 +1078,7 @@ export function tag(x: Tagged): void;
         })
     })
 
-    test("object with many properties is treated as any", () => {
+    test("shrink object with many properties", () => {
         const props = Array.from({ length: 40 }, (_, i) => `p${i}: string`).join("; ")
         const code = `
 export function big(x: { ${props} }): void;
@@ -1074,7 +1086,9 @@ export function big(x: { ${props} }): void;
         const actual = fromCode(code)
 
         expect(actual.big).toEqual({
-            args: [Guess.any()],
+            args: [Guess.object(Object.fromEntries(
+                Array.from({ length: 20 }, (_, i) => [`p${i}`, Guess.string()])
+            ))],
             ret: Guess.undefined(),
             callconv: "Free",
         })
@@ -1370,6 +1384,5 @@ export class XMLParser {
         expect(sig.args).toBeArrayOfSize(0)
         expect(sig.ret.isAny).toBeFalse()
         expect(sig.ret.kind.Object).toBe(1)
-        console.log(actual["getDefaultCompilerOptions"])
     })
 })

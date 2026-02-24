@@ -236,7 +236,7 @@ function guessSignature(ctx: Context, sig: ts.Signature, callconv: CallConventio
 
     // Railcar calls all endpoints with an await, so we consider a `Promise<T>` to be just `T`
     const unwrapped = unwrapPromise(ctx.checker, sig.getReturnType())
-    const ret = toTypeGuess(ctx, unwrapped)
+    const ret = toTypeGuessOrAny(ctx, unwrapped)
 
     return { args, ret, callconv }
 }
@@ -266,7 +266,7 @@ function isOptionalParameter(checker: ts.TypeChecker, arg: ts.Symbol): boolean {
 
 function functionArgTypeGuess(ctx: Context, arg: ts.Symbol): TypeGuess {
     const type = ctx.checker.getTypeOfSymbol(arg)
-    const guess = toTypeGuess(ctx, type)
+    const guess = toTypeGuessOrAny(ctx, type)
 
     if (isOptionalParameter(ctx.checker, arg)) {
         return Guess.union(guess, Guess.undefined())
@@ -319,9 +319,13 @@ function mergeUnionTypes(checker: ts.TypeChecker, types: ts.Type[]): ts.Type[] {
     return dedupeUnionTypes(types.map(t => promoteType(checker, t)))
 }
 
-function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
+function toTypeGuessOrAny(ctx: Context, type: ts.Type): TypeGuess {
+    return toTypeGuess(ctx, type) ?? Guess.any()
+}
+
+function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess | null {
     if (ctx.visiting.has(type) || ctx.depth >= MAX_TYPE_DEPTH) {
-        return Guess.any()
+        return null
     }
 
     ctx.depth++
@@ -330,7 +334,7 @@ function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
     return result
 }
 
-function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
+function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess | null {
     const flags = type.getFlags()
 
     if (flags & ts.TypeFlags.TypeParameter) {
@@ -354,7 +358,7 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
     }
 
     if (flags & ts.TypeFlags.ESSymbol || flags & ts.TypeFlags.UniqueESSymbol) {
-        return Guess.any()
+        return null
     }
 
     if (flags & ts.TypeFlags.Literal) {
@@ -377,16 +381,22 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
     if (type.isUnion()) {
         ctx.visiting.add(type)
         const types = mergeUnionTypes(ctx.checker, type.types)
-        const members = types.map(t => toTypeGuess(ctx, t))
+        const members = types
+            .map(t => toTypeGuess(ctx, t))
+            .filter(t => t !== null)
+
         ctx.visiting.delete(type)
-        return Guess.union(...members)
+        return members.length > 0 ? Guess.union(...members) : null
     }
 
     if (type.isIntersection()) {
         ctx.visiting.add(type)
-        const members = type.types.map(t => toTypeGuess(ctx, t))
+        const members = type.types
+            .map(t => toTypeGuess(ctx, t))
+            .filter(t => t !== null)
+
         ctx.visiting.delete(type)
-        return Guess.intersect(...members)
+        return members.length > 0 ? Guess.intersect(...members) : null
     }
 
     if (ctx.checker.isTupleType(type) || ctx.checker.isArrayType(type)) {
@@ -394,7 +404,7 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
         assert(typeArgs.length > 0)
 
         ctx.visiting.add(type)
-        const elements = typeArgs.map(t => toTypeGuess(ctx, t))
+        const elements = typeArgs.map(t => toTypeGuessOrAny(ctx, t))
         ctx.visiting.delete(type)
         return Guess.array(Guess.union(...elements))
     }
@@ -429,7 +439,7 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
         for (const prop of properties) {
             const propName = prop.getName()
             const propType = ctx.checker.getTypeOfSymbol(prop)
-            const guess = toTypeGuess(ctx, propType)
+            const guess = toTypeGuessOrAny(ctx, propType)
 
             if (prop.flags & ts.SymbolFlags.Optional) {
                 shape[propName] = Guess.union(guess, Guess.undefined())
@@ -441,7 +451,7 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
         return Guess.object(shape)
     }
 
-    return Guess.any()
+    return null
 }
 
 function makeConstructor(ctx: Context, name: string, type: ts.Type): SignatureGuess {
