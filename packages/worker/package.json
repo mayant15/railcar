@@ -10,9 +10,9 @@
         "@babel/core": "7.28.5",
         "@babel/types": "7.28.5",
         "@msgpack/msgpack": "3.1.2",
-        "@railcar/inference": "0.1.9",
-        "@railcar/support": "0.1.9",
-        "@railcar/worker-sys": "0.1.9"
+        "@railcar/inference": "0.1.10",
+        "@railcar/support": "0.1.10",
+        "@railcar/worker-sys": "0.1.10"
     },
     "devDependencies": {
         "@types/babel__core": "7.20.5"
@@ -21,5 +21,5 @@
         "dist",
         "!dist/tsconfig.tsbuildinfo"
     ],
-    "version": "0.1.9"
+    "version": "0.1.10"
 }

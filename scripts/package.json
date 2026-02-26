@@ -9,5 +9,5 @@
     "devDependencies": {
         "@types/babel__core": "7.20.5"
     },
-    "version": "0.1.9"
+    "version": "0.1.10"
 }

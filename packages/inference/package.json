@@ -23,5 +23,5 @@
         "dist",
         "!dist/tsconfig.tsbuildinfo"
     ],
-    "version": "0.1.9"
+    "version": "0.1.10"
 }
