@@ -66,7 +66,7 @@ export type SignatureGuess = {
     args: TypeGuess[];
     ret: TypeGuess;
     callconv: CallConvention;
-    builtin?: boolean;
+    builtin?: boolean; // TODO: why did we need this again?
 };
 
 export type Schema = Record<EndpointName, SignatureGuess>;

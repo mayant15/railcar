@@ -3067,8 +3067,11 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
         },
         "callconv": "Free"
     },
@@ -3191,8 +3194,19 @@
     "countBy": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3223,8 +3237,25 @@
     "each": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.25,
+                    "Object": 0.5,
+                    "Array": 0.25
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3235,16 +3266,50 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "String": 0.25,
+                "Object": 0.5,
+                "Array": 0.25
+            },
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            },
+            "objectShape": {
+                "length": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "Undefined": 0.5
+                    }
+                }
+            }
         },
         "callconv": "Free"
     },
     "eachRight": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.25,
+                    "Object": 0.5,
+                    "Array": 0.25
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3255,16 +3320,44 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "String": 0.25,
+                "Object": 0.5,
+                "Array": 0.25
+            },
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            },
+            "objectShape": {
+                "length": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "Undefined": 0.5
+                    }
+                }
+            }
         },
         "callconv": "Free"
     },
     "every": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3294,8 +3387,20 @@
     "filter": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.2,
+                    "Object": 0.8
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3329,8 +3434,19 @@
     "find": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3365,8 +3481,19 @@
     "findLast": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3401,12 +3528,29 @@
     "flatMap": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.167,
+                            "Undefined": 0.833
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.167,
+                    "Object": 0.167,
+                    "Undefined": 0.333,
+                    "Function": 0.333
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -3424,12 +3568,29 @@
     "flatMapDeep": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.2,
+                            "Undefined": 0.8
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.2,
+                    "Object": 0.2,
+                    "Undefined": 0.2,
+                    "Function": 0.4
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -3447,12 +3608,29 @@
     "flatMapDepth": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.2,
+                            "Undefined": 0.8
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.2,
+                    "Object": 0.2,
+                    "Undefined": 0.2,
+                    "Function": 0.4
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -3477,8 +3655,25 @@
     "forEach": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.25,
+                    "Object": 0.5,
+                    "Array": 0.25
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3489,16 +3684,50 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "String": 0.25,
+                "Object": 0.5,
+                "Array": 0.25
+            },
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            },
+            "objectShape": {
+                "length": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "Undefined": 0.5
+                    }
+                }
+            }
         },
         "callconv": "Free"
     },
     "forEachRight": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.25,
+                    "Object": 0.5,
+                    "Array": 0.25
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3509,16 +3738,44 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "String": 0.25,
+                "Object": 0.5,
+                "Array": 0.25
+            },
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            },
+            "objectShape": {
+                "length": {
+                    "isAny": false,
+                    "kind": {
+                        "Number": 0.5,
+                        "Undefined": 0.5
+                    }
+                }
+            }
         },
         "callconv": "Free"
     },
     "groupBy": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3578,8 +3835,11 @@
     "invokeMap": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -3614,8 +3874,19 @@
     "keyBy": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3646,12 +3917,35 @@
     "map": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.75,
+                    "Array": 0.25
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.167,
+                            "Undefined": 0.833
+                        }
+                    }
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.063,
+                    "String": 0.125,
+                    "Object": 0.063,
+                    "Undefined": 0.25,
+                    "Function": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -3790,8 +4084,19 @@
     "orderBy": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3841,8 +4146,19 @@
     "partition": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.667,
+                            "Undefined": 0.333
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3881,8 +4197,24 @@
     "reduce": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.667,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3904,8 +4236,24 @@
     "reduceRight": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.667,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3927,8 +4275,20 @@
     "reject": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.333,
+                    "Object": 0.667
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -3962,8 +4322,16 @@
     "sample": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.667,
+                    "Array": 0.333
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -3975,8 +4343,11 @@
     "sampleSize": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -4001,8 +4372,19 @@
     "shuffle": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             }
         ],
         "ret": {
@@ -4022,8 +4404,10 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 1
-                }
+                    "String": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -4037,8 +4421,19 @@
     "some": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -4068,8 +4463,19 @@
     "sortBy": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -4219,8 +4625,11 @@
     "bindKey": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -5248,12 +5657,18 @@
     "isMatch": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -5267,12 +5682,18 @@
     "isMatchWith": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -6191,8 +6612,13 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.125,
+                    "Object": 0.25,
+                    "Undefined": 0.625
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -6336,8 +6762,11 @@
     "at": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -6373,17 +6802,27 @@
     "create": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
         },
         "callconv": "Free"
     },
@@ -6442,8 +6881,12 @@
     "entries": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -6467,8 +6910,12 @@
     "entriesIn": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -6833,8 +7280,11 @@
     "invert": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -6849,8 +7299,11 @@
     "invertBy": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -6961,8 +7414,19 @@
     "mapKeys": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Undefined": 0.5
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -6993,17 +7457,36 @@
     "mapValues": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.167,
+                    "Object": 0.75,
+                    "Array": 0.083
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.042,
+                    "String": 0.208,
+                    "Object": 0.167,
+                    "Undefined": 0.333,
+                    "Function": 0.25
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
         },
         "callconv": "Free"
     },
@@ -7075,8 +7558,11 @@
     "omit": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -7112,8 +7598,11 @@
     "omitBy": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -7189,8 +7678,11 @@
     "pickBy": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -7253,8 +7745,11 @@
     "set": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -7285,8 +7780,11 @@
     "setWith": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -7324,8 +7822,12 @@
     "toPairs": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -7349,8 +7851,12 @@
     "toPairsIn": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -7374,8 +7880,16 @@
     "transform": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.6,
+                    "Array": 0.4
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -7428,8 +7942,11 @@
     "update": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -7462,8 +7979,11 @@
     "updateWith": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -7522,8 +8042,19 @@
     "valuesIn": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.167,
+                            "Undefined": 0.834
+                        }
+                    }
+                }
             }
         ],
         "ret": {
@@ -8570,8 +9101,13 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.25,
+                    "Object": 0.5,
+                    "Undefined": 0.25
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -8767,8 +9303,12 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -8797,8 +9337,12 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -8827,8 +9371,12 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -8965,8 +9513,12 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -9303,10 +9855,12 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Number": 0.25,
-                    "String": 0.25,
+                    "Number": 0.167,
+                    "String": 0.167,
+                    "Object": 0.167,
                     "Function": 0.5
-                }
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -9401,8 +9955,11 @@
     "methodOf": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -9668,8 +10225,13 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.25,
+                    "Object": 0.5,
+                    "Undefined": 0.25
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -9703,8 +10265,13 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.25,
+                    "Object": 0.5,
+                    "Undefined": 0.25
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -9724,8 +10291,12 @@
     "runInContext": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
             }
         ],
         "ret": {
@@ -9904,27 +10475,6 @@
         "callconv": "Constructor",
         "builtin": true
     },
-    "Buffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Buffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
     "SharedArrayBuffer": {
         "args": [
             {
@@ -9980,6 +10530,27 @@
             }
         },
         "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer.from": {
+        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
     }
 }

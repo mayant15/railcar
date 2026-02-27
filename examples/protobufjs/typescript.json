@@ -934,14 +934,15 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.75,
-                    "Object": 0.25
+                    "String": 0.5,
+                    "Object": 0.5
                 },
                 "objectShape": {
                     "prototype": {
                         "isAny": false,
                         "kind": {
-                            "Object": 1
+                            "Object": 0.5,
+                            "Undefined": 0.5
                         },
                         "objectShape": {
                             "$type": {
@@ -964,31 +965,36 @@
                     "apply": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "call": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "bind": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "toString": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "length": {
                         "isAny": false,
                         "kind": {
-                            "Number": 1
+                            "Number": 0.5,
+                            "Undefined": 0.5
                         }
                     },
                     "arguments": {
@@ -998,19 +1004,22 @@
                     "caller": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "name": {
                         "isAny": false,
                         "kind": {
-                            "String": 1
+                            "String": 0.5,
+                            "Undefined": 0.5
                         }
                     },
                     "__@hasInstance@247": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     }
                 }
@@ -1518,45 +1527,51 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.5,
-                    "Object": 0.5
+                    "String": 0.333,
+                    "Object": 0.667
                 },
                 "objectShape": {
                     "prototype": {
                         "isAny": false,
                         "kind": {
-                            "Object": 1
+                            "Object": 0.5,
+                            "Undefined": 0.5
                         },
                         "objectShape": {}
                     },
                     "apply": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "call": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "bind": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "toString": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "length": {
                         "isAny": false,
                         "kind": {
-                            "Number": 1
+                            "Number": 0.5,
+                            "Undefined": 0.5
                         }
                     },
                     "arguments": {
@@ -1566,19 +1581,22 @@
                     "caller": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     },
                     "name": {
                         "isAny": false,
                         "kind": {
-                            "String": 1
+                            "String": 0.5,
+                            "Undefined": 0.5
                         }
                     },
                     "__@hasInstance@247": {
                         "isAny": false,
                         "kind": {
-                            "Function": 1
+                            "Undefined": 0.5,
+                            "Function": 0.5
                         }
                     }
                 }
@@ -9821,27 +9839,6 @@
         "callconv": "Constructor",
         "builtin": true
     },
-    "Buffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Buffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
     "SharedArrayBuffer": {
         "args": [
             {
@@ -9897,6 +9894,27 @@
             }
         },
         "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer.from": {
+        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
     }
 }
