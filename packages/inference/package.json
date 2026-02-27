@@ -1,6 +1,6 @@
 {
     "name": "@railcar/inference",
-    "description": "Type inference for graph fuzz drivers",
+    "description": "Type inference for automatic fuzz drivers",
     "license": "AGPL-3.0-or-later",
     "type": "module",
     "bin": {
@@ -23,5 +23,5 @@
         "dist",
         "!dist/tsconfig.tsbuildinfo"
     ],
-    "version": "0.1.9"
+    "version": "0.1.10"
 }

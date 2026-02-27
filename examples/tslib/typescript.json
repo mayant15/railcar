@@ -57,8 +57,10 @@
                     "Array": 1
                 },
                 "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
+                    "isAny": false,
+                    "kind": {
+                        "String": 1
+                    }
                 }
             }
         ],
@@ -87,8 +89,11 @@
                 "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
             },
             {
                 "isAny": true,
@@ -133,8 +138,11 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -149,8 +157,11 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -222,8 +233,10 @@
             }
         ],
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {
+                "String": 1
+            }
         },
         "callconv": "Free"
     },
@@ -236,8 +249,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -678,219 +693,6 @@
                     "kind": {
                         "Function": 1
                     }
-                },
-                "values": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "includes": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "flatMap": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "flat": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "__@iterator@86": {
-                    "isAny": false,
-                    "kind": {
-                        "Function": 1
-                    }
-                },
-                "__@unscopables@88": {
-                    "isAny": false,
-                    "kind": {
-                        "Object": 1
-                    },
-                    "objectShape": {
-                        "length": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "toString": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "toLocaleString": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "concat": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "join": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "slice": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "indexOf": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "lastIndexOf": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "every": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "some": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "forEach": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "map": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "filter": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "reduce": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "reduceRight": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "find": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "findIndex": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "entries": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "keys": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "values": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "includes": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "flatMap": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "flat": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "__@iterator@86": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        },
-                        "__@unscopables@88": {
-                            "isAny": false,
-                            "kind": {
-                                "Boolean": 0.5,
-                                "Undefined": 0.5
-                            }
-                        }
-                    }
                 }
             }
         },
@@ -925,8 +727,11 @@
     "__classPrivateFieldGet": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -981,8 +786,11 @@
     "__classPrivateFieldSet": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -1071,20 +879,33 @@
     "__createBinding": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.5,
+                    "String": 0.5
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Number": 0.25,
+                    "String": 0.25,
+                    "Undefined": 0.5
+                }
             }
         ],
         "ret": {
@@ -1294,27 +1115,6 @@
         "callconv": "Constructor",
         "builtin": true
     },
-    "Buffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Buffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
     "SharedArrayBuffer": {
         "args": [
             {
@@ -1370,6 +1170,27 @@
             }
         },
         "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer.from": {
+        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
     }
 }

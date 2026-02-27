@@ -37,45 +37,52 @@ function removeInvalidEndpoints(schema: Schema, endpoints: Endpoints): Schema {
 
 let _countFnNotInSchema = 0;
 
+/**
+ * Add standard library functions to `schema` and `endpoints`.
+ *
+ * We always add these, regardless of `skipEndpointsNotInSchema`.
+ */
 function mapStandardReferences(
     schema: Schema,
     endpoints: Endpoints,
     methodsToSkip: Set<EndpointName>,
 ) {
     // Do not map methods for builtin classes, we're more interested in fuzzing the library
-    function builtin(cls: unknown, argc?: number) {
-        mapFunctionReference(
-            "",
-            schema,
-            endpoints,
-            cls as Fn,
-            methodsToSkip,
-            false,
-            (cls as Fn).name,
-            argc,
-            true,
-        );
+    function builtinClass(cls: unknown, argc?: number) {
+        assert(typeof cls === "function")
+
+        const fn = cls as Fn;
+        const key = fn.name
+
+        builtinGuess(fn, key, {
+            callconv: "Constructor",
+            ret: Guess.class(key),
+            args: new Array(argc ?? fn.length).fill(Guess.any()),
+        })
     }
 
-    builtin(Uint8Array, 0);
-    builtin(ArrayBuffer, 1);
-    builtin(RegExp, 0);
-    builtin(SharedArrayBuffer, 1);
-    builtin(Error, 1);
-    builtin(Duplex);
+    function builtinGuess(fn: Fn, key: string, guess: SignatureGuess) {
+        if (methodsToSkip.has(key)) return;
+
+        endpoints[key] = fn
+        if (!schema[key]) {
+            addToSchema(schema, key, { ...guess, builtin: true })
+        }
+    }
+
+    builtinClass(Uint8Array, 0);
+    builtinClass(ArrayBuffer, 1);
+    builtinClass(RegExp, 0);
+    builtinClass(SharedArrayBuffer, 1);
+    builtinClass(Error, 1);
+    builtinClass(Duplex);
 
     // new Buffer is deprecated. Node prefers Buffer.alloc() or Buffer.from()
-    mapFunctionReference(
-        "",
-        schema,
-        endpoints,
-        Buffer.from as Fn,
-        methodsToSkip,
-        false,
-        "Buffer",
-        1,
-        true,
-    );
+    builtinGuess(Buffer.from as Fn, "Buffer.from", {
+        callconv: "Free",
+        args: [Guess.string()],
+        ret: Guess.class("Buffer"),
+    });
 }
 
 function getMethods(constr: { prototype: unknown }) {
@@ -208,6 +215,7 @@ function addToSchema(schema: Schema, id: EndpointName, sig: SignatureGuess) {
     schema[id] = sig;
 }
 
+// NOTE: Built-ins don't use `mapFunctionReference`. See `mapStandardReferences`.
 function mapFunctionReference(
     prefix: string,
     schema: Schema,
@@ -217,7 +225,6 @@ function mapFunctionReference(
     skipEndpointsNotInSchema: boolean,
     overrideKey?: string,
     overrideArgc?: number,
-    builtin?: boolean,
 ) {
     const key = prefix + (overrideKey ?? fn.name);
     if (methodsToSkip.has(key)) {
@@ -238,11 +245,10 @@ function mapFunctionReference(
             callconv: isConstr ? "Constructor" : "Free",
             ret: isConstr ? Guess.class(key) : Guess.any(),
             args: new Array(overrideArgc ?? fn.length).fill(Guess.any()),
-            builtin,
         });
     }
 
-    if (isConstr && !builtin) {
+    if (isConstr) {
         const methods = getMethods(fn);
         for (const [methodName, method] of methods) {
             const id = `${key}.${methodName}`;
@@ -263,7 +269,6 @@ function mapFunctionReference(
                     callconv: "Method",
                     ret: Guess.any(),
                     args: [Guess.class(key), ...args],
-                    builtin,
                 });
             }
         }
@@ -286,7 +291,6 @@ function mapFunctionReference(
                     // Keep the method
                 } else {
                     assert(schema[id].callconv === "Free", id);
-                    assert(schema[id].builtin === builtin);
                 }
             } else {
                 const args = new Array(staticFn.length).fill(Guess.any());
@@ -294,7 +298,6 @@ function mapFunctionReference(
                     callconv: "Free",
                     ret: Guess.any(),
                     args,
-                    builtin,
                 });
             }
         }

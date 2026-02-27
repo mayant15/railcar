@@ -162,65 +162,6 @@
                             "Boolean": 0.5,
                             "Undefined": 0.5
                         }
-                    },
-                    "attrNameProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "attrValueProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "tagNameProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "valueProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "chunkSize": {
-                        "isAny": false,
-                        "kind": {
-                            "Number": 0.5,
-                            "Undefined": 0.5
-                        }
                     }
                 }
             },
@@ -401,65 +342,6 @@
                         "isAny": false,
                         "kind": {
                             "Boolean": 0.5,
-                            "Undefined": 0.5
-                        }
-                    },
-                    "attrNameProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "attrValueProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "tagNameProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "valueProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "chunkSize": {
-                        "isAny": false,
-                        "kind": {
-                            "Number": 0.5,
                             "Undefined": 0.5
                         }
                     }
@@ -773,65 +655,6 @@
                             "Boolean": 0.5,
                             "Undefined": 0.5
                         }
-                    },
-                    "attrNameProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "attrValueProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "tagNameProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "valueProcessors": {
-                        "isAny": false,
-                        "kind": {
-                            "Array": 0.5,
-                            "Undefined": 0.5
-                        },
-                        "arrayValueType": {
-                            "isAny": false,
-                            "kind": {
-                                "Function": 1
-                            }
-                        }
-                    },
-                    "chunkSize": {
-                        "isAny": false,
-                        "kind": {
-                            "Number": 0.5,
-                            "Undefined": 0.5
-                        }
                     }
                 }
             }
@@ -859,8 +682,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -892,8 +717,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -925,8 +752,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1057,7 +886,7 @@
                             "Function": 0.5
                         }
                     },
-                    "__@captureRejectionSymbol@94": {
+                    "__@captureRejectionSymbol@85": {
                         "isAny": false,
                         "kind": {
                             "Undefined": 0.75,
@@ -1088,8 +917,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
         "ret": {
@@ -1218,7 +1049,7 @@
                 "Object": 1
             },
             "objectShape": {
-                "__@dispose@265": {
+                "__@dispose@256": {
                     "isAny": false,
                     "kind": {
                         "Function": 1
@@ -1333,8 +1164,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1366,8 +1199,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1399,8 +1234,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1432,8 +1269,11 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
             }
         ],
         "ret": {
@@ -1459,8 +1299,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
         "ret": {
@@ -1489,8 +1331,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
         "ret": {
@@ -1519,8 +1363,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1553,8 +1399,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1586,8 +1434,10 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             },
             {
                 "isAny": false,
@@ -1625,8 +1475,10 @@
                 "Array": 1
             },
             "arrayValueType": {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         },
         "callconv": "Method"
@@ -1700,27 +1552,6 @@
         "callconv": "Constructor",
         "builtin": true
     },
-    "Buffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Buffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
     "SharedArrayBuffer": {
         "args": [
             {
@@ -1776,6 +1607,27 @@
             }
         },
         "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer.from": {
+        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
     }
 }

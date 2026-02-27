@@ -302,8 +302,12 @@
                         }
                     },
                     "instanceOf": {
-                        "isAny": true,
-                        "kind": {}
+                        "isAny": false,
+                        "kind": {
+                            "Object": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "objectShape": {}
                     },
                     "predicate": {
                         "isAny": false,
@@ -624,27 +628,6 @@
         "callconv": "Constructor",
         "builtin": true
     },
-    "Buffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Buffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
     "SharedArrayBuffer": {
         "args": [
             {
@@ -700,6 +683,27 @@
             }
         },
         "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer.from": {
+        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
     }
 }

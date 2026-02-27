@@ -360,6 +360,18 @@ export function arrayUnion(x: string[] | number[]): boolean[];
             callconv: "Free",
         })
     })
+
+    test("drop unknown types from union", () => {
+        const code = `
+export function foo(x: string | symbol);
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.string()],
+            ret: Guess.any(),
+            callconv: "Free"
+        })
+    })
 })
 
 describe("arrays", () => {
@@ -621,6 +633,32 @@ export function foo(x: B);
         expect(actual.foo).toEqual({
             args: [Guess.object({})],
             ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+
+    test("enum properties", () => {
+        const code = `
+enum Value { A, B }
+export function foo(x: { key: Value });
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [Guess.object({ key: Guess.number() })],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+
+    test("return object with optional enum", () => {
+        const code = `
+enum Value { A, B }
+export function foo(): { key?: Value };
+`
+        const actual = fromCode(code)
+        expect(actual.foo).toEqual({
+            args: [],
+            ret: Guess.object({ key: Guess.optional(Types.number()) }),
             callconv: "Free",
         })
     })
@@ -1040,7 +1078,7 @@ export function tag(x: Tagged): void;
         })
     })
 
-    test("object with many properties is treated as any", () => {
+    test("shrink object with many properties", () => {
         const props = Array.from({ length: 40 }, (_, i) => `p${i}: string`).join("; ")
         const code = `
 export function big(x: { ${props} }): void;
@@ -1048,7 +1086,9 @@ export function big(x: { ${props} }): void;
         const actual = fromCode(code)
 
         expect(actual.big).toEqual({
-            args: [Guess.any()],
+            args: [Guess.object(Object.fromEntries(
+                Array.from({ length: 20 }, (_, i) => [`p${i}`, Guess.string()])
+            ))],
             ret: Guess.undefined(),
             callconv: "Free",
         })
@@ -1332,6 +1372,33 @@ export class XMLParser {
         const actual = fromCode(code)
         expect(actual["XMLParser.getMetaDataSymbol"]).toEqual({
             args: [],
+            ret: Guess.any(),
+            callconv: "Free",
+        })
+    })
+
+    test("typescript getDefaultCompilerOptions", () => {
+        const actual = fromFile("../../node_modules/typescript/lib/typescript.d.ts")
+
+        const sig = actual["getDefaultCompilerOptions"]
+        expect(sig.args).toBeArrayOfSize(0)
+        expect(sig.ret.isAny).toBeFalse()
+        expect(sig.ret.kind.Object).toBe(1)
+    })
+
+    test("lodash object constraint", () => {
+        const code = `
+type PropertyPath = string;
+export function set<T extends object>(object: T, path: PropertyPath, value: any): T;
+export function set<TResult>(object: object, path: PropertyPath, value: any): TResult;
+`
+        const actual = fromCode(code)
+        expect(actual.set).toEqual({
+            args: [
+                Guess.object({}),
+                Guess.string(),
+                Guess.any(),
+            ],
             ret: Guess.any(),
             callconv: "Free",
         })

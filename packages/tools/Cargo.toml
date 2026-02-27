@@ -1,6 +1,6 @@
 [package]
 name = "railcar_tools"
-version = "0.1.9"
+version = "0.1.10"
 edition = "2021"
 license = "AGPL-3.0-or-later"
 
@@ -22,16 +22,8 @@ name = "tools"
 path = "src/lib.rs"
 
 [[bin]]
-name = "viz"
-path = "src/viz.rs"
-
-[[bin]]
 name = "covdiff"
 path = "src/covdiff.rs"
-
-[[bin]]
-name = "convert"
-path = "src/convert.rs"
 
 [[bin]]
 name = "covmerge"

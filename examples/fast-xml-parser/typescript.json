@@ -205,57 +205,6 @@
                             "Boolean": 0.5,
                             "Undefined": 0.5
                         }
-                    },
-                    "htmlEntities": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.5,
-                            "Undefined": 0.5
-                        }
-                    },
-                    "ignoreDeclaration": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.5,
-                            "Undefined": 0.5
-                        }
-                    },
-                    "ignorePiTags": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.5,
-                            "Undefined": 0.5
-                        }
-                    },
-                    "transformTagName": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.25,
-                            "Undefined": 0.5,
-                            "Function": 0.25
-                        }
-                    },
-                    "transformAttributeName": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.25,
-                            "Undefined": 0.5,
-                            "Function": 0.25
-                        }
-                    },
-                    "updateTag": {
-                        "isAny": false,
-                        "kind": {
-                            "Undefined": 0.5,
-                            "Function": 0.5
-                        }
-                    },
-                    "captureMetaData": {
-                        "isAny": false,
-                        "kind": {
-                            "Boolean": 0.5,
-                            "Undefined": 0.5
-                        }
                     }
                 }
             }
@@ -698,27 +647,6 @@
         "callconv": "Constructor",
         "builtin": true
     },
-    "Buffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Buffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
     "SharedArrayBuffer": {
         "args": [
             {
@@ -774,6 +702,27 @@
             }
         },
         "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer.from": {
+        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
     }
 }

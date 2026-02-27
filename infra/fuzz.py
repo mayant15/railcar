@@ -25,7 +25,7 @@ def git_version():
 
 def generate_job_requests(
     projects: list[str],
-    mode_schema_pairs: list[tuple[str, str]],
+    mode_schema_pairs: list[tuple[str, str | None]],
     seeds: list[int],
     iterations: int,
     results_dir: str,
@@ -51,6 +51,7 @@ def generate_job_requests(
                     outdir = f"{project}_{mode}_{schema_type}_{driver}_{i}"
                     outdir = path.join(results_dir, outdir)
 
+                    schema_label = "none" if schema_type is None else schema_type
                     payload = Config(tool, Railcar.RunArgs(
                         timeout=timeout,
                         metrics=metrics,
@@ -60,7 +61,7 @@ def generate_job_requests(
                         schema=schema,
                         entrypoint=entrypoint,
                         config_file_path=config,
-                        labels=[project, mode, schema_type, driver, i]
+                        labels=[project, mode, schema_label, driver, str(i)]
                     ))
                     reqs.append(Request(payload=payload, request=1, library=project))
 
@@ -83,35 +84,6 @@ def generate_summary_prefix(timeout, seeds) -> str:
         summary += "iter_{} seed: {}\n".format(i, seeds[i])
 
     return summary
-
-
-def collect_coverage(configs: list[Config], results_dir: str) -> str:
-    configs = [x for cs in configs for x in cs]
-    results = []
-    db = path.join(results_dir, "metrics.db")
-    conn = sqlite3.connect(db)
-    for config in configs:
-        cur = conn.cursor()
-        row = cur.execute("""
-            select coverage, total_edges, valid_execs, execs from heartbeat
-            where timestamp in (select max(timestamp) from heartbeat)
-            """).fetchone()
-
-        if row is None:
-            print("config failed:", config)
-            continue
-
-        covered, total, valid_execs, execs = row
-        coverage_pct = covered * 100 / total
-        project = config.args.labels[0]
-        mode = config.args.mode
-        iter = config.args.labels[1]
-
-        results.append((iter, mode, project, covered, total, coverage_pct, valid_execs, execs))
-
-    return pd.DataFrame(results, columns=[
-        "iteration", "mode", "project", "covered", "total", "coverage", "valid_execs", "execs"
-    ])
 
 
 def post_summary_notification(summary: str):
@@ -152,7 +124,7 @@ def arguments():
             "--iterations", type=int, default=1,
             help="number of parallel iterations")
     parser.add_argument("--mode", action='append',
-                        choices=["bytes", "graph", "parametric", "sequence"],
+                        choices=["bytes", "sequence"],
                         help="modes to run railcar in")
     args = parser.parse_args()
 
@@ -217,7 +189,7 @@ def main() -> None:
         pool.terminate()
 
     # TODO: fix this to pick coverage data from main metrics.db
-    coverage = collect_coverage([], results_dir)
+    coverage = pd.DataFrame()
 
     old_coverage = None
     if old_results_dir is not None:

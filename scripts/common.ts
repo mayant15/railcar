@@ -1,11 +1,32 @@
 const PROJECTS = {
-    "fast-xml-parser": {
-        bundle: "examples/fast-xml-parser/fxp.full.js",
-        decl: "node_modules/fast-xml-parser/src/fxp.d.ts",
+    lodash: {
+        decl: "node_modules/@types/lodash/index.d.ts",
+        known: 11,
+    },
+    xmldom: {
+        decl: "node_modules/@xmldom/xmldom/index.d.ts",
+        known: 5,
+    },
+    typescript: {
+        decl: "node_modules/typescript/lib/typescript.d.ts",
+        known: 1,
     },
     tslib: {
         bundle: "node_modules/tslib/tslib.js",
         decl: "node_modules/tslib/tslib.d.ts",
+        known: 6,
+    },
+    protobufjs: {
+        decl: "node_modules/protobufjs/index.d.ts",
+        known: 3,
+    },
+    lit: {
+        decl: "node_modules/lit/index.d.ts",
+        known: 4,
+    },
+    "fast-xml-parser": {
+        bundle: "examples/fast-xml-parser/fxp.full.js",
+        decl: "node_modules/fast-xml-parser/src/fxp.d.ts",
     },
     pako: {
         bundle: "node_modules/pako/dist/pako.js",
@@ -27,29 +48,14 @@ const PROJECTS = {
         bundle: "node_modules/js-yaml/dist/js-yaml.js",
         decl: "node_modules/@types/js-yaml/index.d.ts",
     },
-    lodash: {
-        decl: "node_modules/@types/lodash/index.d.ts",
-    },
     sharp: {
         decl: "node_modules/sharp/lib/index.d.ts",
-    },
-    lit: {
-        decl: "node_modules/lit/index.d.ts",
-    },
-    protobufjs: {
-        decl: "node_modules/protobufjs/index.d.ts",
     },
     turf: {
         decl: "node_modules/@turf/turf/dist/esm/index.d.ts",
     },
-    typescript: {
-        decl: "node_modules/typescript/lib/typescript.d.ts",
-    },
     xml2js: {
         decl: "node_modules/@types/xml2js/index.d.ts",
-    },
-    xmldom: {
-        decl: "node_modules/@xmldom/xmldom/index.d.ts",
     },
     angular: {
         decl: "node_modules/@angular/compiler/index.d.ts",
@@ -65,6 +71,7 @@ export type Project = keyof typeof PROJECTS;
 type Spec = {
     bundle?: string;
     decl?: string;
+    known?: number;
 };
 
 export function getProjectNames(): Project[] {

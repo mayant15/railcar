@@ -66,55 +66,7 @@ export type SignatureGuess = {
     args: TypeGuess[];
     ret: TypeGuess;
     callconv: CallConvention;
-    builtin?: boolean;
+    builtin?: boolean; // TODO: why did we need this again?
 };
 
 export type Schema = Record<EndpointName, SignatureGuess>;
-
-export type NodeId = number;
-
-export type ConstantValue =
-    | "Undefined"
-    | "Null"
-    | "Function"
-    | { Number: number }
-    | { String: string }
-    | { Boolean: boolean }
-    | { Object: Record<string, ConstantValue> }
-    | { Array: ConstantValue[] };
-
-export type Payload =
-    | {
-          Api: {
-              signature: Signature;
-              name: EndpointName;
-          };
-      }
-    | {
-          Constant: {
-              typ: Type;
-              value: ConstantValue;
-          };
-      };
-
-export type IncomingEdge = {
-    src: NodeId;
-    evaluationOrder: number;
-    port: number;
-};
-
-export type OutgoingEdge = {
-    dst: NodeId;
-};
-
-export type Node = {
-    id: number;
-    payload: Payload;
-    incoming: IncomingEdge[];
-    outgoing: OutgoingEdge[];
-};
-
-export type Graph = {
-    root: NodeId;
-    nodes: Record<NodeId, Node>;
-};

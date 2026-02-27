@@ -5,9 +5,10 @@ import { join } from "node:path";
 
 import type { Schema, SignatureGuess } from "@railcar/inference";
 
-import { getProjectNames } from "./common";
+import { getProjectNames, getProjectSpec, type Project } from "./common";
 
 const LATEX = false;
+let _isTypeScript = false;
 
 async function schema(project: string, kind: string): Promise<Schema> {
     const path = join("examples", project, `${kind}.json`);
@@ -34,11 +35,13 @@ function allAny(sig: SignatureGuess): boolean {
 function countNoInfoSignatures(schema: Schema): [number, number] {
     let total = 0;
     let any = 0;
-    for (const [_, guess] of Object.entries(schema)) {
+    for (const [name, guess] of Object.entries(schema)) {
         if (guess.builtin) continue;
         total += 1;
         if (allAny(guess)) {
-            // console.warn(" ", name);
+            if (_isTypeScript) {
+                console.warn(" ", name);
+            }
             any += 1;
         }
     }
@@ -70,6 +73,7 @@ type AnalyzeRow = {
     typescript: {
         any: number;
         anyTypeP: number;
+        known?: number;
     };
     syntest: {
         any: number;
@@ -77,7 +81,7 @@ type AnalyzeRow = {
     };
 };
 
-async function analyze(project: string) {
+async function analyze(project: Project): Promise<AnalyzeRow> {
     const p1 = await schema(project, "random");
     // const p2 = schema(project, "syntest");
     const p3 = schema(project, "typescript");
@@ -86,8 +90,10 @@ async function analyze(project: string) {
     const [totalRandom, anyRandom] = countNoInfoSignatures(random);
     const [_totalSyntest, anySyntest] = [1, 0]; // countNoInfoSignatures(syntest);
 
-    // console.warn("typescript");
+    _isTypeScript = true;
+    console.warn("**", project, "**");
     const [totalTypescript, anyTypescript] = countNoInfoSignatures(typescript);
+    _isTypeScript = false;
 
     // assert(totalRandom === totalSyntest);
     assert(totalRandom === totalTypescript);
@@ -108,6 +114,7 @@ async function analyze(project: string) {
         },
         typescript: {
             any: anyTypescript,
+            known: getProjectSpec(project).known,
             anyTypeP: (anyTypescriptTypes * 100) / totalTypescriptTypes,
         },
         syntest: {
@@ -154,7 +161,9 @@ function printTable(data: AnalyzeRow[]) {
             Total: d.random.total,
             "Random # Any API": d.random.any,
             "Random % Any Types": d.random.anyTypeP.toFixed(1),
-            "TypeScript # Any API": d.typescript.any,
+            "TypeScript # Any API": d.typescript.known
+                ? `${d.typescript.any} (${d.typescript.known} known)`
+                : d.typescript.any,
             "TypeScript % Any Types": d.typescript.anyTypeP.toFixed(1),
             // "SynTest # Any API": d.syntest.any,
             // "SynTest % Any Types": d.syntest.anyTypeP.toFixed(1),

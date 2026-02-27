@@ -14,4 +14,8 @@ module.exports = {
         (err instanceof TypeError ||
             err instanceof RangeError ||
             err.constructor.name === "ParseError"),
+    skipMethods: [
+        "onWarningStopParsing",
+        "onErrorStopParsing",
+    ]
 };

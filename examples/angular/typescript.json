@@ -315,8 +315,357 @@
     "compileComponentFromMetadata": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "template": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "nodes": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Object": 1
+                                    },
+                                    "objectShape": {
+                                        "sourceSpan": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Class": 1
+                                            },
+                                            "classType": {
+                                                "ParseSourceSpan$1": 1
+                                            }
+                                        },
+                                        "visit": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Function": 1
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "ngContentSelectors": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                }
+                            },
+                            "preserveWhitespaces": {
+                                "isAny": false,
+                                "kind": {
+                                    "Boolean": 0.5,
+                                    "Undefined": 0.5
+                                }
+                            }
+                        }
+                    },
+                    "declarations": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 1
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "kind": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 1
+                                    }
+                                },
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Class": 1
+                                    },
+                                    "classType": {
+                                        "Expression": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "defer": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "mode": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            },
+                            "blocks": {
+                                "isAny": false,
+                                "kind": {
+                                    "Object": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "objectShape": {
+                                    "clear": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "delete": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "forEach": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "get": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "has": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "set": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "size": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    },
+                                    "entries": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "keys": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "values": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "__@iterator@389": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "__@toStringTag@634": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "String": 1
+                                        }
+                                    }
+                                }
+                            },
+                            "dependenciesFn": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "classType": {
+                                    "Expression": 1
+                                }
+                            }
+                        }
+                    },
+                    "declarationListEmitMode": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "styles": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 1
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "String": 1
+                            }
+                        }
+                    },
+                    "externalStyles": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "String": 1
+                            }
+                        }
+                    },
+                    "encapsulation": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "animations": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 1
+                        },
+                        "classType": {
+                            "Expression": 1
+                        }
+                    },
+                    "viewProviders": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 1
+                        },
+                        "classType": {
+                            "Expression": 1
+                        }
+                    },
+                    "relativeContextFilePath": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    },
+                    "i18nUseExternalIds": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 1
+                        }
+                    },
+                    "interpolation": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 1
+                        },
+                        "classType": {
+                            "InterpolationConfig": 1
+                        }
+                    },
+                    "changeDetection": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Class": 0.5
+                        },
+                        "classType": {
+                            "Expression": 1
+                        }
+                    },
+                    "relativeTemplatePath": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    },
+                    "hasDirectiveDependencies": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 1
+                        }
+                    },
+                    "rawImports": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "classType": {
+                            "Expression": 1
+                        }
+                    },
+                    "name": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    },
+                    "type": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "value": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 1
+                                },
+                                "classType": {
+                                    "Expression": 1
+                                }
+                            },
+                            "type": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 1
+                                },
+                                "classType": {
+                                    "Expression": 1
+                                }
+                            }
+                        }
+                    },
+                    "typeArgumentCount": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "typeSourceSpan": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 1
+                        },
+                        "classType": {
+                            "ParseSourceSpan$1": 1
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -441,8 +790,417 @@
     "compileDeclareComponentFromMetadata": {
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "template": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "nodes": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Object": 1
+                                    },
+                                    "objectShape": {
+                                        "sourceSpan": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Class": 1
+                                            },
+                                            "classType": {
+                                                "ParseSourceSpan$1": 1
+                                            }
+                                        },
+                                        "visit": {
+                                            "isAny": false,
+                                            "kind": {
+                                                "Function": 1
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "ngContentSelectors": {
+                                "isAny": false,
+                                "kind": {
+                                    "Array": 1
+                                },
+                                "arrayValueType": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 1
+                                    }
+                                }
+                            },
+                            "preserveWhitespaces": {
+                                "isAny": false,
+                                "kind": {
+                                    "Boolean": 0.5,
+                                    "Undefined": 0.5
+                                }
+                            }
+                        }
+                    },
+                    "declarations": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 1
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "Object": 1
+                            },
+                            "objectShape": {
+                                "kind": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Number": 1
+                                    }
+                                },
+                                "selector": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Undefined": 0.667
+                                    }
+                                },
+                                "inputs": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.333,
+                                        "Undefined": 0.667
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "String": 1
+                                        }
+                                    }
+                                },
+                                "outputs": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.333,
+                                        "Undefined": 0.667
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "String": 1
+                                        }
+                                    }
+                                },
+                                "exportAs": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Array": 0.333,
+                                        "Undefined": 0.667
+                                    },
+                                    "arrayValueType": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "String": 1
+                                        }
+                                    }
+                                },
+                                "isComponent": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Boolean": 0.333,
+                                        "Undefined": 0.667
+                                    }
+                                },
+                                "type": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "Class": 1
+                                    },
+                                    "classType": {
+                                        "Expression": 1
+                                    }
+                                },
+                                "name": {
+                                    "isAny": false,
+                                    "kind": {
+                                        "String": 0.333,
+                                        "Undefined": 0.667
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "defer": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "mode": {
+                                "isAny": false,
+                                "kind": {
+                                    "Number": 1
+                                }
+                            },
+                            "blocks": {
+                                "isAny": false,
+                                "kind": {
+                                    "Object": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "objectShape": {
+                                    "clear": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "delete": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "forEach": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "get": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "has": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "set": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "size": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Number": 1
+                                        }
+                                    },
+                                    "entries": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "keys": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "values": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "__@iterator@389": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "Function": 1
+                                        }
+                                    },
+                                    "__@toStringTag@634": {
+                                        "isAny": false,
+                                        "kind": {
+                                            "String": 1
+                                        }
+                                    }
+                                }
+                            },
+                            "dependenciesFn": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 0.5,
+                                    "Undefined": 0.5
+                                },
+                                "classType": {
+                                    "Expression": 1
+                                }
+                            }
+                        }
+                    },
+                    "declarationListEmitMode": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "styles": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 1
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "String": 1
+                            }
+                        }
+                    },
+                    "externalStyles": {
+                        "isAny": false,
+                        "kind": {
+                            "Array": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "arrayValueType": {
+                            "isAny": false,
+                            "kind": {
+                                "String": 1
+                            }
+                        }
+                    },
+                    "encapsulation": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "animations": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 1
+                        },
+                        "classType": {
+                            "Expression": 1
+                        }
+                    },
+                    "viewProviders": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 1
+                        },
+                        "classType": {
+                            "Expression": 1
+                        }
+                    },
+                    "relativeContextFilePath": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    },
+                    "i18nUseExternalIds": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 1
+                        }
+                    },
+                    "interpolation": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 1
+                        },
+                        "classType": {
+                            "InterpolationConfig": 1
+                        }
+                    },
+                    "changeDetection": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 0.5,
+                            "Class": 0.5
+                        },
+                        "classType": {
+                            "Expression": 1
+                        }
+                    },
+                    "relativeTemplatePath": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    },
+                    "hasDirectiveDependencies": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 1
+                        }
+                    },
+                    "rawImports": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 0.5,
+                            "Undefined": 0.5
+                        },
+                        "classType": {
+                            "Expression": 1
+                        }
+                    },
+                    "name": {
+                        "isAny": false,
+                        "kind": {
+                            "String": 1
+                        }
+                    },
+                    "type": {
+                        "isAny": false,
+                        "kind": {
+                            "Object": 1
+                        },
+                        "objectShape": {
+                            "value": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 1
+                                },
+                                "classType": {
+                                    "Expression": 1
+                                }
+                            },
+                            "type": {
+                                "isAny": false,
+                                "kind": {
+                                    "Class": 1
+                                },
+                                "classType": {
+                                    "Expression": 1
+                                }
+                            }
+                        }
+                    },
+                    "typeArgumentCount": {
+                        "isAny": false,
+                        "kind": {
+                            "Number": 1
+                        }
+                    },
+                    "typeSourceSpan": {
+                        "isAny": false,
+                        "kind": {
+                            "Class": 1
+                        },
+                        "classType": {
+                            "ParseSourceSpan$1": 1
+                        }
+                    }
+                }
             },
             {
                 "isAny": false,
@@ -5781,48 +6539,6 @@
                         "kind": {
                             "Function": 1
                         }
-                    },
-                    "visitForLoopBlockEmpty": {
-                        "isAny": false,
-                        "kind": {
-                            "Function": 1
-                        }
-                    },
-                    "visitIfBlock": {
-                        "isAny": false,
-                        "kind": {
-                            "Function": 1
-                        }
-                    },
-                    "visitIfBlockBranch": {
-                        "isAny": false,
-                        "kind": {
-                            "Function": 1
-                        }
-                    },
-                    "visitUnknownBlock": {
-                        "isAny": false,
-                        "kind": {
-                            "Function": 1
-                        }
-                    },
-                    "visitLetDeclaration": {
-                        "isAny": false,
-                        "kind": {
-                            "Function": 1
-                        }
-                    },
-                    "visitComponent": {
-                        "isAny": false,
-                        "kind": {
-                            "Function": 1
-                        }
-                    },
-                    "visitDirective": {
-                        "isAny": false,
-                        "kind": {
-                            "Function": 1
-                        }
                     }
                 }
             },
@@ -6121,27 +6837,6 @@
         "callconv": "Constructor",
         "builtin": true
     },
-    "Buffer": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Buffer": 1
-            }
-        },
-        "callconv": "Constructor",
-        "builtin": true
-    },
     "SharedArrayBuffer": {
         "args": [
             {
@@ -6197,6 +6892,27 @@
             }
         },
         "callconv": "Constructor",
+        "builtin": true
+    },
+    "Buffer.from": {
+        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
     }
 }

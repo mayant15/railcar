@@ -10,6 +10,8 @@
  * 4. Record<K, V> are Guess.object({})
  * 5. Promote generics to their constraints, unconstrained generics are `any`
  * 6. Symbol becomes any
+ * 7. Recursive types deeper than MAX_TYPE_DEPTH are `any`
+ * 8. Large objects with more than MAX_OBJECT_PROPERTIES only have the first MAX_OBJECT_PROPERTIES
  */
 
 import assert from "node:assert"
@@ -18,6 +20,9 @@ import ts from "typescript"
 
 import { SignatureGuess, type TypeGuess, type Schema, type CallConvention } from "./schema.js";
 import { addStd, Guess, STD_CLASSES, BUILTIN_METHOD_NAMES } from "./common.js"
+
+const MAX_TYPE_DEPTH = 8
+const MAX_OBJECT_PROPERTIES = 20
 
 /**
  * Produce a schema from a TypeScript declaration file.
@@ -39,9 +44,6 @@ export function fromFile(path: string): Schema {
     addStd(ctx.schema)
     return ctx.schema
 }
-
-const MAX_TYPE_DEPTH = 8
-const MAX_OBJECT_PROPERTIES = 30
 
 type Context = {
     checker: ts.TypeChecker
@@ -234,7 +236,7 @@ function guessSignature(ctx: Context, sig: ts.Signature, callconv: CallConventio
 
     // Railcar calls all endpoints with an await, so we consider a `Promise<T>` to be just `T`
     const unwrapped = unwrapPromise(ctx.checker, sig.getReturnType())
-    const ret = toTypeGuess(ctx, unwrapped)
+    const ret = toTypeGuessOrAny(ctx, unwrapped)
 
     return { args, ret, callconv }
 }
@@ -264,7 +266,7 @@ function isOptionalParameter(checker: ts.TypeChecker, arg: ts.Symbol): boolean {
 
 function functionArgTypeGuess(ctx: Context, arg: ts.Symbol): TypeGuess {
     const type = ctx.checker.getTypeOfSymbol(arg)
-    const guess = toTypeGuess(ctx, type)
+    const guess = toTypeGuessOrAny(ctx, type)
 
     if (isOptionalParameter(ctx.checker, arg)) {
         return Guess.union(guess, Guess.undefined())
@@ -317,9 +319,13 @@ function mergeUnionTypes(checker: ts.TypeChecker, types: ts.Type[]): ts.Type[] {
     return dedupeUnionTypes(types.map(t => promoteType(checker, t)))
 }
 
-function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
+function toTypeGuessOrAny(ctx: Context, type: ts.Type): TypeGuess {
+    return toTypeGuess(ctx, type) ?? Guess.any()
+}
+
+function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess | null {
     if (ctx.visiting.has(type) || ctx.depth >= MAX_TYPE_DEPTH) {
-        return Guess.any()
+        return null
     }
 
     ctx.depth++
@@ -328,7 +334,7 @@ function toTypeGuess(ctx: Context, type: ts.Type): TypeGuess {
     return result
 }
 
-function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
+function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess | null {
     const flags = type.getFlags()
 
     if (flags & ts.TypeFlags.TypeParameter) {
@@ -352,7 +358,7 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
     }
 
     if (flags & ts.TypeFlags.ESSymbol || flags & ts.TypeFlags.UniqueESSymbol) {
-        return Guess.any()
+        return null
     }
 
     if (flags & ts.TypeFlags.Literal) {
@@ -372,19 +378,30 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
         return Guess.boolean()
     }
 
+    // handles `x: object`
+    if (flags & ts.TypeFlags.NonPrimitive) {
+        return Guess.object({})
+    }
+
     if (type.isUnion()) {
         ctx.visiting.add(type)
         const types = mergeUnionTypes(ctx.checker, type.types)
-        const members = types.map(t => toTypeGuess(ctx, t))
+        const members = types
+            .map(t => toTypeGuess(ctx, t))
+            .filter(t => t !== null)
+
         ctx.visiting.delete(type)
-        return Guess.union(...members)
+        return members.length > 0 ? Guess.union(...members) : null
     }
 
     if (type.isIntersection()) {
         ctx.visiting.add(type)
-        const members = type.types.map(t => toTypeGuess(ctx, t))
+        const members = type.types
+            .map(t => toTypeGuess(ctx, t))
+            .filter(t => t !== null)
+
         ctx.visiting.delete(type)
-        return Guess.intersect(...members)
+        return members.length > 0 ? Guess.intersect(...members) : null
     }
 
     if (ctx.checker.isTupleType(type) || ctx.checker.isArrayType(type)) {
@@ -392,7 +409,7 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
         assert(typeArgs.length > 0)
 
         ctx.visiting.add(type)
-        const elements = typeArgs.map(t => toTypeGuess(ctx, t))
+        const elements = typeArgs.map(t => toTypeGuessOrAny(ctx, t))
         ctx.visiting.delete(type)
         return Guess.array(Guess.union(...elements))
     }
@@ -420,17 +437,14 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
     }
 
     if (flags & ts.TypeFlags.Object) {
-        const properties = type.getProperties()
-        if (properties.length > MAX_OBJECT_PROPERTIES) {
-            return Guess.any()
-        }
+        const properties = type.getProperties().slice(0, MAX_OBJECT_PROPERTIES)
 
         ctx.visiting.add(type)
         const shape: Record<string, TypeGuess> = {}
         for (const prop of properties) {
             const propName = prop.getName()
             const propType = ctx.checker.getTypeOfSymbol(prop)
-            const guess = toTypeGuess(ctx, propType)
+            const guess = toTypeGuessOrAny(ctx, propType)
 
             if (prop.flags & ts.SymbolFlags.Optional) {
                 shape[propName] = Guess.union(guess, Guess.undefined())
@@ -442,7 +456,7 @@ function toTypeGuessInner(ctx: Context, type: ts.Type): TypeGuess {
         return Guess.object(shape)
     }
 
-    return Guess.any()
+    return null
 }
 
 function makeConstructor(ctx: Context, name: string, type: ts.Type): SignatureGuess {

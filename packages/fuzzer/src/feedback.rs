@@ -1,6 +1,6 @@
-#![allow(static_mut_refs)]
-
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
+#![allow(static_mut_refs)]
 
 use std::{borrow::Cow, marker::PhantomData};
 
@@ -21,10 +21,10 @@ use libafl_bolts::{
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    inputs::HasSeqLen,
     observer::{
         ApiProgressObserver, CoverageObserver, Observers, TotalEdgesObserver, ValidityObserver,
     },
+    seq::ApiSeq,
 };
 
 pub type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
@@ -295,10 +295,9 @@ impl Named for ApiProgressFeedback {
 
 impl<S> StateInitializer<S> for ApiProgressFeedback {}
 
-impl<EM, I, OT, S> Feedback<EM, I, OT, S> for ApiProgressFeedback
+impl<EM, OT, S> Feedback<EM, ApiSeq, OT, S> for ApiProgressFeedback
 where
     OT: MatchName,
-    I: HasSeqLen,
 {
     fn last_result(&self) -> Result<bool, libafl::Error> {
         Ok(self.last_result)
@@ -308,7 +307,7 @@ where
         &mut self,
         _state: &mut S,
         _manager: &mut EM,
-        input: &I,
+        input: &ApiSeq,
         observers: &OT,
         _exit_kind: &ExitKind,
     ) -> Result<bool, libafl::Error> {
@@ -362,7 +361,7 @@ impl StdFeedback {
 
 impl<EM, I, OT, S> Feedback<EM, I, OT, S> for StdFeedback
 where
-    I: Input + HasSeqLen,
+    I: Input,
     S: HasNamedMetadata + HasCorpus<I> + Serialize + HasExecutions,
     OT: MatchFirstType + MatchName + MatchNameRef,
     EM: EventFirer<I, S>,
@@ -404,9 +403,9 @@ where
             .total_edges
             .is_interesting(state, manager, input, observers, exit_kind)?;
 
-        let _is_better_progress = self
-            .api_progress
-            .is_interesting(state, manager, input, observers, exit_kind)?;
+        // let _is_better_progress = self
+        //     .api_progress
+        //     .is_interesting(state, manager, input, observers, exit_kind)?;
 
         let is_interesting = if self.use_validity {
             is_new_total_coverage || is_new_valid_coverage

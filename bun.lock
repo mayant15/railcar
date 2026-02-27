@@ -17,7 +17,7 @@
     },
     "examples": {
       "name": "@railcar/examples",
-      "version": "0.1.9",
+      "version": "0.1.10",
       "dependencies": {
         "@angular/compiler": "20.3.15",
         "@jazzer.js/core": "2.1.0",
@@ -47,7 +47,7 @@
     },
     "packages/inference": {
       "name": "@railcar/inference",
-      "version": "0.1.9",
+      "version": "0.1.10",
       "bin": {
         "railcar-infer": "dist/cli.js",
       },
@@ -65,6 +65,7 @@
     },
     "packages/reporter": {
       "name": "@railcar/reporter",
+      "version": "0.1.10",
       "dependencies": {
         "@preact/signals": "^2.5.0",
         "chart.js": "^4.5.1",
@@ -76,11 +77,11 @@
     },
     "packages/support": {
       "name": "@railcar/support",
-      "version": "0.1.9",
+      "version": "0.1.10",
     },
     "packages/worker": {
       "name": "@railcar/worker",
-      "version": "0.1.9",
+      "version": "0.1.10",
       "bin": {
         "railcar-worker": "dist/worker.js",
       },
@@ -98,17 +99,17 @@
     },
     "packages/worker-sys": {
       "name": "@railcar/worker-sys",
-      "version": "0.1.9",
+      "version": "0.1.10",
       "devDependencies": {
         "@napi-rs/cli": "^2.18.4",
       },
       "optionalDependencies": {
-        "@railcar/worker-sys-linux-x64-gnu": "0.1.9",
+        "@railcar/worker-sys-linux-x64-gnu": "0.1.10",
       },
     },
     "scripts": {
       "name": "@railcar/scripts",
-      "version": "0.1.9",
+      "version": "0.1.10",
       "dependencies": {
         "@babel/core": "7.28.5",
         "@babel/types": "7.28.5",
@@ -709,8 +710,6 @@
     "@railcar/worker": ["@railcar/worker@workspace:packages/worker"],
 
     "@railcar/worker-sys": ["@railcar/worker-sys@workspace:packages/worker-sys"],
-
-    "@railcar/worker-sys-linux-x64-gnu": ["@railcar/worker-sys-linux-x64-gnu@0.1.9", "", { "os": "linux", "cpu": "x64" }, "sha512-uxtVCkpuxmZ2HSjHJJvZre053i19CPmoKz9xXUeJb4tmwavkKqQoux2EINEOpcBvZdZRInGfLrhgCjXC3+olcw=="],
 
     "@so-ric/colorspace": ["@so-ric/colorspace@1.1.6", "", { "dependencies": { "color": "^5.0.2", "text-hex": "1.0.x" } }, "sha512-/KiKkpHNOBgkFJwu9sh48LkHSMYGyuTcSFK/qMBdnOAlrRJzRSXAOFB5qwzaVQuDl8wAvHVMkaASQDReTahxuw=="],
 
