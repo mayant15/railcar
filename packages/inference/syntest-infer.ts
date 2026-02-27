@@ -213,16 +213,12 @@ function mapToCustomEnpoints(endpoints: Endpoints): CustomEndpoints {
 /**
  * 
  * @param fileName entrypoint (library file name, often bundled)
- * @param benchmarkTypescriptJSONPath typescript.json path whose keys are the only concerning keys you want to test
  * @returns 
  */
-export async function syntestSchema(fileName: string, benchmarkTypescriptJSONPath: string = "") {
+export async function syntestSchema(fileName: string, skip: string[] = []) {
     const filePath = "";
     const readSrc = fs.readFileSync(fileName, "utf8");
     const source = transform(readSrc, fileName + ".transformed.js");
-    const typescriptContent = benchmarkTypescriptJSONPath === "" ? "{}" : fs.readFileSync(benchmarkTypescriptJSONPath, "utf8");
-    const typeScriptJSON = JSON.parse(typescriptContent);
-    const interestedKeys = Object.keys(typeScriptJSON);
     // const prototype = addLocationReturn(source);
     // fs.writeFileSync('prototype.js', prototype);
 
@@ -246,16 +242,10 @@ export async function syntestSchema(fileName: string, benchmarkTypescriptJSONPat
     // fs.writeFileSync('./allClasses.json', JSON.stringify(allClassMethods, null, 2));
     // re-assign names to functions that are exported (discovered from dynamic analysis)
     const dynamicAnalysis = await loadSchema(fileName + ".transformed.js", {
-        'methodsToSkip': [
-            'sys.exit', 'sys.clearScreen'
-        ]
+        'methodsToSkip': skip
     });
     console.log('loaded schema');
-    const dynamicSchema = interestedKeys.length === 0 ? dynamicAnalysis.schema : Object.fromEntries(
-        Object.entries(dynamicAnalysis.schema).filter(([k]) => 
-            interestedKeys.includes(k as any)
-        )
-    );
+    const dynamicSchema = dynamicAnalysis.schema;
 
     const dynamicEndpoints: CustomEndpoints = mapToCustomEnpoints(
         dynamicAnalysis.endpoints,
@@ -263,11 +253,6 @@ export async function syntestSchema(fileName: string, benchmarkTypescriptJSONPat
     console.log(
         `There are ${Object.entries(dynamicEndpoints).length} dynamic endpoints. Source code length is: ${source.length}`,
     );
-    if (benchmarkTypescriptJSONPath !== "") {
-        console.log(
-            `benchmarkTypescriptJSONPath was passed, there are ${Object.entries(dynamicSchema).length} interested endpoints.`,
-        );
-    }
 
     const patternToKey = new Map();
     const patterns = Object.entries(dynamicEndpoints).map(([key, value]) => {
@@ -627,9 +612,9 @@ export async function syntestSchema(fileName: string, benchmarkTypescriptJSONPat
     }
 
     Object.entries(dynamicSchema).forEach(([entryPoint, sig]) => {
-        if (Math.floor(Date.now() / 1000) - startUnixTimeStamp > 120) {
-            return;
-        }
+        // if (Math.floor(Date.now() / 1000) - startUnixTimeStamp > 120) {
+        //     return;
+        // }
 
         const id = dynamicEndpoints[entryPoint].id;
         if (id != "") {
