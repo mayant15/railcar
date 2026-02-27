@@ -1,3 +1,5 @@
+//! Execute a single given input with Railcar.
+
 use anyhow::Result;
 use libafl::{
     events::{EventConfig, Launcher, SendExiting},
@@ -8,7 +10,7 @@ use libafl_bolts::{
     core_affinity::Cores,
     shmem::{ShMemProvider, StdShMemProvider},
 };
-use railcar::{input::ApiSeq, FuzzerConfig, FuzzerMode, ReplayRestartingManager, Worker};
+use railcar::{seq::ApiSeq, FuzzerConfig, FuzzerMode, ReplayRestartingManager, Worker};
 
 fn client<I: Input + HasTargetBytes, SP: ShMemProvider>(
     mut restarting_mgr: ReplayRestartingManager<I, SP>,
@@ -27,9 +29,10 @@ fn client<I: Input + HasTargetBytes, SP: ShMemProvider>(
     if let Err(e) = worker.invoke(&bytes) {
         log::error!("failed to invoke worker: {}", e);
     }
-    worker.terminate()?;
 
+    worker.terminate()?;
     restarting_mgr.on_shutdown()?;
+
     Ok(())
 }
 

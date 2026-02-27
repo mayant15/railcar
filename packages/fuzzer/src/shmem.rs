@@ -2,7 +2,7 @@ use anyhow::Result;
 use libafl_bolts::shmem::{ShMem, UnixShMem};
 
 /// Size of the coverage map
-pub const COVERAGE_MAP_SIZE: usize = 1 << 15;
+const COVERAGE_MAP_SIZE: usize = 1 << 15;
 
 #[repr(C)]
 pub struct ShMemView {

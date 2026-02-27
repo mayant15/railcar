@@ -1,7 +1,8 @@
 use anyhow::{bail, Result};
 use libafl::{
+    generators::{Generator, RandBytesGenerator},
     inputs::{HasMutatorBytes, HasTargetBytes, Input, ResizableMutator},
-    state::DEFAULT_MAX_SIZE,
+    state::{HasRand, DEFAULT_MAX_SIZE},
 };
 use libafl_bolts::{ownedref::OwnedSlice, rands::Rand, HasLen};
 use serde::{Deserialize, Serialize};
@@ -500,6 +501,29 @@ impl HasTargetBytes for ApiSeq {
         rmp_serde::to_vec_named(self)
             .expect("failed to create bytes from sequence")
             .into()
+    }
+}
+
+pub struct ApiSeqGenerator<'a> {
+    schema: &'a Schema,
+    bytes_gen: RandBytesGenerator,
+}
+
+impl<'a> ApiSeqGenerator<'a> {
+    pub fn new(schema: &'a Schema, min_size: NonZeroUsize, max_size: NonZeroUsize) -> Self {
+        Self {
+            schema,
+            bytes_gen: RandBytesGenerator::with_min_size(min_size, max_size),
+        }
+    }
+}
+
+impl<S: HasRand> Generator<ApiSeq, S> for ApiSeqGenerator<'_> {
+    fn generate(&mut self, state: &mut S) -> Result<ApiSeq, libafl::Error> {
+        let bytes = self.bytes_gen.generate(state)?;
+        ApiSeq::create(state.rand_mut(), self.schema, bytes.into()).map_err(|e| {
+            libafl::Error::unknown(format!("failed to generate an api sequence: {}", e))
+        })
     }
 }
 

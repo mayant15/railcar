@@ -6,12 +6,11 @@ use libafl::{
     corpus::{CachedOnDiskCorpus, Corpus, InMemoryCorpus, OnDiskCorpus},
     events::{EventConfig, Launcher, LlmpRestartingEventManager, SendExiting},
     executors::InProcessExecutor,
-    generators::{Generator, RandBytesGenerator},
     inputs::HasTargetBytes,
     monitors::Monitor,
     mutators::{LoggerScheduledMutator, SingleChoiceScheduledMutator},
     stages::StdMutationalStage,
-    state::{HasCorpus, HasRand, StdState},
+    state::{HasCorpus, StdState},
     Fuzzer, StdFuzzer,
 };
 use libafl_bolts::{
@@ -22,8 +21,8 @@ use libafl_bolts::{
 };
 use serde::{Deserialize, Serialize};
 
+pub mod bytes;
 pub mod feedback;
-pub mod input;
 pub mod metrics;
 pub mod monitor;
 pub mod mutations;
@@ -31,6 +30,7 @@ pub mod observer;
 pub mod rng;
 pub mod scheduler;
 pub mod schema;
+pub mod seq;
 pub mod shmem;
 pub mod worker;
 
@@ -38,11 +38,10 @@ pub use worker::Worker;
 
 use crate::{
     feedback::{StdFeedback, UniqCrashFeedback},
-    input::ApiSeq,
     mutations::sequence_mutations,
     observer::make_observers,
     scheduler::StdScheduler,
-    schema::Schema,
+    seq::{ApiSeq, ApiSeqGenerator},
 };
 
 pub type State<I> = StdState<CachedOnDiskCorpus<I>, I, StdRand, OnDiskCorpus<I>>;
@@ -53,10 +52,10 @@ pub type ReplayState<I> = StdState<InMemoryCorpus<I>, I, StdRand, InMemoryCorpus
 pub type ReplayRestartingManager<I, SP> =
     LlmpRestartingEventManager<(), I, ReplayState<I>, <SP as ShMemProvider>::ShMem, SP>;
 
-pub const CORPUS_CACHE_SIZE: usize = 512;
-pub const INITIAL_CORPUS_SIZE: usize = 32;
-pub const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(4096).unwrap();
-pub const MIN_INPUT_LENGTH: NonZero<usize> = NonZero::new(8).unwrap();
+const CORPUS_CACHE_SIZE: usize = 512;
+const INITIAL_CORPUS_SIZE: usize = 32;
+const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(4096).unwrap();
+const MIN_INPUT_LENGTH: NonZero<usize> = NonZero::new(8).unwrap();
 
 #[derive(ValueEnum, Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -77,7 +76,7 @@ pub struct FuzzerConfig {
     pub entrypoint: PathBuf,
     pub schema_file: Option<PathBuf>,
     pub replay: bool,
-    pub replay_input: Option<String>,
+    pub replay_input: Option<PathBuf>,
     pub config_file: Option<PathBuf>,
     pub cores: Cores,
     pub labels: Vec<String>,
@@ -89,29 +88,6 @@ impl FuzzerConfig {
     #[inline]
     pub fn is_replay(&self) -> bool {
         self.replay_input.is_some() || self.replay
-    }
-}
-
-pub struct ApiSeqGenerator<'a> {
-    schema: &'a Schema,
-    bytes_gen: RandBytesGenerator,
-}
-
-impl<'a> ApiSeqGenerator<'a> {
-    pub fn new(schema: &'a Schema) -> Self {
-        Self {
-            schema,
-            bytes_gen: RandBytesGenerator::with_min_size(MIN_INPUT_LENGTH, MAX_INPUT_LENGTH),
-        }
-    }
-}
-
-impl<S: HasRand> Generator<ApiSeq, S> for ApiSeqGenerator<'_> {
-    fn generate(&mut self, state: &mut S) -> Result<ApiSeq, libafl::Error> {
-        let bytes = self.bytes_gen.generate(state)?;
-        ApiSeq::create(state.rand_mut(), self.schema, bytes.into()).map_err(|e| {
-            libafl::Error::unknown(format!("failed to generate an api sequence: {}", e))
-        })
     }
 }
 
@@ -142,7 +118,7 @@ fn client(
     let scheduler = StdScheduler::new(&mut state, coverage);
 
     let schema = worker.schema().unwrap().clone();
-    let mut generator = ApiSeqGenerator::new(&schema);
+    let mut generator = ApiSeqGenerator::new(&schema, MIN_INPUT_LENGTH, MAX_INPUT_LENGTH);
 
     let mut fuzzer = StdFuzzer::new(scheduler, feedback, objective);
 
@@ -203,7 +179,7 @@ fn client(
     Ok(())
 }
 
-pub fn launch<M>(
+pub fn launch_seq_fuzzer<M>(
     config: FuzzerConfig,
     shmem_provider: StdShMemProvider,
     monitor: M,

@@ -1,17 +1,15 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
-use std::{path::PathBuf, str::FromStr, time::Duration};
+use std::{path::PathBuf, time::Duration};
 
 use anyhow::Result;
 use clap::Parser;
+use libafl::monitors::Monitor;
 use libafl_bolts::{
     core_affinity::Cores,
     shmem::{ShMemProvider, StdShMemProvider},
 };
 use railcar::{monitor::StdMonitor, FuzzerConfig, FuzzerMode};
 
-mod client;
-mod replay;
+mod replay_corpus;
 mod replay_input;
 
 /// Fuzzer for JavaScript libraries with automatic fuzz drivers
@@ -20,29 +18,29 @@ mod replay_input;
 struct Arguments {
     /// Entrypoint for the library to test for automatic drivers.
     /// File that exports a `fuzz` function for bytes driver.
-    entrypoint: String,
+    entrypoint: PathBuf,
 
-    /// Only replay the corpus. Use this with `nyc` to report coverage
+    /// Replay the corpus from an existing output directory. Use this with `nyc` to report coverage.
     #[arg(long, default_value_t = false)]
     replay: bool,
 
-    /// Replay a single input
+    /// Replay a single input.
     #[arg(long)]
-    replay_input: Option<String>,
+    replay_input: Option<PathBuf>,
 
-    /// Per-testcase timeout in seconds
+    /// Per-testcase timeout in seconds.
     #[arg(long, default_value_t = 10)]
     timeout: u64,
 
-    /// Directory to save corpus, crashes and temporary files
+    /// Directory to save corpus, crashes and temporary files.
     #[arg(long)]
-    outdir: Option<String>,
+    outdir: Option<PathBuf>,
 
     /// Path to a metrics database file. Railcar will create one if it doesn't exist.
     #[arg(long)]
     metrics: Option<PathBuf>,
 
-    /// Fuzz driver variant to use
+    /// Fuzz driver variant to use.
     #[arg(long, value_enum, default_value_t = FuzzerMode::Sequence)]
     mode: FuzzerMode,
 
@@ -51,23 +49,23 @@ struct Arguments {
     #[arg(long, default_value_t = 1337)]
     port: u16,
 
-    /// Seed for the random number generator for deterministic execution
+    /// Seed for the random number generator for deterministic execution.
     #[arg(long)]
     seed: Option<u64>,
 
-    /// Cores to run on. Comma-separated numbers and ranges, like "1,2-4,6" or "all"
+    /// Cores to run on. Comma-separated numbers and ranges, like "1,2-4,6" or "all".
     #[arg(long)]
     cores: Option<String>,
 
-    /// Path to a schema file for the target library. Will be inferred at run-time otherwise
+    /// Path to a schema file for the target library. Will be inferred at run-time otherwise.
     #[arg(long)]
-    schema: Option<String>,
+    schema: Option<PathBuf>,
 
-    /// Configuration file to pick options from
+    /// Configuration file to pick options from.
     #[arg(long)]
     config: Option<PathBuf>,
 
-    /// Label this fuzzer to find it in the reporter UI.
+    /// Attach labels to this fuzzer for future identification.
     #[arg(long)]
     label: Vec<String>,
 
@@ -80,7 +78,7 @@ struct Arguments {
     debug_dump_schema: Option<PathBuf>,
 }
 
-fn to_absolute_path(path: PathBuf) -> Result<PathBuf> {
+fn to_absolute(path: PathBuf) -> Result<PathBuf> {
     let path = if path.is_absolute() {
         path
     } else {
@@ -91,14 +89,9 @@ fn to_absolute_path(path: PathBuf) -> Result<PathBuf> {
     Ok(path)
 }
 
-fn to_absolute(path: String) -> Result<PathBuf> {
-    let path = PathBuf::from_str(path.as_str())?;
-    to_absolute_path(path)
-}
-
 fn find_config_file(path: Option<PathBuf>) -> Result<Option<PathBuf>> {
     if let Some(path) = path {
-        let path = to_absolute_path(path)?;
+        let path = to_absolute(path)?;
         std::fs::File::open(&path)?;
         return Ok(Some(path));
     }
@@ -113,15 +106,7 @@ fn find_config_file(path: Option<PathBuf>) -> Result<Option<PathBuf>> {
     }
 }
 
-// NOTE: Can maybe change this to pick an appropriate core from the available ones
-// For now though, just pick in whatever order libafl puts them in
-fn get_n_cores(n: usize) -> Result<Cores, libafl::Error> {
-    let mut cores = Cores::all()?;
-    cores.trim(n)?;
-    Ok(cores)
-}
-
-fn main() -> Result<()> {
+fn init_logger() {
     env_logger::builder()
         .filter(None, log::LevelFilter::Info)
         .filter(
@@ -133,40 +118,76 @@ fn main() -> Result<()> {
             },
         )
         .init();
+}
+
+fn resolve_cores(cores: Option<String>) -> Result<Cores> {
+    let cores = if let Some(cores) = cores {
+        Cores::from_cmdline(cores.as_str())?
+    } else {
+        // NOTE: Can maybe change this to pick an appropriate core from the available ones
+        // For now though, just pick in whatever order libafl puts them in
+        let mut cores = Cores::all()?;
+        cores.trim(1)?;
+        cores
+    };
+
+    Ok(cores)
+}
+
+fn resolve_outdir(outdir: Option<PathBuf>) -> Result<PathBuf> {
+    if let Some(outdir) = outdir {
+        return to_absolute(outdir);
+    }
+
+    let cwd = std::env::current_dir()?;
+    Ok(cwd.join("railcar-out"))
+}
+
+fn resolve_seed(seed: Option<u64>) -> Result<u64> {
+    if let Some(seed) = seed {
+        return Ok(seed);
+    }
+
+    let seed = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)?
+        .as_secs();
+
+    Ok(seed)
+}
+
+fn main() -> Result<()> {
+    init_logger();
 
     let args = Arguments::parse();
 
-    let cores = if let Some(cores) = args.cores {
-        Cores::from_cmdline(cores.as_str())
-    } else {
-        get_n_cores(1)
-    }?;
+    let cores = resolve_cores(args.cores)?;
 
-    let outdir = args.outdir.map(to_absolute).unwrap_or_else(|| {
-        let p = std::env::current_dir()?;
-        Ok(p.join("railcar-out"))
-    })?;
-
+    let outdir = resolve_outdir(args.outdir)?;
+    if args.replay {
+        assert!(
+            std::fs::exists(&outdir)?,
+            "--replay requires an existing output directory"
+        );
+    }
     std::fs::create_dir_all(&outdir)?;
 
+    let seed = resolve_seed(args.seed)?;
+
+    let config_file = find_config_file(args.config)?;
+
     let config = FuzzerConfig {
+        seed,
+        config_file,
         mode: args.mode.clone(),
         timeout: Duration::from_secs(args.timeout),
         corpus: outdir.join("corpus"),
         crashes: outdir.join("crashes"),
         metrics: args.metrics.unwrap_or_else(|| outdir.join("metrics.db")),
-        seed: args.seed.unwrap_or_else(|| {
-            std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .unwrap()
-                .as_secs()
-        }),
         entrypoint: to_absolute(args.entrypoint)?,
         schema_file: args.schema.map(|s| to_absolute(s).unwrap()),
         replay: args.replay,
         port: args.port,
         replay_input: args.replay_input,
-        config_file: find_config_file(args.config)?,
         cores: cores.clone(),
         labels: args.label,
         iterations: args.iterations,
@@ -175,10 +196,6 @@ fn main() -> Result<()> {
 
     let shmem_provider = StdShMemProvider::new()?;
 
-    // let monitor = TuiMonitor::builder()
-    //     .title("railcar")
-    //     .version("0.1.0")
-    //     .build();
     let monitor = StdMonitor::new(
         |msg| {
             if msg.contains("Client Heartbeat") {
@@ -205,10 +222,25 @@ fn main() -> Result<()> {
     }
 
     if args.replay {
-        return replay::launch(config, shmem_provider, monitor, cores);
+        return replay_corpus::launch(config, shmem_provider, monitor, cores);
     }
 
-    client::launch(config, shmem_provider, monitor, cores)
+    launch(config, shmem_provider, monitor, cores)
+}
+
+fn launch<M>(
+    config: FuzzerConfig,
+    shmem_provider: StdShMemProvider,
+    monitor: M,
+    cores: Cores,
+) -> Result<()>
+where
+    M: Monitor + Clone,
+{
+    match config.mode {
+        FuzzerMode::Bytes => railcar::bytes::launch(config, shmem_provider, monitor, cores),
+        FuzzerMode::Sequence => railcar::launch_seq_fuzzer(config, shmem_provider, monitor, cores),
+    }
 }
 
 /// Write some metadata about this fuzzer run to a file. We can use this
@@ -230,7 +262,7 @@ fn dump_run_metadata(outdir: PathBuf, config: &FuzzerConfig) -> Result<()> {
 fn log_start(config: &FuzzerConfig) {
     if let Some(input) = &config.replay_input {
         log::info!("[*] starting replay for input");
-        log::info!("       input: {}", input);
+        log::info!("       input: {}", input.to_str().unwrap());
     } else if config.replay {
         log::info!("[*] starting replay");
     } else {

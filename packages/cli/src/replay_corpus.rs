@@ -1,3 +1,12 @@
+//! Replay an existing corpus with Railcar.
+//!
+//! Railcar dumps most of its state, including the corpus, into an "output directory"
+//! (`railcar-out/` by default). With the `--replay` option, users can choose to replay
+//! all corpus inputs from an existing output directory.
+//!
+//! - TODO: Allow resuming from an existing output directory.
+//! - TODO: Pick up all options from the generated `fuzzer-config.json`.
+
 use anyhow::Result;
 use libafl::{
     corpus::{Corpus, InMemoryCorpus},
@@ -17,7 +26,7 @@ use libafl_bolts::{
     tuples::tuple_list,
 };
 use railcar::{
-    input::ApiSeq, FuzzerConfig, FuzzerMode, ReplayRestartingManager, ReplayState, Worker,
+    seq::ApiSeq, FuzzerConfig, FuzzerMode, ReplayRestartingManager, ReplayState, Worker,
 };
 
 fn client<I: Input + HasTargetBytes, SP: ShMemProvider>(
@@ -48,7 +57,6 @@ fn client<I: Input + HasTargetBytes, SP: ShMemProvider>(
         if let Err(e) = worker.invoke(&bytes) {
             panic!("failed to invoke worker: {}", e);
         }
-
         ExitKind::Ok
     };
 
@@ -72,8 +80,8 @@ fn client<I: Input + HasTargetBytes, SP: ShMemProvider>(
     log::info!("Replayed {} inputs", state.corpus().count());
 
     worker.terminate()?;
-
     restarting_mgr.on_shutdown()?;
+
     Ok(())
 }
 

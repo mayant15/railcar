@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::{num::NonZero, path::Path};
 
 use anyhow::Result;
 
@@ -7,7 +7,13 @@ use libafl_bolts::{
     generic_hash_std,
     rands::{Rand, StdRand},
 };
-use railcar::{input::ApiSeq, schema::Schema, ApiSeqGenerator};
+use railcar::{
+    input::{ApiSeq, ApiSeqGenerator},
+    schema::Schema,
+};
+
+const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(4096).unwrap();
+const MIN_INPUT_LENGTH: NonZero<usize> = NonZero::new(8).unwrap();
 
 #[test]
 fn deterministic_rand() {
@@ -38,7 +44,7 @@ fn deterministic_hash() -> Result<()> {
         &mut feedback,
         &mut objective,
     )?;
-    let mut generator = ApiSeqGenerator::new(&schema);
+    let mut generator = ApiSeqGenerator::new(&schema, MIN_INPUT_LENGTH, MAX_INPUT_LENGTH);
 
     for _ in 0..1000 {
         let input = generator.generate(&mut state)?;
@@ -67,7 +73,7 @@ fn deterministic_seq_generator_for_schema<P: AsRef<Path>>(path: P) -> Result<()>
         &mut feedback,
         &mut objective,
     )?;
-    let mut ga = ApiSeqGenerator::new(&schema);
+    let mut ga = ApiSeqGenerator::new(&schema, MIN_INPUT_LENGTH, MAX_INPUT_LENGTH);
 
     let mut sb = StdState::new(
         StdRand::with_seed(seed),
@@ -76,7 +82,7 @@ fn deterministic_seq_generator_for_schema<P: AsRef<Path>>(path: P) -> Result<()>
         &mut feedback,
         &mut objective,
     )?;
-    let mut gb = ApiSeqGenerator::new(&schema);
+    let mut gb = ApiSeqGenerator::new(&schema, MIN_INPUT_LENGTH, MAX_INPUT_LENGTH);
 
     for _ in 0..1000 {
         let ia = ga.generate(&mut sa)?;

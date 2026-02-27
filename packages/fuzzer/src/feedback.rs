@@ -1,6 +1,6 @@
-#![allow(static_mut_refs)]
-
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
+#![allow(static_mut_refs)]
 
 use std::{borrow::Cow, marker::PhantomData};
 
@@ -21,10 +21,10 @@ use libafl_bolts::{
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    input::ApiSeq,
     observer::{
         ApiProgressObserver, CoverageObserver, Observers, TotalEdgesObserver, ValidityObserver,
     },
+    seq::ApiSeq,
 };
 
 pub type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
