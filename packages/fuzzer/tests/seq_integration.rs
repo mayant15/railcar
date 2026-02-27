@@ -12,9 +12,9 @@ use libafl_bolts::{
     rands::{Rand, StdRand},
 };
 use railcar::{
-    input::ApiSeq,
     mutations::{ExtendSeq, RemovePrefixSeq, RemoveSuffixSeq, SpliceSeq},
     schema::Schema,
+    seq::ApiSeq,
 };
 
 type NopState = StdState<NopCorpus<ApiSeq>, ApiSeq, StdRand, NopCorpus<ApiSeq>>;

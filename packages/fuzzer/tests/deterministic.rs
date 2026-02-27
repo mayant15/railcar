@@ -8,8 +8,8 @@ use libafl_bolts::{
     rands::{Rand, StdRand},
 };
 use railcar::{
-    input::{ApiSeq, ApiSeqGenerator},
     schema::Schema,
+    seq::{ApiSeq, ApiSeqGenerator},
 };
 
 const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(4096).unwrap();
