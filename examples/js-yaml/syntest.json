@@ -66,15 +66,10 @@
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "callconv": "Free",
         "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Error": 1
-            }
+            "isAny": true,
+            "kind": {}
         },
         "args": [
             {
@@ -175,24 +170,6 @@
             }
         ]
     },
-    "Schema.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Schema": 1
-                }
-            }
-        ]
-    },
     "Type": {
         "callconv": "Constructor",
         "ret": {
@@ -268,24 +245,6 @@
             }
         ]
     },
-    "Type.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Type": 1
-                }
-            }
-        ]
-    },
     "YAMLException": {
         "callconv": "Constructor",
         "ret": {
@@ -311,28 +270,6 @@
                 "isAny": true,
                 "kind": {},
                 "objectShape": {}
-            }
-        ]
-    },
-    "YAMLException.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "YAMLException": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },

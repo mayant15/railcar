@@ -66,15 +66,10 @@
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "callconv": "Free",
         "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Error": 1
-            }
+            "isAny": true,
+            "kind": {}
         },
         "args": [
             {
@@ -750,6 +745,51 @@
                     "isAny": true,
                     "kind": {}
                 }
+            }
+        ]
+    },
+    "__read": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "String": 0.125,
+                "Array": 0.4583333333333333,
+                "Object": 0.3333333333333333,
+                "Undefined": 0.08333333333333333
+            },
+            "objectShape": {
+                "push": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.25,
+                    "Array": 0.25,
+                    "Object": 0.5
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.25,
+                    "Number": 0.75
+                },
+                "objectShape": {}
             }
         ]
     },

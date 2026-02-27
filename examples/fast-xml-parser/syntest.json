@@ -66,15 +66,10 @@
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "callconv": "Free",
         "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Error": 1
-            }
+            "isAny": true,
+            "kind": {}
         },
         "args": [
             {
@@ -157,9 +152,42 @@
                 }
             },
             {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.19960148057475183,
+                    "Boolean": 0.005275620092360169,
+                    "Undefined": 0.009546445204871502,
+                    "Array": 0.38972915231401334,
+                    "Object": 0.27945050540221156,
+                    "Function": 0.09426680763365279,
+                    "Number": 0.02212998877813881
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "replace": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "endsWith": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "includes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
             }
         ]
     },
@@ -277,13 +305,13 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.3493708260996505,
-                    "Boolean": 2.45945558030659e-9,
-                    "Undefined": 0.0002125850340138217,
-                    "Array": 0.06250216923717976,
-                    "Object": 0.06250000000000025,
-                    "Function": 2.1394065459384502e-16,
-                    "Number": 0.5254144171697005
+                    "String": 0.36582776813286677,
+                    "Boolean": 3.2792741070754482e-9,
+                    "Undefined": 0.0002834467120184288,
+                    "Array": 0.08333622564957295,
+                    "Object": 0.08333333333333362,
+                    "Function": 2.8525420612512636e-16,
+                    "Number": 0.4672192228929338
                 },
                 "objectShape": {
                     "length": {
@@ -305,11 +333,11 @@
                 "kind": {
                     "String": 0.27326047989493574,
                     "Boolean": 0.00010307162379256186,
-                    "Undefined": 3.130488655776701e-10,
-                    "Array": 0.09090917218204969,
-                    "Object": 1.269802214201926e-12,
-                    "Function": 2.76545500093899e-14,
-                    "Number": 0.6357272759848757
+                    "Undefined": 3.130488655776703e-10,
+                    "Array": 0.09090917218246375,
+                    "Object": 1.683851435648925e-12,
+                    "Function": 2.7654550009521796e-14,
+                    "Number": 0.6357272759840475
                 },
                 "objectShape": {
                     "indexOf": {
@@ -329,13 +357,13 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.3056388255446183,
-                    "Boolean": 0.1052633033218164,
-                    "Undefined": 1.1452827783232229e-10,
-                    "Array": 0.00010229675543341259,
-                    "Object": 1.1605052416025508e-10,
-                    "Function": 1.1391937930591612e-10,
-                    "Number": 0.5889955740336343
+                    "String": 0.30563882554461835,
+                    "Boolean": 0.10526330332181641,
+                    "Undefined": 1.1452827783233927e-10,
+                    "Array": 0.00010229675614379425,
+                    "Object": 1.1676090577885956e-10,
+                    "Function": 1.1391937930591626e-10,
+                    "Number": 0.5889955740322137
                 },
                 "objectShape": {
                     "indexOf": {
@@ -376,12 +404,8 @@
                 }
             },
             {
-                "isAny": false,
-                "kind": {
-                    "String": 0.3833333333333335,
-                    "Undefined": 0.012500000000000006,
-                    "Number": 0.6041666666666669
-                },
+                "isAny": true,
+                "kind": {},
                 "objectShape": {}
             }
         ]
@@ -403,11 +427,8 @@
                 }
             },
             {
-                "isAny": false,
-                "kind": {
-                    "String": 0.31227729186912856,
-                    "Number": 0.6877227081308714
-                },
+                "isAny": true,
+                "kind": {},
                 "objectShape": {}
             },
             {
@@ -487,24 +508,6 @@
             }
         ]
     },
-    "XMLBuilder.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "XMLBuilder": 1
-                }
-            }
-        ]
-    },
     "XMLParser": {
         "callconv": "Constructor",
         "ret": {
@@ -520,11 +523,6 @@
             {
                 "isAny": true,
                 "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
             }
         ]
     },
@@ -547,12 +545,40 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.25,
-                    "Array": 0.25,
-                    "Object": 0.25,
-                    "Function": 0.25
+                    "Function": 1
                 },
-                "objectShape": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.26816015427145184,
+                    "Array": 0.23161161185595638,
+                    "Object": 0.3114514977719963,
+                    "Function": 0.18877673610059548
+                },
+                "objectShape": {
+                    "substr": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "length": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "substring": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
                 "arrayValueType": {
                     "isAny": true,
                     "kind": {}
@@ -562,9 +588,18 @@
                 "isAny": false,
                 "kind": {
                     "Boolean": 0.4,
-                    "Object": 0.6
+                    "Object": 0.6000000000000001
                 },
-                "objectShape": {}
+                "objectShape": {
+                    "unpairedTags": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "allowBooleanAttributes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
@@ -583,6 +618,13 @@
                 "classType": {
                     "XMLParser": 1
                 }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
             },
             {
                 "isAny": false,
@@ -622,34 +664,16 @@
             }
         ]
     },
-    "XMLParser.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "XMLParser": 1
-                }
-            }
-        ]
-    },
     "XMLValidator.validate": {
         "callconv": "Free",
         "ret": {
             "isAny": false,
             "kind": {
-                "String": 0.039658618564172854,
-                "Boolean": 0.26026935154453634,
-                "Undefined": 0.04938007577043943,
-                "Object": 0.24193193467600832,
-                "Number": 0.40876001944484297
+                "String": 0.02602344596655499,
+                "Boolean": 0.2855759817499127,
+                "Undefined": 0.07510598766675562,
+                "Object": 0.3746344164908924,
+                "Number": 0.23866016812588442
             },
             "objectShape": {
                 "err": {
@@ -670,10 +694,10 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.31658723232865665,
-                    "Array": 0.18257591013850658,
-                    "Object": 0.47532215849731985,
-                    "Function": 0.025514699035516612
+                    "String": 0.31526845637583895,
+                    "Array": 0.18391126025354218,
+                    "Object": 0.47085639135529717,
+                    "Function": 0.029963892015321847
                 },
                 "objectShape": {
                     "length": {
@@ -705,7 +729,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Object": 1
+                    "Boolean": 0.29999999999999993,
+                    "Object": 0.6999999999999998
                 },
                 "objectShape": {
                     "allowBooleanAttributes": {
