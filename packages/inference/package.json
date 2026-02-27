@@ -1,6 +1,6 @@
 {
     "name": "@railcar/inference",
-    "description": "Type inference for graph fuzz drivers",
+    "description": "Type inference for automatic fuzz drivers",
     "license": "AGPL-3.0-or-later",
     "type": "module",
     "bin": {

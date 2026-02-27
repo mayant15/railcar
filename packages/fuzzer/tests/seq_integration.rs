@@ -1,6 +1,3 @@
-use std::path::PathBuf;
-use std::time::Duration;
-
 use anyhow::Result;
 
 use libafl::{
@@ -11,15 +8,13 @@ use libafl::{
     state::{HasRand, StdState},
 };
 use libafl_bolts::{
-    core_affinity::Cores,
     generic_hash_std,
     rands::{Rand, StdRand},
 };
 use railcar::{
-    inputs::{CanValidate, HasSeqLen, ToFuzzerInput},
+    input::ApiSeq,
+    mutations::{ExtendSeq, RemovePrefixSeq, RemoveSuffixSeq, SpliceSeq},
     schema::Schema,
-    seq::{ApiSeq, ExtendSeq, RemovePrefixSeq, RemoveSuffixSeq, SpliceSeq},
-    FuzzerConfig, FuzzerMode,
 };
 
 type NopState = StdState<NopCorpus<ApiSeq>, ApiSeq, StdRand, NopCorpus<ApiSeq>>;
@@ -208,68 +203,6 @@ fn mutation_determinism() -> Result<()> {
     }
 
     Ok(())
-}
-
-// ---------------------------------------------------------------------------
-// to_fuzzer_input() roundtrip
-// ---------------------------------------------------------------------------
-
-fn make_seq_config() -> FuzzerConfig {
-    FuzzerConfig {
-        port: 0,
-        mode: FuzzerMode::Sequence,
-        timeout: Duration::from_secs(5),
-        corpus: PathBuf::from("/tmp/railcar_test_corpus"),
-        crashes: PathBuf::from("/tmp/railcar_test_crashes"),
-        metrics: PathBuf::from("/tmp/railcar_test_metrics"),
-        seed: 0,
-        entrypoint: PathBuf::from("/tmp/railcar_test_entry"),
-        schema_file: None,
-        replay: false,
-        replay_input: None,
-        config_file: None,
-        cores: Cores::from_cmdline("0").unwrap(),
-        labels: vec![],
-        iterations: None,
-        debug_dump_schema: None,
-    }
-}
-
-#[test]
-fn to_fuzzer_input_roundtrip() -> Result<()> {
-    let schema = load_schema("tests/common/jpeg-js-typescript.json");
-    let config = make_seq_config();
-
-    for seed in 0..50 {
-        let mut rand = StdRand::with_seed(seed);
-        let input = generate_seq(&mut rand, &schema);
-        input.is_valid();
-
-        let bytes = input.to_fuzzer_input(&config)?;
-        let restored: ApiSeq = rmp_serde::from_slice(&bytes).unwrap_or_else(|e| {
-            panic!("failed to deserialize to_fuzzer_input output for seed {seed}: {e}")
-        });
-
-        assert_eq!(
-            input, restored,
-            "to_fuzzer_input roundtrip failed for seed {seed}"
-        );
-        restored.is_valid();
-    }
-
-    Ok(())
-}
-
-#[test]
-fn to_fuzzer_input_rejects_wrong_mode() {
-    let schema = load_schema("tests/common/jpeg-js-typescript.json");
-    let mut config = make_seq_config();
-    config.mode = FuzzerMode::Graph;
-
-    let mut rand = StdRand::with_seed(42);
-    let input = generate_seq(&mut rand, &schema);
-
-    assert!(input.to_fuzzer_input(&config).is_err());
 }
 
 // ---------------------------------------------------------------------------

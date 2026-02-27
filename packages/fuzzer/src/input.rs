@@ -1,9 +1,9 @@
 use anyhow::{bail, Result};
 use libafl::{
-    inputs::{HasMutatorBytes, Input, ResizableMutator},
+    inputs::{HasMutatorBytes, HasTargetBytes, Input, ResizableMutator},
     state::DEFAULT_MAX_SIZE,
 };
-use libafl_bolts::{rands::Rand, HasLen};
+use libafl_bolts::{ownedref::OwnedSlice, rands::Rand, HasLen};
 use serde::{Deserialize, Serialize};
 
 #[expect(clippy::disallowed_types)]
@@ -17,10 +17,8 @@ use std::{
 };
 
 use crate::{
-    inputs::{CanValidate, HasSeqLen, ToFuzzerInput},
     rng::{redistribute, TrySample},
     schema::{CallConvention, EndpointName, Schema, SignatureGuess, Type, TypeGuess, TypeKind},
-    FuzzerConfig, FuzzerMode,
 };
 
 // TODO: Something other than String might be faster to work with
@@ -129,6 +127,10 @@ impl ApiSeq {
 
     pub fn seq(&self) -> &[ApiCall] {
         self.seq.as_slice()
+    }
+
+    pub fn seq_len(&self) -> usize {
+        self.seq.len()
     }
 
     pub fn bytes(&self) -> &[u8] {
@@ -396,18 +398,27 @@ impl ApiSeq {
     ) -> Option<(&'a EndpointName, &'a SignatureGuess)> {
         rand.choose(schema.iter().filter(|(_, sig)| sig.ret.overlaps(target)))
     }
-}
 
-impl HasSeqLen for ApiSeq {
-    fn seq_len(&self) -> usize {
-        self.seq.len()
+    pub fn is_valid(&self) {
+        let mut found = HashSet::new();
+        for call in &self.seq {
+            for arg in &call.args {
+                match arg {
+                    ApiCallArg::Constant(_) => (),
+                    ApiCallArg::Missing => unreachable!(), // missing argument
+                    // this should be an output of a previous call
+                    ApiCallArg::Output(out) => assert!(found.contains(out)),
+                }
+            }
+            assert!(found.insert(&call.id));
+        }
     }
 }
 
 impl Hash for ApiSeq {
     fn hash<H: Hasher>(&self, state: &mut H) {
         #[expect(clippy::disallowed_methods)]
-        let ser = rmp_serde::to_vec(self).expect("failed to serialize graph for hash");
+        let ser = rmp_serde::to_vec(self).expect("failed to serialize seq for hash");
         ser.hash(state);
     }
 }
@@ -484,37 +495,11 @@ impl ResizableMutator<u8> for ApiSeq {
     }
 }
 
-impl CanValidate for ApiSeq {
-    fn is_valid(&self) {
-        let mut found = HashSet::new();
-        for call in &self.seq {
-            for arg in &call.args {
-                match arg {
-                    ApiCallArg::Constant(_) => (),
-                    ApiCallArg::Missing => unreachable!(), // missing argument
-                    // this should be an output of a previous call
-                    ApiCallArg::Output(out) => assert!(found.contains(out)),
-                }
-            }
-            assert!(found.insert(&call.id));
-        }
-    }
-}
-
-impl ToFuzzerInput for ApiSeq {
-    fn to_fuzzer_input(&self, config: &FuzzerConfig) -> Result<Vec<u8>> {
-        if !matches!(config.mode, FuzzerMode::Sequence) {
-            bail!("sequence inputs need FuzzerMode::Sequence");
-        }
-
-        let bytes = match rmp_serde::to_vec_named(self) {
-            Ok(bytes) => bytes,
-            Err(e) => {
-                bail!("failed to create bytes from sequence {}", e);
-            }
-        };
-
-        Ok(bytes)
+impl HasTargetBytes for ApiSeq {
+    fn target_bytes(&self) -> OwnedSlice<'_, u8> {
+        rmp_serde::to_vec_named(self)
+            .expect("failed to create bytes from sequence")
+            .into()
     }
 }
 
@@ -528,7 +513,6 @@ mod tests {
     use serde_json::{from_value, json};
 
     use super::{ApiCallArg, ApiSeq};
-    use crate::inputs::CanValidate;
     use crate::schema::Schema;
 
     #[test]

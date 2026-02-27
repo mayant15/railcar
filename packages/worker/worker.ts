@@ -7,13 +7,12 @@ import { registerHooks } from "node:module";
 import { transformSync } from "@babel/core";
 import { decode, encode } from "@msgpack/msgpack";
 
-import type { Schema, Graph } from "@railcar/inference";
+import type { Schema } from "@railcar/inference";
 import { makeRailcarConfig } from "@railcar/support";
 import { SharedExecutionData } from "@railcar/worker-sys";
 
 import { codeCoverage } from "./instrument.js";
 import { BytesExecutor } from "./bytes.js";
-import { GraphExecutor } from "./graph.js";
 import { ENABLE_DEBUG_INFO } from "./config.js";
 import { type ApiSeq, SequenceExecutor } from "./sequence.js";
 
@@ -23,7 +22,7 @@ declare global {
     };
 }
 
-type Mode = "bytes" | "parametric" | "graph" | "sequence";
+type Mode = "bytes" | "sequence";
 
 type ShMemDescription = {
     size: number;
@@ -50,7 +49,7 @@ type Message =
     | { Log: string }
     | "Terminate";
 
-let _executor: BytesExecutor | GraphExecutor | SequenceExecutor | null = null;
+let _executor: BytesExecutor | SequenceExecutor | null = null;
 let _shmem: SharedExecutionData | null = null;
 
 async function importDefaultModule(path: string) {
@@ -80,17 +79,6 @@ async function init(args: InitArgs): Promise<Schema | null> {
         _executor = new BytesExecutor(_shmem);
         await _executor.init(args.entrypoint, config.isBug, args.replay);
         return null;
-    } else if (args.mode === "graph" || args.mode === "parametric") {
-        // both parametric and graph should use the same executor
-        _executor = new GraphExecutor(_shmem);
-
-        const schema = await _executor.init(args.entrypoint, config.isBug, {
-            schemaFile: args.schemaFile ?? undefined,
-            logError: args.replay,
-            methodsToSkip: config.skipMethods,
-            debugDumpSchema: args.debugDumpSchema ?? undefined,
-        });
-        return schema;
     } else if (args.mode === "sequence") {
         _executor = new SequenceExecutor(_shmem);
         const schema = await _executor.init(args.entrypoint, config.isBug, {
@@ -109,8 +97,6 @@ async function invoke(bytes: Uint8Array): Promise<boolean> {
     assert(_executor !== null);
     if (_executor instanceof BytesExecutor) {
         return _executor.execute(bytes);
-    } else if (_executor instanceof GraphExecutor) {
-        return _executor.execute(decode(bytes) as Graph);
     } else {
         return _executor.execute(decode(bytes) as ApiSeq);
     }

@@ -15,13 +15,9 @@ use libafl_bolts::{
 };
 
 use crate::{
-    inputs::HasSeqLen,
+    input::{ApiCallArg, ApiSeq},
     schema::Schema,
-    seq::input::{ApiCallArg, ApiSeq},
 };
-
-#[cfg(debug_assertions)]
-use crate::inputs::CanValidate;
 
 type FuzzSeqConsts = HavocScheduledMutator<HavocMutationsType>;
 
@@ -289,9 +285,8 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::inputs::{CanValidate, HasSeqLen};
+    use crate::input::ApiSeq;
     use crate::schema::Schema;
-    use crate::seq::input::ApiSeq;
 
     use libafl::{
         corpus::{Corpus, InMemoryCorpus, NopCorpus, Testcase},

@@ -56,14 +56,12 @@ def get_examples_dir() -> str:
 def find_entrypoints(project: str, mode: str) -> list[tuple[str, str]]:
     project_root_config_file = get_default_project_config_file(project)
 
-    if mode != "bytes":
-        assert project_root_config_file is not None
-
     if mode == "bytes":
         project_root = path.join(get_examples_dir(), project)
         return find_bytes_entrypoints(project_root)
     else:
-        ep = find_graph_entrypoint(project)
+        assert project_root_config_file is not None
+        ep = find_library_index(project)
         return [(ep, project_root_config_file)]
 
 
@@ -73,7 +71,7 @@ def find_schema(project: str, kind: str) -> Optional[str]:
     return schema if path.exists(schema) else None
 
 
-def find_graph_entrypoint(project: str) -> str:
+def find_library_index(project: str) -> str:
     if project == "turf":
         project = "@turf/turf"
     elif project == "angular":

@@ -7,10 +7,7 @@ use libafl_bolts::{
     generic_hash_std,
     rands::{Rand, StdRand},
 };
-use railcar::{
-    schema::Schema,
-    seq::{ApiSeq, ApiSeqGenerator},
-};
+use railcar::{input::ApiSeq, schema::Schema, ApiSeqGenerator};
 
 #[test]
 fn deterministic_rand() {

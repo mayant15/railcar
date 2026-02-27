@@ -1,20 +1,16 @@
 use anyhow::Result;
 use libafl::{
     events::{EventConfig, Launcher, SendExiting},
-    inputs::BytesInput,
+    inputs::{BytesInput, HasTargetBytes, Input},
     monitors::Monitor,
 };
 use libafl_bolts::{
     core_affinity::Cores,
     shmem::{ShMemProvider, StdShMemProvider},
 };
-use railcar::{
-    inputs::{Graph, ParametricGraph, ToFuzzerInput},
-    seq::ApiSeq,
-    FuzzerConfig, FuzzerMode, ReplayRestartingManager, Worker,
-};
+use railcar::{input::ApiSeq, FuzzerConfig, FuzzerMode, ReplayRestartingManager, Worker};
 
-fn client<I: ToFuzzerInput, SP: ShMemProvider>(
+fn client<I: Input + HasTargetBytes, SP: ShMemProvider>(
     mut restarting_mgr: ReplayRestartingManager<I, SP>,
     config: &FuzzerConfig,
 ) -> Result<()> {
@@ -25,7 +21,7 @@ fn client<I: ToFuzzerInput, SP: ShMemProvider>(
     };
 
     let input = I::from_file(input_path)?;
-    let bytes = input.to_fuzzer_input(config)?;
+    let bytes = input.target_bytes();
 
     let mut worker = Worker::new(config.into())?;
     if let Err(e) = worker.invoke(&bytes) {
@@ -44,8 +40,8 @@ fn launch_impl<I, M>(
     cores: Cores,
 ) -> Result<()>
 where
-    I: ToFuzzerInput,
     M: Monitor + Clone,
+    I: Input + HasTargetBytes,
 {
     let mut run_client = |_, restarting_mgr, _| {
         client::<I, _>(restarting_mgr, &config).map_err(|e| libafl::Error::unknown(e.to_string()))
@@ -75,10 +71,6 @@ where
 {
     match config.mode {
         FuzzerMode::Bytes => launch_impl::<BytesInput, _>(config, shmem_provider, monitor, cores),
-        FuzzerMode::Graph => launch_impl::<Graph, _>(config, shmem_provider, monitor, cores),
-        FuzzerMode::Parametric => {
-            launch_impl::<ParametricGraph, _>(config, shmem_provider, monitor, cores)
-        }
         FuzzerMode::Sequence => launch_impl::<ApiSeq, _>(config, shmem_provider, monitor, cores),
     }
 }

@@ -7,7 +7,13 @@ use std::collections::BTreeMap;
 use libafl_bolts::rands::{Rand, StdRand};
 use serde::{Deserialize, Serialize};
 
-use crate::config::{DEFAULT_CONTEXT_LENGTH, GENERATE_FLOATS, MAX_RANDOM_NUMBER, MAX_RANDOM_SIZE};
+pub const GENERATE_FLOATS: bool = false;
+pub const DEFAULT_CONTEXT_LENGTH: usize = 128;
+
+/// Maximum random number generated for functions that need number. Keep this low because this
+/// could be an array length
+pub const MAX_RANDOM_NUMBER: f64 = 1000.0;
+pub const MAX_RANDOM_SIZE: usize = 10;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BytesRand {
@@ -163,8 +169,7 @@ impl<K: Clone, R: Rand> TrySample<K, R> for Distribution<K> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::{DEFAULT_CONTEXT_LENGTH, MAX_RANDOM_NUMBER, MAX_RANDOM_SIZE};
-    use libafl_bolts::rands::StdRand;
+    use libafl_bolts::rands::{Rand, StdRand};
 
     // --- BytesRand ---
 

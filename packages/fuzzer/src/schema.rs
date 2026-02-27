@@ -6,12 +6,11 @@ use std::collections::{btree_map, BTreeMap, HashMap, HashSet};
 use libafl_bolts::rands::Rand;
 use serde::{Deserialize, Serialize};
 
-use crate::{
-    config::ENABLE_LIKELIHOOD_BASED_CONCRETIZATION,
-    rng::{self, Distribution, TrySample},
-};
+use crate::rng::{self, Distribution, TrySample};
 
 pub type EndpointName = String;
+
+pub const ENABLE_LIKELIHOOD_BASED_CONCRETIZATION: bool = false;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum ConstantValue {

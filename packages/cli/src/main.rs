@@ -11,7 +11,6 @@ use libafl_bolts::{
 use railcar::{monitor::StdMonitor, FuzzerConfig, FuzzerMode};
 
 mod client;
-mod ensemble;
 mod replay;
 mod replay_input;
 
@@ -19,7 +18,7 @@ mod replay_input;
 #[derive(Parser)]
 #[command(version)]
 struct Arguments {
-    /// Entrypoint for the library to test for graph and parametric drivers.
+    /// Entrypoint for the library to test for automatic drivers.
     /// File that exports a `fuzz` function for bytes driver.
     entrypoint: String,
 
@@ -46,11 +45,6 @@ struct Arguments {
     /// Fuzz driver variant to use
     #[arg(long, value_enum, default_value_t = FuzzerMode::Sequence)]
     mode: FuzzerMode,
-
-    /// Run the fuzzer in ensemble mode. This runs two sub-fuzzers: one to search for API
-    /// sequences and one for constants.
-    #[arg(long, default_value_t = false)]
-    ensemble: bool,
 
     /// Port to spawn the IPC broker on. If spawning multiple instances they should have different
     /// ports.
@@ -144,8 +138,6 @@ fn main() -> Result<()> {
 
     let cores = if let Some(cores) = args.cores {
         Cores::from_cmdline(cores.as_str())
-    } else if args.ensemble {
-        get_n_cores(2)
     } else {
         get_n_cores(1)
     }?;
@@ -214,10 +206,6 @@ fn main() -> Result<()> {
 
     if args.replay {
         return replay::launch(config, shmem_provider, monitor, cores);
-    }
-
-    if args.ensemble {
-        return ensemble::launch(config, shmem_provider, monitor, cores);
     }
 
     client::launch(config, shmem_provider, monitor, cores)

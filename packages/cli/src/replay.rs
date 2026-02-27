@@ -4,7 +4,7 @@ use libafl::{
     events::{EventConfig, Launcher, SendExiting},
     executors::{ExitKind, InProcessExecutor},
     feedbacks::ConstFeedback,
-    inputs::BytesInput,
+    inputs::{BytesInput, HasTargetBytes, Input},
     monitors::Monitor,
     schedulers::QueueScheduler,
     state::{HasCorpus, StdState},
@@ -17,12 +17,10 @@ use libafl_bolts::{
     tuples::tuple_list,
 };
 use railcar::{
-    inputs::{Graph, ParametricGraph, ToFuzzerInput},
-    seq::ApiSeq,
-    FuzzerConfig, FuzzerMode, ReplayRestartingManager, ReplayState, Worker,
+    input::ApiSeq, FuzzerConfig, FuzzerMode, ReplayRestartingManager, ReplayState, Worker,
 };
 
-fn client<I: ToFuzzerInput, SP: ShMemProvider>(
+fn client<I: Input + HasTargetBytes, SP: ShMemProvider>(
     state: Option<ReplayState<I>>,
     mut restarting_mgr: ReplayRestartingManager<I, SP>,
     config: &FuzzerConfig,
@@ -46,14 +44,7 @@ fn client<I: ToFuzzerInput, SP: ShMemProvider>(
     let mut worker = Worker::new(config.into())?;
 
     let mut harness = |input: &I| {
-        let bytes = match input.to_fuzzer_input(config) {
-            Ok(bytes) => bytes,
-            Err(e) => {
-                log::error!("failed to deserialize replay input: {}", e);
-                return ExitKind::Ok;
-            }
-        };
-
+        let bytes = input.target_bytes();
         if let Err(e) = worker.invoke(&bytes) {
             panic!("failed to invoke worker: {}", e);
         }
@@ -93,8 +84,8 @@ fn launch_impl<I, M>(
     cores: Cores,
 ) -> Result<()>
 where
-    I: ToFuzzerInput,
     M: Monitor + Clone,
+    I: Input + HasTargetBytes,
 {
     let mut run_client = |state, restarting_mgr, _| {
         client::<I, _>(state, restarting_mgr, &config)
@@ -125,10 +116,6 @@ where
 {
     match config.mode {
         FuzzerMode::Bytes => launch_impl::<BytesInput, _>(config, shmem_provider, monitor, cores),
-        FuzzerMode::Graph => launch_impl::<Graph, _>(config, shmem_provider, monitor, cores),
-        FuzzerMode::Parametric => {
-            launch_impl::<ParametricGraph, _>(config, shmem_provider, monitor, cores)
-        }
         FuzzerMode::Sequence => launch_impl::<ApiSeq, _>(config, shmem_provider, monitor, cores),
     }
 }
