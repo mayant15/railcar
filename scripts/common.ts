@@ -1,28 +1,60 @@
+import type { SignatureGuess } from "@railcar/inference";
+
 const PROJECTS = {
     lodash: {
         decl: "node_modules/@types/lodash/index.d.ts",
-        known: 11,
+        known: [
+            "clone",
+            "cloneDeep",
+            "toPlainObject",
+            "assign",
+            "assignIn",
+            "defaults",
+            "extend",
+            "merge",
+            "defaultTo",
+            "identity",
+            "stubObject",
+        ],
     },
     xmldom: {
         decl: "node_modules/@xmldom/xmldom/index.d.ts",
-        known: 5,
+        known: [
+            "assign",
+            "NamedNodeMap",
+            "NodeList",
+            "DOMImplementation",
+            "XMLSerializer",
+        ],
     },
     typescript: {
         decl: "node_modules/typescript/lib/typescript.d.ts",
-        known: 1,
+        known: ["OperationCanceledException"],
     },
     tslib: {
         bundle: "node_modules/tslib/tslib.js",
         decl: "node_modules/tslib/tslib.d.ts",
-        known: 6,
+        known: [
+            "__values",
+            "__await",
+            "__asyncDelegator",
+            "__asyncValues",
+            "__importStar",
+            "__importDefault",
+        ],
     },
     protobufjs: {
         decl: "node_modules/protobufjs/index.d.ts",
-        known: 3,
+        known: ["ReflectionObject", "Writer", "BufferWriter"],
     },
     lit: {
         decl: "node_modules/lit/index.d.ts",
-        known: 4,
+        known: [
+            "LitElement",
+            "LitElement.render",
+            "ReactiveElement",
+            "CSSResult",
+        ],
     },
     "fast-xml-parser": {
         bundle: "examples/fast-xml-parser/fxp.full.js",
@@ -71,7 +103,7 @@ export type Project = keyof typeof PROJECTS;
 type Spec = {
     bundle?: string;
     decl?: string;
-    known?: number;
+    known?: readonly string[];
 };
 
 export function getProjectNames(): Project[] {
@@ -84,4 +116,22 @@ export function getProjectSpecs(): Record<Project, Spec> {
 
 export function getProjectSpec(project: Project): Spec {
     return PROJECTS[project];
+}
+
+export function isNoInfoSignature(sig: SignatureGuess): boolean {
+    if (sig.builtin) return false;
+    switch (sig.callconv) {
+        case "Free": {
+            // ret and all args must be any
+            return sig.ret.isAny && sig.args.every((arg) => arg.isAny);
+        }
+        case "Constructor": {
+            // all args must be any
+            return sig.args.every((arg) => arg.isAny);
+        }
+        case "Method": {
+            // ret and all args[1..] must be any
+            return sig.ret.isAny && sig.args.slice(1).every((arg) => arg.isAny);
+        }
+    }
 }

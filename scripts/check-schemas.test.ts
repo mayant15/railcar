@@ -4,13 +4,19 @@
  * Enforces the following properties for each project:
  * 1. All three schemas must have the same set of keys.
  * 2. All three schemas must have the standard library.
+ * 3. All NoInfo signature guesses must be known.
  */
 
 import { describe, test, expect } from "bun:test";
 
 import { Guess, type TypeGuess, type Schema } from "@railcar/inference";
 
-import { type Project, getProjectNames } from "./common";
+import {
+    type Project,
+    getProjectNames,
+    getProjectSpec,
+    isNoInfoSignature,
+} from "./common";
 
 type SchemaKind = "random" | "typescript";
 
@@ -35,6 +41,7 @@ async function fetchSchemas(
 for (const project of getProjectNames()) {
     describe(project, async () => {
         const schemas = await fetchSchemas(project);
+        const spec = getProjectSpec(project);
 
         test("all three schemas must have the same set of endpoints", () => {
             const keys = {
@@ -67,6 +74,19 @@ for (const project of getProjectNames()) {
                     });
                 });
             }
+        });
+
+        describe("must only have known no info guesses", () => {
+            test("typescript", () => {
+                for (const [name, guess] of Object.entries(
+                    schemas.typescript,
+                )) {
+                    if (isNoInfoSignature(guess)) {
+                        const known = spec.known ?? [];
+                        expect(name).toBeOneOf(known);
+                    }
+                }
+            });
         });
     });
 }

@@ -3,9 +3,14 @@ import assert from "node:assert";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import type { Schema, SignatureGuess } from "@railcar/inference";
+import type { Schema } from "@railcar/inference";
 
-import { getProjectNames, getProjectSpec, type Project } from "./common";
+import {
+    getProjectNames,
+    getProjectSpec,
+    isNoInfoSignature,
+    type Project,
+} from "./common";
 
 const LATEX = false;
 let _isTypeScript = false;
@@ -15,30 +20,13 @@ async function schema(project: string, kind: string): Promise<Schema> {
     return JSON.parse((await readFile(path)).toString());
 }
 
-function allAny(sig: SignatureGuess): boolean {
-    switch (sig.callconv) {
-        case "Free": {
-            // ret and all args must be any
-            return sig.ret.isAny && sig.args.every((arg) => arg.isAny);
-        }
-        case "Constructor": {
-            // all args must be any
-            return sig.args.every((arg) => arg.isAny);
-        }
-        case "Method": {
-            // ret and all args[1..] must be any
-            return sig.ret.isAny && sig.args.slice(1).every((arg) => arg.isAny);
-        }
-    }
-}
-
 function countNoInfoSignatures(schema: Schema): [number, number] {
     let total = 0;
     let any = 0;
     for (const [name, guess] of Object.entries(schema)) {
         if (guess.builtin) continue;
         total += 1;
-        if (allAny(guess)) {
+        if (isNoInfoSignature(guess)) {
             if (_isTypeScript) {
                 console.warn(" ", name);
             }
@@ -114,7 +102,7 @@ async function analyze(project: Project): Promise<AnalyzeRow> {
         },
         typescript: {
             any: anyTypescript,
-            known: getProjectSpec(project).known,
+            known: getProjectSpec(project).known?.length,
             anyTypeP: (anyTypescriptTypes * 100) / totalTypescriptTypes,
         },
         syntest: {
