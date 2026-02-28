@@ -1,0 +1,68 @@
+Index: /@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVisitor.js
+===================================================================
+--- /@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVisitor.js
++++ /@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVisitor.js
+@@ -327,23 +327,29 @@
+         this._relationMap = new Map();
+     }
+     _createRelation(path, type, involved, computed = false) {
+         const id = this._getNodeId(path);
+-        const relation = {
+-            id: id,
+-            type: type,
+-            involved: involved.map((p) => {
++        const involvedFiltered = involved.map((p) => {
+                 if (p === undefined ||
+                     p === null ||
+                     p.node === null ||
+                     p.node === undefined) {
+-                    throw new diagnostics_1.ImplementationError(`Involved node is undefined or null for ${id}`);
++                    // throw new diagnostics_1.ImplementationError(`Involved node is undefined or null for ${id}`);
+                     // return `${id}::anonymous`; // TODO we should look into this
++                    return null // dirty fix
+                 }
+                 return this._getNodeId(p);
+-            }),
++            }).filter((p) => p!==null);
++        if (involvedFiltered.length == 0) {
++            return;
++        }
++        const relation = {
++            id: id,
++            type: type,
++            involved: involvedFiltered,
+             computed,
+         };
++        
+         this._relationMap.set(relation.id, relation);
+     }
+ }
+ exports.RelationVisitor = RelationVisitor;
+Index: /@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelFactory.js
+===================================================================
+--- /@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelFactory.js
++++ /@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelFactory.js
+@@ -595,8 +595,11 @@
+     _objectMethod(elementMap, relationMap, relation, involved) {
+         const [functionId, ...parameters] = involved;
+         // TODO what if the property is not an element
+         const propertyElement = elementMap.get(functionId);
++        if (!propertyElement) {
++            return;
++        }
+         const propertyName = "name" in propertyElement ? propertyElement.name : propertyElement.value;
+         this._typeModel.addPropertyType(relation.id, propertyName, functionId);
+         this.addFunctionParameters(elementMap, relationMap, functionId, parameters);
+     }
+@@ -606,8 +609,11 @@
+         }
+         const [classId, propertyId, valueId] = involved;
+         // TODO what if the property is not an element
+         const propertyElement = elementMap.get(propertyId);
++        if (!propertyElement) {
++            return;
++        }
+         const propertyName = "name" in propertyElement ? propertyElement.name : propertyElement.value;
+         // make object for the class
+         this._typeModel.addPropertyType(classId, propertyName, propertyId);
+         // connect property to value

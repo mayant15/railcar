@@ -1,8 +1,18 @@
+# Changes to Syntest
+
+I've ran custompatch with: `npx custompatch @syntest/analysis-javascript`
+
+Before running anything, you should run: `npm run prepare` or `npx custompatch`
+
 # Generating SynTest schemas
+
+## Bundling projects
 
 The repository has some schemas in `examples/` for testing Railcar. Here is how to regenerate them:
 
 to custom-build bundled js, you need to install esbuild npm package in each respective repository.
+
+**Bundle the project:**
 
 - **Typescript**
   - Use default node_module file `node_modules/typescript/lib/typescript.js`
@@ -44,6 +54,16 @@ to custom-build bundled js, you need to install esbuild npm package in each resp
   - OR, build it like this: `npx esbuild src/fxp.js --bundle --platform=node --outfile=fxp.full.js`
 - **jpeg-js**
   - Copy `node_modules/jpeg-js/` to somewhere else
-  - Run this: `npx esbuild index.js --bundle --platform=neutral --outfile=jpeg-js.bundle.js`
+  - Run this: `npx esbuild index.js --bundle --outfile=jpeg-js.bundle.js`
   - Run SynTest on `jpeg-js.bundle.js`
   - Reference bundle in `examples/`
+
+## Creating schema:
+
+- **Here's the example to get typescript syntest schema, for other projects, include the respective railcar.config.js and output to the respetive directory:**
+
+  - `npx railcar-infer --syntest --entrypoint node_modules/typescript/lib/typescript.js --config examples/typescript/railcar.config.js -o examples/typescript/syntest.json`
+
+- A reference script can be checked out in scripts/build-syntest-json.sh
+
+(building typescript should take a very long time, 4907 endpoints to infer)
