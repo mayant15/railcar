@@ -103,19 +103,92 @@
         ],
         "builtin": true
     },
-    "Buffer": {
+    "Buffer.from": {
         "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
+    },
+    "defaultFormats.0": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultFormats.1": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultFormats.2": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultFormats.3": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultFormats.4": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultFormats.5": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": []
     },
     "Jimp": {
         "callconv": "Constructor",
@@ -163,24 +236,6 @@
                     "Function": 1
                 },
                 "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
             }
         ]
     },
@@ -343,27 +398,22 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.07213472225463538,
-                    "Undefined": 0.005009470630544898,
-                    "Number": 0.9228558071148186
+                    "String": 0.06636736223273396,
+                    "Number": 0.9336326377672658
                 },
                 "objectShape": {}
             },
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.07062957008694835,
-                    "Undefined": 0.0052731046052302884,
-                    "Number": 0.9240973253078208
+                    "String": 0.05937065309862993,
+                    "Number": 0.9406293469013708
                 },
                 "objectShape": {}
             },
             {
-                "isAny": false,
-                "kind": {
-                    "Boolean": 0.892857142857143,
-                    "Undefined": 0.10714285714285715
-                },
+                "isAny": true,
+                "kind": {},
                 "objectShape": {}
             }
         ]
@@ -492,130 +542,32 @@
                 "objectShape": {}
             },
             {
-                "isAny": false,
-                "kind": {
-                    "String": 0.0006788089938807323,
-                    "Undefined": 0.08492336057647851,
-                    "Array": 0.0006789562743358789,
-                    "Object": 0.9137188741553047
-                },
-                "objectShape": {
-                    "scan": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "bitmap": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "read": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "mime": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "_exif": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "formats": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "background": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "fromBuffer": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "getBuffer": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "getPixelIndex": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    }
-                },
-                "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
-                }
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
             },
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.04329004329004331,
-                    "Undefined": 0.1818181818181819,
-                    "Number": 0.7748917748917754
+                    "Undefined": 0.25,
+                    "Number": 0.75
                 },
                 "objectShape": {}
             },
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.04329004329004331,
-                    "Undefined": 0.1818181818181819,
-                    "Number": 0.7748917748917754
+                    "Undefined": 0.25,
+                    "Number": 0.75
                 },
                 "objectShape": {}
             },
             {
                 "isAny": false,
                 "kind": {
-                    "Undefined": 0.20408163265306123,
-                    "Object": 0.7959183673469388
+                    "Undefined": 1
                 },
-                "objectShape": {
-                    "mode": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "opacitySource": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "opacityDest": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
+                "objectShape": {}
             }
         ]
     },
@@ -643,84 +595,29 @@
                 "objectShape": {}
             },
             {
-                "isAny": false,
-                "kind": {
-                    "String": 0.07681939385178985,
-                    "Undefined": 0.056682606184300974,
-                    "Object": 0.039999999999999994,
-                    "Function": 0.15999999999999995,
-                    "Number": 0.6664979999639089
-                },
-                "objectShape": {
-                    "bind": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
             },
             {
-                "isAny": false,
-                "kind": {
-                    "String": 0.02606701491372217,
-                    "Undefined": 0.09272798692394818,
-                    "Object": 8.522756870633661e-7,
-                    "Function": 0.0000034091027482534648,
-                    "Number": 0.8812007367838943
-                },
-                "objectShape": {
-                    "bind": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
             },
             {
-                "isAny": false,
-                "kind": {
-                    "String": 0.1281307948301437,
-                    "Undefined": 0.07247282054359697,
-                    "Object": 0.00031250000000362536,
-                    "Function": 0.0012500000000145014,
-                    "Number": 0.7978338846262417
-                },
-                "objectShape": {
-                    "bind": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
             },
             {
-                "isAny": false,
-                "kind": {
-                    "String": 0.1271427997041347,
-                    "Undefined": 0.10142344182585954,
-                    "Object": 2.170143432298185e-7,
-                    "Function": 8.68057372919274e-7,
-                    "Number": 0.7714326733982889
-                },
-                "objectShape": {
-                    "bind": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
             },
             {
-                "isAny": false,
-                "kind": {
-                    "String": 0.008230649341263201,
-                    "Undefined": 0.006073136376889392,
-                    "Object": 0.02857142857142858,
-                    "Function": 0.8857142857142857,
-                    "Number": 0.07141049999613315
-                },
-                "objectShape": {
-                    "bind": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
@@ -750,773 +647,30 @@
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.08414706835115003,
-                    "Undefined": 0.16944962747003572,
-                    "Number": 0.7464033041788148
+                    "Undefined": 0.25,
+                    "Number": 0.75
                 },
                 "objectShape": {}
             },
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.06588324940365756,
-                    "Undefined": 0.17200205406838054,
-                    "Number": 0.7621146965279618
+                    "Undefined": 0.25,
+                    "Number": 0.75
                 },
                 "objectShape": {}
             },
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.19308778659611997,
-                    "Undefined": 0.2545180996472663,
-                    "Number": 0.5523941137566137
+                    "Undefined": 1
                 },
                 "objectShape": {}
             },
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.19184483225108231,
-                    "Undefined": 0.25469180645743156,
-                    "Number": 0.5534633612914864
-                },
-                "objectShape": {}
-            }
-        ]
-    },
-    "colorDiff": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "String": 0.005291005291005292,
-                "Number": 0.9947089947089947
-            },
-            "objectShape": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.16666666666666666,
-                    "Object": 0.8333333333333333
-                },
-                "objectShape": {
-                    "r": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "g": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "b": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    }
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.015384615384615385,
-                    "Object": 0.9846153846153847
-                },
-                "objectShape": {
-                    "r": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "g": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "b": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    }
-                }
-            }
-        ]
-    },
-    "compareHashes": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {},
-            "objectShape": {}
-        },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            }
-        ]
-    },
-    "cssColorToHex": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "String": 0.016662490846810443,
-                "Boolean": 0.06497395572289334,
-                "Null": 6.839795528161145e-47,
-                "Undefined": 0.056256125685332115,
-                "Array": 0.009326373750924198,
-                "Object": 0.8527806484156941,
-                "Function": 4.0557834674037884e-7,
-                "Number": 4.1966385724537464e-50
-            },
-            "objectShape": {
-                "r": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "g": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "b": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "h": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "s": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "v": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "l": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "a": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "format": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "replace": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "toHsl": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "desaturate": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "toRgb": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "toHsv": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "toRgbString": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "getLuminance": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "_r": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "_g": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "_b": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "_a": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "toHex8": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "fromRatio": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "readability": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "isReadable": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "mostReadable": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "prototype": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "equals": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "random": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "mix": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "names": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "hexNames": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "_originalInput": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "_roundA": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "_format": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "_gradientType": {
-                    "isAny": true,
-                    "kind": {}
-                },
-                "_ok": {
-                    "isAny": true,
-                    "kind": {}
-                }
-            },
-            "arrayValueType": {
-                "isAny": true,
-                "kind": {}
-            }
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.016662490846810433,
-                    "Boolean": 0.0649739557228933,
-                    "Null": 6.83979552816114e-47,
-                    "Undefined": 0.05625612568533209,
-                    "Array": 0.00932637375092419,
-                    "Object": 0.852780648415693,
-                    "Function": 4.055783467403785e-7,
-                    "Number": 4.1966385724537435e-50
-                },
-                "objectShape": {
-                    "r": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "g": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "b": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "h": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "s": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "v": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "l": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "a": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "format": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "replace": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "toHsl": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "desaturate": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "toRgb": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "toHsv": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "toRgbString": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "getLuminance": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "_r": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "_g": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "_b": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "_a": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "toHex8": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "fromRatio": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "readability": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "isReadable": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "mostReadable": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "prototype": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "equals": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "random": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "mix": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "names": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "hexNames": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "_originalInput": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "_roundA": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "_format": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "_gradientType": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "_ok": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
-                }
-            }
-        ]
-    },
-    "defaultFormats.0": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {
-                "mime": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            }
-        },
-        "args": []
-    },
-    "defaultFormats.1": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {}
-        },
-        "args": []
-    },
-    "defaultFormats.2": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {
-                "mime": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            }
-        },
-        "args": []
-    },
-    "defaultFormats.3": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {
-                "mime": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            }
-        },
-        "args": []
-    },
-    "defaultFormats.4": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {
-                "mime": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            }
-        },
-        "args": []
-    },
-    "defaultFormats.5": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {
-                "mime": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            }
-        },
-        "args": []
-    },
-    "diff": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Object": 1.0000000000000002
-                },
-                "objectShape": {
-                    "bitmap": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "background": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "getPixelColor": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "scan": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Object": 1
-                },
-                "objectShape": {
-                    "bitmap": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "background": {
-                        "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "getPixelColor": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "scan": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.12500000000000003,
-                    "Number": 0.8750000000000001
+                    "Undefined": 1
                 },
                 "objectShape": {}
             }
@@ -1542,73 +696,22 @@
             }
         ]
     },
-    "intToRGBA": {
+    "compareHashes": {
         "callconv": "Free",
         "ret": {
-            "isAny": false,
-            "kind": {
-                "Undefined": 0.03846153846153846,
-                "Object": 0.9615384615384615
-            },
-            "objectShape": {
-                "r": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "g": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "b": {
-                    "isAny": true,
-                    "kind": {},
-                    "arrayValueType": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            }
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.20000021701472231,
-                    "Number": 0.799999782985278
-                },
-                "objectShape": {}
-            }
-        ]
-    },
-    "limit255": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "String": 0.11354190841304876,
-                "Boolean": 0.010879629816209225,
-                "Undefined": 0.006944444538972103,
-                "Number": 0.8686340172317695
-            },
+            "isAny": true,
+            "kind": {},
             "objectShape": {}
         },
         "args": [
             {
-                "isAny": false,
-                "kind": {
-                    "String": 0.009182013188421989,
-                    "Boolean": 0.004736586475284206,
-                    "Undefined": 0.023825024801798284,
-                    "Number": 0.962256375534495
-                },
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
                 "objectShape": {}
             }
         ]
@@ -1616,44 +719,17 @@
     "loadFont": {
         "callconv": "Free",
         "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
+            "isAny": true,
+            "kind": {},
             "objectShape": {}
         },
         "args": [
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.5113636363636365,
-                    "Undefined": 0.25,
-                    "Array": 0.05681818181818182,
-                    "Object": 0.13636363636363638,
-                    "Function": 0.04545454545454546
+                    "Undefined": 1
                 },
-                "objectShape": {
-                    "charAt": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "substring": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "slice": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "length": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
-                }
+                "objectShape": {}
             }
         ]
     },
@@ -1662,12 +738,12 @@
         "ret": {
             "isAny": false,
             "kind": {
-                "String": 0.06408550465308595,
-                "Boolean": 0.0000017451014853957791,
-                "Undefined": 0.08657405699641418,
-                "Array": 1.1959878281189542e-9,
-                "Object": 2.3919756562379085e-9,
-                "Number": 0.8493386896610506
+                "String": 0.08217891014061125,
+                "Boolean": 0.011527283610812735,
+                "Undefined": 0.1696815534676789,
+                "Array": 0.000007552363050483345,
+                "Object": 0.00001510472610096669,
+                "Number": 0.7365895956917453
             },
             "objectShape": {},
             "arrayValueType": {
@@ -1679,53 +755,32 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Array": 0.06206896551724138,
-                    "Object": 0.9379310344827585
+                    "Object": 1
                 },
                 "objectShape": {
                     "common": {
                         "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
+                        "kind": {}
                     },
                     "chars": {
                         "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
+                        "kind": {}
                     },
                     "kernings": {
                         "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "pages": {
-                        "isAny": true,
                         "kind": {}
                     }
-                },
-                "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
                 }
             },
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.18276014109347444,
-                    "Undefined": 0.27777777777777785,
-                    "Array": 0.15740740740740744,
-                    "Object": 0.26388888888888895,
-                    "Function": 0.05092592592592593,
-                    "Number": 0.06723985890652556
+                    "String": 0.18140589569161003,
+                    "Undefined": 0.2857142857142858,
+                    "Array": 0.14880952380952386,
+                    "Object": 0.2500000000000001,
+                    "Function": 0.04761904761904764,
+                    "Number": 0.0864512471655329
                 },
                 "objectShape": {
                     "includes": {
@@ -1738,11 +793,7 @@
                     },
                     "length": {
                         "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
+                        "kind": {}
                     }
                 },
                 "arrayValueType": {
@@ -1757,9 +808,7 @@
         "ret": {
             "isAny": false,
             "kind": {
-                "String": 0.013756255108754159,
-                "Undefined": 0.0011961960964134053,
-                "Number": 0.9850475487948324
+                "Number": 0.9999999999999998
             },
             "objectShape": {}
         },
@@ -1767,74 +816,34 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Array": 0.028541226215644824,
-                    "Object": 0.9714587737843552
+                    "Object": 1
                 },
                 "objectShape": {
                     "chars": {
                         "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
+                        "kind": {}
                     },
                     "kernings": {
                         "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
+                        "kind": {}
                     },
                     "common": {
                         "isAny": true,
-                        "kind": {},
-                        "arrayValueType": {
-                            "isAny": true,
-                            "kind": {}
-                        }
-                    },
-                    "pages": {
-                        "isAny": true,
                         "kind": {}
                     }
-                },
-                "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
                 }
             },
             {
                 "isAny": false,
                 "kind": {
-                    "String": 0.17548076923076927,
-                    "Undefined": 0.0669070512820513,
-                    "Array": 0.1338141025641026,
-                    "Object": 0.48998397435897445,
-                    "Function": 0.1338141025641026
+                    "String": 0.5,
+                    "Object": 0.5
                 },
                 "objectShape": {
                     "replace": {
                         "isAny": true,
                         "kind": {}
-                    },
-                    "text": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "alignmentX": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "alignmentY": {
-                        "isAny": true,
-                        "kind": {}
                     }
-                },
-                "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
                 }
             },
             {
@@ -1846,11 +855,95 @@
             }
         ]
     },
+    "diff": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "bitmap": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "bitmap": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.12500000000000003,
+                    "Number": 0.8750000000000001
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "intToRGBA": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Undefined": 0.05555555555555556,
+                "Object": 0.9444444444444446
+            },
+            "objectShape": {
+                "r": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "g": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "b": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "a": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1.0000000000000004
+                },
+                "objectShape": {}
+            }
+        ]
+    },
     "rgbaToInt": {
         "callconv": "Free",
         "ret": {
-            "isAny": true,
-            "kind": {},
+            "isAny": false,
+            "kind": {
+                "Undefined": 0.025641025641025647,
+                "Number": 0.9743589743589749
+            },
             "objectShape": {}
         },
         "args": [
@@ -1880,6 +973,112 @@
                 "kind": {
                     "Number": 1
                 },
+                "objectShape": {}
+            }
+        ]
+    },
+    "colorDiff": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "String": 0.015873015873015876,
+                "Undefined": 0.027777777777777776,
+                "Number": 0.9563492063492066
+            },
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.1111111111111111,
+                    "Object": 0.8888888888888888
+                },
+                "objectShape": {
+                    "a": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "r": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "g": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "b": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.1111111111111111,
+                    "Object": 0.8888888888888888
+                },
+                "objectShape": {
+                    "a": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "r": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "g": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "b": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "limit255": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "cssColorToHex": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {},
+            "objectShape": {},
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
                 "objectShape": {}
             }
         ]

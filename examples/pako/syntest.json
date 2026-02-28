@@ -103,18 +103,25 @@
         ],
         "builtin": true
     },
-    "Buffer": {
+    "Buffer.from": {
         "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
     },
     "Deflate": {
@@ -136,8 +143,7 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.875,
-                    "Object": 0.125
+                    "Boolean": 1
                 },
                 "objectShape": {}
             }
@@ -262,24 +268,6 @@
             }
         ]
     },
-    "Deflate.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Deflate": 1
-                }
-            }
-        ]
-    },
     "Inflate": {
         "callconv": "Constructor",
         "ret": {
@@ -299,8 +287,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.7499999999999998,
-                    "Object": 0.24999999999999994
+                    "Boolean": 0.7999999999999999,
+                    "Object": 0.2
                 },
                 "objectShape": {
                     "windowBits": {
@@ -430,24 +418,6 @@
             }
         ]
     },
-    "Inflate.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Inflate": 1
-                }
-            }
-        ]
-    },
     "deflate": {
         "callconv": "Free",
         "ret": {
@@ -464,8 +434,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.6666666666666666,
-                    "Object": 0.3333333333333333
+                    "Boolean": 0.8333333333333333,
+                    "Object": 0.16666666666666666
                 },
                 "objectShape": {
                     "raw": {
@@ -496,8 +466,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.6666666666666665,
-                    "Object": 0.3333333333333332
+                    "Boolean": 0.8333333333333335,
+                    "Object": 0.16666666666666666
                 },
                 "objectShape": {
                     "gzip": {
@@ -528,8 +498,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.6666666666666665,
-                    "Object": 0.3333333333333332
+                    "Boolean": 0.8333333333333335,
+                    "Object": 0.16666666666666666
                 },
                 "objectShape": {
                     "raw": {
@@ -560,8 +530,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.6666666666666666,
-                    "Object": 0.3333333333333333
+                    "Boolean": 0.8333333333333333,
+                    "Object": 0.16666666666666666
                 },
                 "objectShape": {
                     "raw": {
@@ -588,8 +558,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.6666666666666665,
-                    "Object": 0.33333333333333326
+                    "Boolean": 0.8333333333333333,
+                    "Object": 0.16666666666666666
                 },
                 "objectShape": {
                     "raw": {
@@ -616,8 +586,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.6666666666666666,
-                    "Object": 0.3333333333333333
+                    "Boolean": 0.8333333333333333,
+                    "Object": 0.16666666666666666
                 },
                 "objectShape": {
                     "raw": {

@@ -103,18 +103,25 @@
         ],
         "builtin": true
     },
-    "Buffer": {
+    "Buffer.from": {
         "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
     },
     "Schema": {
@@ -175,24 +182,6 @@
             }
         ]
     },
-    "Schema.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Schema": 1
-                }
-            }
-        ]
-    },
     "Type": {
         "callconv": "Constructor",
         "ret": {
@@ -220,8 +209,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.2666666666666666,
-                    "Object": 0.7333333333333333
+                    "Boolean": 0.33333333333333326,
+                    "Object": 0.6666666666666666
                 },
                 "objectShape": {
                     "kind": {
@@ -268,24 +257,6 @@
             }
         ]
     },
-    "Type.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Type": 1
-                }
-            }
-        ]
-    },
     "YAMLException": {
         "callconv": "Constructor",
         "ret": {
@@ -311,28 +282,6 @@
                 "isAny": true,
                 "kind": {},
                 "objectShape": {}
-            }
-        ]
-    },
-    "YAMLException.toString": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "YAMLException": 1
-                }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
@@ -405,8 +354,7 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.8,
-                    "Object": 0.2
+                    "Boolean": 1
                 },
                 "objectShape": {}
             }
@@ -461,9 +409,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.5,
+                    "Boolean": 0.625,
                     "Null": 0.3,
-                    "Object": 0.125,
                     "Function": 0.07500000000000001
                 },
                 "objectShape": {}
@@ -532,9 +479,8 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.30000000000000004,
+                    "Boolean": 0.37500000000000006,
                     "Null": 0.5,
-                    "Object": 0.07500000000000001,
                     "Function": 0.125
                 },
                 "objectShape": {}
@@ -542,40 +488,12 @@
             {
                 "isAny": false,
                 "kind": {
-                    "Boolean": 0.4,
+                    "Boolean": 0.5,
                     "Null": 0.4,
-                    "Object": 0.1,
                     "Function": 0.1
                 },
                 "objectShape": {}
             }
         ]
-    },
-    "safeDump": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {},
-            "objectShape": {}
-        },
-        "args": []
-    },
-    "safeLoad": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {},
-            "objectShape": {}
-        },
-        "args": []
-    },
-    "safeLoadAll": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {},
-            "objectShape": {}
-        },
-        "args": []
     }
 }

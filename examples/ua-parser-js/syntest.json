@@ -1,0 +1,433 @@
+{
+    "Uint8Array": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "RegExp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Error": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Duplex": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Buffer.from": {
+        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
+        "builtin": true
+    },
+    "UAParser": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Boolean": 0.07500000000000001,
+                "Undefined": 0.015000000000000001,
+                "Object": 0.71,
+                "Function": 0.2
+            },
+            "objectShape": {
+                "VERSION": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "BROWSER": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "CPU": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "DEVICE": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "ENGINE": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "OS": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "getResult": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "getUA": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "setUA": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.07669267435127525,
+                    "Boolean": 0.07783142883905084,
+                    "Undefined": 0.5047763579506915,
+                    "Array": 0.09800534062181598,
+                    "Object": 0.24269166684690674,
+                    "Function": 6.760411114656264e-7,
+                    "Number": 0.0000018553491479570332
+                },
+                "objectShape": {
+                    "append": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "forEach": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "userAgentData": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "userAgent": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "brave": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "standalone": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "maxTouchPoints": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "getHighEntropyValues": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "ua": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "call": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "exec": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "test": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "apply": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "replace": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.06979940845368732,
+                    "Boolean": 0.12629838763287513,
+                    "Undefined": 0.5218999624976834,
+                    "Array": 0.0832821228194416,
+                    "Object": 0.19849564178747686,
+                    "Function": 0.00021394462808125593,
+                    "Number": 0.000010532180754797864
+                },
+                "objectShape": {
+                    "append": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "forEach": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "userAgentData": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "userAgent": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "brave": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "standalone": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "maxTouchPoints": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "ua": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "getHighEntropyValues": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "call": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "exec": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "test": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "apply": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "replace": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.1353696053179085,
+                    "Boolean": 0.1156990508356228,
+                    "Undefined": 0.1833266150292813,
+                    "Array": 0.16726177688012653,
+                    "Object": 0.39831701310919004,
+                    "Function": 0.00002588854978603276,
+                    "Number": 5.027808382005408e-8
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "userAgentData": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "userAgent": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "brave": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "standalone": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "maxTouchPoints": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "getHighEntropyValues": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "ua": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "call": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "exec": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "test": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "apply": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "replace": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "append": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "forEach": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    }
+}
