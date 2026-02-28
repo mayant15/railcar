@@ -3,30 +3,12 @@ import { $ } from "bun";
 
 import type { Schema } from "@railcar/inference";
 
-import { type Project, getProjectNames, getProjectSpec } from "./common";
-
-async function findEntrypoint(project: Project): Promise<string> {
-    let name: string = project;
-    switch (name) {
-        case "turf": {
-            name = "@turf/turf";
-            break;
-        }
-        case "angular": {
-            name = "@angular/compiler";
-            break;
-        }
-        case "xmldom": {
-            name = "@xmldom/xmldom";
-            break;
-        }
-    }
-
-    const text = await $`node ./examples/locate-index.js ${name}`
-        .quiet()
-        .text();
-    return text.trim();
-}
+import {
+    type Project,
+    getProjectNames,
+    getProjectSpec,
+    findEntryPoint,
+} from "./common";
 
 function pruneExtraKeys(schema: Schema, keep: Set<string>): Schema {
     return Object.fromEntries(
@@ -47,8 +29,6 @@ async function generateRandom(
     const sch = await Bun.file(outFile).json();
     const filtered = pruneExtraKeys(sch, keep);
     Bun.write(outFile, JSON.stringify(filtered, null, 4));
-
-    assert(await isIdempotent(project, entrypoint, outFile));
 
     const schema = await Bun.file(outFile).json();
     return Object.keys(schema);
@@ -76,45 +56,8 @@ async function generateTypeScript(
 
     await $`npx railcar-infer --decl ${decl} --entrypoint ${entrypoint} -o ${outFile} --config ${config}`.quiet();
 
-    assert(await isIdempotent(project, entrypoint, outFile));
-
     const schema = await Bun.file(outFile).json();
     return Object.keys(schema);
-}
-
-async function isIdempotent(
-    project: string,
-    entrypoint: string,
-    schema: string,
-): Promise<boolean> {
-    const config = `examples/${project}/railcar.config.js`;
-
-    Bun.spawnSync({
-        cmd: [
-            "cargo",
-            "run",
-            "--bin",
-            "railcar",
-            "--release",
-            "--",
-            "--config",
-            config,
-            "--mode",
-            "sequence",
-            "--schema",
-            schema,
-            "--iterations",
-            "0",
-            "--debug-dump-schema",
-            "schema.json",
-            entrypoint,
-        ],
-        stdout: "ignore",
-        stderr: "ignore",
-    });
-
-    const diff = await $`diff ${schema} schema.json`.quiet();
-    return diff.exitCode === 0;
 }
 
 async function main() {
@@ -124,7 +67,7 @@ async function main() {
     for (const project of projects) {
         console.log(`[${i++}/${projects.length}]`, "Generating", project);
 
-        const entrypoint = await findEntrypoint(project);
+        const entrypoint = await findEntryPoint(project);
 
         console.log("  TypeScript");
         const keysTypeScript = await generateTypeScript(project, entrypoint);

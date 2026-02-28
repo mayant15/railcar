@@ -1,3 +1,4 @@
+import { $ } from "bun";
 import type { SignatureGuess } from "@railcar/inference";
 
 const PROJECTS = {
@@ -134,4 +135,27 @@ export function isNoInfoSignature(sig: SignatureGuess): boolean {
             return sig.ret.isAny && sig.args.slice(1).every((arg) => arg.isAny);
         }
     }
+}
+
+export async function findEntryPoint(project: Project): Promise<string> {
+    let name: string = project;
+    switch (name) {
+        case "turf": {
+            name = "@turf/turf";
+            break;
+        }
+        case "angular": {
+            name = "@angular/compiler";
+            break;
+        }
+        case "xmldom": {
+            name = "@xmldom/xmldom";
+            break;
+        }
+    }
+
+    const text = await $`node ./examples/locate-index.js ${name}`
+        .quiet()
+        .text();
+    return text.trim();
 }

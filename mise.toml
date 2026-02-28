@@ -22,7 +22,7 @@ run = [
 ]
 
 [tasks.test]
-description = "Run smoke tests"
+description = "Run all smoke tests"
 run = [
   "cd packages/inference && bun test",
   "cd packages/worker && bun test",
