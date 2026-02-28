@@ -1,4 +1,4 @@
-ls #!/usr/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 # Grok created this file, edited and checked by Int2k.
@@ -9,8 +9,105 @@ if [ ! -d "examples/" ]; then
     exit 1
 fi
 
+echo
 echo "Running from: $(pwd)"
 echo
+
+LIST=false
+CLEAR=false
+
+if [[ $# -gt 0 ]]; then
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --list)
+                LIST=true
+                shift
+                ;;
+            --clear)
+                CLEAR=true
+                shift
+                ;;
+            --help|-h)
+                echo "Usage: $0 [OPTIONS]"
+                echo
+                echo "Options:"
+                echo "  --list      List all syntest.json files under examples/"
+                echo "  --clear     Delete all syntest.json files under examples/"
+                echo "  --build     Bob the builder"
+                echo "  (no flag)   force to input a flag"
+                exit 0
+                ;;
+            --build|-b)
+                echo "build mode"
+                shift
+                ;;
+            *)
+                echo "Unknown option: $1" >&2
+                echo "Use --help for usage" >&2
+                exit 1
+                ;;
+        esac
+    done
+else
+    echo "Give an option, Use --help for usage" >&2
+    exit 1
+fi
+
+list() {
+    echo "Found syntest.json files:"
+    echo "──────────────────────────────────────────────"
+    found=false
+    while IFS= read -r -d '' file; do
+        echo "  • ${file#./}"
+        found=true
+    done < <(find examples -type f -name "syntest.json" -print0 2>/dev/null)
+
+    if ! $found; then
+        echo "  (none found)"
+    fi
+    echo
+}
+
+# ────────────────────────────────────────────────────────────────
+#  Handle --list
+# ────────────────────────────────────────────────────────────────
+if $LIST; then
+    list
+    exit 0
+fi
+
+# ────────────────────────────────────────────────────────────────
+#  Handle --clear
+# ────────────────────────────────────────────────────────────────
+if $CLEAR; then
+    echo "This will DELETE all syntest.json files under examples/"
+    echo
+
+    # Count how many would be affected (for user awareness)
+    count=$(find examples -type f -name "syntest.json" 2>/dev/null | wc -l)
+    if (( count == 0 )); then
+        echo "No syntest.json files found. Nothing to delete."
+        exit 0
+    fi
+
+    echo "Found $count file(s)."
+    list
+    echo
+    read -p "Are you sure you want to continue? (y/N) " -n 1 -r
+    echo   
+
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Aborted."
+        exit 0
+    fi
+
+    echo "Removing files..."
+    find examples -type f -name "syntest.json" -delete -print | sed 's/^/  deleted: /'
+
+    echo
+    echo "Done."
+    exit 0
+fi
 
 # ────────────────────────────────────────────────
 #  Prepare tmp/ in the RIGHT place (repo root)
@@ -36,7 +133,7 @@ declare -A simple_projects=(
     ["tslib"]="node_modules/tslib/tslib.js"
     ["pako"]="node_modules/pako/dist/pako.js"
     ["redux"]="node_modules/redux/dist/redux.mjs"
-    ["angular"]="examples/node_modules/@angular/compiler/fesm2022/compiler.mjs"
+    ["angular"]="node_modules/@angular/compiler/fesm2022/compiler.mjs"
     ["js-yaml"]="node_modules/js-yaml/dist/js-yaml.js"
 )
 
@@ -116,6 +213,11 @@ build_schema() {
         die "Config not found: $config"
     fi
 
+    if [[ -f "$output" ]] then
+        info "schema for $name existed, skipping ..."
+        return
+    fi
+
     info "Building schema for $name ..."
 
     if ! $RAILCAR_INFER --syntest \
@@ -161,8 +263,6 @@ for name in "${!simple_projects[@]}"; do
     entry="${simple_projects[$name]}"
     build_schema "$name" "$entry"
 done
-
-exit 1
 
 # 2. Custom entrypoint projects
 for name in "${!custom_entrypoints[@]}"; do

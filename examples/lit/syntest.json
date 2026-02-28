@@ -1,0 +1,5372 @@
+{
+    "Uint8Array": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "RegExp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Error": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Duplex": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Buffer.from": {
+        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
+        "builtin": true
+    },
+    "CSSResult": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "CSSResult": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "LitElement": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "LitElement": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "LitElement.createRenderRoot": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.update": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.connectedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.disconnectedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.render": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.addController": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "hostConnected": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "LitElement.removeController": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.enableUpdating": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.attributeChangedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.requestUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.4,
+                    "Object": 0.6
+                },
+                "objectShape": {
+                    "hasChanged": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "useDefault": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "reflect": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "LitElement.C": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.2668067226890757,
+                    "Undefined": 0.7331932773109244
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.8482142857142856,
+                    "Undefined": 0.008928571428571428,
+                    "Object": 0.14285714285714285
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.31050228310502287,
+                    "Undefined": 0.6894977168949772
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.scheduleUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.performUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.willUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.getUpdateComplete": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.shouldUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.updated": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.firstUpdated": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.setAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.removeAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.toggleAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.49999999999999994,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.hasAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.attachShadow": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.49999999999999994,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "mode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "LitElement.attachInternals": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.getAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LitElement.addEventListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.5779310344827587,
+                    "Null": 0.10137931034482761,
+                    "Undefined": 0.1531034482758621,
+                    "Object": 0.16758620689655176
+                },
+                "objectShape": {
+                    "capture": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.4962072420208959,
+                            "Null": 0.1819092600543867,
+                            "Undefined": 0.1935022184056104,
+                            "Object": 0.12838127951910688
+                        },
+                        "objectShape": {
+                            "signal": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
+                    },
+                    "signal": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "LitElement.removeEventListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.5562659846547315,
+                    "Null": 0.10549872122762148,
+                    "Undefined": 0.14578005115089515,
+                    "Object": 0.19245524296675193
+                },
+                "objectShape": {
+                    "capture": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.4962072420208959,
+                            "Null": 0.1819092600543867,
+                            "Undefined": 0.1935022184056104,
+                            "Object": 0.12838127951910688
+                        },
+                        "objectShape": {
+                            "signal": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
+                    },
+                    "signal": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "LitElement.dispatchEvent": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LitElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "composed": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "stopPropagation": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "stopImmediatePropagation": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "target": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "defaultPrevented": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "bubbles": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "ReactiveElement": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ReactiveElement": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "ReactiveElement.addController": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "hostConnected": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "ReactiveElement.removeController": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.createRenderRoot": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.connectedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.enableUpdating": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.disconnectedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.attributeChangedCallback": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.C": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.2668067226890757,
+                    "Undefined": 0.7331932773109244
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.8482142857142856,
+                    "Undefined": 0.008928571428571428,
+                    "Object": 0.14285714285714285
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.31050228310502287,
+                    "Undefined": 0.6894977168949772
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.performUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.willUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.getUpdateComplete": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.shouldUpdate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.update": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.updated": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.firstUpdated": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.setAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.removeAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.toggleAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.49999999999999994,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.hasAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.attachShadow": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.49999999999999994,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "mode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "ReactiveElement.attachInternals": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.getAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "ReactiveElement.addEventListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.5779310344827587,
+                    "Null": 0.10137931034482761,
+                    "Undefined": 0.1531034482758621,
+                    "Object": 0.16758620689655176
+                },
+                "objectShape": {
+                    "capture": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.4962072420208959,
+                            "Null": 0.1819092600543867,
+                            "Undefined": 0.1935022184056104,
+                            "Object": 0.12838127951910688
+                        },
+                        "objectShape": {
+                            "signal": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
+                    },
+                    "signal": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "ReactiveElement.removeEventListener": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.5,
+                    "Undefined": 0.5
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.5562659846547315,
+                    "Null": 0.10549872122762148,
+                    "Undefined": 0.14578005115089515,
+                    "Object": 0.19245524296675193
+                },
+                "objectShape": {
+                    "capture": {
+                        "isAny": false,
+                        "kind": {
+                            "Boolean": 0.4962072420208959,
+                            "Null": 0.1819092600543867,
+                            "Undefined": 0.1935022184056104,
+                            "Object": 0.12838127951910688
+                        },
+                        "objectShape": {
+                            "signal": {
+                                "isAny": true,
+                                "kind": {}
+                            }
+                        }
+                    },
+                    "signal": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "ReactiveElement.dispatchEvent": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "ReactiveElement": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "composed": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "stopPropagation": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "stopImmediatePropagation": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "target": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "defaultPrevented": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "bubbles": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "_$LE._$AK": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "_$AK": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "_$LE._$AL": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "_$AL": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "_$LH.L": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Array": 1
+            },
+            "objectShape": {},
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.19545454545454544,
+                    "Array": 0.19545454545454544,
+                    "Object": 0.48181818181818176,
+                    "Function": 0.05909090909090908,
+                    "Number": 0.06818181818181816
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.06992481203007521,
+                    "Array": 0.06992481203007521,
+                    "Object": 0.1533834586466166,
+                    "Function": 0.04962406015037596,
+                    "Number": 0.6571428571428574
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.R": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.R": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.R.u": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.R": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "_$LH.R.p": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.R": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.25,
+                    "Array": 0.25,
+                    "Object": 0.5
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.D": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.18636779320489485,
+                    "Boolean": 1.8607860358105415e-26,
+                    "Null": 0.05386569591577096,
+                    "Undefined": 0.09738251618641436,
+                    "Array": 0.18568386629583722,
+                    "Object": 0.4626697609982124,
+                    "Function": 1.8967372744125587e-19,
+                    "Number": 0.014030367398870366
+                },
+                "objectShape": {
+                    "_$litType$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$litDirective$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "values": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AT": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AO": {
+                        "isAny": true,
+                        "kind": {},
+                        "objectShape": {}
+                    },
+                    "_$Co": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$Cl": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "element": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AN": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AM": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "options": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$Cv": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AH": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AA": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AB": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AR": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "T": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "k": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "O": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AI": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AP": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "strings": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "j": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "capture": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "once": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "passive": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.V": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "String": 0.04964962682333859,
+                "Boolean": 4.2863062939538325e-25,
+                "Null": 0.2338872442153574,
+                "Undefined": 0.27212412521803414,
+                "Array": 0.040771438798424514,
+                "Object": 0.31820554804714196,
+                "Function": 4.369119695027181e-18,
+                "Number": 0.08536201689770329
+            },
+            "objectShape": {
+                "_$litType$": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "nodeType": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AT": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AS": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AO": {
+                    "isAny": true,
+                    "kind": {},
+                    "objectShape": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$Co": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$Cl": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "element": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "type": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AN": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AM": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "options": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "name": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$Cv": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AH": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AA": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AB": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AR": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "$": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "T": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "k": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "O": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AI": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$AP": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "strings": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "j": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "capture": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "once": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "passive": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "_$litDirective$": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "values": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.00018255977469539662,
+                    "Boolean": 1.389407280957414e-8,
+                    "Null": 0.0000068126059752081685,
+                    "Undefined": 0.10224678172546438,
+                    "Array": 0.0000023469223539539984,
+                    "Object": 0.8938428623498507,
+                    "Function": 6.110508387921337e-8,
+                    "Number": 0.0037185616225035995
+                },
+                "objectShape": {
+                    "_$Co": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$Cl": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AT": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AO": {
+                        "isAny": true,
+                        "kind": {},
+                        "objectShape": {}
+                    },
+                    "_$litDirective$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "values": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$litType$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "capture": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "once": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "passive": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "element": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AN": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AM": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "options": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$Cv": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AH": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AA": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AB": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AR": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "T": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "k": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "O": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AI": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AP": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "strings": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "j": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.06139396263073824,
+                    "Boolean": 4.570521151069892e-25,
+                    "Null": 0.1557058963753565,
+                    "Undefined": 0.2116176139369912,
+                    "Array": 0.053640214081477545,
+                    "Object": 0.4167394419108247,
+                    "Function": 4.658825713376061e-18,
+                    "Number": 0.10090287106461264
+                },
+                "objectShape": {
+                    "_$litType$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AT": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AO": {
+                        "isAny": true,
+                        "kind": {},
+                        "objectShape": {}
+                    },
+                    "_$Co": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$Cl": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "element": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AN": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AM": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "options": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$Cv": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AH": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AA": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AB": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AR": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "T": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "k": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "O": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AI": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AP": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "strings": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "j": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "capture": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "once": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "passive": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$litDirective$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "values": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1.3474297439580209e-14,
+                    "Boolean": 9.158111189632978e-15,
+                    "Null": 5.028220450084229e-16,
+                    "Undefined": 0.5915104431372473,
+                    "Array": 1.732206884979976e-16,
+                    "Object": 0.40848944350829464,
+                    "Function": 1.1335416063144204e-7,
+                    "Number": 2.7445808055264285e-13
+                },
+                "objectShape": {
+                    "element": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AN": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AM": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "options": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AT": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AO": {
+                        "isAny": true,
+                        "kind": {},
+                        "objectShape": {}
+                    },
+                    "_$litDirective$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "values": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$litType$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "capture": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "once": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "passive": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$Cv": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AH": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AA": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AB": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AR": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "T": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "k": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "O": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AI": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AP": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "strings": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "j": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$Co": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$Cl": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.02980360766211584,
+                    "Boolean": 5.480849196660171e-16,
+                    "Null": 0.001112184959586337,
+                    "Undefined": 0.2865217119602269,
+                    "Array": 0.0003831443874610462,
+                    "Object": 0.075109404382571,
+                    "Function": 5.586741713810847e-9,
+                    "Number": 0.6070699410612977
+                },
+                "objectShape": {
+                    "_$litDirective$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "values": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$litType$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "capture": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "once": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "passive": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AT": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AO": {
+                        "isAny": true,
+                        "kind": {},
+                        "objectShape": {}
+                    },
+                    "_$Co": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$Cl": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "element": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AN": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AM": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "options": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$Cv": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AH": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AA": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AB": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AR": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "T": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "k": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "O": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AI": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AP": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "strings": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "j": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.I": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.I": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.I.O": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "_$LH.I.T": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "_$LH.I.$": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.3333333333333333,
+                    "Object": 0.6666666666666666
+                },
+                "objectShape": {
+                    "values": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$litType$": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.I.k": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.I.setConnected": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.I": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "_$LH.H": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.H": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.H.j": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.H": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.46325362131779924,
+                    "Boolean": 4.4322386755589355e-28,
+                    "Null": 0.19879740416607633,
+                    "Undefined": 0.22835600392460978,
+                    "Array": 0.006867649775043783,
+                    "Object": 0.08556508251125511,
+                    "Function": 4.5178715570937e-21,
+                    "Number": 0.017160238305216183
+                },
+                "objectShape": {
+                    "_$litDirective$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "values": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$litType$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AT": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AO": {
+                        "isAny": true,
+                        "kind": {},
+                        "objectShape": {}
+                    },
+                    "_$Co": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$Cl": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "element": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AN": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AM": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "options": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$Cv": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AH": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AA": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AB": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AR": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "T": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "k": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "O": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AI": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AP": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "strings": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "j": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "capture": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "once": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "passive": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.N": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.N": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.N.j": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.N": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.46325362131779924,
+                    "Boolean": 4.4322386755589355e-28,
+                    "Null": 0.19879740416607633,
+                    "Undefined": 0.22835600392460978,
+                    "Array": 0.006867649775043783,
+                    "Object": 0.08556508251125511,
+                    "Function": 4.5178715570937e-21,
+                    "Number": 0.017160238305216183
+                },
+                "objectShape": {
+                    "_$litDirective$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "values": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$litType$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AT": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AO": {
+                        "isAny": true,
+                        "kind": {},
+                        "objectShape": {}
+                    },
+                    "_$Co": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$Cl": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "element": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AN": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AM": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "options": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$Cv": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AH": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AA": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AB": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AR": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "T": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "k": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "O": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AI": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AP": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "strings": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "j": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "capture": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "once": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "passive": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.U": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.U": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "_$LH.U.handleEvent": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.U": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "_$LH.U.j": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.U": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.46325362131779924,
+                    "Boolean": 4.4322386755589355e-28,
+                    "Null": 0.19879740416607633,
+                    "Undefined": 0.22835600392460978,
+                    "Array": 0.006867649775043783,
+                    "Object": 0.08556508251125511,
+                    "Function": 4.5178715570937e-21,
+                    "Number": 0.017160238305216183
+                },
+                "objectShape": {
+                    "_$litDirective$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "values": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$litType$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AT": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AO": {
+                        "isAny": true,
+                        "kind": {},
+                        "objectShape": {}
+                    },
+                    "_$Co": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$Cl": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "element": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AN": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AM": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "options": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$Cv": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AH": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AA": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AB": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AR": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "T": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "k": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "O": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AI": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AP": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "strings": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "j": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "capture": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "once": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "passive": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.B": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.B": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.B.j": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "_$LH.B": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.46325362131779924,
+                    "Boolean": 4.4322386755589355e-28,
+                    "Null": 0.19879740416607633,
+                    "Undefined": 0.22835600392460978,
+                    "Array": 0.006867649775043783,
+                    "Object": 0.08556508251125511,
+                    "Function": 4.5178715570937e-21,
+                    "Number": 0.017160238305216183
+                },
+                "objectShape": {
+                    "_$litDirective$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "values": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$litType$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AT": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$AO": {
+                        "isAny": true,
+                        "kind": {},
+                        "objectShape": {}
+                    },
+                    "_$Co": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "_$Cl": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "element": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "type": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AN": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AM": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "options": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$Cv": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AH": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AA": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AB": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AR": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "T": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "k": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "O": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AI": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "_$AP": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "strings": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "j": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "capture": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "once": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "passive": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "_$LH.F": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "_$LH.F": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "adoptStyles": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.22499999999999998,
+                    "Undefined": 0.375,
+                    "Object": 0.4
+                },
+                "objectShape": {
+                    "adoptedStyleSheets": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "appendChild": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "map": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "css": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Undefined": 0.25,
+                "Object": 0.75
+            },
+            "objectShape": {
+                "_$cssResult$": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "cssText": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "t": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "o": {
+                    "isAny": true,
+                    "kind": {},
+                    "arrayValueType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2,
+                    "Array": 0.4,
+                    "Object": 0.3,
+                    "Function": 0.1
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.6666666666666666,
+                    "Object": 0.3333333333333333
+                },
+                "objectShape": {
+                    "reduce": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "defaultConverter.toAttribute": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "String": 0.1125,
+                "Boolean": 0.125,
+                "Null": 0.725,
+                "Undefined": 0.037500000000000006
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "defaultConverter.fromAttribute": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Boolean": 0.23076923076923078,
+                "Null": 0.6923076923076923,
+                "Undefined": 0.07692307692307693
+            },
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "getCompatibleStyle": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ]
+    },
+    "html": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "mathml": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "notEqual": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "render": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.2222222222222222,
+                    "Undefined": 0.3333333333333333,
+                    "Object": 0.4444444444444444
+                },
+                "objectShape": {
+                    "_$litPart$": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "insertBefore": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 0.25,
+                    "Undefined": 0.25,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "renderBefore": {
+                        "isAny": false,
+                        "kind": {
+                            "Null": 0.5238095238095238,
+                            "Undefined": 0.4761904761904763
+                        },
+                        "objectShape": {}
+                    }
+                }
+            }
+        ]
+    },
+    "svg": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "unsafeCSS": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.28571428571428564,
+                    "Undefined": 0.030612244897959183,
+                    "Number": 0.6836734693877551
+                },
+                "objectShape": {}
+            }
+        ]
+    }
+}

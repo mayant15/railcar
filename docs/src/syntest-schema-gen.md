@@ -66,6 +66,26 @@ to custom-build bundled js, you need to install esbuild npm package in each resp
 
   - `bunx railcar-infer --syntest --entrypoint node_modules/typescript/lib/typescript.js --config examples/typescript/railcar.config.js -o examples/typescript/syntest.json`
 
-- A reference script can be checked out in scripts/build-syntest-json.sh
+- A reference script can be checked out in scripts/build-syntest-json.sh: `./scripts/build-syntest-json.sh --help`
+
+```
+  • examples/angular/syntest.json
+  • examples/fast-xml-parser/syntest.json
+  • examples/jimp/syntest.json
+  • examples/jpeg-js/syntest.json
+  • examples/js-yaml/syntest.json
+  • examples/lit/syntest.json
+  • examples/lodash/syntest.json
+  • examples/pako/syntest.json
+  • examples/protobufjs/syntest.json
+  • examples/redux/syntest.json
+  • examples/sharp/syntest.json
+  • examples/tslib/syntest.json
+  • examples/turf/syntest.json
+  • examples/typescript/syntest.json
+  • examples/ua-parser-js/syntest.json
+  • examples/xml2js/syntest.json
+  • examples/xmldom/syntest.json
+```
 
 (building typescript should take a very long time, 4907 endpoints to infer)
