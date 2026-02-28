@@ -1,9 +1,8 @@
-Index: /@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVisitor.js
-===================================================================
---- /@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVisitor.js
-+++ /@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVisitor.js
-@@ -327,23 +327,29 @@
-         this._relationMap = new Map();
+diff --git a/node_modules/@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVisitor.js b/node_modules/@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVisitor.js
+index 9607fee..102c0d3 100644
+--- a/node_modules/@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVisitor.js
++++ b/node_modules/@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVisitor.js
+@@ -328,21 +328,27 @@ class RelationVisitor extends ast_visitor_javascript_1.AbstractSyntaxTreeVisitor
      }
      _createRelation(path, type, involved, computed = false) {
          const id = this._getNodeId(path);
@@ -37,13 +36,11 @@ Index: /@syntest/analysis-javascript/dist/lib/type/discovery/relation/RelationVi
          this._relationMap.set(relation.id, relation);
      }
  }
- exports.RelationVisitor = RelationVisitor;
-Index: /@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelFactory.js
-===================================================================
---- /@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelFactory.js
-+++ /@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelFactory.js
-@@ -595,8 +595,11 @@
-     _objectMethod(elementMap, relationMap, relation, involved) {
+diff --git a/node_modules/@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelFactory.js b/node_modules/@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelFactory.js
+index 96a925f..069208e 100644
+--- a/node_modules/@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelFactory.js
++++ b/node_modules/@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelFactory.js
+@@ -596,6 +596,9 @@ class InferenceTypeModelFactory extends TypeModelFactory_1.TypeModelFactory {
          const [functionId, ...parameters] = involved;
          // TODO what if the property is not an element
          const propertyElement = elementMap.get(functionId);
@@ -53,9 +50,7 @@ Index: /@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelF
          const propertyName = "name" in propertyElement ? propertyElement.name : propertyElement.value;
          this._typeModel.addPropertyType(relation.id, propertyName, functionId);
          this.addFunctionParameters(elementMap, relationMap, functionId, parameters);
-     }
-@@ -606,8 +609,11 @@
-         }
+@@ -607,6 +610,9 @@ class InferenceTypeModelFactory extends TypeModelFactory_1.TypeModelFactory {
          const [classId, propertyId, valueId] = involved;
          // TODO what if the property is not an element
          const propertyElement = elementMap.get(propertyId);
@@ -65,4 +60,3 @@ Index: /@syntest/analysis-javascript/dist/lib/type/resolving/InferenceTypeModelF
          const propertyName = "name" in propertyElement ? propertyElement.name : propertyElement.value;
          // make object for the class
          this._typeModel.addPropertyType(classId, propertyName, propertyId);
-         // connect property to value

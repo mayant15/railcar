@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+ls #!/usr/bin/env bash
 set -euo pipefail
 
 # Grok created this file, edited and checked by Int2k.
@@ -44,13 +44,41 @@ declare -A simple_projects=(
 #  Projects with custom build steps / different entrypoints
 # ────────────────────────────────────────────────────────────────
 declare -A custom_entrypoints=(
-    ["sharp"]="node_modules/sharp/lib/index.js"
-    ["jimp"]="node_modules/jimp/dist/commonjs/index.js"
-    ["lit"]="node_modules/lit/index.js"
-    ["lodash"]="node_modules/lodash/index.js"
-    ["turf"]="node_modules/@turf/turf/dist/esm/index.js"
-    ["xml2js"]="node_modules/xml2js/lib/xml2js.js"
-    ["xmldom"]="node_modules/@xmldom/xmldom/lib/index.js"
+    ["sharp"]='
+        entry="node_modules/sharp/lib/index.js"
+        esbuild_args="--bundle --format=cjs --platform=node --outfile=$TMP_DIR/sharp.bundled.js"
+        bundle_file="$TMP_DIR/sharp.bundled.js"
+    '
+    ["jimp"]='
+        entry="node_modules/jimp/dist/commonjs/index.js"
+        esbuild_args="--bundle --platform=node --outfile=$TMP_DIR/jimp-common.bundled.js"
+        bundle_file="$TMP_DIR/jimp-common.bundled.js"
+    '
+    ["lit"]='
+        entry="node_modules/lit/index.js"
+        esbuild_args="--bundle --format=esm --platform=node --outfile=$TMP_DIR/lit.bundled.js"
+        bundle_file="$TMP_DIR/lit.bundled.js"
+    '
+    ["lodash"]='
+        entry="node_modules/lodash/index.js"
+        esbuild_args="--bundle --format=esm --platform=node --outfile=$TMP_DIR/lodash.bundled.js"
+        bundle_file="$TMP_DIR/lodash.bundled.js"
+    '
+    ["turf"]='
+        entry="node_modules/@turf/turf/dist/esm/index.js"
+        esbuild_args="--bundle --format=esm --platform=node --outfile=$TMP_DIR/turf.bundled.js"
+        bundle_file="$TMP_DIR/turf.bundled.js"
+    '
+    ["xml2js"]='
+        entry="node_modules/xml2js/lib/xml2js.js"
+        esbuild_args="--bundle --format=cjs --platform=node --outfile=$TMP_DIR/xml2js.bundled.js"
+        bundle_file="$TMP_DIR/xml2js.bundled.js"
+    '
+    ["xmldom"]='
+        entry="node_modules/@xmldom/xmldom/lib/index.js"
+        esbuild_args="--bundle --format=esm --platform=node --outfile=$TMP_DIR/xmldom.bundled.js"
+        bundle_file="$TMP_DIR/xmldom.bundled.js"
+    '
 )
 
 # ────────────────────────────────────────────────────────────────
@@ -105,6 +133,21 @@ build_schema() {
     fi
 }
 
+echo "Building custom custom_entrypoints into $TMP_DIR/"
+echo "───────────────────────────────────────"
+
+for name in "${!custom_entrypoints[@]}"; do
+    eval "${custom_entrypoints[$name]}"  
+
+    echo "Project: $name"
+    echo "  Entrypoint:   $entry"
+    echo "  Bundle file:  $bundle_file"
+
+    # Build only if needed
+    echo "  Bundling..."
+    bunx esbuild "$entry" $esbuild_args
+done
+
 # ────────────────────────────────────────────────────────────────
 # Main
 # ────────────────────────────────────────────────────────────────
@@ -119,44 +162,51 @@ for name in "${!simple_projects[@]}"; do
     build_schema "$name" "$entry"
 done
 
+exit 1
+
 # 2. Custom entrypoint projects
 for name in "${!custom_entrypoints[@]}"; do
-    entry="${custom_entrypoints[$name]}"
-    build_schema "$name" "$entry"
+    eval "${custom_entrypoints[$name]}"
+
+    if [[ -z "${bundle_file:-}" ]]; then
+        echo "Error: bundle_file not found for $name" >&2
+        continue
+    fi
+
+    build_schema "$name" "$bundle_file"
 done
 
 # 3. fast-xml-parser && jpeg-js
-# ────────────────────────────────────────────────────────────────
-#  fast-xml-parser
-# ────────────────────────────────────────────────────────────────
 echo "→ fast-xml-parser"
 
-FXP_REPO="$TMP_DIR/fast-xml-parser"
+FXP_SRC="$PWD/node_modules/fast-xml-parser/"
+FXP_TMP="$TMP_DIR/fast-xml-parser/"
 FXP_OUT="$TMP_DIR/fxp.bundled.js"
 
-if [[ ! -d "$FXP_REPO" ]]; then
-    echo "  Cloning repository..."
-    git clone --depth 1 https://github.com/NaturalIntelligence/fast-xml-parser.git "$FXP_REPO"
+if [[ ! -d "$FXP_SRC" ]]; then
+    echo "Error: node_modules/fast-xml-parser/src/ not found" >&2
+    echo "install all node modules dependencies first." >&2
+    exit 1
 fi
+rm -rf "$FXP_TMP"
+mkdir -p "$FXP_TMP"
+cp -r "$FXP_SRC/." "$FXP_TMP/"
 (
-    cd "$FXP_REPO"
-    npm install esbuild
-    npx esbuild src/fxp.js --bundle --platform=node --outfile="$FXP_OUT.tmp"
+    cd "$FXP_TMP"
+    bunx esbuild src/fxp.js --bundle --platform=node --outfile="$FXP_OUT.tmp"
     mv "$FXP_OUT.tmp" "$FXP_OUT"
 )
 echo "   → $FXP_OUT"
 echo
 
-# ────────────────────────────────────────────────────────────────
-#  jpeg-js
-# ────────────────────────────────────────────────────────────────
+
 echo "→ jpeg-js"
 JPEG_SRC="$PWD/node_modules/jpeg-js"
 JPEG_TMP="$TMP_DIR/jpeg-js"
 JPEG_OUT="$TMP_DIR/jpeg-js.bundled.js"
 if [[ ! -d "$JPEG_SRC" ]]; then
     echo "Error: node_modules/jpeg-js not found" >&2
-    echo "Run 'npm install' in the repository root first." >&2
+    echo "install all node modules dependencies first." >&2
     exit 1
 fi
 rm -rf "$JPEG_TMP"
@@ -165,8 +215,7 @@ cp -r "$JPEG_SRC/." "$JPEG_TMP/"
 
 (
     cd "$JPEG_TMP"
-    npm install esbuild
-    npx esbuild index.js --bundle --outfile="$JPEG_OUT.tmp"
+    bunx esbuild index.js --bundle --outfile="$JPEG_OUT.tmp"
     mv "$JPEG_OUT.tmp" "$JPEG_OUT"
 )
 echo "   → $JPEG_OUT"
