@@ -1,6 +1,6 @@
 {
     "Uint8Array": {
-        "callconv": "Constructor",
+        "args": [],
         "ret": {
             "isAny": false,
             "kind": {
@@ -10,11 +10,18 @@
                 "Uint8Array": 1
             }
         },
-        "args": [],
+        "callconv": "Constructor",
         "builtin": true
     },
     "ArrayBuffer": {
-        "callconv": "Constructor",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
         "ret": {
             "isAny": false,
             "kind": {
@@ -24,16 +31,11 @@
                 "ArrayBuffer": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "RegExp": {
-        "callconv": "Constructor",
+        "args": [],
         "ret": {
             "isAny": false,
             "kind": {
@@ -43,11 +45,18 @@
                 "RegExp": 1
             }
         },
-        "args": [],
+        "callconv": "Constructor",
         "builtin": true
     },
     "SharedArrayBuffer": {
-        "callconv": "Constructor",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
         "ret": {
             "isAny": false,
             "kind": {
@@ -57,16 +66,19 @@
                 "SharedArrayBuffer": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
         "ret": {
             "isAny": false,
             "kind": {
@@ -76,16 +88,11 @@
                 "Error": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "Duplex": {
-        "callconv": "Constructor",
+        "args": [],
         "ret": {
             "isAny": false,
             "kind": {
@@ -95,16 +102,10 @@
                 "Duplex": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "Buffer.from": {
-        "callconv": "Free",
         "args": [
             {
                 "isAny": false,
@@ -122,6 +123,7 @@
                 "Buffer": 1
             }
         },
+        "callconv": "Free",
         "builtin": true
     },
     "Type": {

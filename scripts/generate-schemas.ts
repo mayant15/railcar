@@ -139,8 +139,8 @@ async function main() {
         const sortedA = keysTypeScript.sort();
         const sortedB = keysRandom.sort();
 
-        for (let i = 0; i < sortedA.length; ++i) {
-            assert(sortedA[i] === sortedB[i]);
+        for (let j = 0; j < sortedA.length; ++j) {
+            assert(sortedA[j] === sortedB[j]);
         }
 
         // console.log("  SynTest");

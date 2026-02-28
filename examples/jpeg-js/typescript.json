@@ -335,7 +335,6 @@
         "builtin": true
     },
     "Buffer.from": {
-        "callconv": "Free",
         "args": [
             {
                 "isAny": false,
@@ -353,6 +352,7 @@
                 "Buffer": 1
             }
         },
+        "callconv": "Free",
         "builtin": true
     }
 }

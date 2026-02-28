@@ -26,7 +26,8 @@ description = "Run smoke tests"
 run = [
   "cd packages/inference && bun test",
   "cd packages/worker && bun test",
-  "cargo test"
+  "cd scripts && bun test",
+  "cargo test",
 ]
 
 [tasks.build]
