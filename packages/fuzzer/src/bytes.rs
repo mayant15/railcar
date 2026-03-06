@@ -62,7 +62,7 @@ fn client(
     let coverage = &observers.0;
 
     // we don't want coverage feedback but we still want to count valid execution stats
-    let mut feedback = StdFeedback::new(false, &observers);
+    let mut feedback = StdFeedback::new(&observers);
     let mut objective = UniqCrashFeedback::new(&observers);
 
     let mut state = state.unwrap_or_else(|| {
