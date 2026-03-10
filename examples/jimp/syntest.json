@@ -1,6 +1,6 @@
 {
     "Uint8Array": {
-        "callconv": "Constructor",
+        "args": [],
         "ret": {
             "isAny": false,
             "kind": {
@@ -10,11 +10,18 @@
                 "Uint8Array": 1
             }
         },
-        "args": [],
+        "callconv": "Constructor",
         "builtin": true
     },
     "ArrayBuffer": {
-        "callconv": "Constructor",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
         "ret": {
             "isAny": false,
             "kind": {
@@ -24,16 +31,11 @@
                 "ArrayBuffer": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "RegExp": {
-        "callconv": "Constructor",
+        "args": [],
         "ret": {
             "isAny": false,
             "kind": {
@@ -43,11 +45,18 @@
                 "RegExp": 1
             }
         },
-        "args": [],
+        "callconv": "Constructor",
         "builtin": true
     },
     "SharedArrayBuffer": {
-        "callconv": "Constructor",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
         "ret": {
             "isAny": false,
             "kind": {
@@ -57,16 +66,19 @@
                 "SharedArrayBuffer": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
         "ret": {
             "isAny": false,
             "kind": {
@@ -76,16 +88,11 @@
                 "Error": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "Duplex": {
-        "callconv": "Constructor",
+        "args": [],
         "ret": {
             "isAny": false,
             "kind": {
@@ -95,16 +102,10 @@
                 "Duplex": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "Buffer.from": {
-        "callconv": "Free",
         "args": [
             {
                 "isAny": false,
@@ -122,559 +123,8 @@
                 "Buffer": 1
             }
         },
+        "callconv": "Free",
         "builtin": true
-    },
-    "defaultFormats.0": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {}
-        },
-        "args": []
-    },
-    "defaultFormats.1": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {}
-        },
-        "args": []
-    },
-    "defaultFormats.2": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {}
-        },
-        "args": []
-    },
-    "defaultFormats.3": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {}
-        },
-        "args": []
-    },
-    "defaultFormats.4": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {}
-        },
-        "args": []
-    },
-    "defaultFormats.5": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {}
-        },
-        "args": []
-    },
-    "Jimp": {
-        "callconv": "Constructor",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Jimp": 1
-            }
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Array": 1
-                },
-                "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
-                }
-            }
-        ]
-    },
-    "Jimp.inspect": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.getBuffer": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.getBase64": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.31179138321995464,
-                    "Number": 0.6882086167800455
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.write": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.clone": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.getPixelIndex": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.06636736223273396,
-                    "Number": 0.9336326377672658
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.05937065309862993,
-                    "Number": 0.9406293469013708
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.getPixelColor": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.setPixelColor": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.hasAlpha": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.composite": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.25,
-                    "Number": 0.75
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.25,
-                    "Number": 0.75
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 1
-                },
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.scan": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            },
-            {
-                "isAny": true,
-                "kind": {},
-                "objectShape": {}
-            }
-        ]
-    },
-    "Jimp.scanIterator": {
-        "callconv": "Method",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Class": 1
-                },
-                "classType": {
-                    "Jimp": 1
-                }
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Function": 1
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.25,
-                    "Number": 0.75
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 0.25,
-                    "Number": 0.75
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 1
-                },
-                "objectShape": {}
-            },
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 1
-                },
-                "objectShape": {}
-            }
-        ]
     },
     "distance": {
         "callconv": "Free",
@@ -712,23 +162,6 @@
             {
                 "isAny": true,
                 "kind": {},
-                "objectShape": {}
-            }
-        ]
-    },
-    "loadFont": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {},
-            "objectShape": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Undefined": 1
-                },
                 "objectShape": {}
             }
         ]

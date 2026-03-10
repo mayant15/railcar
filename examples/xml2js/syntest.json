@@ -1,6 +1,6 @@
 {
     "Uint8Array": {
-        "callconv": "Constructor",
+        "args": [],
         "ret": {
             "isAny": false,
             "kind": {
@@ -10,11 +10,18 @@
                 "Uint8Array": 1
             }
         },
-        "args": [],
+        "callconv": "Constructor",
         "builtin": true
     },
     "ArrayBuffer": {
-        "callconv": "Constructor",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
         "ret": {
             "isAny": false,
             "kind": {
@@ -24,16 +31,11 @@
                 "ArrayBuffer": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "RegExp": {
-        "callconv": "Constructor",
+        "args": [],
         "ret": {
             "isAny": false,
             "kind": {
@@ -43,11 +45,18 @@
                 "RegExp": 1
             }
         },
-        "args": [],
+        "callconv": "Constructor",
         "builtin": true
     },
     "SharedArrayBuffer": {
-        "callconv": "Constructor",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                }
+            }
+        ],
         "ret": {
             "isAny": false,
             "kind": {
@@ -57,16 +66,19 @@
                 "SharedArrayBuffer": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "Error": {
-        "callconv": "Constructor",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Undefined": 0.5
+                }
+            }
+        ],
         "ret": {
             "isAny": false,
             "kind": {
@@ -76,16 +88,11 @@
                 "Error": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "Duplex": {
-        "callconv": "Constructor",
+        "args": [],
         "ret": {
             "isAny": false,
             "kind": {
@@ -95,16 +102,10 @@
                 "Duplex": 1
             }
         },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ],
+        "callconv": "Constructor",
         "builtin": true
     },
     "Buffer.from": {
-        "callconv": "Free",
         "args": [
             {
                 "isAny": false,
@@ -122,140 +123,8 @@
                 "Buffer": 1
             }
         },
+        "callconv": "Free",
         "builtin": true
-    },
-    "processors.normalize": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {},
-            "objectShape": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.5,
-                    "Object": 0.5
-                },
-                "objectShape": {
-                    "toLowerCase": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            }
-        ]
-    },
-    "processors.firstCharLowerCase": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "String": 0.16666666666666666,
-                "Number": 0.8333333333333333
-            },
-            "objectShape": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.4,
-                    "Array": 0.2,
-                    "Object": 0.4
-                },
-                "objectShape": {
-                    "charAt": {
-                        "isAny": true,
-                        "kind": {}
-                    },
-                    "slice": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                },
-                "arrayValueType": {
-                    "isAny": true,
-                    "kind": {}
-                }
-            }
-        ]
-    },
-    "processors.stripPrefix": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {},
-            "objectShape": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.5,
-                    "Object": 0.5
-                },
-                "objectShape": {
-                    "replace": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            }
-        ]
-    },
-    "processors.parseNumbers": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Number": 1.0000000000000002
-            },
-            "objectShape": {}
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Number": 1.0000000000000002
-                },
-                "objectShape": {}
-            }
-        ]
-    },
-    "processors.parseBooleans": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "String": 0.2,
-                "Boolean": 0.6,
-                "Object": 0.2
-            },
-            "objectShape": {
-                "toLowerCase": {
-                    "isAny": true,
-                    "kind": {}
-                }
-            }
-        },
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "String": 0.2,
-                    "Boolean": 0.6,
-                    "Object": 0.2
-                },
-                "objectShape": {
-                    "toLowerCase": {
-                        "isAny": true,
-                        "kind": {}
-                    }
-                }
-            }
-        ]
     },
     "ValidationError": {
         "callconv": "Constructor",
