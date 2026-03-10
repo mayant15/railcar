@@ -39,8 +39,8 @@ for (const project of getProjectNames()) {
                 syntest: Object.keys(schemas.syntest).sort(),
             };
 
-            expect(keys.random).toEqual(keys.typescript)
-            expect(keys.syntest).toEqual(keys.typescript)
+            expect(keys.random).toEqual(keys.typescript);
+            expect(keys.syntest).toEqual(keys.typescript);
         });
 
         test("typescript schema must only have known no info guesses", () => {
@@ -70,13 +70,13 @@ for (const project of getProjectNames()) {
                         builtin: true,
                     });
                 });
-            });
 
-            test("must be idempotent", async () => {
-                const entrypoint = await findEntryPoint(project);
-                const schema = schemaPath(project, kind);
-                const is = await isIdempotent(project, entrypoint, schema);
-                expect(is).toBeTrue();
+                test("must be idempotent", async () => {
+                    const entrypoint = await findEntryPoint(project);
+                    const schema = schemaPath(project, kind);
+                    const is = await isIdempotent(project, entrypoint, schema);
+                    expect(is).toBeTrue();
+                });
             });
         }
     });

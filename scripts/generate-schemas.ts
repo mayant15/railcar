@@ -33,17 +33,21 @@ async function generateRandom(
     return Object.keys(filtered);
 }
 
-async function generateSynTest(project: Project, _entrypoint: string, keep: Set<string>): Promise<string[]> {
+async function generateSynTest(
+    project: Project,
+    _entrypoint: string,
+    keep: Set<string>,
+): Promise<string[]> {
     const outFile = `examples/${project}/syntest.json`;
 
-    const file = Bun.file(outFile)
-    assert(await file.exists())
+    const file = Bun.file(outFile);
+    assert(await file.exists());
 
-    const schema = await file.json()
-    const filtered = pruneExtraKeys(schema, keep)
-    Bun.write(outFile, JSON.stringify(filtered, null, 4))
+    const schema = await file.json();
+    const filtered = pruneExtraKeys(schema, keep);
+    Bun.write(outFile, JSON.stringify(filtered, null, 4));
 
-    return Object.keys(filtered)
+    return Object.keys(filtered);
 }
 
 async function generateTypeScript(
@@ -79,7 +83,7 @@ async function main() {
         console.log("  Random");
         await generateRandom(project, entrypoint, keep);
 
-        console.log("  SynTest [TODO: generate]")
+        console.log("  SynTest [TODO: generate]");
         await generateSynTest(project, entrypoint, keep);
     }
 }
