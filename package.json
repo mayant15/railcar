@@ -26,5 +26,8 @@
     "overrides": {
         "semver": "^7.7.2"
     },
+    "scripts": {
+        "postinstall": "patch-package"
+    },
     "version": "0.1.10"
 }
