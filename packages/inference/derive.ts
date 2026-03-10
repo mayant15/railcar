@@ -123,19 +123,31 @@ function getExportEqualsType(ctx: Context): ts.Type | null {
         ? ctx.checker.getAliasedSymbol(exportEquals)
         : exportEquals
 
-    // Only use the type-based inference when the export target is a variable.
+    // Only use the type-based inference when the export target is a variable or function.
     // Pure namespaces (e.g., `declare namespace X { ... }; export = X`) are handled
     // by the regular getExportedSymbols path.
-    const isVariable = resolved.flags & (ts.SymbolFlags.Variable | ts.SymbolFlags.FunctionScopedVariable | ts.SymbolFlags.BlockScopedVariable)
-    if (!isVariable) return null
+    const isVariableOrFunction = resolved.flags & (ts.SymbolFlags.Variable | ts.SymbolFlags.FunctionScopedVariable | ts.SymbolFlags.BlockScopedVariable | ts.SymbolFlags.Function)
+    if (!isVariableOrFunction) return null
 
     return ctx.checker.getTypeOfSymbol(resolved)
 }
 
 /**
  * Infer signatures from the callable properties of a type and add them to the schema.
+ *
+ * When the type itself has call signatures (e.g. `export = sharp` where sharp is a callable
+ * that returns a `Sharp` instance), also infer a constructor entry and instance methods from
+ * the return type.
  */
 function inferPropertiesOfType(ctx: Context, type: ts.Type): void {
+    // If the type itself is callable, infer a constructor and instance methods from
+    // the return type. This handles patterns like `export = sharp` where sharp() returns
+    // a Sharp instance with chainable methods.
+    const callSignatures = type.getCallSignatures()
+    if (callSignatures.length > 0) {
+        inferCallableExport(ctx, callSignatures)
+    }
+
     for (const prop of type.getProperties()) {
         const propType = ctx.checker.getTypeOfSymbol(prop)
         const name = prop.getName()
@@ -148,6 +160,52 @@ function inferPropertiesOfType(ctx: Context, type: ts.Type): void {
         } else if (isClass(prop)) {
             inferClassType(ctx, prop)
         }
+    }
+}
+
+/**
+ * Infer a constructor entry and instance methods for a callable export.
+ *
+ * Given call signatures like `(input?, options?) => Sharp`, this creates a constructor
+ * entry named after the return type (e.g. "Sharp") and adds instance methods as
+ * "Sharp.methodName" with Method callconv.
+ */
+function inferCallableExport(ctx: Context, callSignatures: readonly ts.Signature[]): void {
+    // Determine the instance type name from the return type of the first signature
+    const returnType = unwrapPromise(ctx.checker, callSignatures[0].getReturnType())
+    const returnSymbol = returnType.getSymbol()
+    if (!returnSymbol) return
+
+    const instanceName = returnSymbol.getName()
+
+    // Register the instance type so toTypeGuessInner recognizes it as a class
+    // rather than expanding it into an object shape. This ensures methods that
+    // return `this` (e.g. chainable APIs) are typed as `Guess.class(instanceName)`.
+    ctx.builtins.add(instanceName)
+
+    // Create the constructor entry
+    const guesses = callSignatures.map(sig => guessSignature(ctx, sig, "Constructor"))
+    const constructor = mergeFunctionOverloads(guesses)
+    constructor.ret = Guess.class(instanceName)
+    constructor.callconv = "Constructor"
+    ctx.schema[instanceName] = constructor
+
+    // Infer instance methods from the return type's properties
+    for (const prop of returnType.getProperties()) {
+        const propType = ctx.checker.getTypeOfSymbol(prop)
+        if (!isFunction(propType)) continue
+        if (BUILTIN_METHOD_NAMES.has(prop.getName())) continue
+
+        const methodGuesses = propType.getCallSignatures()
+            .map(sig => guessSignature(ctx, sig, "Method"))
+            .map(g => ({
+                args: [Guess.class(instanceName), ...g.args],
+                ret: g.ret,
+                callconv: g.callconv,
+            }))
+
+        const methodName = `${instanceName}.${prop.getName()}`
+        ctx.schema[methodName] = mergeFunctionOverloads(methodGuesses)
     }
 }
 
