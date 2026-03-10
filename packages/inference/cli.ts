@@ -126,25 +126,19 @@ async function getSkipMethods(configFile: string): Promise<string[]> {
 
 async function dispatch(args: Args): Promise<Schema> {
     const entrypoint = absolute(args.entrypoint);
-
-    let schema = {};
-    let skipEndpointsNotInSchema = false;
-
     const skip = args.config ? await getSkipMethods(args.config) : [];
 
     if (args.syntest) {
-        schema = syntestSchema(entrypoint, skip);
-        skipEndpointsNotInSchema = false;
+        return syntestSchema(entrypoint, skip);
     }
+
+    let schema = {};
+    let skipEndpointsNotInSchema = false;
 
     if (args.decl) {
         const decl = absolute(args.decl);
         schema = derive(decl);
         skipEndpointsNotInSchema = true;
-    }
-
-    if (args.syntest) {
-        return schema;
     }
 
     const loaded = await loadSchemaFromObject(entrypoint, schema, {
