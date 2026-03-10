@@ -6,6 +6,7 @@
  * 2. All three schemas must have the standard library.
  * 3. All NoInfo signature guesses must be known.
  * 4. All schemas are idempotent. Running the schema through the fuzzer doesn't change it.
+ * 5. All probability distributions must sum to 1.
  */
 
 import { $ } from "bun";
@@ -13,7 +14,12 @@ import { describe, test, expect } from "bun:test";
 import path from "node:path";
 import assert from "node:assert";
 
-import { Guess, type TypeGuess, type Schema } from "@railcar/inference";
+import {
+    Guess,
+    type TypeGuess,
+    type Schema,
+    type Distribution,
+} from "@railcar/inference";
 
 import {
     type Project,
@@ -52,6 +58,11 @@ for (const project of getProjectNames()) {
             }
         });
 
+        test.todo(
+            "syntest schema must only have known no info guesses",
+            () => {},
+        );
+
         for (const kind of ["random", "typescript", "syntest"] as const) {
             describe(kind, () => {
                 test("must have standard library", () => {
@@ -77,9 +88,48 @@ for (const project of getProjectNames()) {
                     const is = await isIdempotent(project, entrypoint, schema);
                     expect(is).toBeTrue();
                 });
+
+                test("all probability distributions must sum to 1", () => {
+                    const schema = schemas[kind];
+                    for (const { ret, args } of Object.values(schema)) {
+                        expectCompleteGuess(ret);
+                        for (const arg of args) {
+                            expectCompleteGuess(arg);
+                        }
+                    }
+                });
             });
         }
     });
+}
+
+function expectCompleteGuess(guess: TypeGuess) {
+    if (guess.isAny) return;
+
+    expectSumTo1(guess.kind);
+
+    if (guess.kind.Array) {
+        expect(guess.arrayValueType).toBeDefined();
+        expectCompleteGuess(guess.arrayValueType!);
+    }
+
+    if (guess.kind.Class) {
+        expect(guess.classType).toBeDefined();
+        expectSumTo1(guess.classType!);
+    }
+
+    if (guess.kind.Object) {
+        expect(guess.objectShape).toBeDefined();
+        for (const prop of Object.values(guess.objectShape!)) {
+            expectCompleteGuess(prop);
+        }
+    }
+}
+
+function expectSumTo1<T extends string | number>(dist: Distribution<T>) {
+    const ps: number[] = Object.values(dist);
+    const sum = ps.reduce((acc, p) => acc + p, 0);
+    expect(sum).toBeCloseTo(1, 5);
 }
 
 function switchToRailcarRootDir() {
