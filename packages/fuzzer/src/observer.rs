@@ -74,6 +74,7 @@ impl<I, S> Observer<I, S> for ValidityObserver {
     }
 }
 
+/// Reads a value at a specified memory location.
 #[derive(Serialize, Deserialize)]
 pub struct ReadOnlyPointerObserver<T> {
     name: Cow<'static, str>,

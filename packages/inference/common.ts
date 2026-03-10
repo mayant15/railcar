@@ -357,22 +357,19 @@ export const Guess = {
     }
 };
 
-export function mkClass(
+function addBuiltInClass(
     schema: Schema,
-    nameOrConstr: { name: string } | string,
+    constr: { name: string },
     args: TypeGuess[] = [],
-    builtin?: boolean,
-): Type {
-    const name =
-        typeof nameOrConstr === "string" ? nameOrConstr : nameOrConstr.name;
+) {
+    const name = constr.name
     const type = Types.class(name);
     schema[name] = {
         args,
         ret: Guess.exact(type),
         callconv: "Constructor",
-        builtin,
+        builtin: true,
     };
-    return type;
 }
 
 export const STD_CLASSES = [
@@ -384,9 +381,6 @@ export const STD_CLASSES = [
     "Error",
     "Duplex",
 ] as const;
-
-export type StdTypes = Record<(typeof STD_CLASSES)[number], Type>;
-export type StdSchema = Record<(typeof STD_CLASSES)[number], SignatureGuess>;
 
 export const BUILTIN_METHOD_NAMES = new Set([
     "constructor",
@@ -405,140 +399,27 @@ export const BUILTIN_METHOD_NAMES = new Set([
 /**
  * Add standard built-in classes to a schema.
  */
-export function addStd(schema: Schema): StdTypes {
-    return {
-        Uint8Array: mkClass(schema, Uint8Array, [], true),
-        ArrayBuffer: mkClass(
-            schema,
-            ArrayBuffer,
-            [Guess.exact(Types.number())],
-            true,
-        ),
-        RegExp: mkClass(schema, RegExp, [], true),
-        Buffer: mkClass(schema, Buffer, [Guess.string()], true),
-        SharedArrayBuffer: mkClass(
-            schema,
-            SharedArrayBuffer,
-            [Guess.number()],
-            true,
-        ),
-        Error: mkClass(schema, Error, [Guess.optional(Types.string())], true),
-        Duplex: mkClass(schema, Duplex, [], true),
-    };
+export function addStd(schema: Schema) {
+    addBuiltInClass(schema, Uint8Array, [])
+    addBuiltInClass(
+        schema,
+        ArrayBuffer,
+        [Guess.exact(Types.number())],
+    )
+    addBuiltInClass(schema, RegExp, [])
+    addBuiltInClass(
+        schema,
+        SharedArrayBuffer,
+        [Guess.number()],
+    )
+    addBuiltInClass(schema, Error, [Guess.optional(Types.string())])
+    addBuiltInClass(schema, Duplex, [])
+
+    // new Buffer is deprecated. Node prefers Buffer.alloc() or Buffer.from()
+    schema["Buffer.from"] = {
+        args: [Guess.string()],
+        ret: Guess.class("Buffer"),
+        callconv: "Free",
+        builtin: true,
+    }
 }
-
-type ConstructSchema<Keys extends readonly string[]> = StdSchema &
-    Record<Keys[number], SignatureGuess>;
-
-const PakoEndpoints = [
-    "deflate",
-    "deflateRaw",
-    "gzip",
-    "inflate",
-    "inflateRaw",
-    "ungzip",
-    "Inflate",
-    "Inflate.onData",
-    "Inflate.onEnd",
-    "Inflate.push",
-    "Deflate",
-    "Deflate.onData",
-    "Deflate.onEnd",
-    "Deflate.push",
-] as const;
-
-const ProtobufEndpoints = [
-    "Root",
-    "Root.loadSync",
-    "Root.define",
-    "Root.lookupType",
-
-    "Type",
-    "Type.create",
-    "Type.decode",
-
-    "Reader",
-    "Message",
-    "Namespace",
-
-    // NOTE: These are used in the OSS-Fuzz driver but not in my version of the library
-    // Message.set
-    // Message.encode
-    // Root.create
-] as const;
-
-const FastXmlParserEndpoints = [
-    "XMLParser",
-    "XMLParser.parse",
-    "XMLParser.addEntity",
-    "XMLBuilder",
-    "XMLBuilder.build",
-    "XMLValidator.validate",
-] as const;
-
-const JsYamlEndpoints = [
-    "load",
-    "loadAll",
-    "dump",
-    "Type",
-    "Type.constructor",
-    "Type.resolve",
-    "Schema",
-    "Schema.extend",
-    "YAMLException",
-    "YAMLException.toString",
-] as const;
-
-const SharpEndpoints = [
-    "cache",
-
-    "Sharp",
-    "Sharp.removeAlpha",
-    "Sharp.ensureAlpha",
-    "Sharp.extractChannel",
-    "Sharp.joinChannel",
-    "Sharp.grayscale",
-    "Sharp.pipelineColorspace",
-    "Sharp.toColorspace",
-    "Sharp.composite",
-    "Sharp.clone",
-    "Sharp.keepMetadata",
-    "Sharp.rotate",
-    "Sharp.flip",
-    "Sharp.flop",
-    "Sharp.sharpen",
-    "Sharp.extend",
-    "Sharp.trim",
-    "Sharp.median",
-    "Sharp.unflatten",
-    "Sharp.flatten",
-    "Sharp.gamma",
-    "Sharp.gif",
-    "Sharp.clahe",
-    "Sharp.withMetadata",
-    "Sharp.jpeg",
-    "Sharp.png",
-    "Sharp.webp",
-    "Sharp.tiff",
-    "Sharp.avif",
-    "Sharp.negate",
-    "Sharp.resize",
-] as const;
-
-const ExampleEndpoints = ["compress", "decompress"] as const;
-
-type PakoSchema = ConstructSchema<typeof PakoEndpoints>;
-type ProtobufSchema = ConstructSchema<typeof ProtobufEndpoints>;
-type FastXmlParserSchema = ConstructSchema<typeof FastXmlParserEndpoints>;
-type JsYamlSchema = ConstructSchema<typeof JsYamlEndpoints>;
-type SharpSchema = ConstructSchema<typeof SharpEndpoints>;
-type ExampleSchema = ConstructSchema<typeof ExampleEndpoints>;
-
-export type BenchmarkSchemas = {
-    pako: PakoSchema;
-    "protobuf-js": ProtobufSchema;
-    "fast-xml-parser": FastXmlParserSchema;
-    "js-yaml": JsYamlSchema;
-    sharp: SharpSchema;
-    example: ExampleSchema;
-};

@@ -11,7 +11,7 @@ import type {
     Schema,
     SignatureGuess,
 } from "./schema.ts";
-import { BUILTIN_METHOD_NAMES, Guess } from "./common.js";
+import { addStd, BUILTIN_METHOD_NAMES, Guess } from "./common.js";
 import { MAX_OBJECT_MAPPING_DEPTH } from "./config.js";
 
 function removeInvalidEndpoints(schema: Schema, endpoints: Endpoints): Schema {
@@ -42,47 +42,22 @@ let _countFnNotInSchema = 0;
  *
  * We always add these, regardless of `skipEndpointsNotInSchema`.
  */
-function mapStandardReferences(
-    schema: Schema,
-    endpoints: Endpoints,
-    methodsToSkip: Set<EndpointName>,
-) {
-    // Do not map methods for builtin classes, we're more interested in fuzzing the library
-    function builtinClass(cls: unknown, argc?: number) {
-        assert(typeof cls === "function")
+function mapStandardReferences(schema: Schema, endpoints: Endpoints) {
+    addStd(schema)
 
-        const fn = cls as Fn;
-        const key = fn.name
-
-        builtinGuess(fn, key, {
-            callconv: "Constructor",
-            ret: Guess.class(key),
-            args: new Array(argc ?? fn.length).fill(Guess.any()),
-        })
+    function map(cls: unknown) {
+        const fn = cls as Fn
+        endpoints[fn.name] = fn
     }
 
-    function builtinGuess(fn: Fn, key: string, guess: SignatureGuess) {
-        if (methodsToSkip.has(key)) return;
+    map(Uint8Array)
+    map(ArrayBuffer)
+    map(RegExp)
+    map(SharedArrayBuffer)
+    map(Error)
+    map(Duplex)
 
-        endpoints[key] = fn
-        if (!schema[key]) {
-            addToSchema(schema, key, { ...guess, builtin: true })
-        }
-    }
-
-    builtinClass(Uint8Array, 0);
-    builtinClass(ArrayBuffer, 1);
-    builtinClass(RegExp, 0);
-    builtinClass(SharedArrayBuffer, 1);
-    builtinClass(Error, 1);
-    builtinClass(Duplex);
-
-    // new Buffer is deprecated. Node prefers Buffer.alloc() or Buffer.from()
-    builtinGuess(Buffer.from as Fn, "Buffer.from", {
-        callconv: "Free",
-        args: [Guess.string()],
-        ret: Guess.class("Buffer"),
-    });
+    endpoints["Buffer.from"] = Buffer.from as Fn
 }
 
 function getMethods(constr: { prototype: unknown }) {
@@ -405,7 +380,7 @@ export async function loadSchemaFromObject(
     const toSkip = new Set(opts?.methodsToSkip ?? []);
     const endpoints: Endpoints = {};
 
-    mapStandardReferences(schema, endpoints, toSkip);
+    mapStandardReferences(schema, endpoints);
     mapExportedReferences(schema, endpoints, main, toSkip, opts?.skipEndpointsNotInSchema ?? true);
 
     schema = removeInvalidEndpoints(schema, endpoints);

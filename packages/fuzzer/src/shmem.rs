@@ -4,6 +4,13 @@ use libafl_bolts::shmem::{ShMem, UnixShMem};
 /// Size of the coverage map
 const COVERAGE_MAP_SIZE: usize = 1 << 15;
 
+/// Shared memory buffer between Rust and Node.js.
+///
+/// An [`ShMemView`] represents bytes in a shared memory buffer as a human-readable struct. This
+/// buffer contains all of the data that the Node worker process collects during execution. The
+/// fuzzer consumes this data via observers.
+///
+/// See [`crate::observer::make_observers`].
 #[repr(C)]
 pub struct ShMemView {
     pub total_edges: u32,
@@ -13,6 +20,10 @@ pub struct ShMemView {
 }
 
 impl ShMemView {
+    /// Allocate a new slice of shared memory between the fuzzer and the worker.
+    ///
+    /// Use [`ShMemView::from`] to reinterpret the returned sequence of bytes as a [`ShMemView`]
+    /// for easier access.
     pub fn alloc() -> Result<UnixShMem> {
         const SIZE: usize = std::mem::size_of::<ShMemView>();
         let shmem = UnixShMem::new(SIZE)?;

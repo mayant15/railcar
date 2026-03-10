@@ -332,7 +332,6 @@ where
 }
 
 pub struct StdFeedback {
-    use_validity: bool,
     last_result: Option<bool>,
 
     // sub feedbacks
@@ -345,10 +344,9 @@ pub struct StdFeedback {
 }
 
 impl StdFeedback {
-    pub fn new(use_validity: bool, observers: &Observers) -> Self {
+    pub fn new(observers: &Observers) -> Self {
         let (coverage, (validity, (total_edges, (api_progress, _)))) = observers;
         Self {
-            use_validity,
             total_edges: TotalEdgesFeedback::new(total_edges.handle()),
             validity: ValidityFeedback::new(validity.handle()),
             total_coverage: CoverageFeedback::with_name("TotalCoverage", coverage),
@@ -392,7 +390,7 @@ where
             .total_coverage
             .is_interesting(state, manager, input, observers, exit_kind)?;
 
-        let is_new_valid_coverage = if is_valid {
+        let _is_new_valid_coverage = if is_valid {
             self.valid_coverage
                 .is_interesting(state, manager, input, observers, exit_kind)?
         } else {
@@ -407,11 +405,7 @@ where
         //     .api_progress
         //     .is_interesting(state, manager, input, observers, exit_kind)?;
 
-        let is_interesting = if self.use_validity {
-            is_new_total_coverage || is_new_valid_coverage
-        } else {
-            is_new_total_coverage
-        };
+        let is_interesting = is_new_total_coverage;
         // || is_new_instrumentation
         // || is_new_valid_coverage
         // || is_better_progress;

@@ -6,23 +6,13 @@ on:
 permissions:
   contents: read
 jobs:
-  bun-tests:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install
-      - name: bun test
-        run: |
-          cd "${{ github.workspace }}/packages/inference"
-          bun test
-          cd "${{ github.workspace }}/packages/worker"
-          bun test
-  rust-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: jdx/mise-action@v2
+        with:
+          cache: true
       # From https://ectobit.com/blog/speed-up-github-actions-rust-pipelines/
       - uses: actions/cache@v4
         with:
@@ -32,4 +22,5 @@ jobs:
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
-      - run: cargo test
+      - run: mise build
+      - run: mise test
