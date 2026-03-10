@@ -23,7 +23,7 @@ import {
     findEntryPoint,
 } from "./common";
 
-type SchemaKind = "random" | "typescript";
+type SchemaKind = "random" | "typescript" | "syntest";
 
 switchToRailcarRootDir();
 
@@ -36,12 +36,11 @@ for (const project of getProjectNames()) {
             const keys = {
                 random: Object.keys(schemas.random).sort(),
                 typescript: Object.keys(schemas.typescript).sort(),
+                syntest: Object.keys(schemas.syntest).sort(),
             };
 
-            expect(keys.random.length).toBe(keys.typescript.length);
-            for (let i = 0; i < keys.random.length; ++i) {
-                expect(keys.random[i]).toBe(keys.typescript[i]);
-            }
+            expect(keys.random).toEqual(keys.typescript)
+            expect(keys.syntest).toEqual(keys.typescript)
         });
 
         test("typescript schema must only have known no info guesses", () => {
@@ -53,7 +52,7 @@ for (const project of getProjectNames()) {
             }
         });
 
-        for (const kind of ["random", "typescript"] as const) {
+        for (const kind of ["random", "typescript", "syntest"] as const) {
             describe(kind, () => {
                 test("must have standard library", () => {
                     const schema = schemas[kind];
@@ -109,6 +108,7 @@ async function fetchSchemas(
     return {
         random: await readSchemaFile(project, "random"),
         typescript: await readSchemaFile(project, "typescript"),
+        syntest: await readSchemaFile(project, "syntest"),
     };
 }
 

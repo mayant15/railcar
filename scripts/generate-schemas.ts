@@ -26,22 +26,25 @@ async function generateRandom(
 
     await $`npx railcar-infer --dynamic --entrypoint ${entrypoint} --outFile ${outFile} --config ${config}`.quiet();
 
-    const sch = await Bun.file(outFile).json();
-    const filtered = pruneExtraKeys(sch, keep);
+    const schema = await Bun.file(outFile).json();
+    const filtered = pruneExtraKeys(schema, keep);
     Bun.write(outFile, JSON.stringify(filtered, null, 4));
 
-    const schema = await Bun.file(outFile).json();
-    return Object.keys(schema);
+    return Object.keys(filtered);
 }
 
-// async function generateSynTest(project: Project) {
-//     const entrypoint = SPECS[project]?.bundle ?? await findEntrypoint(project);
-//
-//     const outFile = `examples/${project}/syntest.json`;
-//     const config = `examples/${project}/railcar.config.js`;
-//
-//     await $`npx railcar-infer --syntest ${entrypoint} -o ${outFile} --config ${config}`.quiet();
-// }
+async function generateSynTest(project: Project, _entrypoint: string, keep: Set<string>): Promise<string[]> {
+    const outFile = `examples/${project}/syntest.json`;
+
+    const file = Bun.file(outFile)
+    assert(await file.exists())
+
+    const schema = await file.json()
+    const filtered = pruneExtraKeys(schema, keep)
+    Bun.write(outFile, JSON.stringify(filtered, null, 4))
+
+    return Object.keys(filtered)
+}
 
 async function generateTypeScript(
     project: Project,
@@ -74,32 +77,10 @@ async function main() {
         const keep = new Set(keysTypeScript);
 
         console.log("  Random");
-        const keysRandom = await generateRandom(project, entrypoint, keep);
+        await generateRandom(project, entrypoint, keep);
 
-        // these two should have the same set of APIs
-        assert(keysRandom.length === keysTypeScript.length);
-
-        const sortedA = keysTypeScript.sort();
-        const sortedB = keysRandom.sort();
-
-        for (let j = 0; j < sortedA.length; ++j) {
-            assert(sortedA[j] === sortedB[j]);
-        }
-
-        // console.log("  SynTest");
-        // await generateSynTest(project)
-
-        // TODO: Assert they all have the same keys
-        /*
-  jq 'keys' $RAND > $RAND.keys.json
-  jq 'keys' $SYNTEST > $SYNTEST.keys.json
-  jq 'keys' $TYPESCRIPT > $TYPESCRIPT.keys.json
-
-  set -e
-
-  diff $RAND.keys.json $SYNTEST.keys.json
-  diff $RAND.keys.json $TYPESCRIPT.keys.json
-*/
+        console.log("  SynTest [TODO: generate]")
+        await generateSynTest(project, entrypoint, keep);
     }
 }
 
