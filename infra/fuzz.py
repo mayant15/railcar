@@ -25,7 +25,7 @@ def git_version():
 
 def generate_job_requests(
     projects: list[str],
-    mode_schema_pairs: list[tuple[str, str | None]],
+    mode_schema_pairs: list[tuple[str, str]],
     seeds: list[int],
     iterations: int,
     results_dir: str,
@@ -161,9 +161,8 @@ def main() -> None:
     reqs = generate_job_requests(
         projects=projects,
         mode_schema_pairs=[
-            ("sequence", None),
+            ("sequence", "random"),
             ("sequence", "typescript"),
-            ("bytes", None),
         ],
         iterations=args.iterations,
         results_dir=results_dir,
