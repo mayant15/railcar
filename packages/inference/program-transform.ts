@@ -125,8 +125,14 @@ function transformDestructuringAssignment(
     if (newDecls.length == 0) {
         return;
     }
-    path.insertAfter(newDecls);
-    path.remove();
+    try {
+        path.insertAfter(newDecls);
+        path.remove();
+    } catch {
+        // sharp has problem with this transformation
+        // not a problem TODO: find out why
+        return
+    }
 }
 
 function transformObjectAssignmentInAssignmentExpression(

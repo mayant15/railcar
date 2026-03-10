@@ -126,22 +126,20 @@ async function getSkipMethods(configFile: string): Promise<string[]> {
 
 async function dispatch(args: Args): Promise<Schema> {
     const entrypoint = absolute(args.entrypoint);
+    const skip = args.config ? await getSkipMethods(args.config) : [];
+
+    if (args.syntest) {
+        return syntestSchema(entrypoint, skip);
+    }
 
     let schema = {};
     let skipEndpointsNotInSchema = false;
-
-    if (args.syntest) {
-        schema = syntestSchema(entrypoint);
-        skipEndpointsNotInSchema = true;
-    }
 
     if (args.decl) {
         const decl = absolute(args.decl);
         schema = derive(decl);
         skipEndpointsNotInSchema = true;
     }
-
-    const skip = args.config ? await getSkipMethods(args.config) : [];
 
     const loaded = await loadSchemaFromObject(entrypoint, schema, {
         skipEndpointsNotInSchema,
@@ -197,7 +195,7 @@ async function parseArguments() {
         // must use at most one type inference mode
         .conflicts("decl", ["syntest", "dynamic"])
         .conflicts("syntest", ["decl", "dynamic"])
-        .conflicts("dynamic", ["syntest", "decl"]);
+        .conflicts("dynamic", ["syntest", "decl"])
 
     const args = await cmd.parse();
 

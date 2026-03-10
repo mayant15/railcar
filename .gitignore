@@ -28,3 +28,6 @@ railcar-replay-coverage-*
 .DS_Store
 
 legend.json
+
+tmp/
+**/*.transformed.js

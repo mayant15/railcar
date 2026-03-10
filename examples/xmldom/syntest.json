@@ -1,0 +1,6029 @@
+{
+    "Uint8Array": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Uint8Array": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "ArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "RegExp": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "RegExp": 1
+            }
+        },
+        "args": [],
+        "builtin": true
+    },
+    "SharedArrayBuffer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "SharedArrayBuffer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Error": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Error": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Duplex": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Duplex": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            }
+        ],
+        "builtin": true
+    },
+    "Buffer.from": {
+        "callconv": "Free",
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
+            }
+        ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
+        "builtin": true
+    },
+    "assign": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "String": 0.2,
+                "Null": 0.2,
+                "Array": 0.2,
+                "Object": 0.4
+            },
+            "objectShape": {},
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2,
+                    "Null": 0.2,
+                    "Array": 0.2,
+                    "Object": 0.4
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.1607705026455026,
+                    "Boolean": 0.013333333333333334,
+                    "Undefined": 0.11734457671957672,
+                    "Array": 0.2718816137566137,
+                    "Object": 0.43000330687830673,
+                    "Function": 0.006666666666666667
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "HTML": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "XML_XHTML_APPLICATION": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "hasDefaultHTMLNamespace": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Boolean": 1
+            },
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "isHTMLMimeType": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Boolean": 1
+            },
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "isValidMimeType": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Boolean": 1
+            },
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "DOMException": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "DOMException": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.42857142857142855,
+                    "Number": 0.5714285714285714
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.25,
+                    "Boolean": 0.24137931034482757,
+                    "Array": 0.14655172413793105,
+                    "Object": 0.21551724137931033,
+                    "Function": 0.14655172413793105
+                },
+                "objectShape": {
+                    "substring": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "length": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "ParseError": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "ParseError": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Attr": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "CDATASection": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "CharacterData": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.substringData": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2777777777777778,
+                    "Number": 0.7222222222222222
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2777777777777778,
+                    "Number": 0.7222222222222222
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.appendData": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.22222222222222227,
+                    "Array": 0.09090909090909093,
+                    "Object": 0.09090909090909093,
+                    "Function": 0.09090909090909093,
+                    "Number": 0.5050505050505051
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "CharacterData.insertData": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.deleteData": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.replaceData": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2777777777777778,
+                    "Number": 0.7222222222222222
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2777777777777778,
+                    "Number": 0.7222222222222222
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.23147540983606565,
+                    "Undefined": 0.019672131147540996,
+                    "Array": 0.09180327868852461,
+                    "Object": 0.09180327868852461,
+                    "Function": 0.09180327868852461,
+                    "Number": 0.47344262295081985
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "CharacterData.contains": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.375,
+                    "Object": 0.34375,
+                    "Function": 0.28125000000000006
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "CharacterData.getRootNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.isEqualNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.9444444444444444,
+                    "Function": 0.05555555555555555
+                },
+                "objectShape": {
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "publicId": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "systemId": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "namespaceURI": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "prefix": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "localName": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "attributes": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "getAttributeNodeNS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "value": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "target": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "data": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "CharacterData.isSameNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.25,
+                    "Function": 0.75
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.insertBefore": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.11711828702630071,
+                    "Null": 0.05191289629176838,
+                    "Undefined": 0.03551868432627356,
+                    "Object": 0.7954441835646099,
+                    "Number": 0.0000059487910474355595
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "lastChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.6923076923076923,
+                    "Null": 0.07692307692307693,
+                    "Object": 0.23076923076923078
+                },
+                "objectShape": {
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "CharacterData.replaceChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.11711828702630071,
+                    "Null": 0.05191289629176838,
+                    "Undefined": 0.03551868432627356,
+                    "Object": 0.7954441835646099,
+                    "Number": 0.0000059487910474355595
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "lastChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.7,
+                    "Null": 0.07500000000000001,
+                    "Object": 0.22500000000000003
+                },
+                "objectShape": {
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "CharacterData.removeChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.3333333333333333,
+                    "Object": 0.6666666666666666
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "CharacterData.appendChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.hasChildNodes": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            }
+        ]
+    },
+    "CharacterData.cloneNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.normalize": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            }
+        ]
+    },
+    "CharacterData.isSupported": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.lookupPrefix": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.lookupNamespaceURI": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.isDefaultNamespace": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "CharacterData.compareDocumentPosition": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "CharacterData": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.17995101029455082,
+                    "Null": 0.05025387707539864,
+                    "Undefined": 0.15951571424474906,
+                    "Object": 0.6101254298085771,
+                    "Function": 0.00015396857672425252
+                },
+                "objectShape": {
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerElement": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "attributes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Comment": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Document": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.7,
+                    "Undefined": 0.15,
+                    "Object": 0.15
+                },
+                "objectShape": {
+                    "contentType": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Document.insertBefore": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.11711828702630071,
+                    "Null": 0.05191289629176838,
+                    "Undefined": 0.03551868432627356,
+                    "Object": 0.7954441835646099,
+                    "Number": 0.0000059487910474355595
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "lastChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.6923076923076923,
+                    "Null": 0.07692307692307693,
+                    "Object": 0.23076923076923078
+                },
+                "objectShape": {
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Document.removeChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.3333333333333333,
+                    "Object": 0.6666666666666666
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Document.replaceChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.11711828702630071,
+                    "Null": 0.05191289629176838,
+                    "Undefined": 0.03551868432627356,
+                    "Object": 0.7954441835646099,
+                    "Number": 0.0000059487910474355595
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "lastChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.7,
+                    "Null": 0.07500000000000001,
+                    "Object": 0.22500000000000003
+                },
+                "objectShape": {
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Document.importNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.14285714285714285,
+                    "Undefined": 0.14285714285714285,
+                    "Object": 0.7142857142857142
+                },
+                "objectShape": {
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "cloneNode": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.getElementById": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.createElement": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "toLowerCase": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Document.createDocumentFragment": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            }
+        ]
+    },
+    "Document.createTextNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.createComment": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.createCDATASection": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.createProcessingInstruction": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.createAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.37301587301587297,
+                    "Object": 0.16666666666666663,
+                    "Number": 0.46031746031746024
+                },
+                "objectShape": {
+                    "toLowerCase": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Document.createEntityReference": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.3095238095238096,
+                    "Number": 0.6904761904761907
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.createElementNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.6666666666666666,
+                    "Null": 0.3333333333333333
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.37912087912087916,
+                    "Undefined": 0.057692307692307696,
+                    "Array": 0.07692307692307693,
+                    "Object": 0.15384615384615385,
+                    "Number": 0.33241758241758246
+                },
+                "objectShape": {
+                    "indexOf": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "split": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "Document.createAttributeNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.6666666666666666,
+                    "Null": 0.3333333333333333
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.37912087912087916,
+                    "Undefined": 0.057692307692307696,
+                    "Array": 0.07692307692307693,
+                    "Object": 0.15384615384615385,
+                    "Number": 0.33241758241758246
+                },
+                "objectShape": {
+                    "indexOf": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "split": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "Document.getElementsByClassName": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.125,
+                    "Boolean": 0.4375,
+                    "Undefined": 0.3125,
+                    "Object": 0.125
+                },
+                "objectShape": {
+                    "split": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Document.getElementsByTagName": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.32,
+                    "Undefined": 0.52,
+                    "Object": 0.16
+                },
+                "objectShape": {
+                    "toLowerCase": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Document.getElementsByTagNameNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.contains": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.375,
+                    "Object": 0.34375,
+                    "Function": 0.28125000000000006
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Document.getRootNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.isEqualNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.9444444444444444,
+                    "Function": 0.05555555555555555
+                },
+                "objectShape": {
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "publicId": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "systemId": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "namespaceURI": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "prefix": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "localName": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "attributes": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "getAttributeNodeNS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "value": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "target": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "data": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Document.isSameNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.25,
+                    "Function": 0.75
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.appendChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.hasChildNodes": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            }
+        ]
+    },
+    "Document.cloneNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.normalize": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            }
+        ]
+    },
+    "Document.isSupported": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.lookupPrefix": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.lookupNamespaceURI": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.isDefaultNamespace": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Document.compareDocumentPosition": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Document": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.17995101029455082,
+                    "Null": 0.05025387707539864,
+                    "Undefined": 0.15951571424474906,
+                    "Object": 0.6101254298085771,
+                    "Function": 0.00015396857672425252
+                },
+                "objectShape": {
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerElement": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "attributes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "DocumentFragment": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "DocumentType": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "DOMImplementation": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "DOMImplementation": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "DOMImplementation.hasFeature": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "DOMImplementation": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "DOMImplementation.createDocument": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "DOMImplementation": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.21428571428571427,
+                    "Boolean": 0.5000000000000001,
+                    "Undefined": 0.07142857142857142,
+                    "Object": 0.21428571428571427
+                },
+                "objectShape": {
+                    "replace": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.9166666666666666,
+                    "Null": 0.08333333333333333
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "DOMImplementation.createDocumentType": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "DOMImplementation": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.3482993197278911,
+                    "Undefined": 0.03214285714285713,
+                    "Array": 0.042857142857142844,
+                    "Object": 0.08571428571428569,
+                    "Number": 0.4909863945578231
+                },
+                "objectShape": {
+                    "indexOf": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "split": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.125,
+                    "Boolean": 0.875
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.125,
+                    "Boolean": 0.875
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.125,
+                    "Boolean": 0.875
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "DOMImplementation.createHTMLDocument": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "DOMImplementation": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Element": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.getQualifiedName": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            }
+        ]
+    },
+    "Element.hasAttributes": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            }
+        ]
+    },
+    "Element.hasAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.getAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.getAttributeNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "toLowerCase": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Element.setAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "toLowerCase": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2724867724867725,
+                    "Number": 0.7275132275132274
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.removeAttribute": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.setAttributeNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.setAttributeNodeNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.removeAttributeNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "nodeName": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Element.removeAttributeNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.hasAttributeNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.getAttributeNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.setAttributeNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.6666666666666666,
+                    "Null": 0.3333333333333333
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.37912087912087916,
+                    "Undefined": 0.057692307692307696,
+                    "Array": 0.07692307692307693,
+                    "Object": 0.15384615384615385,
+                    "Number": 0.33241758241758246
+                },
+                "objectShape": {
+                    "indexOf": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "split": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2724867724867725,
+                    "Number": 0.7275132275132274
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.getAttributeNodeNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.getElementsByClassName": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.125,
+                    "Boolean": 0.4375,
+                    "Undefined": 0.3125,
+                    "Object": 0.125
+                },
+                "objectShape": {
+                    "split": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Element.getElementsByTagName": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.32,
+                    "Undefined": 0.52,
+                    "Object": 0.16
+                },
+                "objectShape": {
+                    "toLowerCase": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Element.getElementsByTagNameNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.contains": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.375,
+                    "Object": 0.34375,
+                    "Function": 0.28125000000000006
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Element.getRootNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.isEqualNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.9444444444444444,
+                    "Function": 0.05555555555555555
+                },
+                "objectShape": {
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "publicId": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "systemId": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "namespaceURI": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "prefix": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "localName": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "attributes": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "getAttributeNodeNS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "value": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "target": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "data": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Element.isSameNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.25,
+                    "Function": 0.75
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.insertBefore": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.11711828702630071,
+                    "Null": 0.05191289629176838,
+                    "Undefined": 0.03551868432627356,
+                    "Object": 0.7954441835646099,
+                    "Number": 0.0000059487910474355595
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "lastChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.6923076923076923,
+                    "Null": 0.07692307692307693,
+                    "Object": 0.23076923076923078
+                },
+                "objectShape": {
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Element.replaceChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.11711828702630071,
+                    "Null": 0.05191289629176838,
+                    "Undefined": 0.03551868432627356,
+                    "Object": 0.7954441835646099,
+                    "Number": 0.0000059487910474355595
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "lastChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.7,
+                    "Null": 0.07500000000000001,
+                    "Object": 0.22500000000000003
+                },
+                "objectShape": {
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Element.removeChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.3333333333333333,
+                    "Object": 0.6666666666666666
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Element.appendChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.hasChildNodes": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            }
+        ]
+    },
+    "Element.cloneNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.normalize": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            }
+        ]
+    },
+    "Element.isSupported": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.lookupPrefix": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.lookupNamespaceURI": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.isDefaultNamespace": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Element.compareDocumentPosition": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Element": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.17995101029455082,
+                    "Null": 0.05025387707539864,
+                    "Undefined": 0.15951571424474906,
+                    "Object": 0.6101254298085771,
+                    "Function": 0.00015396857672425252
+                },
+                "objectShape": {
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerElement": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "attributes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Entity": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "EntityReference": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "LiveNodeList": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "LiveNodeList": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LiveNodeList.item": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LiveNodeList": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "LiveNodeList.filter": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LiveNodeList": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "LiveNodeList.indexOf": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "LiveNodeList": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "NamedNodeMap": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "NamedNodeMap": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "NamedNodeMap.item": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "NamedNodeMap": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "NamedNodeMap.getNamedItem": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "NamedNodeMap": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "toLowerCase": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "NamedNodeMap.setNamedItem": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "NamedNodeMap": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.03879310344827586,
+                    "Undefined": 0.07457936152517435,
+                    "Object": 0.6461822660098521,
+                    "Number": 0.24044526901669755
+                },
+                "objectShape": {
+                    "ownerElement": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "namespaceURI": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "prefix": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "localName": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "value": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "NamedNodeMap.setNamedItemNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "NamedNodeMap": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "NamedNodeMap.removeNamedItem": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "NamedNodeMap": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "NamedNodeMap.removeNamedItemNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "NamedNodeMap": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2490968801313629,
+                    "Boolean": 0.2,
+                    "Number": 0.5509031198686372
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.16911764705882357,
+                    "Boolean": 0.003151260504201683,
+                    "Number": 0.827731092436975
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "NamedNodeMap.getNamedItemNS": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "NamedNodeMap": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Node": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Node": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Node.contains": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.375,
+                    "Object": 0.34375,
+                    "Function": 0.28125000000000006
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Node.getRootNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Node.isEqualNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.9444444444444444,
+                    "Function": 0.05555555555555555
+                },
+                "objectShape": {
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "publicId": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "systemId": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "namespaceURI": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "prefix": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "localName": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "attributes": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "getAttributeNodeNS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "value": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "target": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "data": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Node.isSameNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.25,
+                    "Function": 0.75
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Node.insertBefore": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.11711828702630071,
+                    "Null": 0.05191289629176838,
+                    "Undefined": 0.03551868432627356,
+                    "Object": 0.7954441835646099,
+                    "Number": 0.0000059487910474355595
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "lastChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.6923076923076923,
+                    "Null": 0.07692307692307693,
+                    "Object": 0.23076923076923078
+                },
+                "objectShape": {
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Node.replaceChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.11711828702630071,
+                    "Null": 0.05191289629176838,
+                    "Undefined": 0.03551868432627356,
+                    "Object": 0.7954441835646099,
+                    "Number": 0.0000059487910474355595
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "lastChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.7,
+                    "Null": 0.07500000000000001,
+                    "Object": 0.22500000000000003
+                },
+                "objectShape": {
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Node.removeChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.3333333333333333,
+                    "Object": 0.6666666666666666
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Node.appendChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Node.hasChildNodes": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            }
+        ]
+    },
+    "Node.cloneNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Node.normalize": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            }
+        ]
+    },
+    "Node.isSupported": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Node.lookupPrefix": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Node.lookupNamespaceURI": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Node.isDefaultNamespace": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Node.compareDocumentPosition": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Node": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.17995101029455082,
+                    "Null": 0.05025387707539864,
+                    "Undefined": 0.15951571424474906,
+                    "Object": 0.6101254298085771,
+                    "Function": 0.00015396857672425252
+                },
+                "objectShape": {
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerElement": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "attributes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "NodeList": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "NodeList": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "NodeList.item": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "NodeList": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "NodeList.filter": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "NodeList": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "NodeList.indexOf": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "NodeList": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Notation": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "ProcessingInstruction": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Text": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.splitText": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.substringData": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2777777777777778,
+                    "Number": 0.7222222222222222
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2777777777777778,
+                    "Number": 0.7222222222222222
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.appendData": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.22222222222222227,
+                    "Array": 0.09090909090909093,
+                    "Object": 0.09090909090909093,
+                    "Function": 0.09090909090909093,
+                    "Number": 0.5050505050505051
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "Text.insertData": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.deleteData": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.replaceData": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2777777777777778,
+                    "Number": 0.7222222222222222
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.2777777777777778,
+                    "Number": 0.7222222222222222
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.23147540983606565,
+                    "Undefined": 0.019672131147540996,
+                    "Array": 0.09180327868852461,
+                    "Object": 0.09180327868852461,
+                    "Function": 0.09180327868852461,
+                    "Number": 0.47344262295081985
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "Text.contains": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.375,
+                    "Object": 0.34375,
+                    "Function": 0.28125000000000006
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Text.getRootNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.isEqualNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.9444444444444444,
+                    "Function": 0.05555555555555555
+                },
+                "objectShape": {
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "name": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "publicId": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "systemId": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "namespaceURI": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "prefix": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "localName": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "attributes": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "getAttributeNodeNS": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "value": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "target": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "data": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Text.isSameNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.25,
+                    "Function": 0.75
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.insertBefore": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.11711828702630071,
+                    "Null": 0.05191289629176838,
+                    "Undefined": 0.03551868432627356,
+                    "Object": 0.7954441835646099,
+                    "Number": 0.0000059487910474355595
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "lastChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.6923076923076923,
+                    "Null": 0.07692307692307693,
+                    "Object": 0.23076923076923078
+                },
+                "objectShape": {
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Text.replaceChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.11711828702630071,
+                    "Null": 0.05191289629176838,
+                    "Undefined": 0.03551868432627356,
+                    "Object": 0.7954441835646099,
+                    "Number": 0.0000059487910474355595
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nodeType": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "firstChild": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "lastChild": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "childNodes": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.7,
+                    "Null": 0.07500000000000001,
+                    "Object": 0.22500000000000003
+                },
+                "objectShape": {
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Text.removeChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.3333333333333333,
+                    "Object": 0.6666666666666666
+                },
+                "objectShape": {
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "previousSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nextSibling": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Text.appendChild": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.hasChildNodes": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            }
+        ]
+    },
+    "Text.cloneNode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.normalize": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            }
+        ]
+    },
+    "Text.isSupported": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.lookupPrefix": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.lookupNamespaceURI": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.isDefaultNamespace": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Text.compareDocumentPosition": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Text": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.17995101029455082,
+                    "Null": 0.05025387707539864,
+                    "Undefined": 0.15951571424474906,
+                    "Object": 0.6101254298085771,
+                    "Function": 0.00015396857672425252
+                },
+                "objectShape": {
+                    "ownerDocument": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "parentNode": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "ownerElement": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "attributes": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "XMLSerializer": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "XMLSerializer": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 1
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "XMLSerializer.serializeToString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "XMLSerializer": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "DOMParser": {
+        "callconv": "Constructor",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "DOMParser": 1
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.2777777777777778,
+                    "Object": 0.7222222222222222
+                },
+                "objectShape": {
+                    "locator": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "assign": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "domHandler": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "onError": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "errorHandler": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "normalizeLineEndings": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "xmlns": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "DOMParser.parseFromString": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "DOMParser": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.3095238095238096,
+                    "Number": 0.6904761904761907
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "normalizeLineEndings": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "replace": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    }
+}

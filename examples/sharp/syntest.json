@@ -103,61 +103,28 @@
         ],
         "builtin": true
     },
-    "Buffer": {
+    "Buffer.from": {
         "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 1
+                }
             }
         ],
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Class": 1
+            },
+            "classType": {
+                "Buffer": 1
+            }
+        },
         "builtin": true
     },
-    "cache": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
-    },
-    "concurrency": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
-    },
-    "counters": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
-    },
-    "simd": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
-    },
-    "block": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
-    },
-    "Sharp": {
+    "Sharp2": {
         "callconv": "Constructor",
         "ret": {
             "isAny": false,
@@ -165,7 +132,7 @@
                 "Class": 1
             },
             "classType": {
-                "Sharp": 1
+                "Sharp2": 1
             }
         },
         "args": [
@@ -175,11 +142,731 @@
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.clone": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            }
+        ]
+    },
+    "Sharp2.metadata": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.stats": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.resize": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.6,
+                    "Number": 0.4
+                },
+                "objectShape": {
+                    "width": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "height": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "fit": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "position": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "background": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "kernel": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "withoutEnlargement": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "withoutReduction": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "fastShrinkOnLoad": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.911764705882353,
+                    "Number": 0.08823529411764708
+                },
+                "objectShape": {
+                    "width": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "height": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "fit": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "position": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "background": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "kernel": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "withoutEnlargement": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "withoutReduction": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "fastShrinkOnLoad": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Sharp2.extend": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 0.9259259259259259,
+                    "Number": 0.07407407407407406
+                },
+                "objectShape": {
+                    "top": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "bottom": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "left": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "right": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "background": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "extendWith": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Sharp2.extract": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.25,
+                    "Array": 0.25,
+                    "Object": 0.5
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "Sharp2.trim": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "background": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "threshold": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "lineArt": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Sharp2.composite": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {
+                    "map": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "Sharp2.autoOrient": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            }
+        ]
+    },
+    "Sharp2.rotate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 0.9999999999999998
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "background": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Sharp2.flip": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.flop": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.affine": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Array": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "background": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "idx": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "idy": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "odx": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "ody": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "interpolator": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Sharp2.sharpen": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.03333333333333333,
+                    "Object": 0.9666666666666667
+                },
+                "objectShape": {
+                    "sigma": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "m1": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "m2": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "x1": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "y2": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "y3": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.erode": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.dilate": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.median": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.blur": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.07142857142857142,
+                    "Array": 0.14285714285714285,
+                    "Object": 0.7857142857142857
+                },
+                "objectShape": {
+                    "sigma": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "precision": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "minAmplitude": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "Sharp2.flatten": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.7142857142857143,
+                    "Object": 0.28571428571428575
+                },
+                "objectShape": {
+                    "background": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.clone": {
+    "Sharp2.unflatten": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -192,12 +879,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             }
         ]
     },
-    "Sharp.metadata": {
+    "Sharp2.gamma": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -210,16 +897,22 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.stats": {
+    "Sharp2.negate": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -232,16 +925,30 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.3333333333333333,
+                    "Array": 0.13333333333333333,
+                    "Object": 0.5333333333333333
+                },
+                "objectShape": {
+                    "alpha": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
             }
         ]
     },
-    "Sharp.resize": {
+    "Sharp2.normalise": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -254,24 +961,89 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "lower": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "upper": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "Sharp2.normalize": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.clahe": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "width": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "height": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "maxSlope": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.extend": {
+    "Sharp2.convolve": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -284,16 +1056,40 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "kernel": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "width": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "height": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "scale": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "offset": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.extract": {
+    "Sharp2.threshold": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -306,16 +1102,35 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "greyscale": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "grayscale": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.trim": {
+    "Sharp2.boolean": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -328,16 +1143,27 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.composite": {
+    "Sharp2.linear": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -350,16 +1176,60 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.12500000000000003,
+                    "Array": 0.12500000000000003,
+                    "Object": 0.25000000000000006,
+                    "Function": 0.12500000000000003,
+                    "Number": 0.375
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "every": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.12500000000000003,
+                    "Array": 0.12500000000000003,
+                    "Object": 0.25000000000000006,
+                    "Function": 0.12500000000000003,
+                    "Number": 0.375
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "every": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
             }
         ]
     },
-    "Sharp.autoOrient": {
+    "Sharp2.recomb": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -372,12 +1242,35 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "String": 0.21428571428571427,
+                    "Array": 0.2857142857142857,
+                    "Object": 0.2857142857142857,
+                    "Function": 0.21428571428571427
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "flat": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
                 }
             }
         ]
     },
-    "Sharp.rotate": {
+    "Sharp2.modulate": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -390,20 +1283,64 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 0.18181818181818182,
+                    "Object": 0.8181818181818182
+                },
+                "objectShape": {
+                    "brightness": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "saturation": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "hue": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "lightness": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
+    },
+    "Sharp2.tint": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.flip": {
+    "Sharp2.greyscale": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -416,16 +1353,19 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Boolean": 1
+                },
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.flop": {
+    "Sharp2.grayscale": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -438,16 +1378,17 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.affine": {
+    "Sharp2.pipelineColourspace": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -460,20 +1401,40 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.pipelineColorspace": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.sharpen": {
+    "Sharp2.toColourspace": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -486,24 +1447,81 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.toColorspace": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
+            }
+        ]
+    },
+    "Sharp2.removeAlpha": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
+            }
+        ]
+    },
+    "Sharp2.ensureAlpha": {
+        "callconv": "Method",
+        "ret": {
+            "isAny": true,
+            "kind": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Class": 1
+                },
+                "classType": {
+                    "Sharp2": 1
+                }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.erode": {
+    "Sharp2.extractChannel": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -516,16 +1534,17 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.dilate": {
+    "Sharp2.joinChannel": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -538,16 +1557,29 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "forEach": {
+                        "isAny": true,
+                        "kind": {}
+                    }
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.median": {
+    "Sharp2.bandbool": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -560,16 +1592,17 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.blur": {
+    "Sharp2.toFile": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -582,16 +1615,24 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Function": 1
+                },
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.flatten": {
+    "Sharp2.toBuffer": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -604,16 +1645,36 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "resolveWithObject": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "resolveWithObject": {
+                        "isAny": true,
+                        "kind": {}
+                    }
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
-    "Sharp.unflatten": {
+    "Sharp2.keepExif": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -626,12 +1687,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             }
         ]
     },
-    "Sharp.gamma": {
+    "Sharp2.withExif": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -644,20 +1705,17 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.negate": {
+    "Sharp2.withExifMerge": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -670,16 +1728,17 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.normalise": {
+    "Sharp2.keepIccProfile": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -692,16 +1751,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
-    "Sharp.normalize": {
+    "Sharp2.withIccProfile": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -714,16 +1769,29 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "attach": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.clahe": {
+    "Sharp2.keepXmp": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -736,16 +1804,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
-    "Sharp.convolve": {
+    "Sharp2.withXmp": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -758,16 +1822,31 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.25,
+                    "Array": 0.25,
+                    "Object": 0.25,
+                    "Function": 0.25
+                },
+                "objectShape": {
+                    "length": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                },
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
             }
         ]
     },
-    "Sharp.threshold": {
+    "Sharp2.keepMetadata": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -780,20 +1859,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
-    "Sharp.boolean": {
+    "Sharp2.withMetadata": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -806,24 +1877,36 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
-            },
-            {
-                "isAny": true,
-                "kind": {}
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "orientation": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "density": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "icc": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "exif": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.linear": {
+    "Sharp2.toFormat": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -836,20 +1919,34 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "String": 0.1875,
+                    "Object": 0.8125
+                },
+                "objectShape": {
+                    "toLowerCase": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "id": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             },
             {
                 "isAny": true,
-                "kind": {}
+                "kind": {},
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.recomb": {
+    "Sharp2.jpeg": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -862,16 +1959,72 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "quality": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "progressive": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "chromaSubsampling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "optimizeCoding": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "optimiseCoding": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "mozjpeg": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "trellisQuantization": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "trellisQuantisation": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "overshootDeringing": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "optimizeScans": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "optimiseScans": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "quantizationTable": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "quantisationTable": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.modulate": {
+    "Sharp2.jp2": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -884,16 +2037,40 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "quality": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "lossless": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "tileWidth": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "tileHeight": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "chromaSubsampling": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.tint": {
+    "Sharp2.png": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -906,16 +2083,56 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "progressive": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "compressionLevel": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "adaptiveFiltering": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "colours": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "colors": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "palette": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "quality": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "effort": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "dither": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.greyscale": {
+    "Sharp2.webp": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -928,16 +2145,120 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "loop": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "delay": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "reuse": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "progressive": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "colours": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "colors": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "effort": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "dither": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "interFrameMaxError": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "interPaletteMaxError": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "keepDuplicateFrames": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "quality": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "distance": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "decodingTier": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "lossless": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "alphaQuality": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "nearLossless": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "smartSubsample": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "smartDeblock": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "preset": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "minSize": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "mixed": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.grayscale": {
+    "Sharp2.tiff": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -950,16 +2271,68 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "quality": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "bitdepth": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "tile": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "tileWidth": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "tileHeight": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "miniswhite": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "pyramid": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "xres": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "yres": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "compression": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "predictor": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "resolutionUnit": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.pipelineColourspace": {
+    "Sharp2.avif": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -972,16 +2345,24 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Array": 0.5,
+                    "Object": 0.5
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
             }
         ]
     },
-    "Sharp.pipelineColorspace": {
+    "Sharp2.heif": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -994,16 +2375,44 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "compression": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "quality": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "lossless": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "effort": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "chromaSubsampling": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "bitdepth": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.toColourspace": {
+    "Sharp2.jxl": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1016,16 +2425,120 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "loop": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "delay": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "quality": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "alphaQuality": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "lossless": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nearLossless": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "smartSubsample": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "smartDeblock": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "preset": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "effort": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "minSize": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "mixed": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "reuse": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "progressive": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "colours": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "colors": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "dither": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "interFrameMaxError": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "interPaletteMaxError": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "keepDuplicateFrames": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "distance": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "decodingTier": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.toColorspace": {
+    "Sharp2.gif": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1038,16 +2551,120 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "loop": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "delay": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "quality": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "alphaQuality": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "lossless": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "nearLossless": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "smartSubsample": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "smartDeblock": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "preset": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "effort": {
+                        "isAny": true,
+                        "kind": {},
+                        "arrayValueType": {
+                            "isAny": true,
+                            "kind": {}
+                        }
+                    },
+                    "minSize": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "mixed": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "distance": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "decodingTier": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "reuse": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "progressive": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "colours": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "colors": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "dither": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "interFrameMaxError": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "interPaletteMaxError": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "keepDuplicateFrames": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.removeAlpha": {
+    "Sharp2.raw": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1060,12 +2677,24 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "depth": {
+                        "isAny": true,
+                        "kind": {}
+                    }
                 }
             }
         ]
     },
-    "Sharp.ensureAlpha": {
+    "Sharp2.tile": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1078,16 +2707,68 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "size": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "overlap": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "container": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "layout": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "angle": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "background": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "depth": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "skipBlanks": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "center": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "centre": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "id": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "basename": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.extractChannel": {
+    "Sharp2.timeout": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1100,16 +2781,24 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "seconds": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.joinChannel": {
+    "Sharp2.write": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1122,8 +2811,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1135,7 +2828,7 @@
             }
         ]
     },
-    "Sharp.bandbool": {
+    "Sharp2.cork": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1148,16 +2841,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
-    "Sharp.keepExif": {
+    "Sharp2.uncork": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1170,12 +2859,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             }
         ]
     },
-    "Sharp.withExif": {
+    "Sharp2.setDefaultEncoding": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1188,7 +2877,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1197,7 +2886,7 @@
             }
         ]
     },
-    "Sharp.withExifMerge": {
+    "Sharp2.end": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1210,8 +2899,16 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1219,7 +2916,7 @@
             }
         ]
     },
-    "Sharp.keepIccProfile": {
+    "Sharp2.destroy": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1232,12 +2929,20 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
             }
         ]
     },
-    "Sharp.withIccProfile": {
+    "Sharp2.push": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1250,7 +2955,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1263,7 +2968,7 @@
             }
         ]
     },
-    "Sharp.keepXmp": {
+    "Sharp2.unshift": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1276,12 +2981,20 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
             }
         ]
     },
-    "Sharp.withXmp": {
+    "Sharp2.isPaused": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1294,16 +3007,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
-    "Sharp.keepMetadata": {
+    "Sharp2.setEncoding": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1316,12 +3025,16 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             }
         ]
     },
-    "Sharp.withMetadata": {
+    "Sharp2.read": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1334,7 +3047,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1343,7 +3056,7 @@
             }
         ]
     },
-    "Sharp.toFormat": {
+    "Sharp2.pipe": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1356,7 +3069,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1369,7 +3082,7 @@
             }
         ]
     },
-    "Sharp.jpeg": {
+    "Sharp2.unpipe": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1382,7 +3095,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1391,7 +3104,7 @@
             }
         ]
     },
-    "Sharp.jp2": {
+    "Sharp2.on": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1404,8 +3117,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1413,7 +3130,7 @@
             }
         ]
     },
-    "Sharp.png": {
+    "Sharp2.addListener": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1426,8 +3143,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1435,7 +3156,7 @@
             }
         ]
     },
-    "Sharp.webp": {
+    "Sharp2.removeListener": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1448,8 +3169,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1457,7 +3182,7 @@
             }
         ]
     },
-    "Sharp.tiff": {
+    "Sharp2.off": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1470,8 +3195,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1479,7 +3208,7 @@
             }
         ]
     },
-    "Sharp.avif": {
+    "Sharp2.removeAllListeners": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1492,7 +3221,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1501,7 +3230,7 @@
             }
         ]
     },
-    "Sharp.heif": {
+    "Sharp2.resume": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1514,16 +3243,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
-    "Sharp.jxl": {
+    "Sharp2.pause": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1536,16 +3261,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
-    "Sharp.gif": {
+    "Sharp2.wrap": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1558,7 +3279,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1567,7 +3288,7 @@
             }
         ]
     },
-    "Sharp.raw": {
+    "Sharp2.iterator": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1580,7 +3301,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1589,7 +3310,7 @@
             }
         ]
     },
-    "Sharp.tile": {
+    "Sharp2.drop": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1602,7 +3323,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1611,7 +3332,7 @@
             }
         ]
     },
-    "Sharp.timeout": {
+    "Sharp2.filter": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1624,8 +3345,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1633,7 +3358,7 @@
             }
         ]
     },
-    "Sharp.setDefaultEncoding": {
+    "Sharp2.flatMap": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1646,8 +3371,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1655,7 +3384,7 @@
             }
         ]
     },
-    "Sharp.destroy": {
+    "Sharp2.map": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1668,7 +3397,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1681,7 +3410,7 @@
             }
         ]
     },
-    "Sharp.isPaused": {
+    "Sharp2.take": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1694,12 +3423,16 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             }
         ]
     },
-    "Sharp.setEncoding": {
+    "Sharp2.compose": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1712,8 +3445,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1721,7 +3458,7 @@
             }
         ]
     },
-    "Sharp.map": {
+    "Sharp2.every": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1734,12 +3471,8 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             },
             {
                 "isAny": true,
@@ -1747,7 +3480,7 @@
             }
         ]
     },
-    "Sharp.take": {
+    "Sharp2.forEach": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1760,8 +3493,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1769,7 +3506,7 @@
             }
         ]
     },
-    "Sharp.compose": {
+    "Sharp2.reduce": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1782,8 +3519,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
             },
             {
                 "isAny": true,
@@ -1795,7 +3536,7 @@
             }
         ]
     },
-    "Sharp.every": {
+    "Sharp2.toArray": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1808,7 +3549,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1817,7 +3558,7 @@
             }
         ]
     },
-    "Sharp.forEach": {
+    "Sharp2.some": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1830,12 +3571,8 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             },
             {
                 "isAny": true,
@@ -1843,7 +3580,7 @@
             }
         ]
     },
-    "Sharp.reduce": {
+    "Sharp2.find": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1856,12 +3593,8 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             },
             {
                 "isAny": true,
@@ -1873,7 +3606,7 @@
             }
         ]
     },
-    "Sharp.some": {
+    "Sharp2.eventNames": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1886,16 +3619,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             }
         ]
     },
-    "Sharp.find": {
+    "Sharp2.setMaxListeners": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1908,12 +3637,8 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
-            },
-            {
-                "isAny": true,
-                "kind": {}
             },
             {
                 "isAny": true,
@@ -1921,7 +3646,7 @@
             }
         ]
     },
-    "Sharp.eventNames": {
+    "Sharp2.getMaxListeners": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1934,12 +3659,12 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             }
         ]
     },
-    "Sharp.setMaxListeners": {
+    "Sharp2.emit": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1952,7 +3677,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -1961,7 +3686,7 @@
             }
         ]
     },
-    "Sharp.getMaxListeners": {
+    "Sharp2.prependListener": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1974,12 +3699,20 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
+            },
+            {
+                "isAny": true,
+                "kind": {}
+            },
+            {
+                "isAny": true,
+                "kind": {}
             }
         ]
     },
-    "Sharp.prependListener": {
+    "Sharp2.once": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -1992,7 +3725,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -2005,7 +3738,7 @@
             }
         ]
     },
-    "Sharp.prependOnceListener": {
+    "Sharp2.prependOnceListener": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -2018,7 +3751,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -2031,7 +3764,7 @@
             }
         ]
     },
-    "Sharp.listeners": {
+    "Sharp2.listeners": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -2044,7 +3777,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -2053,7 +3786,7 @@
             }
         ]
     },
-    "Sharp.rawListeners": {
+    "Sharp2.rawListeners": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -2066,7 +3799,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -2075,7 +3808,7 @@
             }
         ]
     },
-    "Sharp.listenerCount": {
+    "Sharp2.listenerCount": {
         "callconv": "Method",
         "ret": {
             "isAny": true,
@@ -2088,7 +3821,7 @@
                     "Class": 1
                 },
                 "classType": {
-                    "Sharp": 1
+                    "Sharp2": 1
                 }
             },
             {
@@ -2101,94 +3834,225 @@
             }
         ]
     },
-    "Sharp.toString": {
-        "callconv": "Method",
+    "Sharp2.cache": {
+        "callconv": "Free",
         "ret": {
-            "isAny": true,
-            "kind": {}
+            "isAny": false,
+            "kind": {},
+            "objectShape": {},
+            "arrayValueType": {
+                "isAny": true,
+                "kind": {}
+            }
         },
         "args": [
             {
                 "isAny": false,
                 "kind": {
-                    "Class": 1
+                    "Boolean": 0.5714285714285714,
+                    "Object": 0.42857142857142855
                 },
-                "classType": {
-                    "Sharp": 1
+                "objectShape": {
+                    "memory": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "files": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "items": {
+                        "isAny": true,
+                        "kind": {}
+                    }
                 }
             }
         ]
     },
-    "Sharp.cache": {
+    "Sharp2.concurrency": {
         "callconv": "Free",
         "ret": {
             "isAny": true,
-            "kind": {}
+            "kind": {},
+            "objectShape": {}
         },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Null": 1
+                },
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.concurrency": {
+    "Sharp2.counters": {
         "callconv": "Free",
         "ret": {
             "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
-    "Sharp.counters": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
+            "kind": {},
+            "objectShape": {}
         },
         "args": []
     },
-    "Sharp.simd": {
+    "Sharp2.simd": {
         "callconv": "Free",
         "ret": {
             "isAny": true,
-            "kind": {}
+            "kind": {},
+            "objectShape": {}
         },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Null": 1
+                },
+                "objectShape": {}
             }
         ]
     },
-    "Sharp.block": {
+    "Sharp2.block": {
         "callconv": "Free",
         "ret": {
             "isAny": true,
-            "kind": {}
+            "kind": {},
+            "objectShape": {}
         },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "operation": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
-    "Sharp.unblock": {
+    "Sharp2.unblock": {
         "callconv": "Free",
         "ret": {
             "isAny": true,
-            "kind": {}
+            "kind": {},
+            "objectShape": {}
         },
         "args": [
             {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "operation": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "cache": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {},
+            "objectShape": {},
+            "arrayValueType": {
                 "isAny": true,
                 "kind": {}
+            }
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Boolean": 0.5714285714285714,
+                    "Object": 0.42857142857142855
+                },
+                "objectShape": {
+                    "memory": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "files": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "items": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            }
+        ]
+    },
+    "concurrency": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "counters": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": []
+    },
+    "simd": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Null": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "block": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": true,
+            "kind": {},
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "operation": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     },
@@ -2196,12 +4060,21 @@
         "callconv": "Free",
         "ret": {
             "isAny": true,
-            "kind": {}
+            "kind": {},
+            "objectShape": {}
         },
         "args": [
             {
-                "isAny": true,
-                "kind": {}
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "operation": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
             }
         ]
     }
