@@ -70,27 +70,28 @@ type AnalyzeRow = {
 };
 
 async function analyze(project: Project): Promise<AnalyzeRow> {
-    const p1 = await schema(project, "random");
-    // const p2 = schema(project, "syntest");
-    const p3 = schema(project, "typescript");
-    const [random, typescript] = await Promise.all([p1, p3]);
+    const [random, syntest, typescript] = await Promise.all([
+        schema(project, "random"),
+        schema(project, "syntest"),
+        schema(project, "typescript"),
+    ]);
 
     const [totalRandom, anyRandom] = countNoInfoSignatures(random);
-    const [_totalSyntest, anySyntest] = [1, 0]; // countNoInfoSignatures(syntest);
+    const [totalSyntest, anySyntest] = countNoInfoSignatures(syntest);
 
     _isTypeScript = true;
     console.warn("**", project, "**");
     const [totalTypescript, anyTypescript] = countNoInfoSignatures(typescript);
     _isTypeScript = false;
 
-    // assert(totalRandom === totalSyntest);
-    assert(totalRandom === totalTypescript);
+    assert(totalTypescript === totalSyntest);
+    assert(totalTypescript === totalRandom);
     assert(totalRandom === anyRandom);
-    // assert(totalRandom >= anySyntest);
+    assert(totalRandom >= anySyntest);
     assert(totalRandom >= anyTypescript);
 
     const [totalRandomTypes, anyRandomTypes] = countAny(random);
-    const [totalSyntestTypes, anySyntestTypes] = [1, 0]; //countAny(syntest);
+    const [totalSyntestTypes, anySyntestTypes] = countAny(syntest);
     const [totalTypescriptTypes, anyTypescriptTypes] = countAny(typescript);
 
     return {
@@ -153,8 +154,8 @@ function printTable(data: AnalyzeRow[]) {
                 ? `${d.typescript.any} (${d.typescript.known} known)`
                 : d.typescript.any,
             "TypeScript % Any Types": d.typescript.anyTypeP.toFixed(1),
-            // "SynTest # Any API": d.syntest.any,
-            // "SynTest % Any Types": d.syntest.anyTypeP.toFixed(1),
+            "SynTest # Any API": d.syntest.any,
+            "SynTest % Any Types": d.syntest.anyTypeP.toFixed(1),
         })),
     );
 }
