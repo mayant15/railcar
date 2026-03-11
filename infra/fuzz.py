@@ -13,7 +13,6 @@ import util
 import sqlite3
 import requests
 import subprocess as sp
-import pandas as pd
 
 
 def git_version():
@@ -85,36 +84,6 @@ def generate_summary_prefix(timeout, seeds) -> str:
     return summary
 
 
-def post_summary_notification(summary: str):
-    url = os.environ["DISCORD_WEBHOOK"]
-    summary = f"```\n{summary}\n```"
-    requests.post(url, json={"content": summary})
-
-
-def summarize_coverage(
-    coverage: pd.DataFrame,
-    old: pd.DataFrame | None
-) -> str:
-    new = coverage.groupby(['project', 'mode']).mean()[['coverage', "valid_execs", "execs"]]
-    if old is not None:
-        old = old.groupby(['project', 'mode']).mean()[['coverage', 'valid_execs', 'execs']]
-
-        new['change'] = new['coverage'] - old['coverage']
-        new['change'] = new['change'] * 100 / old['coverage']
-
-        new['change_valid_execs'] = new['valid_execs'] - old['valid_execs']
-        new['change_valid_execs'] = new['change_valid_execs'] * 100 / old['valid_execs']
-
-        new['change_execs'] = new['execs'] - old['execs']
-        new['change_execs'] = new['change_execs'] * 100 / old['execs']
-
-        new = new.sort_values(by='change', ascending=False)
-
-    return new.to_string(
-        float_format=lambda f: "{:.2f}%".format(f)
-    )
-
-
 def arguments():
     parser = ArgumentParser()
     parser.add_argument(
@@ -179,25 +148,9 @@ def main() -> None:
         pool.close()
         pool.terminate()
 
-    # TODO: fix this to pick coverage data from main metrics.db
-    # coverage = pd.DataFrame()
-
-    # old_coverage = None
-    # if old_results_dir is not None:
-    #     old_coverage_path = path.join(old_results_dir, "coverage.csv")
-    #     old_coverage = pd.read_csv(old_coverage_path)
-    # summary += summarize_coverage(coverage, old_coverage)
-    # summary += "\n"
-
     # Write summary file
     with open(path.join(results_dir, "summary.txt"), "w") as f:
         f.write(summary)
-
-    # with open(path.join(results_dir, "coverage.csv"), "w") as f:
-    #     f.write(coverage.to_csv())
-
-    if "DISCORD_WEBHOOK" in os.environ:
-        post_summary_notification(summary)
 
 
 if __name__ == '__main__':
