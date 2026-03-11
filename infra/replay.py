@@ -60,7 +60,7 @@ def main():
     args = arguments()
 
     num_procs = os.process_cpu_count()
-    base_coverage_dir = util.ensure_results_dir("railcar-replay-coverage")
+    base_coverage_dir = util.ensure_results_dir(prefix="railcar-replay-coverage")
 
     configs = collect_run_configs(args.outdir)
 

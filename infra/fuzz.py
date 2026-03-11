@@ -126,6 +126,7 @@ def arguments():
     parser.add_argument("--mode", action='append',
                         choices=["bytes", "sequence"],
                         help="modes to run railcar in")
+    parser.add_argument("-n", "--dry-run", action="store_true", help="just print the execution plan and exit")
     args = parser.parse_args()
 
     # minutes to seconds
@@ -140,23 +141,12 @@ def arguments():
 def main() -> None:
     args = arguments()
 
-    num_procs = 8  # os.process_cpu_count()
+    num_procs = os.process_cpu_count()
     projects = util.discover_projects()
     old_results_dir = util.get_old_results_dir()
-    results_dir = util.ensure_results_dir()
+    results_dir = util.ensure_results_dir(dry_run=args.dry_run)
 
     seeds = [randint(0, 100000) for i in range(args.iterations)]
-
-    projects = [
-        "fast-xml-parser",
-        "tslib",
-        "pako",
-        "sharp",
-        "redux",
-        "jimp",
-        "jpeg-js",
-        "js-yaml",
-    ]
 
     reqs = generate_job_requests(
         projects=projects,
@@ -172,12 +162,15 @@ def main() -> None:
 
     jobs = schedule(reqs, num_procs)
     print("Estimated time:", len(jobs) * args.timeout / (60 * 60), "hour(s)")
-    for row in jobs:
-        for job in row:
-            job.cores[0] *= 2
-        #     labels = job.payload.args.labels
-        #     print(labels[0], labels[1], labels[2], job.cores, end=", ")
-        # print("|")
+
+    if args.dry_run:
+        for row in jobs:
+            for job in row:
+                labels = job.payload.args.labels
+                assert labels is not None
+                print(labels[0], labels[1], labels[2], job.cores, end=", ")
+            print("|")
+        return
 
     summary = generate_summary_prefix(args.timeout, seeds)
 
@@ -188,21 +181,21 @@ def main() -> None:
         pool.terminate()
 
     # TODO: fix this to pick coverage data from main metrics.db
-    coverage = pd.DataFrame()
+    # coverage = pd.DataFrame()
 
-    old_coverage = None
-    if old_results_dir is not None:
-        old_coverage_path = path.join(old_results_dir, "coverage.csv")
-        old_coverage = pd.read_csv(old_coverage_path)
-    summary += summarize_coverage(coverage, old_coverage)
-    summary += "\n"
+    # old_coverage = None
+    # if old_results_dir is not None:
+    #     old_coverage_path = path.join(old_results_dir, "coverage.csv")
+    #     old_coverage = pd.read_csv(old_coverage_path)
+    # summary += summarize_coverage(coverage, old_coverage)
+    # summary += "\n"
 
     # Write summary file
     with open(path.join(results_dir, "summary.txt"), "w") as f:
         f.write(summary)
 
-    with open(path.join(results_dir, "coverage.csv"), "w") as f:
-        f.write(coverage.to_csv())
+    # with open(path.join(results_dir, "coverage.csv"), "w") as f:
+    #     f.write(coverage.to_csv())
 
     if "DISCORD_WEBHOOK" in os.environ:
         post_summary_notification(summary)

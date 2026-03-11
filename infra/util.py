@@ -10,13 +10,14 @@ RAILCAR_ROOT = path.dirname(path.dirname(path.realpath(__file__)))
 EXAMPLES_DIR = path.join(RAILCAR_ROOT, "examples")
 
 
-def ensure_results_dir(prefix: str = "railcar") -> str:
+def ensure_results_dir(dry_run: bool = False, prefix: str = "railcar") -> str:
     timestamp = datetime.now().strftime("%Y-%m-%d-%s")
     dir = path.join(getcwd(), f"{prefix}-results-{timestamp}")
 
-    if path.exists(dir):
-        rmtree(dir)
-    makedirs(dir, exist_ok=False)
+    if not dry_run:
+        if path.exists(dir):
+            rmtree(dir)
+        makedirs(dir, exist_ok=False)
 
     return dir
 
@@ -39,7 +40,8 @@ def get_old_results_dir(prefix: str = "railcar") -> str | None:
 def discover_projects() -> list[str]:
     dirs = filter(
         lambda dir: path.isdir(path.join(EXAMPLES_DIR, dir))
-        and dir != "example",
+        and dir != "example"
+        and dir != "ua-parser-js", # TODO: we don't have schemas for this yet
         listdir(EXAMPLES_DIR),
     )
     return list(dirs)
