@@ -54,7 +54,6 @@ def generate_job_requests(
                     schema_label = "none" if schema_type is None else schema_type
                     payload = Config(tool, Railcar.RunArgs(
                         timeout=timeout,
-                        metrics=metrics,
                         outdir=outdir,
                         seed=seeds[i],
                         mode=mode,
