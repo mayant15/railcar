@@ -14,7 +14,7 @@ Building Railcar requires two system dependencies:
 - A working C compiler
 - sqlite3 development library (libsqlite3-dev if using apt)
 
-We use [mise](https://mise.jdx.dev/) to manage everything else. [Install](https://mise.jdx.dev/getting-started.html#installing-mise-cli) and optionally [activate](https://mise.jdx.dev/getting-started.html#activate-mise) mise
+We use [mise](https://mise.jdx.dev/) to manage everything else. [Install](https://mise.jdx.dev/getting-started.html#installing-mise-cli) and [activate](https://mise.jdx.dev/getting-started.html#activate-mise) mise
 to proceed.
 
 Install all dependencies with
