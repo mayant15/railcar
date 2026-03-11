@@ -10,15 +10,22 @@ npm install -D @railcar/support # optional
 
 ## Building From Source
 
-We use [`mise`](https://mise.jdx.dev/) to manage dependencies and run scripts. Building Railcar
-also requires a working C compiler (not managed by `mise`).
+Building Railcar requires two system dependencies:
+- A working C compiler
+- sqlite3 development library (libsqlite3-dev if using apt)
 
-After following the steps to [install](https://mise.jdx.dev/getting-started.html#installing-mise-cli) and [activate](https://mise.jdx.dev/getting-started.html#activate-mise) `mise`,
-build Railcar with:
+We use [mise](https://mise.jdx.dev/) to manage everything else. [Install](https://mise.jdx.dev/getting-started.html#installing-mise-cli) and optionally [activate](https://mise.jdx.dev/getting-started.html#activate-mise) mise
+to proceed.
+
+Install all dependencies with
+```
+mise install --locked
+```
+
+Then build with
 ```
 mise build
 ```
-See `mise.toml` for more scripts.
 
 During development, run Railcar with cargo:
 ```bash
