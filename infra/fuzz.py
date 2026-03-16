@@ -121,6 +121,7 @@ def main() -> None:
         mode_schema_pairs=[
             ("sequence", "random"),
             ("sequence", "typescript"),
+            ("sequence", "syntest"),
         ],
         iterations=args.iterations,
         results_dir=results_dir,
