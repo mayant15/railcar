@@ -11,6 +11,9 @@ use crate::feedback::InputValidityMetadata;
 
 pub struct ValidityTestcaseScore;
 
+/// Multiplier to apply to weights of valid inputs. Use >1.0 to prioritize valid inputs.
+const VALIDITY_WEIGHT_MULT: f64 = 1.0;
+
 impl<I, S> TestcaseScore<I, S> for ValidityTestcaseScore
 where
     S: HasCorpus<I> + HasMetadata,
@@ -22,7 +25,7 @@ where
         };
         CorpusWeightTestcaseScore::compute(state, entry).map(|weight| {
             if is_valid {
-                weight * 2.0
+                weight * VALIDITY_WEIGHT_MULT
             } else {
                 weight
             }
