@@ -115,9 +115,6 @@ class Railcar(Tool):
             "--port", str(port),
         ]
 
-        if args.metrics is not None:
-            cmd += ["--metrics", args.metrics]
-
         if args.config_file_path is not None:
             cmd += ["--config", args.config_file_path]
 

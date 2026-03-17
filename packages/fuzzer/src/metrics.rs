@@ -2,51 +2,60 @@
 
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-use anyhow::{bail, Result};
-use chrono::{DateTime, Utc};
-use rusqlite::Connection;
+use anyhow::Result;
+use csv::{Writer, WriterBuilder};
+use serde::Serialize;
 
-use std::{path::Path, rc::Rc};
+use std::{
+    fs::File,
+    path::{Path, PathBuf},
+};
 
-/// DuckDB-backed metrics database. Call `Metrics::init_for_event()` for every
-/// event type you expect to receive.
-#[derive(Clone)] // Required by libafl::events::launcher::Launcher::launch()
 pub struct Metrics {
-    conn: Rc<Connection>,
+    path: PathBuf,
+    writer: Option<Writer<File>>,
+}
+
+// Required by libafl::events::launcher::Launcher::launch()
+// We're going to keep writer lazy.
+impl Clone for Metrics {
+    fn clone(&self) -> Self {
+        Self {
+            path: self.path.clone(),
+            writer: None,
+        }
+    }
 }
 
 impl Metrics {
-    pub fn new<P: AsRef<Path>>(path: Option<P>) -> Result<Self> {
-        let conn = if let Some(path) = path {
-            let exists = std::fs::exists(&path)?;
-            let conn = Connection::open(path)?;
-            if !exists {
-                conn.pragma_update(None, "journal_mode", "WAL")?;
-            }
-            Ok(conn)
-        } else {
-            Connection::open_in_memory()
-        }?;
-        Ok(Self {
-            conn: Rc::new(conn),
-        })
+    pub fn new<P: AsRef<Path>>(path: P) -> Self {
+        Self {
+            path: path.as_ref().to_path_buf(),
+            writer: None,
+        }
     }
 
-    pub fn init_for_event<E: Event>(&self) -> Result<()> {
-        E::init(&self.conn)
+    pub fn record<E: Event>(&mut self, event: E) -> Result<()> {
+        let writer = self.writer()?;
+        writer.serialize(event)?;
+        writer.flush()?;
+        Ok(())
     }
 
-    pub fn record<E: Event>(&self, event: E) -> Result<()> {
-        event.append(&self.conn)
+    fn writer(&mut self) -> Result<&mut Writer<File>> {
+        if self.writer.is_none() {
+            let writer = WriterBuilder::new().from_path(&self.path)?;
+            self.writer = Some(writer);
+        }
+        Ok(self.writer.as_mut().unwrap())
     }
 }
 
-pub trait Event {
-    fn init(conn: &Connection) -> Result<()>;
-    fn append(&self, conn: &Connection) -> Result<()>;
-}
+pub trait Event: Serialize {}
 
+#[derive(Serialize)]
 pub struct HeartbeatEvent {
+    pub timestamp: u64,
     pub objectives: u64,
     pub execs: u64,
     pub corpus: u64,
@@ -58,57 +67,4 @@ pub struct HeartbeatEvent {
     pub labels: String,
 }
 
-impl Event for HeartbeatEvent {
-    fn init(conn: &Connection) -> Result<()> {
-        static CREATE_SQL: &str = "
-        CREATE TABLE heartbeat (
-            timestamp INTEGER NOT NULL,
-            objectives UINT32 NOT NULL,
-            execs UINT32 NOT NULL,
-            corpus UINT32 NOT NULL,
-            coverage UINT32 NOT NULL,
-            valid_execs UINT32 NOT NULL,
-            valid_corpus UINT32 NOT NULL,
-            valid_coverage UINT32 NOT NULL,
-            total_edges UINT32 NOT NULL,
-            labels TEXT
-        )";
-
-        // if we're sharing a database between multiple fuzzers, the table might already exist
-        if let Err(e) = conn.execute(CREATE_SQL, ()) {
-            let rusqlite::Error::SqliteFailure(_, Some(msg)) = &e else {
-                bail!("{}", e)
-            };
-            if msg != "table heartbeat already exists" {
-                bail!("{}", e);
-            }
-        }
-
-        Ok(())
-    }
-
-    fn append(&self, conn: &Connection) -> Result<()> {
-        static SQL: &str =
-            "INSERT INTO heartbeat VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10);";
-
-        let now: DateTime<Utc> = std::time::SystemTime::now().into();
-
-        let changed = conn.execute(
-            SQL,
-            (
-                now.timestamp(),
-                self.objectives,
-                self.execs,
-                self.corpus,
-                self.coverage,
-                self.valid_execs,
-                self.valid_corpus,
-                self.valid_coverage,
-                self.total_edges,
-                &self.labels,
-            ),
-        )?;
-        debug_assert!(changed == 1);
-        Ok(())
-    }
-}
+impl Event for HeartbeatEvent {}

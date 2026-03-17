@@ -62,7 +62,15 @@ fn valid_corpus(stats: &ClientStats) -> Option<u64> {
 }
 
 fn make_heartbeat_event(mgr: &ClientStatsManager, labels: String) -> HeartbeatEvent {
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("failed to find current system time");
+
     HeartbeatEvent {
+        timestamp: now.as_secs(),
+
         // max
         coverage: fold(mgr, coverage, std::cmp::max),
         valid_coverage: fold(mgr, valid_coverage, std::cmp::max),
@@ -93,20 +101,12 @@ pub struct StdMonitor<F: FnMut(&str)> {
 }
 
 impl<F: FnMut(&str)> StdMonitor<F> {
-    pub fn new<P: AsRef<Path>>(print_fn: F, path: Option<P>, labels: &[String]) -> Result<Self> {
-        let metrics = if let Some(path) = path {
-            let metrics = Metrics::new(Some(path))?;
-            metrics.init_for_event::<HeartbeatEvent>()?;
-            Some(metrics)
-        } else {
-            None
-        };
-
-        Ok(StdMonitor {
-            metrics,
+    pub fn new<P: AsRef<Path>>(print_fn: F, path: Option<P>, labels: &[String]) -> Self {
+        StdMonitor {
+            metrics: path.map(Metrics::new),
             labels: labels.join(","),
             terminal: MultiMonitor::new(print_fn),
-        })
+        }
     }
 }
 
@@ -119,7 +119,7 @@ impl<F: FnMut(&str)> Monitor for StdMonitor<F> {
     ) -> Result<(), libafl::Error> {
         self.terminal.display(mgr, event_msg, sender_id)?;
         if event_msg == "Client Heartbeat" {
-            if let Some(metrics) = &self.metrics {
+            if let Some(metrics) = &mut self.metrics {
                 let event = make_heartbeat_event(mgr, self.labels.clone());
                 metrics
                     .record(event)

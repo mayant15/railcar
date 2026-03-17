@@ -31,7 +31,6 @@ def generate_job_requests(
     timeout: Optional[int] = None,
 ) -> list[Request[Config[Railcar.RunArgs]]]:
     tool = Railcar()
-    metrics = path.join(results_dir, "metrics.db")
 
     reqs = []
     for mode, schema_type in mode_schema_pairs:

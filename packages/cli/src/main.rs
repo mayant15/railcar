@@ -36,10 +36,6 @@ struct Arguments {
     #[arg(long)]
     outdir: Option<PathBuf>,
 
-    /// Path to a metrics database file. Railcar will create one if it doesn't exist.
-    #[arg(long)]
-    metrics: Option<PathBuf>,
-
     /// Fuzz driver variant to use.
     #[arg(long, value_enum, default_value_t = FuzzerMode::Sequence)]
     mode: FuzzerMode,
@@ -182,7 +178,7 @@ fn main() -> Result<()> {
         timeout: Duration::from_secs(args.timeout),
         corpus: outdir.join("corpus"),
         crashes: outdir.join("crashes"),
-        metrics: args.metrics.unwrap_or_else(|| outdir.join("metrics.db")),
+        metrics: outdir.join("heartbeat.csv"),
         entrypoint: to_absolute(args.entrypoint)?,
         schema_file: args.schema.map(|s| to_absolute(s).unwrap()),
         replay: args.replay,
@@ -210,7 +206,7 @@ fn main() -> Result<()> {
             Some(&config.metrics)
         },
         &config.labels,
-    )?;
+    );
 
     if !config.is_replay() {
         dump_run_metadata(outdir, &config)?;
