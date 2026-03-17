@@ -10,8 +10,6 @@ from os import path
 
 import os
 import util
-import sqlite3
-import requests
 import subprocess as sp
 
 
