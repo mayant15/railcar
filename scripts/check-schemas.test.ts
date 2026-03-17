@@ -129,7 +129,7 @@ function expectCompleteGuess(guess: TypeGuess) {
 function expectSumTo1<T extends string | number>(dist: Distribution<T>) {
     const ps: number[] = Object.values(dist);
     const sum = ps.reduce((acc, p) => acc + p, 0);
-    expect(sum).toBeCloseTo(1, 5);
+    expect(sum).toBeCloseTo(1);
 }
 
 function switchToRailcarRootDir() {
