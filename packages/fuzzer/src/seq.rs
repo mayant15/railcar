@@ -158,8 +158,14 @@ impl ApiSeq {
         }
     }
 
+    /// Create a new API sequence from scratch, exercising at least one library API.
     pub fn create<R: Rand>(rand: &mut R, schema: &Schema, fuzz: Vec<u8>) -> Result<Self> {
-        let Some((name, sig)) = rand.choose(schema.iter()) else {
+        // Just a list of library APIs, excluding built-ins
+        let endpoints = schema
+            .iter()
+            .filter(|(_, guess)| !guess.builtin.unwrap_or(false));
+
+        let Some((name, sig)) = rand.choose(endpoints) else {
             bail!("empty schema");
         };
 
