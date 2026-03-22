@@ -89,7 +89,20 @@ impl<K: Clone, R: Rand> TrySample<K, R> for Distribution<K> {
             }
         }
 
-        bail!("sampling error")
+        // At this point, we have a distribution that doesn't sum to 1. This is fine if
+        // it is small enough, we're very forgiving. Just return the last key. Otherwise,
+        // if this is a big difference, you probably want to double-check the distribution.
+
+        if (1.0 - total).abs() > 0.01 {
+            bail!("trying to sample distribution that is way too short");
+        }
+
+        self.keys()
+            .last() // Keys iterator is a double-ended iterator, so .last() should be fine
+            .cloned()
+            .ok_or(anyhow::anyhow!(
+                "failed to sample a random key from a distribution that was too short"
+            ))
     }
 }
 
