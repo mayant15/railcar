@@ -7,6 +7,7 @@
  * 3. All NoInfo signature guesses must be known.
  * 4. All schemas are idempotent. Running the schema through the fuzzer doesn't change it.
  * 5. All probability distributions must sum to 1.
+ * 6. All endpoints should have the same calling convention.
  */
 
 import { $ } from "bun";
@@ -47,6 +48,40 @@ for (const project of getProjectNames()) {
 
             expect(keys.random).toEqual(keys.typescript);
             expect(keys.syntest).toEqual(keys.typescript);
+        });
+
+        test("all endpoints must have the same callconv", () => {
+            const keys = Object.keys(schemas.typescript);
+            for (const key of keys) {
+                const expected = schemas.typescript[key].callconv;
+
+                // A little trick to make failed test reports a bit nicer, report the key as well.
+                expect([key, schemas.random[key].callconv]).toEqual([
+                    key,
+                    expected,
+                ]);
+                expect([key, schemas.syntest[key].callconv]).toEqual([
+                    key,
+                    expected,
+                ]);
+            }
+        });
+
+        test("all endpoints must have the same builtin flag", () => {
+            const keys = Object.keys(schemas.typescript);
+            for (const key of keys) {
+                const expected = schemas.typescript[key].builtin;
+
+                // A little trick to make failed test reports a bit nicer, report the key as well.
+                expect([key, schemas.random[key].builtin]).toEqual([
+                    key,
+                    expected,
+                ]);
+                expect([key, schemas.syntest[key].builtin]).toEqual([
+                    key,
+                    expected,
+                ]);
+            }
         });
 
         test("typescript schema must only have known no info guesses", () => {
