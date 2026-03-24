@@ -18,8 +18,6 @@ to custom-build bundled js, you need to install esbuild npm package in each resp
 
 - **Typescript**
   - Use default node_module file `node_modules/typescript/lib/typescript.js`
-- **ua-parser-js**
-  - Use default node_module file: `node_modules/ua-parser-js/src/main/ua-parser.js`
 - **protobufjs**
   - Use default node_module file: `node_modules/protobufjs/dist/protobuf.js`
 - **tslib**
@@ -83,7 +81,6 @@ to custom-build bundled js, you need to install esbuild npm package in each resp
   • examples/tslib/syntest.json
   • examples/turf/syntest.json
   • examples/typescript/syntest.json
-  • examples/ua-parser-js/syntest.json
   • examples/xml2js/syntest.json
   • examples/xmldom/syntest.json
 ```

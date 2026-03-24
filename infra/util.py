@@ -40,8 +40,7 @@ def get_old_results_dir(prefix: str = "railcar") -> str | None:
 def discover_projects() -> list[str]:
     dirs = filter(
         lambda dir: path.isdir(path.join(EXAMPLES_DIR, dir))
-        and dir != "example"
-        and dir != "ua-parser-js", # TODO: we don't have schemas for this yet
+        and dir != "example",
         listdir(EXAMPLES_DIR),
     )
     return list(dirs)

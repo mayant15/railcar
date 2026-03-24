@@ -93,10 +93,6 @@ const PROJECTS = {
     angular: {
         decl: "node_modules/@angular/compiler/index.d.ts",
     },
-
-    // "ua-parser-js": {
-    //     decl: "node_modules/ua-parser-js/src/main/ua-parser.d.ts",
-    // },
 } as const;
 
 export type Project = keyof typeof PROJECTS;

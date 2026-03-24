@@ -128,7 +128,6 @@ RAILCAR_INFER="npx railcar-infer"
 # ────────────────────────────────────────────────────────────────
 declare -A simple_projects=(
     ["typescript"]="node_modules/typescript/lib/typescript.js"
-    ["ua-parser-js"]="node_modules/ua-parser-js/src/main/ua-parser.js"
     ["protobufjs"]="node_modules/protobufjs/dist/protobuf.js"
     ["tslib"]="node_modules/tslib/tslib.js"
     ["pako"]="node_modules/pako/dist/pako.js"
