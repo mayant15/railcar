@@ -8,7 +8,7 @@ set -euo pipefail
 VERSION="$1"
 
 cargo workspace-version update "$VERSION"
-fd package.json | bun ./scripts/bump-version.ts "$VERSION"
+fd package.json | bun ./scripts/release/bump-version.ts "$VERSION"
 
 ################################################################################
 # Sanity checks

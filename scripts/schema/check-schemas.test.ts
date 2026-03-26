@@ -28,7 +28,7 @@ import {
     getProjectSpec,
     isNoInfoSignature,
     findEntryPoint,
-} from "./common";
+} from "../common";
 
 type SchemaKind = "random" | "typescript" | "syntest";
 

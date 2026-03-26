@@ -58,7 +58,7 @@ run = [
 [tasks.publish]
 description = "Prepare and publish npm packages"
 run = """
-./scripts/publish.sh {{arg(name="version")}}
+./scripts/release/publish.sh {{arg(name="version")}}
 """
 
 [tasks.amp]

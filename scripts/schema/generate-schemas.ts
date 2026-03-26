@@ -8,7 +8,7 @@ import {
     getProjectNames,
     getProjectSpec,
     findEntryPoint,
-} from "./common";
+} from "../common";
 
 function pruneExtraKeys(schema: Schema, keep: Set<string>): Schema {
     return Object.fromEntries(
