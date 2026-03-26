@@ -61,6 +61,7 @@ impl ValidInputsMetadata {
 #[derive(Serialize, Deserialize, Debug, Default)]
 pub struct InputValidityMetadata {
     pub is_valid: bool,
+    pub throws: bool,
 }
 
 libafl_bolts::impl_serdeany!(InputValidityMetadata);
@@ -69,6 +70,7 @@ libafl_bolts::impl_serdeany!(InputValidityMetadata);
 pub struct ValidityFeedback {
     handle: Handle<ValidityObserver>,
     last_result: Option<bool>,
+    last_throws: bool,
 }
 
 impl ValidityFeedback {
@@ -76,6 +78,7 @@ impl ValidityFeedback {
         Self {
             handle: observer,
             last_result: None,
+            last_throws: false,
         }
     }
 }
@@ -92,7 +95,7 @@ where
         manager: &mut EM,
         _input: &I,
         observers: &OT,
-        _exit_kind: &ExitKind,
+        exit_kind: &ExitKind,
     ) -> Result<bool, libafl::Error> {
         let Some(observer) = observers.get(&self.handle) else {
             return Err(libafl::Error::illegal_state(
@@ -122,6 +125,7 @@ where
         }
 
         self.last_result = Some(is_interesting);
+        self.last_throws = !matches!(exit_kind, ExitKind::Ok);
         Ok(is_interesting)
     }
 
@@ -141,7 +145,10 @@ where
         let is_valid = <ValidityFeedback as Feedback<EM, I, OT, S>>::last_result(self)?;
 
         let testcase_metadata_map = testcase.metadata_map_mut();
-        testcase_metadata_map.insert(InputValidityMetadata { is_valid });
+        testcase_metadata_map.insert(InputValidityMetadata {
+            is_valid,
+            throws: self.last_throws,
+        });
 
         // if a new valid input is going into the corpus, record it in stats
         if is_valid {
@@ -482,6 +489,8 @@ pub struct UniqCrashFeedback {
     coverage: CoverageFeedback,
     validity_observer: Handle<ValidityObserver>,
     last_result: Option<bool>,
+    last_is_valid: bool,
+    last_throws: bool,
 }
 
 impl UniqCrashFeedback {
@@ -491,6 +500,8 @@ impl UniqCrashFeedback {
             coverage: CoverageFeedback::with_name("CrashCoverage", coverage),
             validity_observer: validity.handle(),
             last_result: None,
+            last_is_valid: false,
+            last_throws: false,
         }
     }
 }
@@ -510,11 +521,9 @@ where
         observers: &OT,
         exit_kind: &ExitKind,
     ) -> Result<bool, libafl::Error> {
-        if matches!(exit_kind, ExitKind::Ok) {
-            self.last_result = Some(false);
-            return Ok(false);
-        }
-
+        // TODO: We assume is_interesting for UniqCrashFeedback is called for every execution,
+        // and use this as a hook to report some metrics. There's probably a more idiomatic way
+        // to do this.
         let Some(validity_observer) = observers.get(&self.validity_observer) else {
             return Err(libafl::Error::illegal_state(
                 "missing validity observer".to_string(),
@@ -522,6 +531,14 @@ where
         };
 
         let is_valid = validity_observer.is_valid();
+
+        self.last_is_valid = is_valid;
+        self.last_throws = !matches!(exit_kind, ExitKind::Ok);
+
+        if matches!(exit_kind, ExitKind::Ok) {
+            self.last_result = Some(false);
+            return Ok(false);
+        }
 
         let is_new_coverage = self
             .coverage
@@ -568,7 +585,15 @@ where
         testcase: &mut Testcase<I>,
     ) -> Result<(), libafl::Error> {
         self.coverage
-            .append_metadata(state, manager, observers, testcase)
+            .append_metadata(state, manager, observers, testcase)?;
+
+        let testcase_metadata_map = testcase.metadata_map_mut();
+        testcase_metadata_map.insert(InputValidityMetadata {
+            is_valid: self.last_is_valid,
+            throws: self.last_throws,
+        });
+
+        Ok(())
     }
 }
 
