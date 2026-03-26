@@ -17,8 +17,8 @@ const usage = "usage: bun scripts/heartbeat-to-sqlite.ts <results-dir>";
 
 const dir = process.argv[2];
 if (!dir) {
-	console.error(usage);
-	process.exit(1);
+    console.error(usage);
+    process.exit(1);
 }
 
 const resultsDir = resolve(dir);
@@ -55,54 +55,76 @@ type Row = { run: string; lines: string[] };
 const rows: Row[] = [];
 
 for await (const path of glob.scan(resultsDir)) {
-	const fullPath = join(resultsDir, path);
-	const run = basename(join(resultsDir, path, ".."));
-	const text = await Bun.file(fullPath).text();
-	rows.push({ run, lines: text.split("\n") });
+    const fullPath = join(resultsDir, path);
+    const run = basename(join(resultsDir, path, ".."));
+    const text = await Bun.file(fullPath).text();
+    rows.push({ run, lines: text.split("\n") });
 }
 
 const insertAll = db.transaction((rows: Row[]) => {
-	for (const { run, lines } of rows) {
-		for (let i = 1; i < lines.length; i++) {
-			const line = lines[i].trim();
-			if (!line) continue;
+    for (const { run, lines } of rows) {
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
 
-			// Parse CSV with quoted labels field: the last field is quoted and contains commas
-			const match = line.match(
-				/^(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),"(.+)"$/,
-			);
-			if (!match) {
-				console.warn(`skipping malformed line: ${line}`);
-				continue;
-			}
+            // Parse CSV with quoted labels field: the last field is quoted and contains commas
+            const match = line.match(
+                /^(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),"(.+)"$/,
+            );
+            if (!match) {
+                console.warn(`skipping malformed line: ${line}`);
+                continue;
+            }
 
-			const [, timestamp, objectives, execs, corpus, coverage, validExecs, validCorpus, validCoverage, totalEdges, labels] = match;
-			insert.run(
-				run,
-				Number(timestamp),
-				Number(objectives),
-				Number(execs),
-				Number(corpus),
-				Number(coverage),
-				Number(validExecs),
-				Number(validCorpus),
-				Number(validCoverage),
-				Number(totalEdges),
-				labels,
-			);
-			totalRows++;
-		}
-	}
+            const [
+                ,
+                timestamp,
+                objectives,
+                execs,
+                corpus,
+                coverage,
+                validExecs,
+                validCorpus,
+                validCoverage,
+                totalEdges,
+                labels,
+            ] = match;
+            insert.run(
+                run,
+                Number(timestamp),
+                Number(objectives),
+                Number(execs),
+                Number(corpus),
+                Number(coverage),
+                Number(validExecs),
+                Number(validCorpus),
+                Number(validCoverage),
+                Number(totalEdges),
+                labels,
+            );
+            totalRows++;
+        }
+    }
 });
 
 insertAll(rows);
 
-const { count } = db.query("SELECT COUNT(*) as count FROM heartbeat").get() as { count: number };
-console.assert(count === totalRows, `expected ${totalRows} rows in db, got ${count}`);
+const { count } = db.query("SELECT COUNT(*) as count FROM heartbeat").get() as {
+    count: number;
+};
+console.assert(
+    count === totalRows,
+    `expected ${totalRows} rows in db, got ${count}`,
+);
 console.assert(count > 0, "no rows were inserted");
 
-const distinctRuns = db.query("SELECT COUNT(DISTINCT run) as count FROM heartbeat").get() as { count: number };
-console.assert(distinctRuns.count === rows.length, `expected ${rows.length} distinct runs, got ${distinctRuns.count}`);
+const distinctRuns = db
+    .query("SELECT COUNT(DISTINCT run) as count FROM heartbeat")
+    .get() as { count: number };
+console.assert(
+    distinctRuns.count === rows.length,
+    `expected ${rows.length} distinct runs, got ${distinctRuns.count}`,
+);
 
 db.close();
 
