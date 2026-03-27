@@ -135,5 +135,10 @@ class Railcar(Tool):
         cmd += [args.entrypoint]
 
         makedirs(args.outdir, exist_ok=False)
+
+        if args.timeout is not None:
+            with open(path.join(args.outdir, "timeout"), "w") as f:
+                f.write(str(args.timeout))
+
         with open(logfile, "a") as f:
             sp.run(cmd, stderr=sp.STDOUT, stdout=f)
