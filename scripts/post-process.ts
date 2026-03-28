@@ -284,6 +284,12 @@ async function heartbeatToSqlite(dir: string) {
     }
 }
 
+async function assertDbExists(dir: string) {
+    if (!(await Bun.file(join(dir, "heartbeat.db")).exists())) {
+        log.error("missing heartbeat.db");
+    }
+}
+
 async function main() {
     const dir = process.argv[2];
     if (!dir) {
@@ -308,8 +314,12 @@ async function main() {
     await assertCrashInvariants(dir, panicked);
 
     if (CREATE_DB) {
+        log.section("creating", "heartbeat.db");
         await heartbeatToSqlite(dir);
     }
+
+    log.section("checking", "heartbeat.db")
+    await assertDbExists(dir);
 
     if (errorCount > 0) {
         log.section("result", `${errorCount} error(s) found`);
