@@ -7,7 +7,7 @@
  */
 
 import { $ } from "bun";
-import { readdir, stat, unlink } from "node:fs/promises";
+import { readdir, readFile, stat, unlink } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import yo from "yoctocolors";
 
@@ -60,18 +60,77 @@ async function assertNoPanics(dir: string) {
     }
 }
 
-async function assertHeartbeats(dir: string) {
+const EXPECTED_FILES = [
+    "heartbeat.csv",
+    "timeout",
+    "fuzzer-config.json",
+    "logs.txt",
+];
+
+async function assertExpectedFiles(dir: string) {
     const entries = await readdir(dir, { withFileTypes: true });
     const subdirs = entries.filter((e) => e.isDirectory());
     for (const subdir of subdirs) {
-        const heartbeat = join(dir, subdir.name, "heartbeat.csv");
-        try {
-            const s = await stat(heartbeat);
-            if (s.size === 0) {
-                log.error(`empty heartbeat: ${heartbeat}`);
+        for (const file of EXPECTED_FILES) {
+            const path = join(dir, subdir.name, file);
+            try {
+                const s = await stat(path);
+                if (s.size === 0) {
+                    log.error(`empty ${file}: ${subdir.name}`);
+                }
+            } catch {
+                log.error(`missing ${file}: ${subdir.name}`);
             }
+        }
+    }
+}
+
+const COMPLETION_THRESHOLD_MINUTES = 5;
+
+function parseRunTime(runTime: string): number {
+    let minutes = 0;
+    const hours = runTime.match(/(\d+)h/);
+    const mins = runTime.match(/(\d+)m/);
+    const secs = runTime.match(/(\d+)s/);
+    if (hours) minutes += Number(hours[1]) * 60;
+    if (mins) minutes += Number(mins[1]);
+    if (secs) minutes += Number(secs[1]) / 60;
+    return minutes;
+}
+
+async function assertCompleted(dir: string) {
+    const entries = await readdir(dir, { withFileTypes: true });
+    const subdirs = entries.filter((e) => e.isDirectory());
+    for (const subdir of subdirs) {
+        const logsPath = join(dir, subdir.name, "logs.txt");
+        const timeoutPath = join(dir, subdir.name, "timeout");
+
+        let timeoutMinutes: number;
+        try {
+            timeoutMinutes = Number(
+                (await readFile(timeoutPath, "utf-8")).trim(),
+            );
         } catch {
-            log.error(`missing heartbeat: ${heartbeat}`);
+            continue;
+        }
+
+        const result =
+            await $`rg -oN 'run time: [\dhms-]+' ${logsPath} | tail -1`
+                .nothrow()
+                .quiet();
+        const lastMatch = result.text().trim();
+        if (!lastMatch) {
+            log.error(`no run time found in logs: ${subdir.name}`);
+            continue;
+        }
+
+        const lastRunTime = lastMatch.replace("run time: ", "");
+
+        const runMinutes = parseRunTime(lastRunTime);
+        if (timeoutMinutes - runMinutes > COMPLETION_THRESHOLD_MINUTES) {
+            log.error(
+                `incomplete run: ${subdir.name} (ran ${lastRunTime}, expected ${timeoutMinutes}m)`,
+            );
         }
     }
 }
@@ -108,12 +167,13 @@ async function main() {
     log.section("checking", "panics");
     await assertNoPanics(dir);
 
-    log.section("checking", "heartbeats");
-    await assertHeartbeats(dir);
+    log.section("checking", "expected files");
+    await assertExpectedFiles(dir);
+
+    log.section("checking", "completion");
+    await assertCompleted(dir);
 
     await heartbeatToSqlite(dir);
-
-    console.log(dir);
 }
 
 main();
