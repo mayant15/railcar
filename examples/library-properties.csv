@@ -1,0 +1,17 @@
+project,property_accesses,input_validation_complexity,higher_order_functions,input_usage_complexity
+lodash,,,,
+xmldom,,,,
+typescript,,,,
+tslib,171,702,442,945
+protobufjs,,,,
+lit,,,,
+fast-xml-parser,686,392,374,620
+pako,32,972,914,926
+redux,926,127,906,268
+jimp,391,408,797,791
+jpeg-js,22,669,67,350
+js-yaml,705,930,488,950
+sharp,,,,
+turf,,,,
+xml2js,,,,
+angular,,,,
