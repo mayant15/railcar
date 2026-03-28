@@ -4,12 +4,20 @@
  *
  * Tries to report all errors. Only exits early if no further analysis can
  * be done.
+ *
+ * Generated with Amp.
  */
 
 import { $ } from "bun";
 import { readdir, readFile, stat, unlink } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import yo from "yoctocolors";
+
+// TODO: Toggle this once done testing. For now, it is more convenient to not
+// touch the existing database.
+const CREATE_DB = false;
+
+const COMPLETION_THRESHOLD_MINUTES = 5;
 
 namespace log {
     export function error(...args: unknown[]): void {
@@ -44,7 +52,8 @@ async function assertDirectory(path: string): Promise<void> {
     }
 }
 
-async function assertNoPanics(dir: string) {
+async function assertNoPanics(dir: string): Promise<Set<string>> {
+    const panicked = new Set<string>();
     const result = await $`rg -l panic ${dir}`.nothrow().quiet();
     if (result.exitCode === 0) {
         const files = result.text().trim().split("\n");
@@ -56,8 +65,10 @@ async function assertNoPanics(dir: string) {
         const dirs = [...new Set(files.map((f) => basename(dirname(f))))];
         for (const d of dirs) {
             log.error(`panic: ${d}`);
+            panicked.add(d);
         }
     }
+    return panicked;
 }
 
 const EXPECTED_FILES = [
@@ -67,9 +78,12 @@ const EXPECTED_FILES = [
     "logs.txt",
 ];
 
-async function assertExpectedFiles(dir: string) {
+async function assertExpectedFiles(dir: string, skip: Set<string>) {
+    if (skip.size > 0) {
+        log.warn("skipping panics");
+    }
     const entries = await readdir(dir, { withFileTypes: true });
-    const subdirs = entries.filter((e) => e.isDirectory());
+    const subdirs = entries.filter((e) => e.isDirectory() && !skip.has(e.name));
     for (const subdir of subdirs) {
         for (const file of EXPECTED_FILES) {
             const path = join(dir, subdir.name, file);
@@ -85,8 +99,6 @@ async function assertExpectedFiles(dir: string) {
     }
 }
 
-const COMPLETION_THRESHOLD_MINUTES = 5;
-
 function parseRunTime(runTime: string): number {
     let minutes = 0;
     const hours = runTime.match(/(\d+)h/);
@@ -98,9 +110,12 @@ function parseRunTime(runTime: string): number {
     return minutes;
 }
 
-async function assertCompleted(dir: string) {
+async function assertCompleted(dir: string, skip: Set<string>) {
+    if (skip.size > 0) {
+        log.warn("skipping panics");
+    }
     const entries = await readdir(dir, { withFileTypes: true });
-    const subdirs = entries.filter((e) => e.isDirectory());
+    const subdirs = entries.filter((e) => e.isDirectory() && !skip.has(e.name));
     for (const subdir of subdirs) {
         const logsPath = join(dir, subdir.name, "logs.txt");
         const timeoutPath = join(dir, subdir.name, "timeout");
@@ -165,15 +180,17 @@ async function main() {
     await assertDirectory(dir);
 
     log.section("checking", "panics");
-    await assertNoPanics(dir);
+    const panicked = await assertNoPanics(dir);
 
     log.section("checking", "expected files");
-    await assertExpectedFiles(dir);
+    await assertExpectedFiles(dir, panicked);
 
     log.section("checking", "completion");
-    await assertCompleted(dir);
+    await assertCompleted(dir, panicked);
 
-    await heartbeatToSqlite(dir);
+    if (CREATE_DB) {
+        await heartbeatToSqlite(dir);
+    }
 }
 
 main();
