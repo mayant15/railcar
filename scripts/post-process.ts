@@ -12,6 +12,7 @@ import { $ } from "bun";
 import { readdir, readFile, stat, unlink } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import yo from "yoctocolors";
+import type { Project, SchemaKind } from "./common";
 
 // TODO: Toggle this once done testing. For now, it is more convenient to not
 // touch the existing database.
@@ -263,6 +264,43 @@ async function assertCrashInvariants(dir: string, skip: Set<string>) {
     });
 }
 
+async function createCorpusStats(dir: string, skip: Set<string>) {
+    const rows: {
+        project: Project,
+        schema: SchemaKind,
+        iteration: number,
+        total: number,
+        valid: number,
+    }[] = []
+
+    await forEachRun(dir, skip, async (name, path) => {
+        const [project, _mode, schema, _driver, iter] = name.split("_")
+
+        const corpus = join(path, "corpus")
+        const total = await $`ls | wc -l`.cwd(corpus).nothrow().quiet().text()
+        const valid = await $`ls -a | rg metadata | xargs jq -s '[.[].metadata.map | to_entries[] | select(.value[1].is_valid == true)] | length'`
+            .cwd(join(path, "corpus"))
+            .nothrow()
+            .quiet()
+            .text()
+
+        rows.push({
+            project: project as Project,
+            schema: schema as SchemaKind,
+            iteration: Number(iter),
+            total: Number(total.trim()),
+            valid: Number(valid.trim()),
+        })
+    })
+
+    const lines = [
+        "project,schema,iter,total,valid",
+        ...rows.map(row => `${row.project},${row.schema},${row.iteration},${row.total},${row.valid}`)
+    ]
+
+    return Bun.write(join(dir, "corpus-stats.csv"), lines.join("\n"))
+}
+
 async function heartbeatToSqlite(dir: string) {
     const dbPath = join(dir, "heartbeat.db");
     try {
@@ -284,9 +322,16 @@ async function heartbeatToSqlite(dir: string) {
     }
 }
 
-async function assertDbExists(dir: string) {
-    if (!(await Bun.file(join(dir, "heartbeat.db")).exists())) {
-        log.error("missing heartbeat.db");
+async function assertGenerated(dir: string) {
+    const GENERATED = [
+        "heartbeat.db",
+        "corpus-stats.csv",
+    ]
+
+    for (const gen of GENERATED) {
+        if (!(await Bun.file(join(dir, gen)).exists())) {
+            log.error(`missing ${gen}`);
+        }
     }
 }
 
@@ -307,19 +352,22 @@ async function main() {
     log.section("checking", "completion");
     await assertCompleted(dir, panicked);
 
+    if (CREATE_DB) {
+        log.section("creating", "heartbeat.db");
+        await heartbeatToSqlite(dir);
+    }
+
     log.section("checking", "corpus invariants");
     await assertCorpusInvariants(dir, panicked);
 
     log.section("checking", "crash invariants");
     await assertCrashInvariants(dir, panicked);
 
-    if (CREATE_DB) {
-        log.section("creating", "heartbeat.db");
-        await heartbeatToSqlite(dir);
-    }
+    log.section("counting", "corpus stats");
+    await createCorpusStats(dir, panicked);
 
-    log.section("checking", "heartbeat.db");
-    await assertDbExists(dir);
+    log.section("checking", "generated files exist");
+    await assertGenerated(dir);
 
     if (errorCount > 0) {
         log.section("result", `${errorCount} error(s) found`);

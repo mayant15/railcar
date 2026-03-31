@@ -111,6 +111,8 @@ const PROJECTS = {
 
 export type Project = keyof typeof PROJECTS;
 
+export type SchemaKind = "random" | "typescript" | "syntest";
+
 type Spec = {
     bundle?: string;
     decl?: string;

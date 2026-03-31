@@ -25,13 +25,13 @@ import {
 
 import {
     type Project,
+    type SchemaKind,
     getProjectNames,
     getProjectSpec,
     isNoInfoSignature,
     findEntryPoint,
 } from "../common";
 
-type SchemaKind = "random" | "typescript" | "syntest";
 
 switchToRailcarRootDir();
 
