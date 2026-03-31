@@ -318,7 +318,7 @@ async function main() {
         await heartbeatToSqlite(dir);
     }
 
-    log.section("checking", "heartbeat.db")
+    log.section("checking", "heartbeat.db");
     await assertDbExists(dir);
 
     if (errorCount > 0) {

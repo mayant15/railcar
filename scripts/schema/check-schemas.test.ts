@@ -4,10 +4,11 @@
  * Enforces the following properties for each project:
  * 1. All three schemas must have the same set of keys.
  * 2. All three schemas must have the standard library.
- * 3. All NoInfo signature guesses must be known.
- * 4. All schemas are idempotent. Running the schema through the fuzzer doesn't change it.
- * 5. All probability distributions must sum to 1.
- * 6. All endpoints should have the same calling convention.
+ * 3. All three schemas must have the same `builtin` flag for the same endpoints.
+ * 4. All NoInfo signature guesses must be known.
+ * 5. All schemas are idempotent. Running the schema through the fuzzer doesn't change it.
+ * 6. All probability distributions must sum to 1.
+ * 7. All endpoints should have the same calling convention.
  */
 
 import { $ } from "bun";
