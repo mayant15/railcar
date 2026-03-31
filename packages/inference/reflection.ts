@@ -103,86 +103,18 @@ function getStatics(constr: object) {
     return statics;
 }
 
-function isConstructor(fn: Fn): boolean {
-    // try calling without new
-    try {
-        const maybePromise = fn();
-        if (maybePromise instanceof Promise) {
-            maybePromise.catch(() => {});
-        }
-    } catch (err) {
-        if (err instanceof TypeError) {
-            // NOTE: Node v22.12.0 throws this error when calling Uint8Array without `new`. This is
-            // not standard (Bun also throws an error but with a different message).
-            if (err.message.includes("requires 'new'")) {
-                return true;
-            }
+/**
+ * A function is a constructor if its name starts with an uppercase letter.
+ *
+ * Note that this doesn't take `fn.name`, which might be different from the exported name.
+ * Prefer the exported name instead, which we already resolve for endpoint name.
+ */
+function isConstructor(key: string): boolean {
+    // These are methods
+    if (key.includes('.')) return false;
 
-            // classes defined with the `class` keyword throw this in Node.js
-            if (err.message.includes("cannot be invoked without 'new'")) {
-                return true;
-            }
-
-            // classes defined with the `class` keyword throw this in Bun
-            if (
-                err.message.includes(
-                    "cannot call a class constructor without |new|",
-                )
-            ) {
-                return true;
-            }
-        }
-    }
-
-    // try calling with new
-    try {
-        // @ts-expect-error
-        const maybePromise = new fn();
-        if (maybePromise instanceof Promise) {
-            maybePromise.catch(() => {});
-        }
-    } catch (err) {
-        if (err instanceof TypeError) {
-            if (err.message.includes("is not a constructor")) {
-                return false;
-            }
-        }
-    }
-
-    // check if it has a prototype
-    if (!("prototype" in fn)) {
-        return false;
-    }
-
-    // check if it has user-defined methods
-    const methods = Object.entries(
-        Object.getOwnPropertyDescriptors(fn.prototype),
-    ).filter(([prop, desc]) => {
-        return (
-            !BUILTIN_METHOD_NAMES.has(prop) &&
-            desc.value &&
-            typeof desc.value === "function"
-        );
-    });
-
-    if (methods.length !== 0) {
-        return true;
-    }
-
-    // check if it adds to `this`
-    const _this = {};
-    try {
-        const maybePromise = fn.apply(_this);
-        if (maybePromise instanceof Promise) {
-            maybePromise.catch(() => {});
-        }
-    } catch (err) {}
-
-    if (Object.keys(_this).length > 0) {
-        return true;
-    }
-
-    return false;
+    const first = key.charAt(0)
+    return first.toLowerCase() !== first
 }
 
 function addToSchema(schema: Schema, id: EndpointName, sig: SignatureGuess) {
@@ -211,7 +143,7 @@ function mapFunctionReference(
     }
 
     const isConstr =
-        schema[key]?.callconv === "Constructor" || isConstructor(fn);
+        schema[key]?.callconv === "Constructor" || isConstructor(key);
 
     endpoints[key] = fn;
 

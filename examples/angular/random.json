@@ -126,14 +126,6 @@
         "callconv": "Free",
         "builtin": true
     },
-    "SECURITY_SCHEMA": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": []
-    },
     "compileClassDebugInfo": {
         "callconv": "Free",
         "ret": {

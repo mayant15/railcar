@@ -1,15 +1,4 @@
 {
-    "SECURITY_SCHEMA": {
-        "args": [],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Object": 1
-            },
-            "objectShape": {}
-        },
-        "callconv": "Free"
-    },
     "compileClassDebugInfo": {
         "args": [
             {

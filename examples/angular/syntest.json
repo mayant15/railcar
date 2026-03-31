@@ -126,23 +126,6 @@
         "callconv": "Free",
         "builtin": true
     },
-    "SECURITY_SCHEMA": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "String": 0.25,
-                "Array": 0.25,
-                "Object": 0.5
-            },
-            "objectShape": {},
-            "arrayValueType": {
-                "isAny": true,
-                "kind": {}
-            }
-        },
-        "args": []
-    },
     "compileClassDebugInfo": {
         "callconv": "Free",
         "ret": {
