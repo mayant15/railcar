@@ -45,6 +45,22 @@ fn valid_execs(stats: &ClientStats) -> Option<u64> {
     Some(*valid_execs)
 }
 
+fn crashes(stats: &ClientStats) -> Option<u64> {
+    let stat = stats.get_user_stats("crashes")?;
+    let UserStatsValue::Number(crashes) = stat.value() else {
+        return None;
+    };
+    Some(*crashes)
+}
+
+fn valid_crashes(stats: &ClientStats) -> Option<u64> {
+    let stat = stats.get_user_stats("validcrashes")?;
+    let UserStatsValue::Number(valid_crashes) = stat.value() else {
+        return None;
+    };
+    Some(*valid_crashes)
+}
+
 fn total_edges(stats: &ClientStats) -> Option<u64> {
     let stat = stats.get_user_stats("totaledges")?;
     let UserStatsValue::Number(total_edges) = stat.value() else {
@@ -78,6 +94,8 @@ fn make_heartbeat_event(mgr: &ClientStatsManager, labels: String) -> HeartbeatEv
         // sum these
         execs: fold(mgr, |s| Some(s.executions()), std::ops::Add::add),
         valid_execs: fold(mgr, valid_execs, std::ops::Add::add),
+        crashes: fold(mgr, crashes, std::ops::Add::add),
+        valid_crashes: fold(mgr, valid_crashes, std::ops::Add::add),
 
         // get these from only 1 client
         total_edges: fold(mgr, total_edges, snd),

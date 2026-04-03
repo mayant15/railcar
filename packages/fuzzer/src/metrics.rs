@@ -58,11 +58,13 @@ pub struct HeartbeatEvent {
     pub timestamp: u64,
     pub objectives: u64,
     pub execs: u64,
+    pub crashes: u64,
     pub corpus: u64,
     pub coverage: u64,
     pub valid_execs: u64,
     pub valid_corpus: u64,
     pub valid_coverage: u64,
+    pub valid_crashes: u64,
     pub total_edges: u64,
     pub labels: String,
 }

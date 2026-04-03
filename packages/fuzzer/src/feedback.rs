@@ -29,9 +29,15 @@ use crate::{
 
 pub type CoverageFeedback = AflMapFeedback<CoverageObserver, CoverageObserver>;
 
-/// State metadata with stats about valid inputs processed so far.
+/// State metadata with stats, like valid inputs processed so far.
 #[derive(Serialize, Deserialize, Debug, Default)]
-struct ValidInputsMetadata {
+struct ExtraStateMetadata {
+    /// Number of valid executions that crashed
+    num_valid_crashes: u64,
+
+    /// Total number of executions that crashed
+    num_crashes: u64,
+
     /// Number of valid inputs executed so far
     num_valid_executions: u64,
 
@@ -39,13 +45,13 @@ struct ValidInputsMetadata {
     num_valid_corpus: u64,
 }
 
-libafl_bolts::impl_serdeany!(ValidInputsMetadata);
+libafl_bolts::impl_serdeany!(ExtraStateMetadata);
 
-impl ValidInputsMetadata {
-    const NAME: &'static str = "ValidInputsMetadata";
+impl ExtraStateMetadata {
+    const NAME: &'static str = "ExtraStateMetadata";
 
     #[inline]
-    fn get<S: HasNamedMetadata>(state: &mut S) -> Result<&mut ValidInputsMetadata, libafl::Error> {
+    fn get<S: HasNamedMetadata>(state: &mut S) -> Result<&mut ExtraStateMetadata, libafl::Error> {
         state.named_metadata_mut::<Self>(Self::NAME)
     }
 
@@ -107,7 +113,7 @@ where
 
         if is_interesting {
             let execs = {
-                let meta = ValidInputsMetadata::get(state)?;
+                let meta = ExtraStateMetadata::get(state)?;
                 meta.num_valid_executions += 1;
                 meta.num_valid_executions
             };
@@ -153,7 +159,7 @@ where
         // if a new valid input is going into the corpus, record it in stats
         if is_valid {
             let count = {
-                let meta = ValidInputsMetadata::get(state)?;
+                let meta = ExtraStateMetadata::get(state)?;
                 meta.num_valid_corpus += 1;
                 meta.num_valid_corpus
             };
@@ -182,7 +188,7 @@ impl Named for ValidityFeedback {
 
 impl<S: HasNamedMetadata> StateInitializer<S> for ValidityFeedback {
     fn init_state(&mut self, state: &mut S) -> Result<(), libafl::Error> {
-        ValidInputsMetadata::init(state);
+        ExtraStateMetadata::init(state);
         Ok(())
     }
 }
@@ -535,11 +541,55 @@ where
         self.last_is_valid = is_valid;
         self.last_throws = !matches!(exit_kind, ExitKind::Ok);
 
+        if self.last_throws {
+            let crashes = {
+                let meta = ExtraStateMetadata::get(state)?;
+                meta.num_crashes += 1;
+                meta.num_crashes
+            };
+
+            manager.fire(
+                state,
+                EventWithStats::with_current_time(
+                    Event::UpdateUserStats {
+                        name: Cow::Borrowed("crashes"),
+                        value: UserStats::new(UserStatsValue::Number(crashes), AggregatorOps::Sum),
+                        phantom: PhantomData,
+                    },
+                    *state.executions(),
+                ),
+            )?;
+
+            if self.last_is_valid {
+                let valid_crashes = {
+                    let meta = ExtraStateMetadata::get(state)?;
+                    meta.num_valid_crashes += 1;
+                    meta.num_valid_crashes
+                };
+
+                manager.fire(
+                    state,
+                    EventWithStats::with_current_time(
+                        Event::UpdateUserStats {
+                            name: Cow::Borrowed("validcrashes"),
+                            value: UserStats::new(
+                                UserStatsValue::Number(valid_crashes),
+                                AggregatorOps::Sum,
+                            ),
+                            phantom: PhantomData,
+                        },
+                        *state.executions(),
+                    ),
+                )?;
+            }
+        }
+
         if matches!(exit_kind, ExitKind::Ok) {
             self.last_result = Some(false);
             return Ok(false);
         }
 
+        // This is a crash, but is it new coverage?
         let is_new_coverage = self
             .coverage
             .is_interesting(state, manager, input, observers, exit_kind)?;
@@ -550,7 +600,7 @@ where
         // that we would have updated in feedback otherwise.
         if is_interesting {
             let execs = {
-                let meta = ValidInputsMetadata::get(state)?;
+                let meta = ExtraStateMetadata::get(state)?;
                 meta.num_valid_executions += 1;
                 meta.num_valid_executions
             };
@@ -602,7 +652,7 @@ where
     S: HasNamedMetadata,
 {
     fn init_state(&mut self, state: &mut S) -> Result<(), libafl::Error> {
-        ValidInputsMetadata::init(state);
+        ExtraStateMetadata::init(state);
         self.coverage.init_state(state)
     }
 }

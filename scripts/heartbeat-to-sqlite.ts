@@ -35,17 +35,19 @@ db.run(`
     execs INTEGER NOT NULL,
     corpus INTEGER NOT NULL,
     coverage INTEGER NOT NULL,
+    crashes INTEGER NOT NULL,
     valid_execs INTEGER NOT NULL,
     valid_corpus INTEGER NOT NULL,
     valid_coverage INTEGER NOT NULL,
+    valid_crashes INTEGER NOT NULL,
     total_edges INTEGER NOT NULL,
     labels TEXT NOT NULL
   )
 `);
 
 const insert = db.prepare(`
-  INSERT INTO heartbeat (run, timestamp, objectives, execs, corpus, coverage, valid_execs, valid_corpus, valid_coverage, total_edges, labels)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  INSERT INTO heartbeat (run, timestamp, objectives, execs, crashes, corpus, coverage, valid_execs, valid_corpus, valid_coverage, valid_crashes, total_edges, labels)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `);
 
 const glob = new Glob("*/heartbeat.csv");
@@ -69,7 +71,7 @@ const insertAll = db.transaction((rows: Row[]) => {
 
             // Parse CSV with quoted labels field: the last field is quoted and contains commas
             const match = line.match(
-                /^(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),"(.+)"$/,
+                /^(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+),"(.+)"$/,
             );
             if (!match) {
                 console.warn(`skipping malformed line: ${line}`);
@@ -81,11 +83,13 @@ const insertAll = db.transaction((rows: Row[]) => {
                 timestamp,
                 objectives,
                 execs,
+                crashes,
                 corpus,
                 coverage,
                 validExecs,
                 validCorpus,
                 validCoverage,
+                validCrashes,
                 totalEdges,
                 labels,
             ] = match;
@@ -94,11 +98,13 @@ const insertAll = db.transaction((rows: Row[]) => {
                 Number(timestamp),
                 Number(objectives),
                 Number(execs),
+                Number(crashes),
                 Number(corpus),
                 Number(coverage),
                 Number(validExecs),
                 Number(validCorpus),
                 Number(validCoverage),
+                Number(validCrashes),
                 Number(totalEdges),
                 labels,
             );
