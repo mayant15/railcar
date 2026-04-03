@@ -266,23 +266,24 @@ async function assertCrashInvariants(dir: string, skip: Set<string>) {
 
 async function createCorpusStats(dir: string, skip: Set<string>) {
     const rows: {
-        project: Project,
-        schema: SchemaKind,
-        iteration: number,
-        total: number,
-        valid: number,
-    }[] = []
+        project: Project;
+        schema: SchemaKind;
+        iteration: number;
+        total: number;
+        valid: number;
+    }[] = [];
 
     await forEachRun(dir, skip, async (name, path) => {
-        const [project, _mode, schema, _driver, iter] = name.split("_")
+        const [project, _mode, schema, _driver, iter] = name.split("_");
 
-        const corpus = join(path, "corpus")
-        const total = await $`ls | wc -l`.cwd(corpus).nothrow().quiet().text()
-        const valid = await $`ls -a | rg metadata | xargs jq -s '[.[].metadata.map | to_entries[] | select(.value[1].is_valid == true)] | length'`
-            .cwd(join(path, "corpus"))
-            .nothrow()
-            .quiet()
-            .text()
+        const corpus = join(path, "corpus");
+        const total = await $`ls | wc -l`.cwd(corpus).nothrow().quiet().text();
+        const valid =
+            await $`ls -a | rg metadata | xargs jq -s '[.[].metadata.map | to_entries[] | select(.value[1].is_valid == true)] | length'`
+                .cwd(join(path, "corpus"))
+                .nothrow()
+                .quiet()
+                .text();
 
         rows.push({
             project: project as Project,
@@ -290,15 +291,18 @@ async function createCorpusStats(dir: string, skip: Set<string>) {
             iteration: Number(iter),
             total: Number(total.trim()),
             valid: Number(valid.trim()),
-        })
-    })
+        });
+    });
 
     const lines = [
         "project,schema,iter,total,valid",
-        ...rows.map(row => `${row.project},${row.schema},${row.iteration},${row.total},${row.valid}`)
-    ]
+        ...rows.map(
+            (row) =>
+                `${row.project},${row.schema},${row.iteration},${row.total},${row.valid}`,
+        ),
+    ];
 
-    return Bun.write(join(dir, "corpus-stats.csv"), lines.join("\n"))
+    return Bun.write(join(dir, "corpus-stats.csv"), lines.join("\n"));
 }
 
 async function heartbeatToSqlite(dir: string) {
@@ -323,10 +327,7 @@ async function heartbeatToSqlite(dir: string) {
 }
 
 async function assertGenerated(dir: string) {
-    const GENERATED = [
-        "heartbeat.db",
-        "corpus-stats.csv",
-    ]
+    const GENERATED = ["heartbeat.db", "corpus-stats.csv"];
 
     for (const gen of GENERATED) {
         if (!(await Bun.file(join(dir, gen)).exists())) {

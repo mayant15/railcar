@@ -32,7 +32,6 @@ import {
     findEntryPoint,
 } from "../common";
 
-
 switchToRailcarRootDir();
 
 for (const project of getProjectNames()) {
