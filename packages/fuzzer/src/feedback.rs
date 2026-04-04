@@ -97,8 +97,8 @@ where
 {
     fn is_interesting(
         &mut self,
-        state: &mut S,
-        manager: &mut EM,
+        _state: &mut S,
+        _manager: &mut EM,
         _input: &I,
         observers: &OT,
         exit_kind: &ExitKind,
@@ -110,25 +110,6 @@ where
         };
 
         let is_interesting = observer.is_valid();
-
-        if is_interesting {
-            let execs = {
-                let meta = ExtraStateMetadata::get(state)?;
-                meta.num_valid_executions += 1;
-                meta.num_valid_executions
-            };
-            manager.fire(
-                state,
-                EventWithStats::with_current_time(
-                    Event::UpdateUserStats {
-                        name: Cow::Borrowed("validexecs"),
-                        value: UserStats::new(UserStatsValue::Number(execs), AggregatorOps::Sum),
-                        phantom: PhantomData,
-                    },
-                    *state.executions(),
-                ),
-            )?
-        }
 
         self.last_result = Some(is_interesting);
         self.last_throws = !matches!(exit_kind, ExitKind::Ok);
@@ -527,9 +508,6 @@ where
         observers: &OT,
         exit_kind: &ExitKind,
     ) -> Result<bool, libafl::Error> {
-        // TODO: We assume is_interesting for UniqCrashFeedback is called for every execution,
-        // and use this as a hook to report some metrics. There's probably a more idiomatic way
-        // to do this.
         let Some(validity_observer) = observers.get(&self.validity_observer) else {
             return Err(libafl::Error::illegal_state(
                 "missing validity observer".to_string(),
@@ -537,6 +515,30 @@ where
         };
 
         let is_valid = validity_observer.is_valid();
+
+        // We assume is_interesting for UniqCrashFeedback is called for every execution, and use
+        // this as a hook to report some metrics. Here, if this was a valid execution, we track it
+        // in state metadata and client metrics.
+        //
+        // TODO: There's probably a more idiomatic way to do this.
+        if is_valid {
+            let execs = {
+                let meta = ExtraStateMetadata::get(state)?;
+                meta.num_valid_executions += 1;
+                meta.num_valid_executions
+            };
+            manager.fire(
+                state,
+                EventWithStats::with_current_time(
+                    Event::UpdateUserStats {
+                        name: Cow::Borrowed("validexecs"),
+                        value: UserStats::new(UserStatsValue::Number(execs), AggregatorOps::Sum),
+                        phantom: PhantomData,
+                    },
+                    *state.executions(),
+                ),
+            )?
+        }
 
         self.last_is_valid = is_valid;
         self.last_throws = !matches!(exit_kind, ExitKind::Ok);
@@ -595,27 +597,6 @@ where
             .is_interesting(state, manager, input, observers, exit_kind)?;
 
         let is_interesting = is_valid && is_new_coverage;
-
-        // if this is interesting, we're not going to run feedbacks. Update stats
-        // that we would have updated in feedback otherwise.
-        if is_interesting {
-            let execs = {
-                let meta = ExtraStateMetadata::get(state)?;
-                meta.num_valid_executions += 1;
-                meta.num_valid_executions
-            };
-            manager.fire(
-                state,
-                EventWithStats::with_current_time(
-                    Event::UpdateUserStats {
-                        name: Cow::Borrowed("validexecs"),
-                        value: UserStats::new(UserStatsValue::Number(execs), AggregatorOps::Sum),
-                        phantom: PhantomData,
-                    },
-                    *state.executions(),
-                ),
-            )?
-        }
 
         self.last_result = Some(is_interesting);
         Ok(is_interesting)
