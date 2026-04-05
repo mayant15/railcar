@@ -109,8 +109,7 @@ class Railcar(Tool):
             cmd += ["timeout", "-s", "KILL", f"{args.timeout}s"]
 
         cmd += [
-            # "cargo", "run", "--release", "--bin", "railcar", "--",
-            "./target/debug/railcar",
+            "cargo", "run", "--release", "--bin", "railcar", "--",
             "--outdir", args.outdir,
             "--mode", args.mode,
             "--port", str(port),
@@ -134,7 +133,7 @@ class Railcar(Tool):
             cmd += ["--cores", cores]
 
         cmd += [args.entrypoint]
-        print(cmd)
+
         makedirs(args.outdir, exist_ok=False)
 
         if args.timeout is not None:
