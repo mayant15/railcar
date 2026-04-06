@@ -9,6 +9,7 @@
  */
 
 import { $ } from "bun";
+import { Database } from "bun:sqlite";
 import { readdir, readFile, stat, unlink } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import yo from "yoctocolors";
@@ -336,6 +337,126 @@ async function assertGenerated(dir: string) {
     }
 }
 
+function assertNonDecreasing(
+    db: Database,
+    column: string,
+    table = "heartbeat",
+    groupBy = "run",
+): void {
+    const rows = db
+        .query(
+            `SELECT cur.${groupBy} AS grp, cur.${column} AS cur_val, prev.${column} AS prev_val
+             FROM ${table} cur
+             JOIN ${table} prev ON cur.${groupBy} = prev.${groupBy} AND cur.rowid = prev.rowid + 1
+             WHERE cur.${column} < prev.${column}`,
+        )
+        .all() as { grp: string; cur_val: number; prev_val: number }[];
+
+    for (const { grp, cur_val, prev_val } of rows) {
+        log.error(
+            `${table}: ${column} not non-decreasing for ${groupBy} "${grp}": ${prev_val} > ${cur_val}`,
+        );
+    }
+}
+
+function assertNonZero(
+    db: Database,
+    column: string,
+    table = "heartbeat",
+): void {
+    const row = db
+        .query(
+            `SELECT COUNT(*) AS cnt FROM ${table} WHERE ${column} = 0`,
+        )
+        .get() as { cnt: number };
+
+    if (row.cnt > 0) {
+        log.error(
+            `${table}: ${column} is zero in ${row.cnt} row(s)`,
+        );
+    }
+}
+
+function assertLessThanOrEqual(
+    db: Database,
+    lhs: string,
+    rhs: string,
+    table = "heartbeat",
+): void {
+    const row = db
+        .query(
+            `SELECT COUNT(*) AS cnt FROM ${table} WHERE ${lhs} > ${rhs}`,
+        )
+        .get() as { cnt: number };
+
+    if (row.cnt > 0) {
+        log.error(
+            `${table}: ${lhs} > ${rhs} in ${row.cnt} row(s)`,
+        );
+    }
+}
+
+function assertConstantNonZero(
+    db: Database,
+    column: string,
+    table = "heartbeat",
+    groupBy = "run",
+): void {
+    const rows = db
+        .query(
+            `SELECT ${groupBy} AS grp, MIN(${column}) AS min_val, MAX(${column}) AS max_val
+             FROM ${table}
+             GROUP BY ${groupBy}
+             HAVING min_val = 0 OR min_val != max_val`,
+        )
+        .all() as { grp: string; min_val: number; max_val: number }[];
+
+    for (const { grp, min_val, max_val } of rows) {
+        if (min_val === 0) {
+            log.error(
+                `${table}: ${column} is zero for ${groupBy} "${grp}"`,
+            );
+        } else {
+            log.error(
+                `${table}: ${column} not constant for ${groupBy} "${grp}": min=${min_val}, max=${max_val}`,
+            );
+        }
+    }
+}
+
+async function assertHeartbeatDb(dir: string) {
+    const dbPath = join(dir, "heartbeat.db");
+    const db = new Database(dbPath, { readonly: true });
+
+    for (const col of [
+        "timestamp",
+        "objectives",
+        "execs",
+        "corpus",
+        "coverage",
+        "crashes",
+        "valid_execs",
+        "valid_corpus",
+        "valid_coverage",
+        "valid_crashes",
+    ]) {
+        assertNonDecreasing(db, col);
+    }
+
+    assertConstantNonZero(db, "total_edges");
+    assertNonZero(db, "coverage");
+    assertNonZero(db, "execs");
+
+    assertLessThanOrEqual(db, "valid_coverage", "coverage");
+    assertLessThanOrEqual(db, "valid_corpus", "corpus");
+    assertLessThanOrEqual(db, "objectives", "valid_crashes");
+    assertLessThanOrEqual(db, "crashes", "execs")
+    assertLessThanOrEqual(db, "valid_crashes", "crashes")
+    assertLessThanOrEqual(db, "valid_crashes", "valid_execs")
+
+    db.close();
+}
+
 async function main() {
     const dir = process.argv[2];
     if (!dir) {
@@ -369,6 +490,9 @@ async function main() {
 
     log.section("checking", "generated files exist");
     await assertGenerated(dir);
+
+    log.section("checking", "heartbeat.db")
+    await assertHeartbeatDb(dir)
 
     if (errorCount > 0) {
         log.section("result", `${errorCount} error(s) found`);
