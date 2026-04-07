@@ -1,6 +1,8 @@
 import path from "node:path";
-import { getProjectNames, getProjectSpec, type Project } from "./common";
+import fs from "node:fs/promises";
+import { getProjectNames, type Project } from "./common";
 import type { Schema } from "@railcar/inference";
+import { countObjectPropertyAccessesInFile } from "./analyzers/property-accesses";
 
 const RAILCAR_ROOT = path.dirname(import.meta.dirname);
 
@@ -48,19 +50,21 @@ function analyzeApiSize(schema: Schema): number {
     return total;
 }
 
-async function analyze(project: Project): Promise<Row> {
-    const spec = getProjectSpec(project);
+async function analyzePropertyAccesses(
+    _: Project,
+    bundle: string,
+): Promise<number> {
+    return countObjectPropertyAccessesInFile(bundle);
+}
 
-    // No data if no bundle
-    if (!spec.bundle) return { project };
-
+async function analyze(project: Project, bundle: string): Promise<Row> {
     const schemaFile = `${RAILCAR_ROOT}/examples/${project}/typescript.json`;
     const schema: Schema = await Bun.file(schemaFile).json();
 
     const size = analyzeApiSize(schema);
     const higherOrderFunctions = analyzeHigherOrderFunctions(schema);
 
-    const propertyAccesses = Math.floor(Math.random() * 1000);
+    const propertyAccesses = await analyzePropertyAccesses(project, bundle);
     const inputValidationComplexity = Math.floor(Math.random() * 1000);
     const inputUsageComplexity = Math.floor(Math.random() * 1000);
     return {
@@ -84,14 +88,66 @@ function printCsv(rows: Row[]) {
     }
 }
 
-async function main() {
-    const csv = process.argv.includes("--csv");
-    const projects = getProjectNames();
-    const rows: Row[] = [];
-    for (const project of projects) {
-        rows.push(await analyze(project));
+type Args = {
+    bundleDir: string;
+    csv: boolean;
+};
+
+function parseArgs(): Args {
+    const argv = process.argv.slice(2);
+    if (argv.length === 0) {
+        console.error(
+            "Usage: bun run analyze-libraries.ts [--csv] <bundle-dir>",
+        );
+        process.exit(1);
     }
-    if (csv) {
+
+    let csv = false;
+    let bundleDir = "";
+    let i = 0;
+    while (i < argv.length) {
+        const arg = argv[i];
+        if (arg === "--csv") {
+            csv = true;
+        } else {
+            bundleDir = arg;
+        }
+        i++;
+    }
+
+    if (bundleDir === "") {
+        console.error("Missing bundle dir");
+        console.error(
+            "Usage: bun run analyze-libraries.ts [--csv] <bundle-dir>",
+        );
+        process.exit(1);
+    }
+
+    return { bundleDir, csv };
+}
+
+async function main() {
+    const args = parseArgs();
+
+    if (!(await fs.exists(args.bundleDir))) {
+        console.error(`Bundle directory '${args.bundleDir}' does not exist.`);
+        process.exit(1);
+    }
+
+    const rows: Row[] = [];
+    for (const project of getProjectNames()) {
+        console.log(project);
+
+        const bundle = path.join(args.bundleDir, `${project}.bundle.js`);
+        if (await fs.exists(bundle)) {
+            const row = await analyze(project, bundle);
+            rows.push(row);
+        } else {
+            console.warn(`[WARN] No bundle found for ${project}. Skipping.`);
+        }
+    }
+
+    if (args.csv) {
         printCsv(rows);
     } else {
         console.table(rows);
