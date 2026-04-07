@@ -77,14 +77,24 @@ fn valid_corpus(stats: &ClientStats) -> Option<u64> {
     Some(*valid_corpus)
 }
 
-fn make_heartbeat_event(mgr: &ClientStatsManager, labels: String) -> HeartbeatEvent {
+fn make_heartbeat_event(mgr: &mut ClientStatsManager, labels: String) -> HeartbeatEvent {
     use std::time::{SystemTime, UNIX_EPOCH};
+
+    // global stats, aggregated over all clients
+    let (execs, corpus, objectives) = {
+        let gs = mgr.global_stats();
+        (gs.total_execs, gs.corpus_size, gs.objective_size)
+    };
 
     let now = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .expect("failed to find current system time");
 
     HeartbeatEvent {
+        execs,
+        corpus,
+        objectives,
+        labels,
         timestamp: now.as_secs(),
 
         // max
@@ -92,23 +102,14 @@ fn make_heartbeat_event(mgr: &ClientStatsManager, labels: String) -> HeartbeatEv
         valid_coverage: fold(mgr, valid_coverage, std::cmp::max),
 
         // sum these
-        execs: fold(mgr, |s| Some(s.executions()), std::ops::Add::add),
         valid_execs: fold(mgr, valid_execs, std::ops::Add::add),
         crashes: fold(mgr, crashes, std::ops::Add::add),
         valid_crashes: fold(mgr, valid_crashes, std::ops::Add::add),
 
-        // get these from only 1 client
-        total_edges: fold(mgr, total_edges, snd),
-        valid_corpus: fold(mgr, valid_corpus, snd),
-        corpus: fold(mgr, |s| Some(s.corpus_size()), snd),
-        objectives: fold(mgr, |s| Some(s.objective_size()), snd),
-
-        labels,
+        // max: these are global values, but freshly-spawned clients may report 0
+        total_edges: fold(mgr, total_edges, std::cmp::max),
+        valid_corpus: fold(mgr, valid_corpus, std::cmp::max),
     }
-}
-
-fn snd<T>(_: T, b: T) -> T {
-    b
 }
 
 #[derive(Clone)]
