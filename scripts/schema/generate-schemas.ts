@@ -1,4 +1,5 @@
 import assert from "node:assert";
+import fs from "node:fs";
 import { $ } from "bun";
 
 import type { Schema } from "@railcar/inference";
@@ -35,15 +36,15 @@ async function generateRandom(
 
 async function generateSynTest(
     project: Project,
-    _entrypoint: string,
+    entrypoint: string,
     keep: Set<string>,
 ): Promise<string[]> {
     const outFile = `examples/${project}/syntest.json`;
+    const config = `examples/${project}/railcar.config.js`;
 
-    const file = Bun.file(outFile);
-    assert(await file.exists());
+    await $`npx railcar-infer --syntest --entrypoint ${entrypoint} --outFile ${outFile} --config ${config}`.quiet();
 
-    const schema = await file.json();
+    const schema = await Bun.file(outFile).json();
     const filtered = pruneExtraKeys(schema, keep);
     Bun.write(outFile, JSON.stringify(filtered, null, 4));
 
@@ -67,6 +68,15 @@ async function generateTypeScript(
     return Object.keys(schema);
 }
 
+async function findBundle(project: Project) {
+    const path = `tmp/${project}.bundle.js`;
+    assert(
+        fs.existsSync(path),
+        `SynTest inference requires a bundle. File ${path} does not exist.`,
+    );
+    return path;
+}
+
 async function main() {
     const projects = getProjectNames();
 
@@ -83,8 +93,9 @@ async function main() {
         console.log("  Random");
         await generateRandom(project, entrypoint, keep);
 
-        console.log("  SynTest [TODO: generate]");
-        await generateSynTest(project, entrypoint, keep);
+        console.log("  SynTest");
+        const bundle = await findBundle(project);
+        await generateSynTest(project, bundle, keep);
     }
 }
 

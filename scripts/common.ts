@@ -4,6 +4,10 @@ import type { SignatureGuess } from "@railcar/inference";
 const PROJECTS = {
     lodash: {
         decl: "node_modules/@types/lodash/index.d.ts",
+        bundle: async (outfile: string) => {
+            const index = "node_modules/lodash/index.js";
+            await $`bunx esbuild ${index} --bundle --format=esm --platform=node --outfile=${outfile}`;
+        },
         known: [
             "clone",
             "cloneDeep",
@@ -20,6 +24,10 @@ const PROJECTS = {
     },
     xmldom: {
         decl: "examples/xmldom/index.d.ts",
+        bundle: async (outfile: string) => {
+            const index = "node_modules/@xmldom/xmldom/lib/index.js";
+            await $`bunx esbuild ${index} --bundle --format=esm --platform=node --outfile=${outfile}`;
+        },
         known: [
             "assign",
             "NamedNodeMap",
@@ -44,6 +52,7 @@ const PROJECTS = {
     },
     typescript: {
         decl: "node_modules/typescript/lib/typescript.d.ts",
+        bundle: "node_modules/typescript/lib/typescript.js",
         known: ["OperationCanceledException"],
     },
     tslib: {
@@ -60,6 +69,7 @@ const PROJECTS = {
     },
     protobufjs: {
         decl: "node_modules/protobufjs/index.d.ts",
+        bundle: "node_modules/protobufjs/dist/protobuf.js",
         known: ["ReflectionObject", "Writer", "BufferWriter"],
     },
     lit: {
@@ -70,10 +80,17 @@ const PROJECTS = {
             "ReactiveElement",
             "CSSResult",
         ],
+        bundle: async (outfile: string) => {
+            const index = "node_modules/lit/index.js";
+            await $`bunx esbuild ${index} --bundle --format=esm --platform=node --outfile=${outfile}`;
+        },
     },
     "fast-xml-parser": {
-        bundle: "examples/fast-xml-parser/fxp.full.js",
         decl: "node_modules/fast-xml-parser/src/fxp.d.ts",
+        bundle: async (outfile: string) => {
+            const index = "node_modules/fast-xml-parser/src/fxp.js";
+            await $`bunx esbuild ${index} --bundle --platform=node --outfile=${outfile}`;
+        },
     },
     pako: {
         bundle: "node_modules/pako/dist/pako.js",
@@ -84,12 +101,18 @@ const PROJECTS = {
         decl: "node_modules/redux/dist/redux.d.ts",
     },
     jimp: {
-        bundle: "examples/jimp/jimp.browser.js",
         decl: "node_modules/jimp/dist/commonjs/index.d.ts",
+        bundle: async (outfile: string) => {
+            const index = "node_modules/jimp/dist/commonjs/index.js";
+            await $`bunx esbuild ${index} --bundle --platform=node --outfile=${outfile}`;
+        },
     },
     "jpeg-js": {
-        bundle: "examples/jpeg-js/jpeg-js.bundle.js",
         decl: "node_modules/jpeg-js/index.d.ts",
+        bundle: async (outfile: string) => {
+            const index = "node_modules/jpeg-js/index.js";
+            await $`bunx esbuild ${index} --bundle --outfile=${outfile}`;
+        },
     },
     "js-yaml": {
         bundle: "node_modules/js-yaml/dist/js-yaml.js",
@@ -97,15 +120,28 @@ const PROJECTS = {
     },
     sharp: {
         decl: "node_modules/sharp/lib/index.d.ts",
+        bundle: async (outfile: string) => {
+            const index = "node_modules/sharp/lib/index.js";
+            await $`bunx esbuild ${index} --bundle --platform=node --format=cjs --outfile=${outfile}`;
+        },
     },
     turf: {
         decl: "node_modules/@turf/turf/dist/esm/index.d.ts",
+        bundle: async (outfile: string) => {
+            const index = "node_modules/@turf/turf/dist/esm/index.js";
+            await $`bunx esbuild ${index} --bundle --format=esm --platform=node --outfile=${outfile}`;
+        },
     },
     xml2js: {
         decl: "node_modules/@types/xml2js/index.d.ts",
+        bundle: async (outfile: string) => {
+            const index = "node_modules/xml2js/lib/xml2js.js";
+            await $`bunx esbuild ${index} --bundle --format=cjs --platform=node --outfile=${outfile}`;
+        },
     },
     angular: {
         decl: "node_modules/@angular/compiler/index.d.ts",
+        bundle: "node_modules/@angular/compiler/fesm2022/compiler.mjs",
     },
 } as const;
 
@@ -113,8 +149,8 @@ export type Project = keyof typeof PROJECTS;
 
 export type SchemaKind = "random" | "typescript" | "syntest";
 
-type Spec = {
-    bundle?: string;
+export type Spec = {
+    bundle?: string | ((outfile: string) => Promise<void>);
     decl?: string;
     known?: readonly string[];
 };
