@@ -32,3 +32,6 @@ legend.json
 
 tmp/
 **/*.transformed.js
+
+# Slurm jobs manifest
+infra/jobs.jsonl

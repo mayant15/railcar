@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from argparse import ArgumentParser
 from os import path
 from random import randint
@@ -22,7 +23,8 @@ def arguments():
     parser.add_argument("--dry-run", action="store_true",
                         help="print summary only")
     args = parser.parse_args()
-## convert to seconds
+
+    # convert to seconds
     args.timeout = args.timeout * 60
     args.mode = args.mode if args.mode is not None else ["sequence"]
     return args

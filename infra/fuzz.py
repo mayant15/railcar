@@ -82,7 +82,9 @@ def generate_summary_prefix(timeout, seeds) -> str:
 
 
 def arguments():
-    parser = ArgumentParser()
+    parser = ArgumentParser(
+            epilog="NOTE: Build tools wwith `mise build` BEFORE running."
+    )
     parser.add_argument(
             "--timeout", default=1, type=int, help="timeout in minutes")
     parser.add_argument(
@@ -106,9 +108,10 @@ def arguments():
 def main() -> None:
     args = arguments()
 
+    print("REMINDER: Build tools with `mise build` BEFORE running fuzz.py")
+
     num_procs = os.process_cpu_count()
     projects = util.discover_projects()
-    old_results_dir = util.get_old_results_dir()
     results_dir = util.ensure_results_dir(dry_run=args.dry_run)
 
     seeds = [randint(0, 100000) for i in range(args.iterations)]

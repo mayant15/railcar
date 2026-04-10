@@ -109,8 +109,7 @@ class Railcar(Tool):
             cmd += ["timeout", "-s", "KILL", f"{args.timeout}s"]
 
         cmd += [
-            # "cargo", "run", "--release", "--bin", "railcar", "--",
-            "./target/debug/railcar",
+            "./target/release/railcar",
             "--outdir", args.outdir,
             "--mode", args.mode,
             "--port", str(port),
