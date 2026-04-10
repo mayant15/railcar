@@ -314,7 +314,7 @@ cp -r "$JPEG_SRC/." "$JPEG_TMP/"
 
 (
     cd "$JPEG_TMP"
-    bunx esbuild index.js --bundle --outfile="$JPEG_OUT.tmp"
+    bunx esbuild index.js --bundle --format=esm --outfile="$JPEG_OUT.tmp"
     mv "$JPEG_OUT.tmp" "$JPEG_OUT"
 )
 echo "   → $JPEG_OUT"
