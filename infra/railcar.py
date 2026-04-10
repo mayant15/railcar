@@ -133,7 +133,7 @@ class Railcar(Tool):
             cmd += ["--cores", cores]
 
         cmd += [args.entrypoint]
-        print(cmd)
+
         makedirs(args.outdir, exist_ok=False)
 
         if args.timeout is not None:
