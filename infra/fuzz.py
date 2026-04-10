@@ -83,7 +83,7 @@ def generate_summary_prefix(timeout, seeds) -> str:
 
 def arguments():
     parser = ArgumentParser(
-            epilog="NOTE: Build tools wwith `mise build` BEFORE running."
+            epilog="NOTE: Build tools with `mise build` BEFORE running."
     )
     parser.add_argument(
             "--timeout", default=1, type=int, help="timeout in minutes")
