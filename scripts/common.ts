@@ -111,7 +111,7 @@ const PROJECTS = {
         decl: "node_modules/jpeg-js/index.d.ts",
         bundle: async (outfile: string) => {
             const index = "node_modules/jpeg-js/index.js";
-            await $`bunx esbuild ${index} --bundle --outfile=${outfile}`;
+            await $`bunx esbuild ${index} --bundle --format=esm --outfile=${outfile}`;
         },
     },
     "js-yaml": {
