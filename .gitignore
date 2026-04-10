@@ -1,5 +1,6 @@
 .venv
 .nyc_output
+.c8
 target/
 dist
 node_modules/
