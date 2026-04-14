@@ -144,7 +144,7 @@ for run_dir in "${runs[@]}"; do
     "${c8_args[@]}" \
     --temp-directory "$run_coverage_dir/.c8" \
     --reports-dir "$run_coverage_dir" \
-    --reporter lcov --reporter html \
+    --reporter lcov \
     cargo run --bin railcar --release -- \
     --replay \
     --outdir "$run_dir" \
