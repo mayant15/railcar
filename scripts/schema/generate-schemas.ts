@@ -42,7 +42,12 @@ async function generateSynTest(
     const outFile = `examples/${project}/syntest.json`;
     const config = `examples/${project}/railcar.config.js`;
 
-    await $`npx railcar-infer --syntest --entrypoint ${entrypoint} --outFile ${outFile} --config ${config}`.quiet();
+    await $`npx railcar-infer --syntest --entrypoint ${entrypoint} --outFile ${outFile} --config ${config}`;
+
+    // TODO: fix the "Sharp2" bug
+    if (project === "sharp") {
+        await $`sed -i 's/Sharp2/Sharp/g' ${outFile}`
+    }
 
     const schema = await Bun.file(outFile).json();
     const filtered = pruneExtraKeys(schema, keep);
