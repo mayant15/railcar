@@ -46,7 +46,7 @@ async function generateSynTest(
 
     // TODO: fix the "Sharp2" bug
     if (project === "sharp") {
-        await $`sed -i 's/Sharp2/Sharp/g' ${outFile}`
+        await $`sed -i 's/Sharp2/Sharp/g' ${outFile}`;
     }
 
     const schema = await Bun.file(outFile).json();
