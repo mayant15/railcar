@@ -15,9 +15,7 @@ import { basename, dirname, join } from "node:path";
 import yo from "yoctocolors";
 import type { Project, SchemaKind } from "./common";
 
-// TODO: Toggle this once done testing. For now, it is more convenient to not
-// touch the existing database.
-const CREATE_DB = false;
+const CREATE_DB = true;
 
 const COMPLETION_THRESHOLD_MINUTES = 5;
 
