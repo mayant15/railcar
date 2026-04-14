@@ -125,5 +125,92 @@
         },
         "callconv": "Free",
         "builtin": true
+    },
+    "encode": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Object": 1
+            },
+            "objectShape": {}
+        },
+        "args": [
+            {
+                "isAny": false,
+                "kind": {
+                    "Object": 1
+                },
+                "objectShape": {
+                    "width": {
+                        "isAny": true,
+                        "kind": {}
+                    },
+                    "height": {
+                        "isAny": true,
+                        "kind": {}
+                    }
+                }
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Number": 1
+                },
+                "objectShape": {}
+            }
+        ]
+    },
+    "decode": {
+        "callconv": "Free",
+        "ret": {
+            "isAny": false,
+            "kind": {
+                "Undefined": 0.1111111111111111,
+                "Object": 0.8888888888888888
+            },
+            "objectShape": {
+                "width": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "height": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "exifBuffer": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "data": {
+                    "isAny": true,
+                    "kind": {}
+                },
+                "comments": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        },
+        "args": [
+            {
+                "isAny": true,
+                "kind": {},
+                "objectShape": {}
+            },
+            {
+                "isAny": false,
+                "kind": {
+                    "Undefined": 0.3333333333333333,
+                    "Array": 0.3333333333333333,
+                    "Object": 0.3333333333333333
+                },
+                "objectShape": {},
+                "arrayValueType": {
+                    "isAny": true,
+                    "kind": {}
+                }
+            }
+        ]
     }
 }
