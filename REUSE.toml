@@ -11,6 +11,7 @@ path = [
   "packages/**",
   "infra/**",
   "scripts/**",
+  "slurm_run_one.sbatch",
   "*.lock",
   "*.txt",
   "*.toml",
@@ -19,7 +20,7 @@ path = [
   "*.cff",
   ".**",
 ]
-SPDX-FileCopyrightText = "2025 Mayant Mukul"
+SPDX-FileCopyrightText = "Railcar Authors (see CITATION.cff)"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 # Example projects include Apache-2.0 fuzz drivers from OSS-Fuzz
@@ -57,7 +58,7 @@ SPDX-License-Identifier = "BSD-3-Clause"
 path = [
   "packages/support/**",
 ]
-SPDX-FileCopyrightText = "2025 Mayant Mukul"
+SPDX-FileCopyrightText = "Railcar Authors (see CITATION.cff)"
 SPDX-License-Identifier = "Apache-2.0"
 
 # Documentation
@@ -66,8 +67,8 @@ path = [
   "notes/**",
   "docs/**"
 ]
+SPDX-FileCopyrightText = "Railcar Authors (see CITATION.cff)"
 SPDX-License-Identifier = "GFDL-1.3-or-later"
-SPDX-FileCopyrightText = "2025 Mayant Mukul"
 
 # Patches for SynTest
 [[annotations]]
