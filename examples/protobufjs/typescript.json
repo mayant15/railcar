@@ -9129,26 +9129,6 @@
         },
         "callconv": "Constructor"
     },
-    "BufferWriter.alloc": {
-        "args": [
-            {
-                "isAny": false,
-                "kind": {
-                    "Number": 1
-                }
-            }
-        ],
-        "ret": {
-            "isAny": false,
-            "kind": {
-                "Class": 1
-            },
-            "classType": {
-                "Buffer": 1
-            }
-        },
-        "callconv": "Free"
-    },
     "BufferWriter.finish": {
         "args": [
             {

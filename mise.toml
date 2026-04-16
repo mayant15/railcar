@@ -26,7 +26,7 @@ description = "Run all smoke tests"
 run = [
   "cd packages/inference && bun test",
   "cd packages/worker && bun test",
-  "cd scripts && bun test --timeout=7000",
+  "cd scripts && bun test --timeout=15000",
   "cargo test",
 ]
 

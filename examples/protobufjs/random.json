@@ -977,19 +977,6 @@
             }
         ]
     },
-    "BufferWriter.alloc": {
-        "callconv": "Free",
-        "ret": {
-            "isAny": true,
-            "kind": {}
-        },
-        "args": [
-            {
-                "isAny": true,
-                "kind": {}
-            }
-        ]
-    },
     "Reader": {
         "callconv": "Constructor",
         "ret": {
