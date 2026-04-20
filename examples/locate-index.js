@@ -1,8 +1,8 @@
-const assert = require("node:assert");
+import assert from "node:assert";
 
 const file = process.argv[2];
 assert(!!file);
 assert(typeof file === "string");
 assert(file.length > 0);
 
-console.log(require.resolve(file));
+console.log(new URL(import.meta.resolve(file)).pathname);

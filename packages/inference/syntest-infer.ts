@@ -557,8 +557,13 @@ export async function syntestSchema(fileName: string, skip: string[] = []) {
 
         const mergedObjShapes = mergeObjectShapes(objShapes);
 
+        let isAny = true
+        if (!isEmptyObject(normalizedKind)) {
+            isAny = false
+        }
+
         return {
-            isAny: false,
+            isAny: isAny,
             kind: normalizedKind,
             objectShape: mergedObjShapes,
             arrayValueType: {

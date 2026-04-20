@@ -130,6 +130,9 @@ def main() -> None:
     )
 
     jobs = schedule(reqs, num_procs)
+    nr_jobs = sum([len(row) for row in jobs])
+
+    print("Running", len(projects), "projects over", nr_jobs, "jobs")
     print("Estimated time:", len(jobs) * args.timeout / (60 * 60), "hour(s)")
 
     if args.dry_run:

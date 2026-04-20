@@ -205,7 +205,7 @@
     "compileComponentClassMetadata": {
         "callconv": "Free",
         "ret": {
-            "isAny": false,
+            "isAny": true,
             "kind": {},
             "objectShape": {},
             "arrayValueType": {
@@ -279,7 +279,7 @@
     "compileComponentDeclareClassMetadata": {
         "callconv": "Free",
         "ret": {
-            "isAny": false,
+            "isAny": true,
             "kind": {},
             "objectShape": {},
             "arrayValueType": {

@@ -15,9 +15,7 @@ import { basename, dirname, join } from "node:path";
 import yo from "yoctocolors";
 import type { Project, SchemaKind } from "./common";
 
-// TODO: Toggle this once done testing. For now, it is more convenient to not
-// touch the existing database.
-const CREATE_DB = false;
+const CREATE_DB = true;
 
 const COMPLETION_THRESHOLD_MINUTES = 5;
 
@@ -365,15 +363,11 @@ function assertNonZero(
     table = "heartbeat",
 ): void {
     const row = db
-        .query(
-            `SELECT COUNT(*) AS cnt FROM ${table} WHERE ${column} = 0`,
-        )
+        .query(`SELECT COUNT(*) AS cnt FROM ${table} WHERE ${column} = 0`)
         .get() as { cnt: number };
 
     if (row.cnt > 0) {
-        log.error(
-            `${table}: ${column} is zero in ${row.cnt} row(s)`,
-        );
+        log.error(`${table}: ${column} is zero in ${row.cnt} row(s)`);
     }
 }
 
@@ -384,15 +378,11 @@ function assertLessThanOrEqual(
     table = "heartbeat",
 ): void {
     const row = db
-        .query(
-            `SELECT COUNT(*) AS cnt FROM ${table} WHERE ${lhs} > ${rhs}`,
-        )
+        .query(`SELECT COUNT(*) AS cnt FROM ${table} WHERE ${lhs} > ${rhs}`)
         .get() as { cnt: number };
 
     if (row.cnt > 0) {
-        log.error(
-            `${table}: ${lhs} > ${rhs} in ${row.cnt} row(s)`,
-        );
+        log.error(`${table}: ${lhs} > ${rhs} in ${row.cnt} row(s)`);
     }
 }
 
@@ -413,9 +403,7 @@ function assertConstantNonZero(
 
     for (const { grp, min_val, max_val } of rows) {
         if (min_val === 0) {
-            log.error(
-                `${table}: ${column} is zero for ${groupBy} "${grp}"`,
-            );
+            log.error(`${table}: ${column} is zero for ${groupBy} "${grp}"`);
         } else {
             log.error(
                 `${table}: ${column} not constant for ${groupBy} "${grp}": min=${min_val}, max=${max_val}`,
@@ -450,9 +438,9 @@ async function assertHeartbeatDb(dir: string) {
     assertLessThanOrEqual(db, "valid_coverage", "coverage");
     assertLessThanOrEqual(db, "valid_corpus", "corpus");
     assertLessThanOrEqual(db, "objectives", "valid_crashes");
-    assertLessThanOrEqual(db, "crashes", "execs")
-    assertLessThanOrEqual(db, "valid_crashes", "crashes")
-    assertLessThanOrEqual(db, "valid_crashes", "valid_execs")
+    assertLessThanOrEqual(db, "crashes", "execs");
+    assertLessThanOrEqual(db, "valid_crashes", "crashes");
+    assertLessThanOrEqual(db, "valid_crashes", "valid_execs");
 
     db.close();
 }
@@ -491,8 +479,8 @@ async function main() {
     log.section("checking", "generated files exist");
     await assertGenerated(dir);
 
-    log.section("checking", "heartbeat.db")
-    await assertHeartbeatDb(dir)
+    log.section("checking", "heartbeat.db");
+    await assertHeartbeatDb(dir);
 
     if (errorCount > 0) {
         log.section("result", `${errorCount} error(s) found`);

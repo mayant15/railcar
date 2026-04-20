@@ -20,5 +20,6 @@ module.exports = {
         "load",
         "rpc.Service.rpcCall",
         "util.asPromise",
+        "BufferWriter.alloc"
     ],
 };

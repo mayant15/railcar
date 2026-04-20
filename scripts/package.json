@@ -8,7 +8,9 @@
         "yoctocolors": "2.1.2"
     },
     "devDependencies": {
-        "@types/babel__core": "7.20.5"
+        "@types/babel__core": "7.20.5",
+        "@types/istanbul-lib-report": "3.0.3",
+        "@types/istanbul-reports": "3.0.4"
     },
     "version": "0.1.10"
 }

@@ -500,7 +500,7 @@
     "cssColorToHex": {
         "callconv": "Free",
         "ret": {
-            "isAny": false,
+            "isAny": true,
             "kind": {},
             "objectShape": {},
             "arrayValueType": {
