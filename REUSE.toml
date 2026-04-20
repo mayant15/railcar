@@ -11,7 +11,7 @@ path = [
   "packages/**",
   "infra/**",
   "scripts/**",
-  "slurm_run_one.sbatch",
+  "slurm_run_zip_v3.sbatch",
   "*.lock",
   "*.txt",
   "*.toml",
