@@ -18,6 +18,10 @@ Railcar is a monorepo with TypeScript and Rust packages.
 - `packages/reporter` — TypeScript web reporter UI
 - `packages/tools` — Rust utility tools
 
+In addition to the core app above, there's a few scripts spread around.
+- `infra` — Python scripts for running experiments
+- `scripts` — Miscellaneous Bash and Bun scripts for experiments, analysis, generating artifacts
+
 ## Running Tools
 
 Railcar comes with a number of support tools.
@@ -25,7 +29,7 @@ Railcar comes with a number of support tools.
 
 ## More Granular Tests
 
-There are three test suites:
+There are multiple test suites:
 - `packages/inference`: tests for type inference tools.
   - Run with `bun test [test-file]` in `packages/inference`
   - Run a subset with `bun test [test-file] --test-name-pattern <patter>`
@@ -35,7 +39,11 @@ There are three test suites:
 - Rust tests
   - Run with `cargo test`
   - Run for a specific package with `cargo test -p <package>`
+- Schema tests: integrity checks on schemas and other data that we keep in git for experiment stability
+  - Run with `cd scripts && bun test --timeout=15000`
 
 ## Conventions
 
 - For Rust code, see @clippy.toml for project-specific conventions
+- For AI-generated code, add a header comment at the top of the file indicating the agent or model used. For example,
+some of our scripts have "Generated with Amp" at the top.
