@@ -1,6 +1,7 @@
 /**
  * Generated with Amp
  * https://ampcode.com/threads/T-019d8df7-62c7-7768-a75a-bff79e3f260e
+ * https://ampcode.com/threads/T-019dac8a-ebcc-72dc-9f40-cdb8016350ea
  */
 
 import assert from "node:assert";
@@ -10,108 +11,11 @@ import { argv, exit } from "node:process";
 import libCoverage from "istanbul-lib-coverage";
 import libReport from "istanbul-lib-report";
 import reports from "istanbul-reports";
+import { type BranchData, type LcovFile, parseLcov } from "./lcov.ts";
 
 function usage() {
     console.log("Usage: lcov-to-html <lcov-file> [--out <dir>]");
     exit(0);
-}
-
-type LineData = {
-    line: number;
-    count: number;
-};
-
-type BranchData = {
-    line: number;
-    block: number;
-    expr: number;
-    count: number;
-};
-
-type FnRef = {
-    line: number;
-    name: string;
-};
-
-type FnData = {
-    name: string;
-    count: number;
-};
-
-type LcovFile = {
-    path: string;
-    lines: LineData[];
-    branches: BranchData[];
-    functions: FnRef[];
-    fnData: FnData[];
-};
-
-function parseLcov(content: string): LcovFile[] {
-    const files: LcovFile[] = [];
-    let current: LcovFile | null = null;
-
-    for (const raw of content.split("\n")) {
-        const line = raw.trim();
-        if (!line || line === "end_of_record") {
-            if (line === "end_of_record" && current) {
-                assert(current !== null);
-                files.push(current);
-                current = null;
-            }
-            continue;
-        }
-
-        const idx = line.indexOf(":");
-        if (idx === -1) continue;
-        const kind = line.slice(0, idx);
-        const body = line.slice(idx + 1);
-
-        switch (kind) {
-            case "TN":
-                break;
-            case "SF":
-                current = {
-                    path: body,
-                    lines: [],
-                    branches: [],
-                    functions: [],
-                    fnData: [],
-                };
-                break;
-            case "DA": {
-                const [ln, cnt] = body.split(",");
-                assert(current !== null);
-                current.lines.push({ line: Number(ln), count: Number(cnt) });
-                break;
-            }
-            case "BRDA": {
-                const [ln, block, expr, cnt] = body.split(",");
-                assert(current !== null);
-                current.branches.push({
-                    line: Number(ln),
-                    block: Number(block),
-                    expr: Number(expr),
-                    count: Number(cnt),
-                });
-                break;
-            }
-            case "FN": {
-                const [ln, name] = body.split(",");
-                assert(current !== null);
-                current.functions.push({ line: Number(ln), name });
-                break;
-            }
-            case "FNDA": {
-                const [cnt, name] = body.split(",");
-                assert(current !== null);
-                current.fnData.push({ name, count: Number(cnt) });
-                break;
-            }
-            // LF, LH, BRF, BRH, FNF, FNH — derived, skip
-        }
-    }
-
-    return files;
 }
 
 function toIstanbulCoverage(files: LcovFile[]) {
