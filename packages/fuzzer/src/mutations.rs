@@ -15,6 +15,7 @@ use libafl_bolts::{
 };
 
 use crate::{
+    rng::TrySample,
     schema::Schema,
     seq::{ApiCallArg, ApiSeq},
 };
@@ -27,6 +28,7 @@ pub type SequenceMutationsType<'a> = tuple_list_type!(
     RemoveSuffixSeq,
     RemovePrefixSeq<'a>,
     Crossover<'a>,
+    ConstTypes<'a>,
     FuzzSeqConsts
 );
 
@@ -37,6 +39,7 @@ pub fn sequence_mutations<'a>(schema: &'a Schema) -> SequenceMutationsType<'a> {
         RemoveSuffixSeq {},
         RemovePrefixSeq { schema },
         Crossover { schema },
+        ConstTypes { schema },
         HavocScheduledMutator::new(havoc_mutations()),
     )
 }
@@ -191,6 +194,64 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for RemovePrefixSeq<'a> {
         input
             .complete(state.rand_mut(), self.schema)
             .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;
+
+        #[cfg(debug_assertions)]
+        input.is_valid();
+
+        Ok(MutationResult::Mutated)
+    }
+
+    fn post_exec(
+        &mut self,
+        _state: &mut S,
+        _new_corpus_id: Option<CorpusId>,
+    ) -> Result<(), libafl::Error> {
+        Ok(())
+    }
+}
+
+/// Resample constant types.
+pub struct ConstTypes<'a> {
+    pub schema: &'a Schema,
+}
+
+impl<'a> Named for ConstTypes<'a> {
+    fn name(&self) -> &Cow<'static, str> {
+        static NAME: Cow<'static, str> = Cow::Borrowed("ConstTypes");
+        &NAME
+    }
+}
+
+impl<'a, S: HasRand> Mutator<ApiSeq, S> for ConstTypes<'a> {
+    fn mutate(
+        &mut self,
+        state: &mut S,
+        input: &mut ApiSeq,
+    ) -> Result<MutationResult, libafl::Error> {
+        let mut resampled = 0;
+
+        for call in input.seq_mut() {
+            let guess = self.schema.get(&call.name).unwrap();
+
+            for (index, out) in call.args.iter_mut().enumerate() {
+                if !matches!(out, ApiCallArg::Constant(_)) {
+                    continue;
+                }
+                if state.rand_mut().coinflip(0.5) {
+                    // Resample this constant type
+
+                    let arg_guess = &guess.args[index];
+                    let typ = arg_guess.sample(state.rand_mut()).unwrap();
+
+                    *out = ApiCallArg::Constant(typ);
+                    resampled += 1;
+                }
+            }
+        }
+
+        if resampled == 0 {
+            return Ok(MutationResult::Skipped);
+        }
 
         #[cfg(debug_assertions)]
         input.is_valid();
