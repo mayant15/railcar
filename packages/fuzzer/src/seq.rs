@@ -1,6 +1,6 @@
 use anyhow::{bail, Result};
 use libafl::{
-    generators::{Generator, RandBytesGenerator},
+    generators::Generator,
     inputs::{HasMutatorBytes, HasTargetBytes, Input, ResizableMutator},
     state::{HasRand, DEFAULT_MAX_SIZE},
 };
@@ -26,6 +26,7 @@ use crate::{
 type CallId = String;
 
 const MAX_SEQ_LEN: usize = 15;
+const SEQ_FUZZ_BUF_LEN: usize = 2048;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ApiCall {
@@ -510,24 +511,26 @@ impl HasTargetBytes for ApiSeq {
     }
 }
 
+/// Generates fuzz bytes like RandBytesGenerator would, then generates sequences.
 pub struct ApiSeqGenerator<'a> {
     schema: &'a Schema,
-    bytes_gen: RandBytesGenerator,
 }
 
 impl<'a> ApiSeqGenerator<'a> {
-    pub fn new(schema: &'a Schema, min_size: NonZeroUsize, max_size: NonZeroUsize) -> Self {
-        Self {
-            schema,
-            bytes_gen: RandBytesGenerator::with_min_size(min_size, max_size),
-        }
+    pub fn new(schema: &'a Schema) -> Self {
+        Self { schema }
     }
 }
 
 impl<S: HasRand> Generator<ApiSeq, S> for ApiSeqGenerator<'_> {
     fn generate(&mut self, state: &mut S) -> Result<ApiSeq, libafl::Error> {
-        let bytes = self.bytes_gen.generate(state)?;
-        ApiSeq::create(state.rand_mut(), self.schema, bytes.into()).map_err(|e| {
+        const PRINTABLES: &[u8] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \t\n!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".as_bytes();
+
+        let bytes: Vec<u8> = (0..SEQ_FUZZ_BUF_LEN)
+            .map(|_| *state.rand_mut().choose(PRINTABLES).unwrap())
+            .collect();
+
+        ApiSeq::create(state.rand_mut(), self.schema, bytes).map_err(|e| {
             libafl::Error::unknown(format!("failed to generate an api sequence: {}", e))
         })
     }
