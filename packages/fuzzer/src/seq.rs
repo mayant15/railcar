@@ -366,7 +366,8 @@ impl ApiSeq {
             // TODO: should we bail in this case instead of passing null?
             // if this can only be a class, we can't create it here, pass null
             if Self::only_class(guess) {
-                *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(Type::Null);
+                bail!("cannot create const classes")
+                // *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(Type::Null);
             } else {
                 let guess = Self::strip_class(rand, guess);
                 let typ = guess.sample(rand)?;

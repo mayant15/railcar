@@ -22,28 +22,19 @@ use crate::{
 
 type FuzzSeqConsts = HavocScheduledMutator<HavocMutationsType>;
 
-pub type SequenceMutationsType<'a> = tuple_list_type!(
-    SpliceSeq<'a>,
-    ExtendSeq<'a>,
-    RemoveSuffixSeq,
-    RemovePrefixSeq<'a>,
-    Crossover<'a>,
-    ConstTypes<'a>,
-    FuzzSeqConsts
-);
+pub type SequenceMutationsType<'a> =
+    tuple_list_type!(ExtendSeq<'a>, Crossover<'a>, ConstTypes<'a>, FuzzSeqConsts);
 
 pub fn sequence_mutations<'a>(schema: &'a Schema) -> SequenceMutationsType<'a> {
     tuple_list!(
-        SpliceSeq { schema },
         ExtendSeq { schema },
-        RemoveSuffixSeq {},
-        RemovePrefixSeq { schema },
         Crossover { schema },
         ConstTypes { schema },
         HavocScheduledMutator::new(havoc_mutations()),
     )
 }
 
+/// Remove a random API call from the middle of the sequence.
 pub struct SpliceSeq<'a> {
     pub schema: &'a Schema,
 }
@@ -89,6 +80,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for SpliceSeq<'a> {
     }
 }
 
+/// Append a new call to the end of the sequence.
 pub struct ExtendSeq<'a> {
     pub schema: &'a Schema,
 }
@@ -131,16 +123,16 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for ExtendSeq<'a> {
 }
 
 /// Remove the last call
-pub struct RemoveSuffixSeq {}
+pub struct TruncateSeq {}
 
-impl Named for RemoveSuffixSeq {
+impl Named for TruncateSeq {
     fn name(&self) -> &Cow<'static, str> {
         static NAME: Cow<'static, str> = Cow::Borrowed("RemoveSuffixSeq");
         &NAME
     }
 }
 
-impl<S: HasRand> Mutator<ApiSeq, S> for RemoveSuffixSeq {
+impl<S: HasRand> Mutator<ApiSeq, S> for TruncateSeq {
     fn mutate(
         &mut self,
         _state: &mut S,
@@ -479,7 +471,7 @@ mod tests {
         let mut state = make_nop_state(42);
         let mut input = generate_seq(state.rand_mut(), &schema);
         if input.seq_len() >= 2 {
-            let mut mutation = RemoveSuffixSeq {};
+            let mut mutation = TruncateSeq {};
             mutation
                 .mutate(&mut state, &mut input)
                 .expect("mutation failed");
@@ -493,7 +485,7 @@ mod tests {
         let mut state = make_nop_state(42);
         let mut input = generate_seq(state.rand_mut(), &schema);
         assert_eq!(input.seq_len(), 1);
-        let mut mutation = RemoveSuffixSeq {};
+        let mut mutation = TruncateSeq {};
         let result = mutation
             .mutate(&mut state, &mut input)
             .expect("mutation failed");
@@ -507,7 +499,7 @@ mod tests {
         let mut input = generate_seq(state.rand_mut(), &schema);
         if input.seq_len() >= 2 {
             let original_len = input.seq_len();
-            let mut mutation = RemoveSuffixSeq {};
+            let mut mutation = TruncateSeq {};
             mutation
                 .mutate(&mut state, &mut input)
                 .expect("mutation failed");
@@ -577,7 +569,7 @@ mod tests {
         for _ in 0..25 {
             let mut splice = SpliceSeq { schema: &schema };
             let mut extend = ExtendSeq { schema: &schema };
-            let mut remove_suffix = RemoveSuffixSeq {};
+            let mut remove_suffix = TruncateSeq {};
             let mut remove_prefix = RemovePrefixSeq { schema: &schema };
 
             let pick = state.rand_mut().below_or_zero(4);
