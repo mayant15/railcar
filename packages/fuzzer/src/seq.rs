@@ -25,7 +25,7 @@ use crate::{
 // TODO: Something other than String might be faster to work with
 type CallId = String;
 
-const MAX_SEQ_LEN: usize = 15;
+const DEFAULT_MAX_SEQ_LEN: usize = 15;
 const SEQ_FUZZ_BUF_LEN: usize = 2048;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -180,7 +180,7 @@ impl ApiSeq {
         worklist.push_back(first.id.clone());
 
         while let Some(index) = worklist.pop_front() {
-            seq.complete_one(rand, schema, &mut worklist, index)?;
+            seq.complete_one(rand, schema, &mut worklist, 1, index)?;
         }
 
         Ok(seq)
@@ -199,7 +199,7 @@ impl ApiSeq {
         }
 
         while let Some(id) = worklist.pop_front() {
-            self.complete_one(rand, schema, &mut worklist, id)?;
+            self.complete_one(rand, schema, &mut worklist, DEFAULT_MAX_SEQ_LEN, id)?;
         }
 
         Ok(())
@@ -269,9 +269,14 @@ impl ApiSeq {
         &mut self.seq[call_index].args[arg_index]
     }
 
-    fn pick_arg_fill_strat<R: Rand>(&self, rand: &mut R, guess: &TypeGuess) -> ArgFillStrategy {
+    fn pick_arg_fill_strat<R: Rand>(
+        &self,
+        rand: &mut R,
+        guess: &TypeGuess,
+        max_len: usize,
+    ) -> ArgFillStrategy {
         if Self::only_class(guess) {
-            if self.seq.len() > MAX_SEQ_LEN {
+            if self.seq.len() >= max_len {
                 return ArgFillStrategy::Reuse;
             }
 
@@ -282,7 +287,7 @@ impl ApiSeq {
                 ArgFillStrategy::New
             }
         } else {
-            if self.seq.len() > MAX_SEQ_LEN {
+            if self.seq.len() >= max_len {
                 return ArgFillStrategy::Constant;
             }
 
@@ -308,6 +313,7 @@ impl ApiSeq {
         rand: &mut R,
         schema: &Schema,
         worklist: &mut VecDeque<CallId>,
+        max_len: usize,
         id: CallId,
     ) -> Result<()> {
         let mut call_idx = self.index_of(id).unwrap();
@@ -318,7 +324,7 @@ impl ApiSeq {
                 continue;
             }
 
-            let strat = self.pick_arg_fill_strat(rand, guess);
+            let strat = self.pick_arg_fill_strat(rand, guess, max_len);
 
             if let ArgFillStrategy::Reuse = strat {
                 if let Some(out) = self.find_output_before(rand, call_idx, guess, schema) {
@@ -357,6 +363,7 @@ impl ApiSeq {
 
             // At this point we either chose to add a constant or nothing else worked.
 
+            // TODO: should we bail in this case instead of passing null?
             // if this can only be a class, we can't create it here, pass null
             if Self::only_class(guess) {
                 *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(Type::Null);
