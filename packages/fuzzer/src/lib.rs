@@ -54,8 +54,8 @@ pub type ReplayRestartingManager<I, SP> =
 
 const CORPUS_CACHE_SIZE: usize = 512;
 const INITIAL_CORPUS_SIZE: usize = 32;
-const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(4096).unwrap();
-const MIN_INPUT_LENGTH: NonZero<usize> = NonZero::new(8).unwrap();
+const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(2048).unwrap();
+const MIN_INPUT_LENGTH: NonZero<usize> = NonZero::new(1024).unwrap();
 
 #[derive(ValueEnum, Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]

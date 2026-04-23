@@ -12,8 +12,8 @@ use railcar::{
     seq::{ApiSeq, ApiSeqGenerator},
 };
 
-const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(4096).unwrap();
-const MIN_INPUT_LENGTH: NonZero<usize> = NonZero::new(8).unwrap();
+const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(2048).unwrap();
+const MIN_INPUT_LENGTH: NonZero<usize> = NonZero::new(1024).unwrap();
 
 #[test]
 fn deterministic_rand() {
