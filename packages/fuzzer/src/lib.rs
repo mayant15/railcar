@@ -1,5 +1,5 @@
 use anyhow::Result;
-use std::{path::PathBuf, time::Duration};
+use std::{num::NonZero, path::PathBuf, time::Duration};
 
 use clap::ValueEnum;
 use libafl::{
@@ -54,6 +54,8 @@ pub type ReplayRestartingManager<I, SP> =
 
 const CORPUS_CACHE_SIZE: usize = 512;
 const INITIAL_CORPUS_SIZE: usize = 32;
+const MAX_INPUT_LENGTH: NonZero<usize> = NonZero::new(4096).unwrap();
+const MIN_INPUT_LENGTH: NonZero<usize> = NonZero::new(8).unwrap();
 
 #[derive(ValueEnum, Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -116,7 +118,7 @@ fn client(
     let scheduler = StdScheduler::new(&mut state, coverage);
 
     let schema = worker.schema().unwrap().clone();
-    let mut generator = ApiSeqGenerator::new(&schema);
+    let mut generator = ApiSeqGenerator::new(&schema, MIN_INPUT_LENGTH, MAX_INPUT_LENGTH);
 
     let mut fuzzer = StdFuzzer::new(scheduler, feedback, objective);
 
