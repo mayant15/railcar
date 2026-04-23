@@ -1,6 +1,8 @@
+const { makeInvalidErrorMessageOracle } = require("@railcar/support");
+
 module.exports = {
     shouldInstrument: (f) => f.includes("xml2js"),
-    isBug: () => false,
+    isBug: makeInvalidErrorMessageOracle([]),
     skipMethods: [
         "Parser.processAsync",
         "Parser.assignOrPush",
