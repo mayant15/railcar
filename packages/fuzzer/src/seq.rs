@@ -1,6 +1,6 @@
 use anyhow::{bail, Result};
 use libafl::{
-    generators::Generator,
+    generators::{Generator, RandBytesGenerator},
     inputs::{HasMutatorBytes, HasTargetBytes, Input, ResizableMutator},
     state::{HasRand, DEFAULT_MAX_SIZE},
 };
@@ -17,16 +17,12 @@ use std::{
     path::Path,
 };
 
-use crate::{
-    rng::{redistribute, TrySample},
-    schema::{CallConvention, EndpointName, Schema, SignatureGuess, Type, TypeGuess, TypeKind},
-};
+use crate::schema::{CallConvention, EndpointName, Schema, SignatureGuess, Type, TypeGuess};
 
 // TODO: Something other than String might be faster to work with
 type CallId = String;
 
 const DEFAULT_MAX_SEQ_LEN: usize = 15;
-const SEQ_FUZZ_BUF_LEN: usize = 2048;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ApiCall {
@@ -245,20 +241,6 @@ impl ApiSeq {
         self.seq.last().unwrap()
     }
 
-    /// Remove the first node in the sequence
-    pub fn shift(&mut self) {
-        let id = self.seq[0].id.clone();
-        for call in &mut self.seq {
-            for arg in &mut call.args {
-                if let ApiCallArg::Output(out) = arg {
-                    if *out == id {
-                        *arg = ApiCallArg::Missing;
-                    }
-                }
-            }
-        }
-    }
-
     #[inline]
     fn arg(&self, call_index: usize, arg_index: usize) -> &ApiCallArg {
         &self.seq[call_index].args[arg_index]
@@ -275,18 +257,7 @@ impl ApiSeq {
         guess: &TypeGuess,
         max_len: usize,
     ) -> ArgFillStrategy {
-        if Self::only_class(guess) {
-            if self.seq.len() >= max_len {
-                return ArgFillStrategy::Reuse;
-            }
-
-            // either reuse, or new API call
-            if rand.coinflip(0.5) {
-                ArgFillStrategy::Reuse
-            } else {
-                ArgFillStrategy::New
-            }
-        } else {
+        if guess.is_const_able() {
             if self.seq.len() >= max_len {
                 return ArgFillStrategy::Constant;
             }
@@ -299,12 +270,18 @@ impl ApiSeq {
                 2 => ArgFillStrategy::Constant,
                 _ => unreachable!(),
             }
-        }
-    }
+        } else {
+            if self.seq.len() >= max_len {
+                return ArgFillStrategy::Reuse;
+            }
 
-    #[inline]
-    fn only_class(guess: &TypeGuess) -> bool {
-        guess.kind.len() == 1 && guess.kind.contains_key(&TypeKind::Class)
+            // either reuse, or new API call
+            if rand.coinflip(0.5) {
+                ArgFillStrategy::Reuse
+            } else {
+                ArgFillStrategy::New
+            }
+        }
     }
 
     /// Fill in missing arguments for a single API call
@@ -362,27 +339,11 @@ impl ApiSeq {
             }
 
             // At this point we either chose to add a constant or nothing else worked.
-
-            // TODO: should we bail in this case instead of passing null?
-            // if this can only be a class, we can't create it here, pass null
-            if Self::only_class(guess) {
-                *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(Type::Null);
-            } else {
-                let guess = Self::strip_class(rand, guess);
-                let typ = guess.sample(rand)?;
-                *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(typ);
-            }
+            // A class can only get to this point if there is no API in the schema to produce it.
+            *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(guess.sample_const_type(rand)?);
         }
 
         Ok(())
-    }
-
-    fn strip_class<R: Rand>(rand: &mut R, guess: &TypeGuess) -> TypeGuess {
-        let mut clone = guess.clone();
-        clone.kind.remove(&TypeKind::Class);
-        clone.class_type = None;
-        redistribute(rand, &mut clone.kind);
-        clone
     }
 
     fn find_output_before<R: Rand>(
@@ -518,26 +479,24 @@ impl HasTargetBytes for ApiSeq {
     }
 }
 
-/// Generates fuzz bytes like RandBytesGenerator would, then generates sequences.
 pub struct ApiSeqGenerator<'a> {
     schema: &'a Schema,
+    bytes_gen: RandBytesGenerator,
 }
 
 impl<'a> ApiSeqGenerator<'a> {
-    pub fn new(schema: &'a Schema) -> Self {
-        Self { schema }
+    pub fn new(schema: &'a Schema, min_size: NonZeroUsize, max_size: NonZeroUsize) -> Self {
+        Self {
+            schema,
+            bytes_gen: RandBytesGenerator::with_min_size(min_size, max_size),
+        }
     }
 }
 
 impl<S: HasRand> Generator<ApiSeq, S> for ApiSeqGenerator<'_> {
     fn generate(&mut self, state: &mut S) -> Result<ApiSeq, libafl::Error> {
-        const PRINTABLES: &[u8] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz \t\n!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".as_bytes();
-
-        let bytes: Vec<u8> = (0..SEQ_FUZZ_BUF_LEN)
-            .map(|_| *state.rand_mut().choose(PRINTABLES).unwrap())
-            .collect();
-
-        ApiSeq::create(state.rand_mut(), self.schema, bytes).map_err(|e| {
+        let bytes = self.bytes_gen.generate(state)?;
+        ApiSeq::create(state.rand_mut(), self.schema, bytes.into()).map_err(|e| {
             libafl::Error::unknown(format!("failed to generate an api sequence: {}", e))
         })
     }
@@ -664,7 +623,7 @@ mod tests {
 
         let first_id = seq.seq()[0].id.clone();
 
-        seq.shift();
+        seq.remove(0);
 
         // All references to the first call's ID should now be Missing
         for call in seq.seq() {

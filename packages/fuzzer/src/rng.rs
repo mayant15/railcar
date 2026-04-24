@@ -18,9 +18,9 @@ const INTEGER_GENERATION_RATE: f64 = 1.0;
 pub fn number<R: Rand>(rand: &mut R) -> f64 {
     let num = rand.next_float() * MAX_RANDOM_NUMBER;
     if rand.coinflip(INTEGER_GENERATION_RATE) {
-        num
-    } else {
         num.floor()
+    } else {
+        num
     }
 }
 

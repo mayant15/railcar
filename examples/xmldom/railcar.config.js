@@ -9,11 +9,7 @@
 
 module.exports = {
     shouldInstrument: (f) => f.includes("xmldom"),
-    isBug: (err) =>
-        typeof err === "object" &&
-        (err instanceof TypeError ||
-            err instanceof RangeError ||
-            err.constructor.name === "ParseError"),
+    isBug: (err) => typeof err === "object" && err.constructor.name === "ParseError",
     skipMethods: [
         "onWarningStopParsing",
         "onErrorStopParsing",

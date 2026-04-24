@@ -1,11 +1,11 @@
-use anyhow::{anyhow, Result};
+use anyhow::{anyhow, bail, Result};
 use libafl_bolts::rands::Rand;
 
 use std::collections::{btree_map, BTreeMap, HashSet};
 
 use serde::{Deserialize, Serialize};
 
-use crate::rng::{Distribution, TrySample};
+use crate::rng::{redistribute, Distribution, TrySample};
 
 pub type EndpointName = String;
 
@@ -147,30 +147,33 @@ impl TypeGuess {
     }
 
     fn sample_any_type<R: Rand>(rand: &mut R) -> Result<Type> {
-        let choice = rand.between(0, 7);
-        let kind = TypeKind::try_from(choice)?;
-
-        match kind {
-            TypeKind::Number => Ok(Type::Number),
-            TypeKind::String => Ok(Type::String),
-            TypeKind::Boolean => Ok(Type::Boolean),
-            TypeKind::Undefined => Ok(Type::Undefined),
-            TypeKind::Null => Ok(Type::Null),
-            TypeKind::Object => Ok(Type::Object(BTreeMap::new())),
-            TypeKind::Class => Ok(Type::Class("Uint8Array".to_owned())),
-            TypeKind::Array => Ok(Type::Array(Box::new(Type::Number))),
-            TypeKind::Function => Ok(Type::Function),
-        }
+        let Some(typ) = rand.choose([
+            Type::Number,
+            Type::String,
+            Type::Boolean,
+            Type::Undefined,
+            Type::Null,
+            Type::Object(BTreeMap::new()),
+            Type::Array(Box::new(Type::Number)), // TODO: this allocation is sad but oh well...
+            Type::Function,
+        ]) else {
+            bail!("failed to sample any type")
+        };
+        Ok(typ)
     }
-}
 
-impl<R: Rand> TrySample<Type, R> for TypeGuess {
-    fn sample(&self, rand: &mut R) -> Result<Type> {
+    pub fn sample_const_type<R: Rand>(&self, rand: &mut R) -> Result<Type> {
         if self.is_any {
-            return TypeGuess::sample_any_type(rand);
+            return Self::sample_any_type(rand);
         }
 
-        match self.kind.sample(rand)? {
+        if !self.is_const_able() {
+            bail!("cannot sample guess as const type")
+        }
+
+        let guess = self.strip_class(rand);
+
+        match guess.kind.sample(rand)? {
             TypeKind::Undefined => Ok(Type::Undefined),
             TypeKind::Number => Ok(Type::Number),
             TypeKind::String => Ok(Type::String),
@@ -179,33 +182,72 @@ impl<R: Rand> TrySample<Type, R> for TypeGuess {
             TypeKind::Function => Ok(Type::Function),
 
             TypeKind::Object => {
-                if let Some(shape) = &self.object_shape {
+                if let Some(shape) = guess.object_shape {
                     let mut props = BTreeMap::new();
                     for (key, guess) in shape {
-                        props.insert(key.clone(), guess.sample(rand)?);
+                        props.insert(key.clone(), guess.sample_const_type(rand)?);
                     }
                     Ok(Type::Object(props))
                 } else {
-                    panic!("guess should have object shape if it can be an object")
-                }
-            }
-
-            TypeKind::Class => {
-                if let Some(distrib) = &self.class_type {
-                    Ok(Type::Class(distrib.sample(rand)?))
-                } else {
-                    panic!("guess should have class name if it can be a class")
+                    bail!("guess should have object shape if it can be an object")
                 }
             }
 
             TypeKind::Array => {
-                if let Some(guess) = &self.array_value_type {
-                    Ok(Type::Array(Box::new(guess.sample(rand)?)))
+                if let Some(guess) = guess.array_value_type {
+                    Ok(Type::Array(Box::new(guess.sample_const_type(rand)?)))
                 } else {
-                    panic!("guess should have array type if it can be an array")
+                    bail!("guess should have array type if it can be an array")
+                }
+            }
+
+            TypeKind::Class => {
+                unreachable!("classes should be stripped before constant sampling")
+            }
+        }
+    }
+
+    /// This is a pure JSON object that we can create in-place.
+    /// This means neither this nor its nested guesses are class-only. The generator
+    /// should use class constructors instead.
+    pub fn is_const_able(&self) -> bool {
+        if self.is_any {
+            return true;
+        }
+
+        if self.is_only_class() {
+            return false;
+        }
+
+        if self.kind.contains_key(&TypeKind::Object) {
+            if let Some(shape) = &self.object_shape {
+                if shape.values().any(|g| !g.is_const_able()) {
+                    return false;
                 }
             }
         }
+
+        if self.kind.contains_key(&TypeKind::Array) {
+            if let Some(elem) = &self.array_value_type {
+                if !elem.is_const_able() {
+                    return false;
+                }
+            }
+        }
+
+        true
+    }
+
+    fn is_only_class(&self) -> bool {
+        self.kind.len() == 1 && self.kind.contains_key(&TypeKind::Class)
+    }
+
+    fn strip_class<R: Rand>(&self, rand: &mut R) -> TypeGuess {
+        let mut clone = self.clone();
+        clone.kind.remove(&TypeKind::Class);
+        clone.class_type = None;
+        redistribute(rand, &mut clone.kind);
+        clone
     }
 }
 
