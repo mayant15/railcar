@@ -367,7 +367,7 @@ fn composition_shift_then_complete() -> Result<()> {
         let mut seq = generate_seq(&mut rand, &schema);
         seq.is_valid();
 
-        seq.shift();
+        seq.remove(0);
 
         seq.complete(&mut rand, &schema).expect("complete failed");
         seq.is_valid();

@@ -189,7 +189,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for RemovePrefixSeq<'a> {
             return Ok(MutationResult::Skipped);
         }
 
-        input.shift();
+        input.remove(0);
         input
             .complete(state.rand_mut(), self.schema)
             .map_err(|err| libafl::Error::unknown(format!("{}", err)))?;

@@ -241,20 +241,6 @@ impl ApiSeq {
         self.seq.last().unwrap()
     }
 
-    /// Remove the first node in the sequence
-    pub fn shift(&mut self) {
-        let id = self.seq[0].id.clone();
-        for call in &mut self.seq {
-            for arg in &mut call.args {
-                if let ApiCallArg::Output(out) = arg {
-                    if *out == id {
-                        *arg = ApiCallArg::Missing;
-                    }
-                }
-            }
-        }
-    }
-
     #[inline]
     fn arg(&self, call_index: usize, arg_index: usize) -> &ApiCallArg {
         &self.seq[call_index].args[arg_index]
@@ -271,18 +257,7 @@ impl ApiSeq {
         guess: &TypeGuess,
         max_len: usize,
     ) -> ArgFillStrategy {
-        if guess.is_only_class() {
-            if self.seq.len() >= max_len {
-                return ArgFillStrategy::Reuse;
-            }
-
-            // either reuse, or new API call
-            if rand.coinflip(0.5) {
-                ArgFillStrategy::Reuse
-            } else {
-                ArgFillStrategy::New
-            }
-        } else {
+        if guess.is_const_able() {
             if self.seq.len() >= max_len {
                 return ArgFillStrategy::Constant;
             }
@@ -294,6 +269,17 @@ impl ApiSeq {
                 1 => ArgFillStrategy::Reuse,
                 2 => ArgFillStrategy::Constant,
                 _ => unreachable!(),
+            }
+        } else {
+            if self.seq.len() >= max_len {
+                return ArgFillStrategy::Reuse;
+            }
+
+            // either reuse, or new API call
+            if rand.coinflip(0.5) {
+                ArgFillStrategy::Reuse
+            } else {
+                ArgFillStrategy::New
             }
         }
     }
@@ -637,7 +623,7 @@ mod tests {
 
         let first_id = seq.seq()[0].id.clone();
 
-        seq.shift();
+        seq.remove(0);
 
         // All references to the first call's ID should now be Missing
         for call in seq.seq() {

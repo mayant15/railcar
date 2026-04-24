@@ -167,9 +167,8 @@ impl TypeGuess {
             return Self::sample_any_type(rand);
         }
 
-        if self.is_only_class() {
-            // We cannot create class constants, the generator should use the constructor instead.
-            bail!("cannot sample as const a type that is only class")
+        if !self.is_const_able() {
+            bail!("cannot sample guess as const type")
         }
 
         let guess = self.strip_class(rand);
@@ -208,7 +207,38 @@ impl TypeGuess {
         }
     }
 
-    pub fn is_only_class(&self) -> bool {
+    /// This is a pure JSON object that we can create in-place.
+    /// This means neither this nor its nested guesses are class-only. The generator
+    /// should use class constructors instead.
+    pub fn is_const_able(&self) -> bool {
+        if self.is_any {
+            return true;
+        }
+
+        if self.is_only_class() {
+            return false;
+        }
+
+        if self.kind.contains_key(&TypeKind::Object) {
+            if let Some(shape) = &self.object_shape {
+                if shape.values().any(|g| !g.is_const_able()) {
+                    return false;
+                }
+            }
+        }
+
+        if self.kind.contains_key(&TypeKind::Array) {
+            if let Some(elem) = &self.array_value_type {
+                if !elem.is_const_able() {
+                    return false;
+                }
+            }
+        }
+
+        true
+    }
+
+    fn is_only_class(&self) -> bool {
         self.kind.len() == 1 && self.kind.contains_key(&TypeKind::Class)
     }
 
