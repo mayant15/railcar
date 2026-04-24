@@ -15,7 +15,6 @@ use libafl_bolts::{
 };
 
 use crate::{
-    rng::TrySample,
     schema::Schema,
     seq::{ApiCallArg, ApiSeq},
 };
@@ -241,8 +240,7 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for ConstTypes<'a> {
                     // Resample this constant type
 
                     let arg_guess = &guess.args[index];
-                    let typ = arg_guess.sample(state.rand_mut()).unwrap();
-
+                    let typ = arg_guess.sample_const_type(state.rand_mut()).unwrap();
                     *out = ApiCallArg::Constant(typ);
                     resampled += 1;
                 }

@@ -5,7 +5,7 @@ use std::collections::{btree_map, BTreeMap, HashSet};
 
 use serde::{Deserialize, Serialize};
 
-use crate::rng::{Distribution, TrySample};
+use crate::rng::{Distribution, TrySample, redistribute};
 
 pub type EndpointName = String;
 
@@ -161,6 +161,28 @@ impl TypeGuess {
             TypeKind::Array => Ok(Type::Array(Box::new(Type::Number))),
             TypeKind::Function => Ok(Type::Function),
         }
+    }
+
+    pub fn sample_const_type<R: Rand>(&self, rand: &mut R) -> Result<Type> {
+        if self.is_only_class() {
+            // TODO: should we bail in this case instead of passing null?
+            Ok(Type::Null)
+        } else {
+            self.strip_class(rand).sample(rand)
+        }
+    }
+
+
+    pub fn is_only_class(&self) -> bool {
+        self.kind.len() == 1 && self.kind.contains_key(&TypeKind::Class)
+    }
+
+    fn strip_class<R: Rand>(&self, rand: &mut R) -> TypeGuess {
+        let mut clone = self.clone();
+        clone.kind.remove(&TypeKind::Class);
+        clone.class_type = None;
+        redistribute(rand, &mut clone.kind);
+        clone
     }
 }
 

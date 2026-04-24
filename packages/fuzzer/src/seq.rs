@@ -17,10 +17,7 @@ use std::{
     path::Path,
 };
 
-use crate::{
-    rng::{redistribute, TrySample},
-    schema::{CallConvention, EndpointName, Schema, SignatureGuess, Type, TypeGuess, TypeKind},
-};
+use crate::schema::{CallConvention, EndpointName, Schema, SignatureGuess, Type, TypeGuess};
 
 // TODO: Something other than String might be faster to work with
 type CallId = String;
@@ -274,7 +271,7 @@ impl ApiSeq {
         guess: &TypeGuess,
         max_len: usize,
     ) -> ArgFillStrategy {
-        if Self::only_class(guess) {
+        if guess.is_only_class() {
             if self.seq.len() >= max_len {
                 return ArgFillStrategy::Reuse;
             }
@@ -299,11 +296,6 @@ impl ApiSeq {
                 _ => unreachable!(),
             }
         }
-    }
-
-    #[inline]
-    fn only_class(guess: &TypeGuess) -> bool {
-        guess.kind.len() == 1 && guess.kind.contains_key(&TypeKind::Class)
     }
 
     /// Fill in missing arguments for a single API call
@@ -362,26 +354,11 @@ impl ApiSeq {
 
             // At this point we either chose to add a constant or nothing else worked.
 
-            // TODO: should we bail in this case instead of passing null?
             // if this can only be a class, we can't create it here, pass null
-            if Self::only_class(guess) {
-                *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(Type::Null);
-            } else {
-                let guess = Self::strip_class(rand, guess);
-                let typ = guess.sample(rand)?;
-                *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(typ);
-            }
+            *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(guess.sample_const_type(rand)?);
         }
 
         Ok(())
-    }
-
-    fn strip_class<R: Rand>(rand: &mut R, guess: &TypeGuess) -> TypeGuess {
-        let mut clone = guess.clone();
-        clone.kind.remove(&TypeKind::Class);
-        clone.class_type = None;
-        redistribute(rand, &mut clone.kind);
-        clone
     }
 
     fn find_output_before<R: Rand>(
