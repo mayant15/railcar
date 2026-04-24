@@ -1,11 +1,11 @@
-use anyhow::{anyhow, Result};
+use anyhow::{anyhow, bail, Result};
 use libafl_bolts::rands::Rand;
 
 use std::collections::{btree_map, BTreeMap, HashSet};
 
 use serde::{Deserialize, Serialize};
 
-use crate::rng::{Distribution, TrySample, redistribute};
+use crate::rng::{redistribute, Distribution, TrySample};
 
 pub type EndpointName = String;
 
@@ -147,31 +147,66 @@ impl TypeGuess {
     }
 
     fn sample_any_type<R: Rand>(rand: &mut R) -> Result<Type> {
-        let choice = rand.between(0, 7);
-        let kind = TypeKind::try_from(choice)?;
-
-        match kind {
-            TypeKind::Number => Ok(Type::Number),
-            TypeKind::String => Ok(Type::String),
-            TypeKind::Boolean => Ok(Type::Boolean),
-            TypeKind::Undefined => Ok(Type::Undefined),
-            TypeKind::Null => Ok(Type::Null),
-            TypeKind::Object => Ok(Type::Object(BTreeMap::new())),
-            TypeKind::Class => Ok(Type::Class("Uint8Array".to_owned())),
-            TypeKind::Array => Ok(Type::Array(Box::new(Type::Number))),
-            TypeKind::Function => Ok(Type::Function),
-        }
+        let Some(typ) = rand.choose([
+            Type::Number,
+            Type::String,
+            Type::Boolean,
+            Type::Undefined,
+            Type::Null,
+            Type::Object(BTreeMap::new()),
+            Type::Array(Box::new(Type::Number)), // TODO: this allocation is sad but oh well...
+            Type::Function,
+        ]) else {
+            bail!("failed to sample any type")
+        };
+        Ok(typ)
     }
 
     pub fn sample_const_type<R: Rand>(&self, rand: &mut R) -> Result<Type> {
+        if self.is_any {
+            return Self::sample_any_type(rand);
+        }
+
         if self.is_only_class() {
             // TODO: should we bail in this case instead of passing null?
-            Ok(Type::Null)
-        } else {
-            self.strip_class(rand).sample(rand)
+            return Ok(Type::Null);
+        }
+
+        let guess = self.strip_class(rand);
+
+        match guess.kind.sample(rand)? {
+            TypeKind::Undefined => Ok(Type::Undefined),
+            TypeKind::Number => Ok(Type::Number),
+            TypeKind::String => Ok(Type::String),
+            TypeKind::Boolean => Ok(Type::Boolean),
+            TypeKind::Null => Ok(Type::Null),
+            TypeKind::Function => Ok(Type::Function),
+
+            TypeKind::Object => {
+                if let Some(shape) = guess.object_shape {
+                    let mut props = BTreeMap::new();
+                    for (key, guess) in shape {
+                        props.insert(key.clone(), guess.sample_const_type(rand)?);
+                    }
+                    Ok(Type::Object(props))
+                } else {
+                    bail!("guess should have object shape if it can be an object")
+                }
+            }
+
+            TypeKind::Array => {
+                if let Some(guess) = guess.array_value_type {
+                    Ok(Type::Array(Box::new(guess.sample_const_type(rand)?)))
+                } else {
+                    bail!("guess should have array type if it can be an array")
+                }
+            }
+
+            TypeKind::Class => {
+                unreachable!("classes should be stripped before constant sampling")
+            }
         }
     }
-
 
     pub fn is_only_class(&self) -> bool {
         self.kind.len() == 1 && self.kind.contains_key(&TypeKind::Class)
@@ -183,51 +218,6 @@ impl TypeGuess {
         clone.class_type = None;
         redistribute(rand, &mut clone.kind);
         clone
-    }
-}
-
-impl<R: Rand> TrySample<Type, R> for TypeGuess {
-    fn sample(&self, rand: &mut R) -> Result<Type> {
-        if self.is_any {
-            return TypeGuess::sample_any_type(rand);
-        }
-
-        match self.kind.sample(rand)? {
-            TypeKind::Undefined => Ok(Type::Undefined),
-            TypeKind::Number => Ok(Type::Number),
-            TypeKind::String => Ok(Type::String),
-            TypeKind::Boolean => Ok(Type::Boolean),
-            TypeKind::Null => Ok(Type::Null),
-            TypeKind::Function => Ok(Type::Function),
-
-            TypeKind::Object => {
-                if let Some(shape) = &self.object_shape {
-                    let mut props = BTreeMap::new();
-                    for (key, guess) in shape {
-                        props.insert(key.clone(), guess.sample(rand)?);
-                    }
-                    Ok(Type::Object(props))
-                } else {
-                    panic!("guess should have object shape if it can be an object")
-                }
-            }
-
-            TypeKind::Class => {
-                if let Some(distrib) = &self.class_type {
-                    Ok(Type::Class(distrib.sample(rand)?))
-                } else {
-                    panic!("guess should have class name if it can be a class")
-                }
-            }
-
-            TypeKind::Array => {
-                if let Some(guess) = &self.array_value_type {
-                    Ok(Type::Array(Box::new(guess.sample(rand)?)))
-                } else {
-                    panic!("guess should have array type if it can be an array")
-                }
-            }
-        }
     }
 }
 
