@@ -12,7 +12,7 @@ use libafl_bolts::{
     rands::{Rand, StdRand},
 };
 use railcar::{
-    mutations::{ExtendSeq, RemovePrefixSeq, SpliceSeq, TruncateSeq},
+    mutations::{ExtendSeq, RemovePrefixSeq, RemoveSuffixSeq, SpliceSeq},
     schema::Schema,
     seq::ApiSeq,
 };
@@ -49,7 +49,7 @@ fn apply_random_mutation(
 ) -> MutationResult {
     let mut splice = SpliceSeq { schema };
     let mut extend = ExtendSeq { schema };
-    let mut remove_suffix = TruncateSeq {};
+    let mut remove_suffix = RemoveSuffixSeq {};
     let mut remove_prefix = RemovePrefixSeq { schema };
 
     let pick = state.rand_mut().below_or_zero(4);
@@ -164,12 +164,12 @@ fn mutation_determinism() -> Result<()> {
     for i in 0..50 {
         let mut splice_a = SpliceSeq { schema: &schema };
         let mut extend_a = ExtendSeq { schema: &schema };
-        let mut remove_suffix_a = TruncateSeq {};
+        let mut remove_suffix_a = RemoveSuffixSeq {};
         let mut remove_prefix_a = RemovePrefixSeq { schema: &schema };
 
         let mut splice_b = SpliceSeq { schema: &schema };
         let mut extend_b = ExtendSeq { schema: &schema };
-        let mut remove_suffix_b = TruncateSeq {};
+        let mut remove_suffix_b = RemoveSuffixSeq {};
         let mut remove_prefix_b = RemovePrefixSeq { schema: &schema };
 
         let pick_a = state_a.rand_mut().below_or_zero(4);
