@@ -168,8 +168,8 @@ impl TypeGuess {
         }
 
         if self.is_only_class() {
-            // TODO: should we bail in this case instead of passing null?
-            return Ok(Type::Null);
+            // We cannot create class constants, the generator should use the constructor instead.
+            bail!("cannot sample as const a type that is only class")
         }
 
         let guess = self.strip_class(rand);

@@ -353,8 +353,7 @@ impl ApiSeq {
             }
 
             // At this point we either chose to add a constant or nothing else worked.
-
-            // if this can only be a class, we can't create it here, pass null
+            // A class can only get to this point if there is no API in the schema to produce it.
             *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(guess.sample_const_type(rand)?);
         }
 
