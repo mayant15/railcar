@@ -95,7 +95,10 @@ function makeStringOperationsCountPlugin(): [() => number, () => PluginTarget] {
                                 : callee.property.type === "StringLiteral"
                                   ? callee.property.value
                                   : undefined;
-                            if (name !== undefined && STRING_METHODS.has(name)) {
+                            if (
+                                name !== undefined &&
+                                STRING_METHODS.has(name)
+                            ) {
                                 count++;
                             }
                         }

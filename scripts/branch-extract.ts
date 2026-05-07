@@ -366,7 +366,10 @@ export function joinC8ToCanonical(
 
     // V8 ranges are half-open [start, end). For non-zero-width body arms
     // we treat the arm as half-open too, so equal end offsets nest.
-    function smallestContainingBody(start: number, end: number): V8Range | null {
+    function smallestContainingBody(
+        start: number,
+        end: number,
+    ): V8Range | null {
         for (const r of bySize) {
             if (r.startOffset <= start && r.endOffset >= end) return r;
         }
@@ -393,7 +396,10 @@ export function joinC8ToCanonical(
             // Innermost (smallest) range starting at this point.
             let best = candidates[0];
             for (const r of candidates) {
-                if (r.endOffset - r.startOffset < best.endOffset - best.startOffset) {
+                if (
+                    r.endOffset - r.startOffset <
+                    best.endOffset - best.startOffset
+                ) {
                     best = r;
                 }
             }
