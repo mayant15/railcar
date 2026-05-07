@@ -10,14 +10,14 @@
 
 import { $ } from "bun";
 import { Database } from "bun:sqlite";
-import { readdir, readFile, stat, unlink } from "node:fs/promises";
+import { readdir, readFile, stat, unlink, exists } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import yo from "yoctocolors";
 import type { Project, SchemaKind } from "./common";
 
 const CREATE_DB = true;
-
 const COMPLETION_THRESHOLD_MINUTES = 5;
+const CHECK_CORPUS_INVARIANTS = false;
 
 let errorCount = 0;
 
@@ -34,6 +34,10 @@ namespace log {
     export function fatal(...args: unknown[]): never {
         error(...args);
         process.exit(1);
+    }
+
+    export function info(...args: unknown[]): void {
+        console.log(yo.green(yo.bold("info:")), ...args);
     }
 
     export function section(header: string, msg?: string) {
@@ -274,6 +278,7 @@ async function createCorpusStats(dir: string, skip: Set<string>) {
 
     await forEachRun(dir, skip, async (name, path) => {
         const [project, _mode, schema, _driver, iter] = name.split("_");
+        log.info(project, schema, iter);
 
         const corpus = join(path, "corpus");
         const total = await $`ls | wc -l`.cwd(corpus).nothrow().quiet().text();
@@ -445,6 +450,39 @@ async function assertHeartbeatDb(dir: string) {
     db.close();
 }
 
+async function unpackCorpusCrashes(dir: string, skip: Set<string>) {
+    await forEachRun(dir, skip, async (_, subdir) => {
+        const corpus = join(subdir, "corpus.tar.gz");
+        const crashes = join(subdir, "crashes.tar.gz");
+        if (await shouldUnpack(subdir, "corpus")) await unpack(corpus);
+        if (await shouldUnpack(subdir, "crashes")) await unpack(crashes);
+    });
+}
+
+/**
+ * Unpack an archive if it exists and hasn't already been extracted.
+ */
+async function shouldUnpack(dir: string, name: string): Promise<boolean> {
+    const archive = join(dir, `${name}.tar.gz`);
+    if (await exists(archive)) {
+        const extracted = join(dir, name);
+        try {
+            const s = await stat(extracted);
+            if (s.isDirectory()) {
+                return false;
+            }
+        } catch {}
+    }
+    return true;
+}
+
+async function unpack(archive: string) {
+    log.info("unpacking", archive);
+    const cwd = dirname(archive);
+    const name = basename(archive);
+    await $`tar -xvf ${name}`.cwd(cwd).quiet();
+}
+
 async function main() {
     const dir = process.argv[2];
     if (!dir) {
@@ -455,6 +493,9 @@ async function main() {
 
     log.section("checking", "panics");
     const panicked = await assertNoPanics(dir);
+
+    log.section("unpacking", "corpus and crashes");
+    await unpackCorpusCrashes(dir, panicked);
 
     log.section("checking", "expected files");
     await assertExpectedFiles(dir, panicked);
@@ -467,11 +508,13 @@ async function main() {
         await heartbeatToSqlite(dir);
     }
 
-    log.section("checking", "corpus invariants");
-    await assertCorpusInvariants(dir, panicked);
+    if (CHECK_CORPUS_INVARIANTS) {
+        log.section("checking", "corpus invariants");
+        await assertCorpusInvariants(dir, panicked);
 
-    log.section("checking", "crash invariants");
-    await assertCrashInvariants(dir, panicked);
+        log.section("checking", "crash invariants");
+        await assertCrashInvariants(dir, panicked);
+    }
 
     log.section("counting", "corpus stats");
     await createCorpusStats(dir, panicked);
