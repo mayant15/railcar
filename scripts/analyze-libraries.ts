@@ -1,3 +1,5 @@
+import { $ } from "bun";
+import assert from "node:assert";
 import path from "node:path";
 import fs from "node:fs/promises";
 import { getProjectNames, type Project } from "./common";
@@ -8,11 +10,13 @@ const RAILCAR_ROOT = path.dirname(import.meta.dirname);
 
 type Row = {
     project: Project;
-    size?: number;
-    propertyAccesses?: number;
-    inputValidationComplexity?: number;
-    higherOrderFunctions?: number;
-    inputUsageComplexity?: number;
+    apiSize: number;
+    propertyAccesses: number;
+    stringOperations: number;
+    linesOfCode: number;
+    inputValidationComplexity: number;
+    higherOrderFunctions: number;
+    inputUsageComplexity: number;
 };
 
 /**
@@ -50,26 +54,36 @@ function analyzeApiSize(schema: Schema): number {
     return total;
 }
 
-async function analyzePropertyAccesses(
-    _: Project,
-    bundle: string,
-): Promise<number> {
+async function analyzePropertyAccesses(bundle: string): Promise<number> {
     return countObjectPropertyAccessesInFile(bundle);
+}
+
+async function analyzeNumberOfLines(bundle: string): Promise<number> {
+    const lines =
+        await $`cloc ${bundle} --quiet --json | jq '.JavaScript.code'`.text();
+    return Number(lines);
+}
+
+async function analyzeStringOperations(bundle: string): Promise<number> {
+    return Math.floor(Math.random() * 1000);
 }
 
 async function analyze(project: Project, bundle: string): Promise<Row> {
     const schemaFile = `${RAILCAR_ROOT}/examples/${project}/typescript.json`;
     const schema: Schema = await Bun.file(schemaFile).json();
 
-    const size = analyzeApiSize(schema);
+    const apiSize = analyzeApiSize(schema);
     const higherOrderFunctions = analyzeHigherOrderFunctions(schema);
-
-    const propertyAccesses = await analyzePropertyAccesses(project, bundle);
+    const linesOfCode = await analyzeNumberOfLines(bundle);
+    const stringOperations = await analyzeStringOperations(bundle);
+    const propertyAccesses = await analyzePropertyAccesses(bundle);
     const inputValidationComplexity = Math.floor(Math.random() * 1000);
     const inputUsageComplexity = Math.floor(Math.random() * 1000);
     return {
         project,
-        size,
+        apiSize,
+        linesOfCode,
+        stringOperations,
         propertyAccesses,
         inputValidationComplexity,
         higherOrderFunctions,
@@ -78,13 +92,15 @@ async function analyze(project: Project, bundle: string): Promise<Row> {
 }
 
 function printCsv(rows: Row[]) {
-    console.log(
-        "project,property_accesses,input_validation_complexity,higher_order_functions,input_usage_complexity",
-    );
+    assert(rows.length > 0);
+    const keys = Object.keys(rows[0]);
+
+    const header = keys.join(",");
+    console.log(header);
+
     for (const row of rows) {
-        console.log(
-            `${row.project},${row.propertyAccesses ?? ""},${row.inputValidationComplexity ?? ""},${row.higherOrderFunctions ?? ""},${row.inputUsageComplexity ?? ""}`,
-        );
+        const line = keys.map((key) => `${row[key]}`).join(",");
+        console.log(line);
     }
 }
 
@@ -136,7 +152,7 @@ async function main() {
 
     const rows: Row[] = [];
     for (const project of getProjectNames()) {
-        console.log(project);
+        console.error(project);
 
         const bundle = path.join(args.bundleDir, `${project}.bundle.js`);
         if (await fs.exists(bundle)) {
