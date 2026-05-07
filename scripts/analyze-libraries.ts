@@ -5,6 +5,7 @@ import fs from "node:fs/promises";
 import { getProjectNames, type Project } from "./common";
 import type { Schema } from "@railcar/inference";
 import { countObjectPropertyAccessesInFile } from "./analyzers/property-accesses";
+import { countStringOperationsInFile } from "./analyzers/string-operations";
 
 const RAILCAR_ROOT = path.dirname(import.meta.dirname);
 
@@ -65,7 +66,7 @@ async function analyzeNumberOfLines(bundle: string): Promise<number> {
 }
 
 async function analyzeStringOperations(bundle: string): Promise<number> {
-    return Math.floor(Math.random() * 1000);
+    return countStringOperationsInFile(bundle);
 }
 
 async function analyze(project: Project, bundle: string): Promise<Row> {

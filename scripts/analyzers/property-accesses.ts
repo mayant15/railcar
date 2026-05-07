@@ -1,32 +1,22 @@
-import assert from "node:assert";
 import { readFile } from "node:fs/promises";
 
-import { transformSync, type PluginTarget } from "@babel/core";
+import { transform, type PluginTarget } from "@babel/core";
 
 function makeObjectPropertyAccessCountPlugin(): [
     () => number,
     () => PluginTarget,
 ] {
     let count = 0;
-    let functionDepth = 0;
     return [
         () => count,
         () => {
             return {
                 visitor: {
-                    Function: {
-                        enter() {
-                            functionDepth++;
-                        },
-                        exit() {
-                            functionDepth--;
-                        },
-                    },
                     MemberExpression() {
-                        if (functionDepth > 0) count++;
+                        count++;
                     },
                     OptionalMemberExpression() {
-                        if (functionDepth > 0) count++;
+                        count++;
                     },
                 },
             };
@@ -34,15 +24,15 @@ function makeObjectPropertyAccessCountPlugin(): [
     ];
 }
 
-export function countObjectPropertyAccesses(code: string): number {
+export function countObjectPropertyAccesses(code: string): Promise<number> {
     const [getCount, plugin] = makeObjectPropertyAccessCountPlugin();
 
-    const result = transformSync(code, {
-        plugins: [plugin],
+    return new Promise((res, rej) => {
+        transform(code, { plugins: [plugin] }, (err, result) => {
+            if (err || !result) return rej(Error("failed to parse"));
+            res(getCount());
+        });
     });
-    assert(result !== null);
-
-    return getCount();
 }
 
 export async function countObjectPropertyAccessesInFile(
