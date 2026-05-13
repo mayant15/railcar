@@ -11,7 +11,24 @@ set -euo pipefail
 # Generated with Amp
 # https://ampcode.com/threads/T-019dac86-856c-71af-957e-a98ca99e8289
 ######################################################################################
-
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ 
+# Rebase a path from the supercomputer onto the local repo root.
+# Strips everything up to and including the first occurrence of "railcar/"
+# and prepends the local REPO_ROOT.
+# e.g. /lustre07/scratch/zwb/another_railcar/railcar/examples/angular/railcar.config.js
+#   -> $REPO_ROOT/examples/angular/railcar.config.js
+rebase_path() {
+  local remote_path="$1"
+  # Strip up to and including the repo directory name ("railcar/")
+  local relative="${remote_path#*/railcar/}"
+  if [[ "$relative" == "$remote_path" ]]; then
+    # No "railcar/" found — path is already local or unexpected format, return as-is
+    echo "$remote_path"
+  else
+    echo "$REPO_ROOT/$relative"
+  fi
+}
 SOURCEMAPS=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -69,9 +86,12 @@ get_project_c8_args() {
 }
 
 config="$RUN_DIR/fuzzer-config.json"
-entrypoint="$(jq -r '.config.entrypoint' "$config")"
-schema_file="$(jq -r '.config.schema_file' "$config")"
-config_file="$(jq -r '.config.config_file' "$config")"
+# entrypoint="$(jq -r '.config.entrypoint' "$config")"
+# schema_file="$(jq -r '.config.schema_file' "$config")"
+# config_file="$(jq -r '.config.config_file' "$config")"
+entrypoint="$(rebase_path "$(jq -r '.config.entrypoint' "$config")")"
+schema_file="$(rebase_path "$(jq -r '.config.schema_file' "$config")")"
+config_file="$(rebase_path "$(jq -r '.config.config_file' "$config")")"
 seed="$(jq -r '.config.seed' "$config")"
 
 pkg_dir="$(get_pkg_dir "$entrypoint")"
