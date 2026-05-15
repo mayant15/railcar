@@ -45,5 +45,7 @@ There are multiple test suites:
 ## Conventions
 
 - For Rust code, see @clippy.toml for project-specific conventions
-- For AI-generated code, add a header comment at the top of the file indicating the agent or model used. For example,
-some of our scripts have "Generated with Amp" at the top.
+- For AI-generated code, add a header comment at the top of the file indicating the agent or model
+  used. If available, also add an identifier like thread ID. For example, some of our scripts have
+  "Generated with Amp" at the top.
+- When editing an existing file, closely follow existing style and patterns.

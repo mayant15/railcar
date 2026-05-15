@@ -2,8 +2,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * Static AST pass that enumerates branch arms in a JavaScript source file
- * and emits a canonical ID per arm. IDs are stable across runs and can be
- * joined against V8 block coverage (see v8cov-to-canonical.ts).
+ * and emits a canonical ID per arm.
  *
  * The arm taxonomy mirrors what V8 instruments under
  * `Profiler.startPreciseCoverage(detailed=true)`. Per the V8 design doc
@@ -34,6 +33,7 @@
  *
  * Generated with Amp.
  * https://ampcode.com/threads/T-019dfa11-4277-77f3-be17-4125ea8163e4
+ * https://ampcode.com/threads/T-019e2cb3-9730-7581-92c2-ec126bcac3ef
  */
 
 import assert from "node:assert";
@@ -49,6 +49,8 @@ import type {
     LogicalExpression,
     Loop,
     Node,
+    Program,
+    SourceLocation,
     SwitchStatement,
     TryStatement,
 } from "@babel/types";
@@ -60,7 +62,15 @@ export type BranchKind =
     | "Switch"
     | "Conditional"
     | "Logical"
-    | "FnEntry";
+    | "FnEntry"
+    /**
+     * Single arm spanning the entire source file. V8 reports the
+     * top-level script as if it were a function (with empty name), so we
+     * mirror that here: every file gets exactly one `Script` arm whose
+     * `functionId` matches the top-level sentinel used by branches at
+     * script scope.
+     */
+    | "Script";
 
 export type BranchArm = {
     /** 16-char SHA-1 prefix of (file, kind, location, armIndex). Stable. */
@@ -83,6 +93,9 @@ export type BranchArm = {
      * start-offset rather than by exact (start, end).
      */
     continuation: boolean;
+
+    functionId: string;
+    library: string;
 };
 
 export type CanonicalBranchKey = {
@@ -108,46 +121,65 @@ export function getCanonicalBranchId(key: CanonicalBranchKey): string {
 }
 
 /**
- * Build a canonical key from an AST node. Use this from other Babel-based
- * analyzers (e.g. a branch-depth analyzer) so the rows they emit can be
- * joined back to rows produced by `extractBranches`.
- *
- * Returns `null` when the node lacks location info (e.g. it was
- * synthesized by another transform without a `loc`).
+ * Canonical key for an enclosing function. `loc == null` represents the
+ * top-level script body (i.e. branches not inside any function).
  */
-export function getCanonicalBranchKey(
-    node: Node,
-    opts: { file: string; kind: BranchKind; armIndex: number },
-): CanonicalBranchKey | null {
-    if (!node.loc) return null;
-    const { start, end } = node.loc;
-    return {
-        file: opts.file,
-        kind: opts.kind,
-        startLine: start.line,
-        startCol: start.column,
-        endLine: end.line,
-        endCol: end.column,
-        armIndex: opts.armIndex,
-    };
+export type CanonicalFunctionKey = {
+    file: string;
+    loc: SourceLocation | null;
+};
+
+/**
+ * Compute the canonical function ID. Mirrors `getCanonicalBranchId`: the
+ * same `(file, location)` always produces the same ID. Top-level branches
+ * (no enclosing function) get a stable file-scoped sentinel ID.
+ *
+ * The ID for a function matches the `functionId` recorded on every branch
+ * arm inside that function, including its own `FnEntry` arm, so rows can
+ * be grouped by function without re-walking the AST.
+ */
+export function getCanonicalFunctionId(key: CanonicalFunctionKey): string {
+    const s = key.loc
+        ? `${key.file}:Function:${key.loc.start.line}:${key.loc.start.column}:${key.loc.end.line}:${key.loc.end.column}`
+        : `${key.file}:TopLevel`;
+    return createHash("sha1").update(s).digest("hex").slice(0, 16);
 }
 
 function makeBranchExtractPlugin(
     file: string,
+    library: string,
 ): [() => BranchArm[], () => PluginTarget] {
     const arms: BranchArm[] = [];
 
+    // Stack of currently-enclosing functions. Top of stack is the
+    // immediate parent function for any branch emitted right now; an
+    // empty stack means the branch is at the top level of the script.
+    const fnStack: BabelFunction[] = [];
+
+    function currentFunctionId(): string {
+        const fn = fnStack.length > 0 ? fnStack[fnStack.length - 1] : null;
+        return getCanonicalFunctionId({ file, loc: fn?.loc ?? null });
+    }
+
     function emit(node: Node, kind: BranchKind, armIndex: number): void {
-        if (node.start == null || node.end == null) return;
-        const key = getCanonicalBranchKey(node, { file, kind, armIndex });
-        if (!key) return;
-        arms.push({
-            id: getCanonicalBranchId(key),
-            ...key,
+        if (node.start == null || node.end == null || !node.loc) return;
+        const branch = {
+            id: "",
+            file,
+            kind,
+            armIndex,
+            startLine: node.loc.start.line,
+            startCol: node.loc.start.column,
+            endLine: node.loc.end.line,
+            endCol: node.loc.end.column,
             startOffset: node.start,
             endOffset: node.end,
             continuation: false,
-        });
+            functionId: currentFunctionId(),
+            library,
+        };
+        branch.id = getCanonicalBranchId(branch);
+        arms.push(branch);
     }
 
     /**
@@ -162,7 +194,8 @@ function makeBranchExtractPlugin(
     ): void {
         if (!anchor.loc || anchor.end == null) return;
         const { line, column } = anchor.loc.end;
-        const key: CanonicalBranchKey = {
+        const branch = {
+            id: "",
             file,
             kind,
             startLine: line,
@@ -170,20 +203,26 @@ function makeBranchExtractPlugin(
             endLine: line,
             endCol: column,
             armIndex,
-        };
-        arms.push({
-            id: getCanonicalBranchId(key),
-            ...key,
             startOffset: anchor.end,
             endOffset: anchor.end,
             continuation: true,
-        });
+            functionId: currentFunctionId(),
+            library,
+        };
+        branch.id = getCanonicalBranchId(branch);
+        arms.push(branch);
     }
 
     return [
         () => arms,
         () => ({
             visitor: {
+                Program(path: NodePath<Program>) {
+                    // One whole-file arm. The `Program` node spans the
+                    // entire source, so this gives V8's top-level script
+                    // coverage a canonical row to join against.
+                    emit(path.node, "Script", 0);
+                },
                 IfStatement(path: NodePath<IfStatement>) {
                     emit(path.node.consequent, "If", 0);
                     if (path.node.alternate) {
@@ -219,8 +258,18 @@ function makeBranchExtractPlugin(
                     emitContinuationAfter(path.node, "Try", 3);
                 },
                 // eslint-disable-next-line @typescript-eslint/ban-types
-                Function(path: NodePath<BabelFunction>) {
-                    emit(path.node, "FnEntry", 0);
+                Function: {
+                    enter(path: NodePath<BabelFunction>) {
+                        // Push BEFORE emitting so that the FnEntry arm's
+                        // functionId points at this function (not its
+                        // enclosing one). This makes the FnEntry arm
+                        // group with the rest of the function's branches.
+                        fnStack.push(path.node);
+                        emit(path.node, "FnEntry", 0);
+                    },
+                    exit(_path: NodePath<BabelFunction>) {
+                        fnStack.pop();
+                    },
                 },
             },
         }),
@@ -228,8 +277,12 @@ function makeBranchExtractPlugin(
 }
 
 /** Extract canonical branch arms from a source string. */
-export function extractBranches(code: string, file: string): BranchArm[] {
-    const [getArms, plugin] = makeBranchExtractPlugin(file);
+export function extractBranches(
+    code: string,
+    file: string,
+    library = "todo",
+): BranchArm[] {
+    const [getArms, plugin] = makeBranchExtractPlugin(file, library);
     const result = transformSync(code, {
         plugins: [plugin],
         code: false,
@@ -246,9 +299,10 @@ export function extractBranches(code: string, file: string): BranchArm[] {
 /** Extract canonical branch arms from a file on disk. */
 export async function extractBranchesFromFile(
     path: string,
+    library: string,
 ): Promise<BranchArm[]> {
     const code = await readFile(path, "utf-8");
-    return extractBranches(code, resolve(path));
+    return extractBranches(code, resolve(path), library);
 }
 
 // ---------------------------------------------------------------------------
@@ -290,6 +344,12 @@ export type CanonicalCoverageRow = {
     continuation: boolean;
     /** Smallest enclosing function name from V8 coverage, if any. */
     functionName: string | null;
+    /**
+     * Canonical ID of the enclosing function (or top-level sentinel when
+     * the arm is at script scope). Mirrors `BranchArm.functionId` and
+     * matches the `id` of that function's `FnEntry` arm.
+     */
+    functionId: string;
 };
 
 /**
@@ -342,9 +402,10 @@ export function findEnclosingFunctionName(
 export function joinC8ToCanonical(
     code: string,
     file: string,
+    library: string,
     scriptCoverage: V8ScriptCoverage,
 ): CanonicalCoverageRow[] {
-    const arms = extractBranches(code, file);
+    const arms = extractBranches(code, file, library);
 
     const ranges: V8Range[] = [];
     for (const fn of scriptCoverage.functions) {
@@ -431,6 +492,7 @@ export function joinC8ToCanonical(
             matched: r != null,
             continuation: arm.continuation,
             functionName: fnName,
+            functionId: arm.functionId,
         });
     }
     return rows;
@@ -490,7 +552,7 @@ if (import.meta.main) {
     }
 
     for (const file of files) {
-        const arms = await extractBranchesFromFile(file);
+        const arms = await extractBranchesFromFile(file, "todo");
         for (const arm of arms) {
             console.log(JSON.stringify(arm));
         }
