@@ -89,27 +89,24 @@ describe("extractBranches", () => {
             );
         });
 
-        test(
-            "Script arm groups with top-level branches but not branches inside functions",
-            () => {
-                const arms = extractBranches(
-                    "if (top) {} function f() { if (inner) {} }",
-                    FILE,
-                );
-                const script = pick(arms, "Script", 0);
-                const fnEntry = pick(arms, "FnEntry", 0);
-                const ifs = arms.filter((a) => a.kind === "If");
-                const topIfs = ifs.filter(
-                    (a) => a.functionId === script.functionId,
-                );
-                const innerIfs = ifs.filter(
-                    (a) => a.functionId === fnEntry.functionId,
-                );
-                expect(topIfs.length).toBe(2); // consequent and continuation
-                expect(innerIfs.length).toBe(2);
-                expect(script.functionId).not.toBe(fnEntry.functionId);
-            },
-        );
+        test("Script arm groups with top-level branches but not branches inside functions", () => {
+            const arms = extractBranches(
+                "if (top) {} function f() { if (inner) {} }",
+                FILE,
+            );
+            const script = pick(arms, "Script", 0);
+            const fnEntry = pick(arms, "FnEntry", 0);
+            const ifs = arms.filter((a) => a.kind === "If");
+            const topIfs = ifs.filter(
+                (a) => a.functionId === script.functionId,
+            );
+            const innerIfs = ifs.filter(
+                (a) => a.functionId === fnEntry.functionId,
+            );
+            expect(topIfs.length).toBe(2); // consequent and continuation
+            expect(innerIfs.length).toBe(2);
+            expect(script.functionId).not.toBe(fnEntry.functionId);
+        });
 
         test("only one Script arm regardless of file content", () => {
             const arms = extractBranches(

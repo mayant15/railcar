@@ -1,6 +1,7 @@
 {
     "name": "@railcar/examples",
     "private": true,
+    "type": "module",
     "description": "Usage examples for Railcar",
     "dependencies": {
         "@angular/compiler": "20.3.15",

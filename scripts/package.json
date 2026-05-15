@@ -1,6 +1,7 @@
 {
     "name": "@railcar/scripts",
     "private": true,
+    "type": "module",
     "description": "Ad-hoc scripts for Railcar development and evaluation",
     "dependencies": {
         "@babel/core": "7.28.5",
