@@ -2,13 +2,18 @@ import assert from "node:assert";
 import { basename } from "node:path";
 import { registerHooks } from "node:module";
 import { writeFile } from "node:fs/promises";
-import { extractBranches, type BranchArm } from "./branch-extract.ts";
+import {
+    extract,
+    type BranchArm,
+    type FunctionAttr,
+} from "./branch-extract.ts";
 
 async function analyzeProject(
     project: string,
     entrypoint: string,
-): Promise<BranchArm[]> {
+): Promise<{ branches: BranchArm[]; functions: FunctionAttr[] }> {
     const branches: BranchArm[] = [];
+    const functions: FunctionAttr[] = [];
     const hooks = registerHooks({
         load(url, context, nextLoad) {
             const def = nextLoad(url, context);
@@ -34,7 +39,9 @@ async function analyzeProject(
 
             console.log("analyzing", url);
             const code = def.source.toString();
-            branches.push(...extractBranches(code, url, project));
+            const result = extract(code, url, project);
+            branches.push(...result.branches);
+            functions.push(...result.functions);
 
             return def;
         },
@@ -43,15 +50,24 @@ async function analyzeProject(
     await import(entrypoint);
     hooks.deregister();
 
-    return branches;
+    return { branches, functions };
 }
 
-function toCSV(branches: BranchArm[]): string {
-    assert(branches.length > 0);
-    const columns = Object.keys(branches[0]);
+function csvEscape(value: unknown): string {
+    if (value == null) return "";
+    const s = String(value);
+    if (/[",\n\r]/.test(s)) {
+        return `"${s.replace(/"/g, '""')}"`;
+    }
+    return s;
+}
+
+function toCSV<T extends Record<string, unknown>>(rows: T[]): string {
+    assert(rows.length > 0);
+    const columns = Object.keys(rows[0]);
     let str = columns.join(",");
-    for (const branch of branches) {
-        str += "\n" + columns.map((col) => branch[col]).join(",");
+    for (const row of rows) {
+        str += "\n" + columns.map((col) => csvEscape(row[col])).join(",");
     }
     return str;
 }
@@ -78,10 +94,14 @@ async function main() {
 
     for (const project of projects) {
         const entrypoint = new URL(import.meta.resolve(project)).pathname;
-        const branches = await analyzeProject(project, entrypoint);
+        const { branches, functions } = await analyzeProject(
+            project,
+            entrypoint,
+        );
 
-        const csv = toCSV(branches);
-        await writeFile(`branches-${basename(project)}.csv`, csv);
+        const name = basename(project);
+        await writeFile(`branches-${name}.csv`, toCSV(branches));
+        await writeFile(`functions-${name}.csv`, toCSV(functions));
     }
 }
 
