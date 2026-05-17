@@ -6,7 +6,6 @@
  *
  * Generated with Amp.
  * https://ampcode.com/threads/T-019d2612-9db8-772d-b5d8-a9f8650b4044
- *
  */
 
 import { Database } from "bun:sqlite";

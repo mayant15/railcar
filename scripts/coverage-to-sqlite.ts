@@ -50,6 +50,17 @@ type RunMeta = {
 };
 
 /**
+ * Run-directory library prefixes are bare names (e.g. `angular_*`), but
+ * the corresponding npm package and `node_modules/` path use an `@scope/`
+ * prefix. Mirrors the same mapping in `scripts/common.ts#findEntryPoint`.
+ */
+const LIBRARY_ALIASES: Record<string, string> = {
+    angular: "@angular/compiler",
+    turf: "@turf/turf",
+    xmldom: "@xmldom/xmldom",
+};
+
+/**
  * Run directory names follow the pattern:
  *   {library}_sequence_{schema}_{entrypoint}_{runId}
  * Library names do not contain underscores (hyphens are allowed).
@@ -59,7 +70,7 @@ function parseRunDir(name: string): RunMeta {
     if (tokens.length !== 5) {
         throw new Error(`unexpected run directory name: ${name}`);
     }
-    const [library, mode, schema, , runIdStr] = tokens;
+    const [rawLibrary, mode, schema, , runIdStr] = tokens;
     if (mode !== "sequence") {
         throw new Error(
             `expected mode 'sequence' in run directory name '${name}', got '${mode}'`,
@@ -69,6 +80,7 @@ function parseRunDir(name: string): RunMeta {
     if (Number.isNaN(runId)) {
         throw new Error(`could not parse run id from '${name}'`);
     }
+    const library = LIBRARY_ALIASES[rawLibrary] ?? rawLibrary;
     return { library, schema, runId };
 }
 
@@ -178,7 +190,11 @@ for (const [runDir, files] of filesByRun) {
         }
         let rows;
         try {
-            rows = joinC8ToCanonical(code, sourcePath, library, merged);
+            // Pass the `file://` URL as the `file` arg so the canonical
+            // branch ids match the ones `make-metrics-db.ts` writes into
+            // the `branches` table (which keys off the loader URL, not
+            // the filesystem path).
+            rows = joinC8ToCanonical(code, url, library, merged);
         } catch (err) {
             parseFailures++;
             console.warn(
