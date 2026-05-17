@@ -197,10 +197,7 @@ describe("extract: branches", () => {
         });
 
         test("for-of loop emits body + continuation", () => {
-            const arms = extract(
-                "for (const v of xs) body(v);",
-                FILE,
-            ).branches;
+            const arms = extract("for (const v of xs) body(v);", FILE).branches;
             expect(summarize(arms)).toEqual([
                 { kind: "Loop", armIndex: 0, continuation: false },
                 { kind: "Loop", armIndex: 1, continuation: true },
@@ -212,10 +209,7 @@ describe("extract: branches", () => {
 
     describe("Try", () => {
         test("try/catch emits try + catch + continuation (no finalizer)", () => {
-            const arms = extract(
-                "try { a; } catch (e) { b; }",
-                FILE,
-            ).branches;
+            const arms = extract("try { a; } catch (e) { b; }", FILE).branches;
             expect(summarize(arms)).toEqual([
                 { kind: "Try", armIndex: 0, continuation: false },
                 { kind: "Try", armIndex: 1, continuation: false },
@@ -518,9 +512,7 @@ describe("extract: functions", () => {
     test("TopLevel row uses the canonical top-level functionId", () => {
         const fns = extract("const x = 1;", FILE).functions;
         const top = pickFn(fns, (f) => f.type === "TopLevel");
-        expect(top.id).toBe(
-            getCanonicalFunctionId({ file: FILE, loc: null }),
-        );
+        expect(top.id).toBe(getCanonicalFunctionId({ file: FILE, loc: null }));
     });
 
     test("TopLevel row spans the entire source", () => {
@@ -559,10 +551,7 @@ describe("extract: functions", () => {
         });
 
         test("named FunctionExpression captures its name", () => {
-            const fns = extract(
-                "const f = function bar() {};",
-                FILE,
-            ).functions;
+            const fns = extract("const f = function bar() {};", FILE).functions;
             const bar = pickFn(fns, (f) => f.type === "FunctionExpression");
             expect(bar.name).toBe("bar");
         });
@@ -594,10 +583,7 @@ describe("extract: functions", () => {
         });
 
         test("generator function sets generator=true", () => {
-            const fns = extract(
-                "function* gen() { yield 1; }",
-                FILE,
-            ).functions;
+            const fns = extract("function* gen() { yield 1; }", FILE).functions;
             const gen = pickFn(fns, (f) => f.type === "FunctionDeclaration");
             expect(gen.generator).toBe(true);
             expect(gen.async).toBe(false);
@@ -679,14 +665,9 @@ describe("extract: functions", () => {
                 "function outer() { function inner() {} }",
                 FILE,
             ).functions;
-            const decls = fns.filter(
-                (f) => f.type === "FunctionDeclaration",
-            );
+            const decls = fns.filter((f) => f.type === "FunctionDeclaration");
             expect(decls).toHaveLength(2);
-            expect(decls.map((f) => f.name).sort()).toEqual([
-                "inner",
-                "outer",
-            ]);
+            expect(decls.map((f) => f.name).sort()).toEqual(["inner", "outer"]);
         });
 
         test("function ids are unique across all rows", () => {
@@ -777,9 +758,7 @@ describe("extract: branch ↔ function joins", () => {
         const code = "function f() { if (x) y; }";
         const { branches, functions } = extract(code, FILE);
         const fnEntry = branches.find((b) => b.kind === "FnEntry");
-        const fnRow = functions.find(
-            (f) => f.type === "FunctionDeclaration",
-        );
+        const fnRow = functions.find((f) => f.type === "FunctionDeclaration");
         expect(fnEntry).toBeDefined();
         expect(fnRow).toBeDefined();
         expect(fnEntry?.functionId).toBe(fnRow?.id);
