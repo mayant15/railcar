@@ -2,36 +2,46 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  *
  * Collects all V8 raw block-coverage JSON files in a coverage directory
- * (the `.c8/` temp dirs that c8 leaves behind) and writes one row per
- * canonical branch arm into a SQLite database. Branch IDs are stable
- * across runs and across libraries — see branch-extract.ts.
+ * (the `.c8/` temp dirs that c8 leaves behind) and appends a `coverage`
+ * table into an existing `metrics.db` (produced by `make-metrics-db.ts`).
+ *
+ * The new `coverage` table has one row per canonical branch arm per run:
+ *   - branch_id  : canonical id from `branch-extract.ts` (joins to
+ *                  `branches.id` in metrics.db)
+ *   - run_id     : per-run id parsed from the c8 directory name
+ *   - schema     : the schema name parsed from the c8 directory name
+ *   - hitcount   : V8 block-coverage hit count for this arm
+ *
+ * Branch ids are stable across runs and across libraries — see
+ * branch-extract.ts.
  *
  * Generated with Amp.
  * https://ampcode.com/threads/T-019df9e1-9e9f-76af-b131-a2c25384b264
+ * https://ampcode.com/threads/T-019e381c-07b2-73d2-bd68-28efe38ead9e
  */
 
-import { Database } from "bun:sqlite";
-import { Glob } from "bun";
-import { readFile } from "node:fs/promises";
+import { DatabaseSync } from "node:sqlite";
+import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-    type CanonicalCoverageRow,
     joinC8ToCanonical,
     mergeScriptCoverages,
     type V8ScriptCoverage,
 } from "./branch-extract.ts";
 
-const usage = "usage: bun scripts/coverage-to-sqlite.ts <coverage-dir>";
+const usage =
+    "usage: node --experimental-strip-types scripts/coverage-to-sqlite.ts <metrics-db> <coverage-dir>";
 
-const dir = process.argv[2];
-if (!dir) {
+const metricsDbArg = process.argv[2];
+const coverageDirArg = process.argv[3];
+if (!metricsDbArg || !coverageDirArg) {
     console.error(usage);
     process.exit(1);
 }
 
-const coverageDir = resolve(dir);
-const dbPath = join(coverageDir, "coverage.db");
+const dbPath = resolve(metricsDbArg);
+const coverageDir = resolve(coverageDirArg);
 
 type RunMeta = {
     library: string;
@@ -62,39 +72,28 @@ function parseRunDir(name: string): RunMeta {
     return { library, schema, runId };
 }
 
-const db = new Database(dbPath);
-db.run("PRAGMA journal_mode = WAL");
+const db = new DatabaseSync(dbPath);
+db.exec("PRAGMA journal_mode = WAL");
 
-db.run(`
-  CREATE TABLE IF NOT EXISTS branches (
-    canonical_id TEXT NOT NULL,
-    file_path TEXT NOT NULL,
-    function_name TEXT,
-    kind TEXT NOT NULL,
-    arm_index INTEGER NOT NULL,
-    start_line INTEGER NOT NULL,
-    start_col INTEGER NOT NULL,
+db.exec(`
+  CREATE TABLE IF NOT EXISTS coverage (
+    branch_id TEXT NOT NULL,
     run_id INTEGER NOT NULL,
     schema TEXT NOT NULL,
-    library TEXT NOT NULL,
-    hitcount INTEGER NOT NULL,
-    matched INTEGER NOT NULL,
-    continuation INTEGER NOT NULL
+    hitcount INTEGER NOT NULL
   )
 `);
 
 const insert = db.prepare(`
-  INSERT INTO branches (
-    canonical_id, file_path, function_name, kind, arm_index,
-    start_line, start_col, run_id, schema, library,
-    hitcount, matched, continuation
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  INSERT INTO coverage (branch_id, run_id, schema, hitcount)
+  VALUES (?, ?, ?, ?)
 `);
 
-type PendingRow = CanonicalCoverageRow & {
+type PendingRow = {
+    branchId: string;
     runId: number;
     schema: string;
-    library: string;
+    hitcount: number;
 };
 
 const pending: PendingRow[] = [];
@@ -103,11 +102,38 @@ let scriptCount = 0;
 let parseFailures = 0;
 
 // Find all V8 coverage JSON files. c8 writes them into <run-dir>/.c8/.
-const glob = new Glob("*/.c8/coverage-*.json");
+async function findCoverageFiles(root: string): Promise<string[]> {
+    const out: string[] = [];
+    let topEntries;
+    try {
+        topEntries = await readdir(root, { withFileTypes: true });
+    } catch {
+        return out;
+    }
+    for (const entry of topEntries) {
+        if (!entry.isDirectory()) continue;
+        const c8Dir = join(root, entry.name, ".c8");
+        let c8Entries;
+        try {
+            c8Entries = await readdir(c8Dir, { withFileTypes: true });
+        } catch {
+            continue;
+        }
+        for (const f of c8Entries) {
+            if (
+                f.isFile() &&
+                f.name.startsWith("coverage-") &&
+                f.name.endsWith(".json")
+            ) {
+                out.push(join(c8Dir, f.name));
+            }
+        }
+    }
+    return out;
+}
 
 const filesByRun = new Map<string, string[]>();
-for await (const path of glob.scan({ cwd: coverageDir, dot: true })) {
-    const fullPath = join(coverageDir, path);
+for (const fullPath of await findCoverageFiles(coverageDir)) {
     const runDir = basename(dirname(dirname(fullPath)));
     const arr = filesByRun.get(runDir) ?? [];
     arr.push(fullPath);
@@ -119,13 +145,17 @@ for (const [runDir, files] of filesByRun) {
     runCount++;
 
     // Aggregate ScriptCoverage records across every dump produced by this run.
+    // Restrict to files within this run's library, matching the filter that
+    // `make-metrics-db.ts` uses when populating the `branches` table.
+    const libraryMarker = `node_modules/${library}/`;
     const byUrl = new Map<string, V8ScriptCoverage[]>();
     for (const filePath of files) {
-        const data = JSON.parse(await Bun.file(filePath).text()) as {
+        const data = JSON.parse(await readFile(filePath, "utf-8")) as {
             result: V8ScriptCoverage[];
         };
         for (const script of data.result) {
             if (!script.url.startsWith("file://")) continue;
+            if (!script.url.includes(libraryMarker)) continue;
             const arr = byUrl.get(script.url) ?? [];
             arr.push(script);
             byUrl.set(script.url, arr);
@@ -146,9 +176,9 @@ for (const [runDir, files] of filesByRun) {
         } catch {
             continue;
         }
-        let rows: CanonicalCoverageRow[];
+        let rows;
         try {
-            rows = joinC8ToCanonical(code, sourcePath, merged);
+            rows = joinC8ToCanonical(code, sourcePath, library, merged);
         } catch (err) {
             parseFailures++;
             console.warn(
@@ -158,45 +188,34 @@ for (const [runDir, files] of filesByRun) {
         }
         scriptCount++;
         for (const row of rows) {
-            pending.push({ ...row, runId, schema, library });
+            pending.push({
+                branchId: row.id,
+                runId,
+                schema,
+                hitcount: row.count,
+            });
         }
     }
 }
 
-const insertAll = db.transaction((rows: PendingRow[]) => {
-    for (const r of rows) {
-        insert.run(
-            r.id,
-            r.file,
-            r.functionName,
-            r.kind,
-            r.armIndex,
-            r.startLine,
-            r.startCol,
-            r.runId,
-            r.schema,
-            r.library,
-            r.count,
-            r.matched ? 1 : 0,
-            r.continuation ? 1 : 0,
-        );
-    }
-});
+db.exec("BEGIN");
+for (const r of pending) {
+    insert.run(r.branchId, r.runId, r.schema, r.hitcount);
+}
+db.exec("COMMIT");
 
-insertAll(pending);
-
-const { count } = db.query("SELECT COUNT(*) as count FROM branches").get() as {
-    count: number;
-};
+const { count } = db
+    .prepare("SELECT COUNT(*) as count FROM coverage")
+    .get() as { count: number };
 console.assert(
-    count === pending.length,
-    `expected ${pending.length} rows in db, got ${count}`,
+    count >= pending.length,
+    `expected at least ${pending.length} rows in coverage, got ${count}`,
 );
-console.assert(count > 0, "no rows were inserted");
+console.assert(pending.length > 0, "no rows were inserted");
 
 db.close();
 
 console.log(
-    `wrote ${pending.length} branch rows from ${scriptCount} script(s) across ${runCount} run(s) to ${dbPath}` +
+    `wrote ${pending.length} coverage rows from ${scriptCount} script(s) across ${runCount} run(s) to ${dbPath}` +
         (parseFailures > 0 ? ` (${parseFailures} parse failure(s))` : ""),
 );
