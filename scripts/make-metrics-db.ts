@@ -33,8 +33,8 @@ type ExtractResult = {
  * function (or the synthetic `TopLevel` row for script-scope branches).
  */
 function extract(code: string, file: string, library: string): ExtractResult {
-    const brExt = new BranchExtractor(file, library);
     const fnExt = new FunctionExtractor(file, library);
+    const brExt = new BranchExtractor(file);
     const complexity = new ComplexityAnalysis(file);
 
     const babel = transformSync(code, {
@@ -158,8 +158,7 @@ async function main() {
             start_offset INTEGER NOT NULL,
             end_offset INTEGER NOT NULL,
             continuation INTEGER NOT NULL,
-            function_id TEXT NOT NULL,
-            library TEXT NOT NULL
+            function_id TEXT NOT NULL
         )
     `);
 
@@ -178,7 +177,8 @@ async function main() {
             end_line INTEGER NOT NULL,
             end_col INTEGER NOT NULL,
             start_offset INTEGER NOT NULL,
-            end_offset INTEGER NOT NULL
+            end_offset INTEGER NOT NULL,
+            complexity INTEGER NOT NULL
         )
     `);
 
@@ -186,16 +186,16 @@ async function main() {
         INSERT INTO branches (
             id, file, kind, arm_index, start_line, start_col,
             end_line, end_col, start_offset, end_offset,
-            continuation, function_id, library
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            continuation, function_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const insertFunction = db.prepare(`
         INSERT INTO functions (
             id, file, library, name, type, async, generator, params,
             start_line, start_col, end_line, end_col,
-            start_offset, end_offset
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            start_offset, end_offset, complexity
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     let totalBranches = 0;
@@ -223,7 +223,6 @@ async function main() {
                 b.endOffset,
                 b.continuation ? 1 : 0,
                 b.functionId,
-                b.library,
             );
         }
         for (const f of functions) {
@@ -242,6 +241,7 @@ async function main() {
                 f.endCol,
                 f.startOffset,
                 f.endOffset,
+                f.complexity,
             );
         }
         db.exec("COMMIT");

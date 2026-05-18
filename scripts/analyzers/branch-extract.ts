@@ -93,7 +93,6 @@ export type BranchArm = {
     continuation: boolean;
 
     functionId: string;
-    library: string;
 };
 
 export type CanonicalBranchKey = {
@@ -120,7 +119,6 @@ export function getCanonicalBranchId(key: CanonicalBranchKey): string {
 
 export class BranchExtractor {
     file: string;
-    library: string;
     arms: BranchArm[] = [];
 
     /**
@@ -130,9 +128,8 @@ export class BranchExtractor {
      */
     fnStack: BabelFunction[] = [];
 
-    constructor(file: string, library: string) {
+    constructor(file: string) {
         this.file = file;
-        this.library = library;
     }
 
     plugin(): PluginTarget {
@@ -220,7 +217,6 @@ export class BranchExtractor {
             kind,
             armIndex,
             file: this.file,
-            library: this.library,
             startLine: node.loc.start.line,
             startCol: node.loc.start.column,
             endLine: node.loc.end.line,
@@ -251,7 +247,6 @@ export class BranchExtractor {
             kind,
             armIndex,
             file: this.file,
-            library: this.library,
             startLine: line,
             startCol: column,
             endLine: line,

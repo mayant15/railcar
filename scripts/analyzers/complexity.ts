@@ -31,7 +31,7 @@ export class ComplexityAnalysis {
                     });
 
                     assert(!self.map.has(id));
-                    self.map.set(id, Math.random()); // TODO: compute
+                    self.map.set(id, self.compute());
                 },
                 Function: {
                     enter(path: NodePath<BabelFunction>) {
@@ -45,10 +45,15 @@ export class ComplexityAnalysis {
                         });
 
                         assert(!self.map.has(id));
-                        self.map.set(id, Math.random()); // TODO: compute
+                        self.map.set(id, self.compute());
                     },
                 },
             },
         };
+    }
+
+    private compute() {
+        // TODO: actually compute
+        return Math.floor(Math.random() * 100);
     }
 }
