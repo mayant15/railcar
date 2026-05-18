@@ -7,18 +7,66 @@ import assert from "node:assert";
 import { DatabaseSync } from "node:sqlite";
 import { registerHooks } from "node:module";
 import { unlinkSync, existsSync } from "node:fs";
+import { type BranchArm, BranchExtractor } from "./analyzers/branch-extract.ts";
 import {
-    extract,
-    type BranchArm,
     type FunctionAttr,
-} from "./branch-extract.ts";
+    FunctionExtractor,
+} from "./analyzers/function-extract.ts";
+import { transformSync } from "@babel/core";
+import { ComplexityAnalysis } from "./analyzers/complexity.ts";
+
+type BranchesRow = BranchArm;
+type FunctionsRow = FunctionAttr & { complexity: number };
+
+/**
+ * Each property is a database table.
+ */
+type ExtractResult = {
+    branches: BranchesRow[];
+    functions: FunctionsRow[];
+};
+
+/**
+ * Extract canonical branch arms and per-function attributes from a source
+ * string in a single AST pass. Both tables share canonical IDs:
+ * `BranchArm.functionId` matches `FunctionAttr.id` of the enclosing
+ * function (or the synthetic `TopLevel` row for script-scope branches).
+ */
+function extract(code: string, file: string, library: string): ExtractResult {
+    const brExt = new BranchExtractor(file, library);
+    const fnExt = new FunctionExtractor(file, library);
+    const complexity = new ComplexityAnalysis(file);
+
+    const babel = transformSync(code, {
+        plugins: [brExt.plugin(), fnExt.plugin(), complexity.plugin()],
+        code: false,
+        ast: false,
+        sourceType: "unambiguous",
+        babelrc: false,
+        configFile: false,
+        filename: file,
+    });
+    assert(babel !== null);
+
+    const functions = fnExt.functions.map((fn) => {
+        assert(complexity.map.has(fn.id));
+        return { ...fn, complexity: complexity.map.get(fn.id)! };
+    });
+
+    return {
+        branches: brExt.arms,
+        functions,
+    };
+}
 
 async function analyzeProject(
     project: string,
     entrypoint: string,
-): Promise<{ branches: BranchArm[]; functions: FunctionAttr[] }> {
-    const branches: BranchArm[] = [];
-    const functions: FunctionAttr[] = [];
+): Promise<ExtractResult> {
+    const extracted: ExtractResult = {
+        branches: [],
+        functions: [],
+    };
     const hooks = registerHooks({
         load(url, context, nextLoad) {
             const def = nextLoad(url, context);
@@ -44,13 +92,14 @@ async function analyzeProject(
 
             console.log("analyzing", url);
             const code = def.source.toString();
+
             const result = extract(code, url, project);
 
             // This used to be a single push, with `branches.push(...result.branches)`.
             // That throws a `RangeError: Maximum call stack size exceeded` when there
             // are too many branches (e.g. typescript).
-            for (const b of result.branches) branches.push(b);
-            for (const f of result.functions) functions.push(f);
+            for (const b of result.branches) extracted.branches.push(b);
+            for (const f of result.functions) extracted.functions.push(f);
 
             return def;
         },
@@ -64,7 +113,7 @@ async function analyzeProject(
 
     hooks.deregister();
 
-    return { branches, functions };
+    return extracted;
 }
 
 async function main() {
