@@ -1,29 +1,30 @@
 /**
  * Count the number of "string operations" in given code.
  *
+ * A call expression whose callee is a (Optional)MemberExpression with one of these
+ * allowed methods (in `STRING_METHODS`) as the property name is a "string operation".
+ * Methods that also exist on Array.prototype (e.g. `at`, `concat`, `includes`,`indexOf`)
+ * are intentionally excluded to avoid counting array operations as string operations,
+ * so this is a conservative estimate.
+ *
  * Generated with Amp
  * https://ampcode.com/threads/T-019dffee-44b6-7727-9021-d514f12c6149
  */
 
-import { readFile } from "node:fs/promises";
-
-import { transform, type PluginTarget } from "@babel/core";
+import assert from "node:assert";
 import type { NodePath } from "@babel/traverse";
 import type {
     BinaryExpression,
     CallExpression,
+    MemberExpression,
     Node,
     OptionalCallExpression,
-    StringLiteral,
-    TemplateLiteral,
+    OptionalMemberExpression,
 } from "@babel/types";
+import * as AST from "@babel/types";
+import { FunctionStackAnalysis } from "./function-stack-analysis.ts";
 
-// Names of String.prototype methods. A call expression whose callee is a
-// (Optional)MemberExpression with one of these as the property name is counted
-// as a string operation. Methods that also exist on Array.prototype (e.g.
-// `at`, `concat`, `includes`, `indexOf`, `lastIndexOf`, `slice`, `toString`)
-// are intentionally excluded to avoid counting array operations as string
-// operations.
+/** Allowed string methods. */
 const STRING_METHODS: ReadonlySet<string> = new Set([
     "anchor",
     "big",
@@ -69,78 +70,70 @@ const STRING_METHODS: ReadonlySet<string> = new Set([
 
 function isStringish(node: Node | null | undefined): boolean {
     if (!node) return false;
-    return node.type === "StringLiteral" || node.type === "TemplateLiteral";
+    return AST.isStringLiteral(node) || AST.isTemplateLiteral(node);
 }
 
-function makeStringOperationsCountPlugin(): [() => number, () => PluginTarget] {
-    let count = 0;
-    return [
-        () => count,
-        () => {
-            return {
-                visitor: {
-                    // (1) String.prototype-style method calls.
-                    "CallExpression|OptionalCallExpression"(
-                        path: NodePath<CallExpression | OptionalCallExpression>,
+function getCalleeName(
+    callee: MemberExpression | OptionalMemberExpression,
+): string | undefined {
+    if (AST.isIdentifier(callee.property)) {
+        return callee.property.name;
+    }
+
+    if (callee.computed && AST.isStringLiteral(callee.property)) {
+        return callee.property.value;
+    }
+}
+
+export class StringOperationsAnalysis extends FunctionStackAnalysis<number> {
+    plugin() {
+        const self = this;
+        return this.createStackPlugin({
+            visitor: {
+                // String method calls
+                "CallExpression|OptionalCallExpression"(
+                    path: NodePath<CallExpression | OptionalCallExpression>,
+                ) {
+                    const callee = path.node.callee;
+                    if (
+                        callee.type === "MemberExpression" ||
+                        callee.type === "OptionalMemberExpression"
                     ) {
-                        const callee = path.node.callee;
-                        if (
-                            callee.type === "MemberExpression" ||
-                            callee.type === "OptionalMemberExpression"
-                        ) {
-                            const name = !callee.computed
-                                ? callee.property.type === "Identifier"
-                                    ? callee.property.name
-                                    : undefined
-                                : callee.property.type === "StringLiteral"
-                                  ? callee.property.value
-                                  : undefined;
-                            if (
-                                name !== undefined &&
-                                STRING_METHODS.has(name)
-                            ) {
-                                count++;
-                            }
+                        const name = getCalleeName(callee);
+                        if (name !== undefined && STRING_METHODS.has(name)) {
+                            self.inc();
                         }
-                    },
-                    // (2) Template literals.
-                    TemplateLiteral(_path: NodePath<TemplateLiteral>) {
-                        count++;
-                    },
-                    // (2b) String literals.
-                    StringLiteral(_path: NodePath<StringLiteral>) {
-                        count++;
-                    },
-                    // (3) String concatenation: `+` with a string-ish operand.
-                    BinaryExpression(path: NodePath<BinaryExpression>) {
-                        if (
-                            path.node.operator === "+" &&
-                            (isStringish(path.node.left) ||
-                                isStringish(path.node.right))
-                        ) {
-                            count++;
-                        }
-                    },
+                    }
                 },
-            };
-        },
-    ];
-}
 
-export function countStringOperations(code: string): Promise<number> {
-    const [getCount, plugin] = makeStringOperationsCountPlugin();
+                // Template and string literals count by themselves
+                TemplateLiteral() {
+                    self.inc();
+                },
+                StringLiteral() {
+                    self.inc();
+                },
 
-    return new Promise((res, rej) => {
-        transform(code, { plugins: [plugin] }, (err, result) => {
-            if (err || !result) return rej(Error("failed to parse"));
-            res(getCount());
+                // String concatenation: `+` with a string-ish operand
+                BinaryExpression(path: NodePath<BinaryExpression>) {
+                    if (path.node.operator === "+") {
+                        if (
+                            isStringish(path.node.left) ||
+                            isStringish(path.node.right)
+                        ) {
+                            self.inc();
+                        }
+                    }
+                },
+            },
         });
-    });
-}
+    }
 
-export async function countStringOperationsInFile(
-    path: string,
-): Promise<number> {
-    const code = await readFile(path, "utf-8");
-    return countStringOperations(code);
+    private inc() {
+        assert(this.stack.length > 0);
+        const top = this.stack[this.stack.length - 1];
+
+        const count = this.map.get(top) ?? 0;
+        this.map.set(top, count + 1);
+    }
 }

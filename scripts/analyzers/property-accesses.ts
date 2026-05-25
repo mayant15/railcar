@@ -1,43 +1,43 @@
-import { readFile } from "node:fs/promises";
+/**
+ * Count the number of object property accesses in each function.
+ */
 
-import { transform, type PluginTarget } from "@babel/core";
+import assert from "node:assert";
 
-function makeObjectPropertyAccessCountPlugin(): [
-    () => number,
-    () => PluginTarget,
-] {
-    let count = 0;
-    return [
-        () => count,
-        () => {
-            return {
-                visitor: {
-                    MemberExpression() {
-                        count++;
-                    },
-                    OptionalMemberExpression() {
-                        count++;
-                    },
+import type { PluginTarget } from "@babel/core";
+import { FunctionStackAnalysis } from "./function-stack-analysis.ts";
+
+export class ObjectPropertyAccessAnalysis extends FunctionStackAnalysis<number> {
+    overall: number = 0;
+
+    plugin(): PluginTarget {
+        const self = this;
+        return this.createStackPlugin({
+            visitor: {
+                MemberExpression() {
+                    self.inc();
                 },
-            };
-        },
-    ];
-}
-
-export function countObjectPropertyAccesses(code: string): Promise<number> {
-    const [getCount, plugin] = makeObjectPropertyAccessCountPlugin();
-
-    return new Promise((res, rej) => {
-        transform(code, { plugins: [plugin] }, (err, result) => {
-            if (err || !result) return rej(Error("failed to parse"));
-            res(getCount());
+                OptionalMemberExpression() {
+                    self.inc();
+                },
+            },
         });
-    });
-}
+    }
 
-export async function countObjectPropertyAccessesInFile(
-    path: string,
-): Promise<number> {
-    const code = await readFile(path, "utf-8");
-    return countObjectPropertyAccesses(code);
+    private inc() {
+        assert(this.stack.length > 0);
+        const top = this.stack[this.stack.length - 1];
+
+        const current = this.map.get(top) ?? 0;
+        this.map.set(top, current + 1);
+
+        // Also track object property accesses in the file total
+        this.overall += 1;
+
+        // INVARIANT: this.overall = sum of this.map.values()
+        {
+            const sum = this.map.values().reduce((acc, x) => acc + x);
+            assert(sum === this.overall);
+        }
+    }
 }

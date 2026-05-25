@@ -1,97 +1,185 @@
-// Generated with Amp
-import { expect, test } from "bun:test";
-import { countStringOperations } from "./string-operations";
+/**
+ * Tests for the string-operations analyzer in `string-operations.ts`.
+ *
+ * Generated with Amp.
+ * https://ampcode.com/threads/T-019e5de8-f276-77fe-9889-4d4996320e91
+ */
 
-test("no operations", async () => {
-    expect(await countStringOperations("const x = 1;")).toBe(0);
-});
+import { describe, expect, test } from "bun:test";
+import { transformSync } from "@babel/core";
+import { getCanonicalFunctionId } from "./function-extract.ts";
+import { StringOperationsAnalysis } from "./string-operations.ts";
 
-test("plain string literal counts", async () => {
-    expect(await countStringOperations(`const x = "hello";`)).toBe(1);
-});
+const FILE = "test.ts";
 
-test("plain template literal (no interpolation) counts", async () => {
-    expect(await countStringOperations("const x = `hello`;")).toBe(1);
-});
+function analyze(code: string, file: string = FILE): Map<string, number> {
+    const a = new StringOperationsAnalysis(file);
+    transformSync(code, {
+        plugins: [a.plugin()],
+        code: false,
+        ast: false,
+        sourceType: "unambiguous",
+        babelrc: false,
+        configFile: false,
+        filename: file,
+    });
+    return a.map;
+}
 
-test("template literal with interpolation counts as one", async () => {
-    // biome-ignore lint/suspicious/noTemplateCurlyInString: literal source code under test
-    expect(await countStringOperations("const x = `hi ${name}`;")).toBe(1);
-});
+function topLevelId(file: string = FILE): string {
+    return getCanonicalFunctionId({ file, loc: null });
+}
 
-test("string method call: toUpperCase", async () => {
-    expect(await countStringOperations(`s.toUpperCase();`)).toBe(1);
-});
+/** String-operation count recorded for the top-level script body. */
+function top(
+    map: Map<string, number>,
+    file: string = FILE,
+): number | undefined {
+    return map.get(topLevelId(file));
+}
 
-test("string method call: split + trim chained", async () => {
-    // split, ",", trim => 3
-    expect(
-        await countStringOperations(`s.split(",").map(x => x.trim());`),
-    ).toBe(3);
-});
+describe("StringOperationsAnalysis", () => {
+    test("no operations", () => {
+        const map = analyze("const x = 1;");
+        expect(top(map)).toBeUndefined();
+    });
 
-test("optional chaining method call counts", async () => {
-    // replace, "a", "b" => 3
-    expect(await countStringOperations(`s?.replace("a", "b");`)).toBe(3);
-});
+    test("plain string literal counts", () => {
+        const map = analyze(`const x = "hello";`);
+        expect(top(map)).toBe(1);
+    });
 
-test("computed member call with string literal counts", async () => {
-    // computed call (toUpperCase) + the "toUpperCase" string literal => 2
-    expect(await countStringOperations(`s["toUpperCase"]();`)).toBe(2);
-});
+    test("plain template literal (no interpolation) counts", () => {
+        const map = analyze("const x = `hello`;");
+        expect(top(map)).toBe(1);
+    });
 
-test("computed member call with non-string-method literal does not count as call but literal still counts", async () => {
-    // "push" is just a string literal, not a string method => 1
-    expect(await countStringOperations(`s["push"]();`)).toBe(1);
-});
+    test("template literal with interpolation counts as one", () => {
+        // biome-ignore lint/suspicious/noTemplateCurlyInString: literal source code under test
+        const map = analyze("const x = `hi ${name}`;");
+        expect(top(map)).toBe(1);
+    });
 
-test("computed member call with non-literal does not count", async () => {
-    expect(await countStringOperations(`s[method]();`)).toBe(0);
-});
+    test("string method call: toUpperCase", () => {
+        const map = analyze(`s.toUpperCase();`);
+        expect(top(map)).toBe(1);
+    });
 
-test("concatenation with string literal counts", async () => {
-    // binary + and "b" string literal => 2
-    expect(await countStringOperations(`const x = a + "b";`)).toBe(2);
-});
+    test("string method call: split + trim chained", () => {
+        // Top level: split call + "," string literal = 2.
+        // Arrow `x => x.trim()`: trim call = 1.
+        const map = analyze(`s.split(",").map(x => x.trim());`);
+        expect(top(map)).toBe(2);
+        const fnIds = [...map.keys()].filter((k) => k !== topLevelId());
+        expect(fnIds).toHaveLength(1);
+        expect(map.get(fnIds[0])).toBe(1);
+    });
 
-test("concatenation with template literal counts", async () => {
-    // binary + and `b` template literal => 2
-    expect(await countStringOperations("const x = a + `b`;")).toBe(2);
-});
+    test("optional chaining method call counts", () => {
+        // replace, "a", "b" => 3
+        const map = analyze(`s?.replace("a", "b");`);
+        expect(top(map)).toBe(3);
+    });
 
-test("numeric addition does not count", async () => {
-    expect(await countStringOperations(`const x = 1 + 2;`)).toBe(0);
-});
+    test("computed member call with string literal counts", () => {
+        // computed call (toUpperCase) + the "toUpperCase" string literal => 2
+        const map = analyze(`s["toUpperCase"]();`);
+        expect(top(map)).toBe(2);
+    });
 
-test("non-string method call does not count (e.g. push)", async () => {
-    expect(await countStringOperations(`arr.push(1);`)).toBe(0);
-});
+    test("computed member call with non-string-method literal does not count as call but literal still counts", () => {
+        // "push" is just a string literal, not a string method => 1
+        const map = analyze(`s["push"]();`);
+        expect(top(map)).toBe(1);
+    });
 
-test("ambiguous array/string methods do not count", async () => {
-    // indexOf, includes, slice, concat, lastIndexOf, at, toString
-    // are also Array.prototype methods, so they should not be counted.
-    expect(await countStringOperations(`x.indexOf("a");`)).toBe(1); // just the "a" literal
-    expect(await countStringOperations(`x.includes("a");`)).toBe(1);
-    expect(await countStringOperations(`x.lastIndexOf("a");`)).toBe(1);
-    expect(await countStringOperations(`x.slice(0, 1);`)).toBe(0);
-    expect(await countStringOperations(`x.concat(y);`)).toBe(0);
-    expect(await countStringOperations(`x.at(0);`)).toBe(0);
-    expect(await countStringOperations(`x.toString();`)).toBe(0);
-});
+    test("computed member call with non-literal does not count", () => {
+        const map = analyze(`s[method]();`);
+        expect(top(map)).toBeUndefined();
+    });
 
-test("mixed sample", async () => {
-    const code = `
-        const a = "hello";
-        const b = a.toUpperCase();
-        const c = a + " world";
-        const d = \`val=\${a}\`;
-        const e = a.split(",").map(s => s.trim());
-    `;
-    // "hello"           => 1
-    // toUpperCase       => 1
-    // +, " world"       => 2
-    // template literal  => 1
-    // split, ",", trim  => 3
-    // total             => 8
-    expect(await countStringOperations(code)).toBe(8);
+    test("concatenation with string literal counts", () => {
+        // binary + and "b" string literal => 2
+        const map = analyze(`const x = a + "b";`);
+        expect(top(map)).toBe(2);
+    });
+
+    test("concatenation with template literal counts", () => {
+        // binary + and `b` template literal => 2
+        const map = analyze("const x = a + `b`;");
+        expect(top(map)).toBe(2);
+    });
+
+    test("numeric addition does not count", () => {
+        const map = analyze(`const x = 1 + 2;`);
+        expect(top(map)).toBeUndefined();
+    });
+
+    test("non-string method call does not count (e.g. push)", () => {
+        const map = analyze(`arr.push(1);`);
+        expect(top(map)).toBeUndefined();
+    });
+
+    describe("ambiguous array/string methods do not count", () => {
+        // indexOf, includes, slice, concat, lastIndexOf, at, toString
+        // are also Array.prototype methods, so they should not be counted.
+        test("indexOf", () => {
+            const map = analyze(`x.indexOf("a");`);
+            expect(top(map)).toBe(1); // just the "a" literal
+        });
+
+        test("includes", () => {
+            const map = analyze(`x.includes("a");`);
+            expect(top(map)).toBe(1);
+        });
+
+        test("lastIndexOf", () => {
+            const map = analyze(`x.lastIndexOf("a");`);
+            expect(top(map)).toBe(1);
+        });
+
+        test("slice", () => {
+            const map = analyze(`x.slice(0, 1);`);
+            expect(top(map)).toBeUndefined();
+        });
+
+        test("concat", () => {
+            const map = analyze(`x.concat(y);`);
+            expect(top(map)).toBeUndefined();
+        });
+
+        test("at", () => {
+            const map = analyze(`x.at(0);`);
+            expect(top(map)).toBeUndefined();
+        });
+
+        test("toString", () => {
+            const map = analyze(`x.toString();`);
+            expect(top(map)).toBeUndefined();
+        });
+    });
+
+    test("mixed sample", () => {
+        const code = `
+            const a = "hello";
+            const b = a.toUpperCase();
+            const c = a + " world";
+            const d = \`val=\${a}\`;
+            const e = a.split(",").map(s => s.trim());
+        `;
+        // Top level:
+        //   "hello"           => 1
+        //   toUpperCase       => 1
+        //   +, " world"       => 2
+        //   template literal  => 1
+        //   split, ","        => 2
+        //   total             => 7
+        // Arrow `s => s.trim()`:
+        //   trim              => 1
+        const map = analyze(code);
+        expect(top(map)).toBe(7);
+        const fnIds = [...map.keys()].filter((k) => k !== topLevelId());
+        expect(fnIds).toHaveLength(1);
+        expect(map.get(fnIds[0])).toBe(1);
+    });
 });

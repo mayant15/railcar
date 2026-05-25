@@ -17,26 +17,15 @@ import assert from "node:assert";
 import type { NodePath, PluginTarget } from "@babel/core";
 import type {
     AssignmentExpression,
-    Function as BabelFunction,
     CallExpression,
     MemberExpression,
     SwitchCase,
 } from "@babel/types";
-import { getCanonicalFunctionId } from "./function-extract.ts";
+import { FunctionStackAnalysis } from "./function-stack-analysis.ts";
 
 const LOGICAL_ASSIGNMENT_OPERATORS = new Set(["&&=", "||=", "??="]);
 
-export class ComplexityAnalysis {
-    file: string;
-    /** Per-function results. Map from function ID to complexity. */
-    map: Map<string, number> = new Map();
-    /** Stack of function IDs on the current path. */
-    stack: string[] = [];
-
-    constructor(file: string) {
-        this.file = file;
-    }
-
+export class ComplexityAnalysis extends FunctionStackAnalysis<number> {
     plugin(): PluginTarget {
         // Capture `this` in a closure and use it in the visitor to share state.
         const self = this;
@@ -44,47 +33,10 @@ export class ComplexityAnalysis {
         // to a Babel visitor.
         const inc = () => self.inc();
 
-        return {
+        return this.createStackPlugin({
             visitor: {
-                Program: {
-                    enter() {
-                        const id = getCanonicalFunctionId({
-                            file: self.file,
-                            loc: null,
-                        });
-
-                        assert(!self.map.has(id));
-                        assert(self.stack.length === 0);
-
-                        self.stack.push(id);
-                        self.inc();
-                    },
-                    exit() {
-                        const top = self.stack.pop();
-                        assert(top);
-                    },
-                },
-                Function: {
-                    enter(path: NodePath<BabelFunction>) {
-                        const loc = path.node.loc;
-                        assert(loc !== null);
-                        assert(loc !== undefined);
-
-                        const id = getCanonicalFunctionId({
-                            file: self.file,
-                            loc,
-                        });
-
-                        assert(!self.map.has(id));
-                        self.stack.push(id);
-                        self.inc();
-                    },
-                    exit() {
-                        const top = self.stack.pop();
-                        assert(top);
-                    },
-                },
-
+                Program: inc,
+                Function: inc,
                 IfStatement: inc,
                 ConditionalExpression: inc,
                 LogicalExpression: inc,
@@ -103,10 +55,11 @@ export class ComplexityAnalysis {
                 },
 
                 OptionalMemberExpression: inc,
-                OptionalCallExpression: inc,
                 MemberExpression(path: NodePath<MemberExpression>) {
                     if (path.node.optional) self.inc();
                 },
+
+                OptionalCallExpression: inc,
                 CallExpression(path: NodePath<CallExpression>) {
                     if (path.node.optional) self.inc();
                 },
@@ -115,7 +68,7 @@ export class ComplexityAnalysis {
                     if (path.node.test) self.inc();
                 },
             },
-        };
+        });
     }
 
     private inc() {
