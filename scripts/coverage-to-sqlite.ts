@@ -28,7 +28,7 @@ import {
     joinC8ToCanonical,
     mergeScriptCoverages,
     type V8ScriptCoverage,
-} from "./branch-extract.ts";
+} from "./v8-to-canonical.ts";
 
 const usage =
     "usage: node --experimental-strip-types scripts/coverage-to-sqlite.ts <metrics-db> <coverage-dir>";
