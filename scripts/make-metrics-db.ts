@@ -158,7 +158,8 @@ async function main() {
             start_offset INTEGER NOT NULL,
             end_offset INTEGER NOT NULL,
             continuation INTEGER NOT NULL,
-            function_id TEXT NOT NULL
+            function_id TEXT NOT NULL,
+            path TEXT NOT NULL
         )
     `);
 
@@ -186,8 +187,8 @@ async function main() {
         INSERT INTO branches (
             id, file, kind, arm_index, start_line, start_col,
             end_line, end_col, start_offset, end_offset,
-            continuation, function_id
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            continuation, function_id, path
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const insertFunction = db.prepare(`
@@ -223,6 +224,7 @@ async function main() {
                 b.endOffset,
                 b.continuation ? 1 : 0,
                 b.functionId,
+                b.path,
             );
         }
         for (const f of functions) {

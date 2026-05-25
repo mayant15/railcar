@@ -50,7 +50,10 @@ import type {
     Program,
     SwitchStatement,
     TryStatement,
+    Expression,
 } from "@babel/types";
+import * as AST from "@babel/types";
+import { generate } from "@babel/generator";
 import { getCanonicalFunctionId } from "./function-extract.ts";
 
 export type BranchKind =
@@ -93,6 +96,7 @@ export type BranchArm = {
     continuation: boolean;
 
     functionId: string;
+    path: string;
 };
 
 export type CanonicalBranchKey = {
@@ -128,6 +132,9 @@ export class BranchExtractor {
      */
     fnStack: BabelFunction[] = [];
 
+    /** Stack of current path predicates. */
+    path: Expression[] = [];
+
     constructor(file: string) {
         this.file = file;
     }
@@ -136,67 +143,86 @@ export class BranchExtractor {
         // Capture `this` in a closure and use it in the visitor to share state.
         const self = this;
 
-        return {
-            visitor: {
-                Program(path: NodePath<Program>) {
-                    // One whole-file arm. The `Program` node spans the
-                    // entire source, so this gives V8's top-level script
-                    // coverage a canonical row to join against.
-                    //
-                    // function-extract mirrors this with a 'TopLevel' function
-                    // that should be the parent of all top-level branches.
-                    self.emit(path.node, "Script", 0);
+        const visitor = {
+            Program(path: NodePath<Program>) {
+                // One whole-file arm. The `Program` node spans the
+                // entire source, so this gives V8's top-level script
+                // coverage a canonical row to join against.
+                //
+                // function-extract mirrors this with a 'TopLevel' function
+                // that should be the parent of all top-level branches.
+                self.emit(path.node, "Script", 0);
+            },
+            IfStatement(path: NodePath<IfStatement>) {
+                const test = path.node.test;
+
+                // Visit the test expression first; the predicate it
+                // produces is not yet on the path stack while it runs.
+                path.get("test").traverse(visitor);
+
+                self.path.push(test);
+                self.emit(path.node.consequent, "If", 0);
+                path.get("consequent").traverse(visitor);
+                self.path.pop();
+
+                if (path.node.alternate) {
+                    self.path.push(AST.unaryExpression("!", test));
+                    self.emit(path.node.alternate, "If", 1);
+                    path.get("alternate").traverse(visitor);
+                    self.path.pop();
+                }
+
+                self.emitContinuationAfter(path.node, "If", 2);
+
+                // Children have been traversed manually above with the
+                // correct predicates pushed; skip Babel's auto-descent
+                // so we don't visit them twice.
+                path.skip();
+            },
+            SwitchStatement(path: NodePath<SwitchStatement>) {
+                path.node.cases.forEach((caseNode, idx) => {
+                    self.emit(caseNode, "Switch", idx);
+                });
+            },
+            ConditionalExpression(path: NodePath<ConditionalExpression>) {
+                self.emit(path.node.consequent, "Conditional", 0);
+                self.emit(path.node.alternate, "Conditional", 1);
+            },
+            LogicalExpression(path: NodePath<LogicalExpression>) {
+                self.emit(path.node.left, "Logical", 0);
+                self.emit(path.node.right, "Logical", 1);
+            },
+            Loop(path: NodePath<Loop>) {
+                self.emit(path.node.body, "Loop", 0);
+                self.emitContinuationAfter(path.node, "Loop", 1);
+            },
+            TryStatement(path: NodePath<TryStatement>) {
+                self.emit(path.node.block, "Try", 0);
+                if (path.node.handler) {
+                    self.emit(path.node.handler.body, "Try", 1);
+                }
+                if (path.node.finalizer) {
+                    self.emit(path.node.finalizer, "Try", 2);
+                }
+                self.emitContinuationAfter(path.node, "Try", 3);
+            },
+            // eslint-disable-next-line @typescript-eslint/ban-types
+            Function: {
+                enter(path: NodePath<BabelFunction>) {
+                    // Push BEFORE emitting so that the FnEntry arm's
+                    // functionId points at this function (not its
+                    // enclosing one). This makes the FnEntry arm
+                    // group with the rest of the function's branches.
+                    self.fnStack.push(path.node);
+                    self.emit(path.node, "FnEntry", 0);
                 },
-                IfStatement(path: NodePath<IfStatement>) {
-                    self.emit(path.node.consequent, "If", 0);
-                    if (path.node.alternate) {
-                        self.emit(path.node.alternate, "If", 1);
-                    }
-                    self.emitContinuationAfter(path.node, "If", 2);
-                },
-                SwitchStatement(path: NodePath<SwitchStatement>) {
-                    path.node.cases.forEach((caseNode, idx) => {
-                        self.emit(caseNode, "Switch", idx);
-                    });
-                },
-                ConditionalExpression(path: NodePath<ConditionalExpression>) {
-                    self.emit(path.node.consequent, "Conditional", 0);
-                    self.emit(path.node.alternate, "Conditional", 1);
-                },
-                LogicalExpression(path: NodePath<LogicalExpression>) {
-                    self.emit(path.node.left, "Logical", 0);
-                    self.emit(path.node.right, "Logical", 1);
-                },
-                Loop(path: NodePath<Loop>) {
-                    self.emit(path.node.body, "Loop", 0);
-                    self.emitContinuationAfter(path.node, "Loop", 1);
-                },
-                TryStatement(path: NodePath<TryStatement>) {
-                    self.emit(path.node.block, "Try", 0);
-                    if (path.node.handler) {
-                        self.emit(path.node.handler.body, "Try", 1);
-                    }
-                    if (path.node.finalizer) {
-                        self.emit(path.node.finalizer, "Try", 2);
-                    }
-                    self.emitContinuationAfter(path.node, "Try", 3);
-                },
-                // eslint-disable-next-line @typescript-eslint/ban-types
-                Function: {
-                    enter(path: NodePath<BabelFunction>) {
-                        // Push BEFORE emitting so that the FnEntry arm's
-                        // functionId points at this function (not its
-                        // enclosing one). This makes the FnEntry arm
-                        // group with the rest of the function's branches.
-                        self.fnStack.push(path.node);
-                        self.emit(path.node, "FnEntry", 0);
-                    },
-                    exit(_: NodePath<BabelFunction>) {
-                        self.fnStack.pop();
-                    },
+                exit(_: NodePath<BabelFunction>) {
+                    self.fnStack.pop();
                 },
             },
         };
+
+        return { visitor };
     }
 
     private currentFunctionId(): string {
@@ -208,6 +234,16 @@ export class BranchExtractor {
             file: this.file,
             loc: fn?.loc ?? null,
         });
+    }
+
+    private currentPath(): string {
+        if (this.path.length === 0) return "true";
+        const expr = this.path.reduce((acc, e) =>
+            AST.logicalExpression("&&", acc, e),
+        );
+        return generate(expr, {
+            comments: false,
+        }).code;
     }
 
     private emit(node: Node, kind: BranchKind, armIndex: number): void {
@@ -225,6 +261,7 @@ export class BranchExtractor {
             endOffset: node.end,
             continuation: false,
             functionId: this.currentFunctionId(),
+            path: this.currentPath(),
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);
@@ -255,6 +292,7 @@ export class BranchExtractor {
             endOffset: anchor.end,
             continuation: true,
             functionId: this.currentFunctionId(),
+            path: this.currentPath(),
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);

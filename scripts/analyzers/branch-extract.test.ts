@@ -440,6 +440,78 @@ describe("extract: branches", () => {
         });
     });
 
+    // ----- path predicates ------------------------------------------------
+
+    describe("path", () => {
+        test("top-level arms have an empty path (true)", () => {
+            const arms = extract("const x = 1;", FILE);
+            const script = pick(arms, "Script", 0);
+            expect(script.path).toBe("true");
+        });
+
+        test("if consequent path is the test expression", () => {
+            const arms = extract("if (a) b;", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("a");
+        });
+
+        test("if alternate path is the negated test expression", () => {
+            const arms = extract("if (a) b; else c;", FILE);
+            const alternate = pick(arms, "If", 1);
+            expect(alternate.path).toBe("!a");
+        });
+
+        test("if continuation path returns to the enclosing scope", () => {
+            const arms = extract("if (a) b;", FILE);
+            const cont = pick(arms, "If", 2);
+            expect(cont.path).toBe("true");
+        });
+
+        test("nested if consequent conjoins outer and inner predicates", () => {
+            const arms = extract("if (a) { if (b) c; }", FILE);
+            const ifArms = arms.filter(
+                (x) => x.kind === "If" && !x.continuation,
+            );
+            // Inner consequent is the one whose start offset is greater.
+            const [outer, inner] =
+                ifArms[0].startOffset < ifArms[1].startOffset
+                    ? [ifArms[0], ifArms[1]]
+                    : [ifArms[1], ifArms[0]];
+            expect(outer.path).toBe("a");
+            expect(inner.path).toBe("a && b");
+        });
+
+        test("nested if inside else conjoins negation with inner predicate", () => {
+            const arms = extract("if (a) x; else { if (b) c; }", FILE);
+            const inner = arms.find(
+                (x) =>
+                    x.kind === "If" &&
+                    x.armIndex === 0 &&
+                    !x.continuation &&
+                    x.path !== "a",
+            );
+            expect(inner?.path).toBe("!a && b");
+        });
+
+        test("uses a compound test expression verbatim", () => {
+            const arms = extract("if (a && b) c;", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("a && b");
+        });
+
+        test("uses a compound test expression verbatim in nested if", () => {
+            const arms = extract("if (a || b) { if (c) {} };", FILE);
+            const inner = arms.find(
+                (x) =>
+                    x.kind === "If" &&
+                    x.armIndex === 0 &&
+                    !x.continuation &&
+                    x.path !== "a || b",
+            );
+            expect(inner?.path).toBe("(a || b) && c");
+        });
+    });
+
     // ----- ID properties --------------------------------------------------
 
     describe("branch ids", () => {
