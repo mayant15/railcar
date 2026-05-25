@@ -28,54 +28,19 @@ export type V8ScriptCoverage = {
 
 export type CanonicalCoverageRow = {
     id: string;
-    file: string;
-    kind: BranchKind;
-    armIndex: number;
-    startLine: number;
-    startCol: number;
-    endLine: number;
-    endCol: number;
-    /** Hit count from the matched V8 range, or 0 when unmatched. */
-    count: number;
-    /** True when a V8 range was found for this arm. */
+    hitcount: number;
     matched: boolean;
-    /** Mirrors `BranchArm.continuation`. */
-    continuation: boolean;
-    /** Smallest enclosing function name from V8 coverage, if any. */
-    functionName: string | null;
-    /**
-     * Canonical ID of the enclosing function (or top-level sentinel when
-     * the arm is at script scope). Mirrors `BranchArm.functionId` and
-     * matches the `id` of that function's `FnEntry` arm.
-     */
-    functionId: string;
 };
 
 /**
- * Find the smallest function in the script whose body range fully contains
- * [startOffset, endOffset). V8 records `functionName` per function and the
- * first range of each function is its body.
+ * Subset of BranchArm required for mapping to a V8 coverage object.
  */
-function findEnclosingFunctionName(
-    startOffset: number,
-    endOffset: number,
-    scriptCoverage: V8ScriptCoverage,
-): string | null {
-    let best: string | null = null;
-    let bestSize = Number.POSITIVE_INFINITY;
-    for (const fn of scriptCoverage.functions) {
-        const r0 = fn.ranges[0];
-        if (!r0) continue;
-        if (r0.startOffset <= startOffset && r0.endOffset >= endOffset) {
-            const size = r0.endOffset - r0.startOffset;
-            if (size < bestSize) {
-                bestSize = size;
-                best = fn.functionName || null;
-            }
-        }
-    }
-    return best;
-}
+export type BranchArmV8Data = {
+    id: string;
+    continuation: boolean;
+    startOffset: number;
+    endOffset: number;
+};
 
 /**
  * Join V8 raw block coverage to canonical branch arms for a single source.
@@ -99,13 +64,9 @@ function findEnclosingFunctionName(
  * code that V8 reported on at all.
  */
 export function joinC8ToCanonical(
-    code: string,
-    file: string,
-    library: string,
     scriptCoverage: V8ScriptCoverage,
+    arms: BranchArmV8Data[],
 ): CanonicalCoverageRow[] {
-    const arms = extract(code, file, library).branches;
-
     const ranges: V8Range[] = [];
     for (const fn of scriptCoverage.functions) {
         for (const r of fn.ranges) ranges.push(r);
@@ -170,28 +131,13 @@ export function joinC8ToCanonical(
 
     const rows: CanonicalCoverageRow[] = [];
     for (const arm of arms) {
-        const fnName = findEnclosingFunctionName(
-            arm.startOffset,
-            arm.endOffset,
-            scriptCoverage,
-        );
         const r = arm.continuation
             ? findContinuationRange(arm.startOffset)
             : findRange(arm.startOffset, arm.endOffset);
         rows.push({
             id: arm.id,
-            file: arm.file,
-            kind: arm.kind,
-            armIndex: arm.armIndex,
-            startLine: arm.startLine,
-            startCol: arm.startCol,
-            endLine: arm.endLine,
-            endCol: arm.endCol,
-            count: r?.count ?? 0,
+            hitcount: r?.count ?? 0,
             matched: r != null,
-            continuation: arm.continuation,
-            functionName: fnName,
-            functionId: arm.functionId,
         });
     }
     return rows;

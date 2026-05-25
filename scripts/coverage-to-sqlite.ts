@@ -20,15 +20,17 @@
  * https://ampcode.com/threads/T-019e381c-07b2-73d2-bd68-28efe38ead9e
  */
 
-import { DatabaseSync } from "node:sqlite";
+import { DatabaseSync, type SQLOutputValue } from "node:sqlite";
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import {
+    type BranchArmV8Data,
+    type CanonicalCoverageRow,
     joinC8ToCanonical,
     mergeScriptCoverages,
     type V8ScriptCoverage,
 } from "./v8-to-canonical.ts";
+import type { Dirent } from "node:fs";
 
 const usage =
     "usage: node --experimental-strip-types scripts/coverage-to-sqlite.ts <metrics-db> <coverage-dir>";
@@ -101,6 +103,10 @@ const insert = db.prepare(`
   VALUES (?, ?, ?, ?)
 `);
 
+const getRowsForFile = db.prepare(`
+    SELECT * FROM branches WHERE file = (?)
+`);
+
 type PendingRow = {
     branchId: string;
     runId: number;
@@ -116,7 +122,7 @@ let parseFailures = 0;
 // Find all V8 coverage JSON files. c8 writes them into <run-dir>/.c8/.
 async function findCoverageFiles(root: string): Promise<string[]> {
     const out: string[] = [];
-    let topEntries;
+    let topEntries: Dirent[];
     try {
         topEntries = await readdir(root, { withFileTypes: true });
     } catch {
@@ -125,7 +131,7 @@ async function findCoverageFiles(root: string): Promise<string[]> {
     for (const entry of topEntries) {
         if (!entry.isDirectory()) continue;
         const c8Dir = join(root, entry.name, ".c8");
-        let c8Entries;
+        let c8Entries: Dirent[];
         try {
             c8Entries = await readdir(c8Dir, { withFileTypes: true });
         } catch {
@@ -152,6 +158,15 @@ for (const fullPath of await findCoverageFiles(coverageDir)) {
     filesByRun.set(runDir, arr);
 }
 
+function toBranchArm(row: Record<string, SQLOutputValue>): BranchArmV8Data {
+    return {
+        id: row.id as string,
+        startOffset: row.start_offset as number,
+        endOffset: row.end_offset as number,
+        continuation: Boolean(row.continuation),
+    };
+}
+
 for (const [runDir, files] of filesByRun) {
     const { library, schema, runId } = parseRunDir(runDir);
     runCount++;
@@ -176,29 +191,19 @@ for (const [runDir, files] of filesByRun) {
 
     for (const [url, scripts] of byUrl) {
         const merged = mergeScriptCoverages(scripts);
-        let sourcePath: string;
-        try {
-            sourcePath = fileURLToPath(url);
-        } catch {
-            continue;
-        }
-        let code: string;
-        try {
-            code = await readFile(sourcePath, "utf-8");
-        } catch {
-            continue;
-        }
-        let rows;
+        const arms = getRowsForFile.all(url).map(toBranchArm);
+
+        let rows: CanonicalCoverageRow[];
         try {
             // Pass the `file://` URL as the `file` arg so the canonical
             // branch ids match the ones `make-metrics-db.ts` writes into
             // the `branches` table (which keys off the loader URL, not
             // the filesystem path).
-            rows = joinC8ToCanonical(code, url, library, merged);
+            rows = joinC8ToCanonical(merged, arms);
         } catch (err) {
             parseFailures++;
             console.warn(
-                `warn: failed to extract branches from ${sourcePath}: ${(err as Error).message}`,
+                `warn: failed to extract branches from ${url}: ${(err as Error).message}`,
             );
             continue;
         }
@@ -208,7 +213,7 @@ for (const [runDir, files] of filesByRun) {
                 branchId: row.id,
                 runId,
                 schema,
-                hitcount: row.count,
+                hitcount: row.hitcount,
             });
         }
     }
