@@ -14,9 +14,15 @@ import {
 } from "./analyzers/function-extract.ts";
 import { transformSync } from "@babel/core";
 import { ComplexityAnalysis } from "./analyzers/complexity.ts";
+import { ObjectPropertyAccessAnalysis } from "./analyzers/property-accesses.ts";
+import { StringOperationsAnalysis } from "./analyzers/string-operations.ts";
 
 type BranchesRow = BranchArm;
-type FunctionsRow = FunctionAttr & { complexity: number };
+type FunctionsRow = FunctionAttr & {
+    complexity: number;
+    propertyAccesses: number;
+    stringOperations: number;
+};
 
 /**
  * Each property is a database table.
@@ -36,9 +42,17 @@ function extract(code: string, file: string, library: string): ExtractResult {
     const fnExt = new FunctionExtractor(file, library);
     const brExt = new BranchExtractor(file);
     const complexity = new ComplexityAnalysis(file);
+    const propertyAccesses = new ObjectPropertyAccessAnalysis(file);
+    const stringOperations = new StringOperationsAnalysis(file);
 
     const babel = transformSync(code, {
-        plugins: [brExt.plugin(), fnExt.plugin(), complexity.plugin()],
+        plugins: [
+            brExt.plugin(),
+            fnExt.plugin(),
+            complexity.plugin(),
+            propertyAccesses.plugin(),
+            stringOperations.plugin(),
+        ],
         code: false,
         ast: false,
         sourceType: "unambiguous",
@@ -48,9 +62,14 @@ function extract(code: string, file: string, library: string): ExtractResult {
     });
     assert(babel !== null);
 
-    const functions = fnExt.functions.map((fn) => {
+    const functions: FunctionsRow[] = fnExt.functions.map((fn) => {
         assert(complexity.map.has(fn.id));
-        return { ...fn, complexity: complexity.map.get(fn.id)! };
+        return {
+            ...fn,
+            complexity: complexity.map.get(fn.id) ?? 0,
+            propertyAccesses: propertyAccesses.map.get(fn.id) ?? 0,
+            stringOperations: stringOperations.map.get(fn.id) ?? 0,
+        };
     });
 
     return {
@@ -159,7 +178,9 @@ async function main() {
             end_offset INTEGER NOT NULL,
             continuation INTEGER NOT NULL,
             function_id TEXT NOT NULL,
-            path TEXT NOT NULL
+            path TEXT NOT NULL,
+            depth INTEGER NOT NULL,
+            narrowing_score INTEGER NOT NULL
         )
     `);
 
@@ -179,7 +200,9 @@ async function main() {
             end_col INTEGER NOT NULL,
             start_offset INTEGER NOT NULL,
             end_offset INTEGER NOT NULL,
-            complexity INTEGER NOT NULL
+            complexity INTEGER NOT NULL,
+            num_property_accesses INTEGER NOT NULL,
+            num_string_operations INTEGER NOT NULL
         )
     `);
 
@@ -187,16 +210,17 @@ async function main() {
         INSERT INTO branches (
             id, file, kind, arm_index, start_line, start_col,
             end_line, end_col, start_offset, end_offset,
-            continuation, function_id, path
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            continuation, function_id, path, depth, narrowing_score
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const insertFunction = db.prepare(`
         INSERT INTO functions (
             id, file, library, name, type, async, generator, params,
             start_line, start_col, end_line, end_col,
-            start_offset, end_offset, complexity
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            start_offset, end_offset, complexity,
+            num_property_accesses, num_string_operations
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     let totalBranches = 0;
@@ -225,6 +249,8 @@ async function main() {
                 b.continuation ? 1 : 0,
                 b.functionId,
                 b.path,
+                b.depth,
+                b.narrowingScore,
             );
         }
         for (const f of functions) {
@@ -244,6 +270,8 @@ async function main() {
                 f.startOffset,
                 f.endOffset,
                 f.complexity,
+                f.propertyAccesses,
+                f.stringOperations,
             );
         }
         db.exec("COMMIT");

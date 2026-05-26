@@ -96,8 +96,13 @@ export type BranchArm = {
     continuation: boolean;
 
     functionId: string;
+} & BranchPathStats;
+
+export type BranchPathStats = {
     path: string;
-};
+    depth: number;
+    narrowingScore: number;
+}
 
 export type CanonicalBranchKey = {
     file: string;
@@ -236,14 +241,34 @@ export class BranchExtractor {
         });
     }
 
-    private currentPath(): string {
-        if (this.path.length === 0) return "true";
+    // Roughly based on TypeScript's narrowing
+    // https://www.typescriptlang.org/docs/handbook/2/narrowing.html
+    private computeTypeNarrowingScore(str: string) {
+        // TODO: this should take the expression and traverse the AST
+        return str.matchAll(/typeof|instanceof|Array\.isArray| in /g).toArray().length;
+    }
+
+    private currentPath(): BranchPathStats {
+        if (this.path.length === 0) return {
+            path: "true",
+            depth: this.path.length,
+            narrowingScore: 0,
+        };
+
         const expr = this.path.reduce((acc, e) =>
             AST.logicalExpression("&&", acc, e),
+
         );
-        return generate(expr, {
+
+        const str = generate(expr, {
             comments: false,
-        }).code;
+        }).code
+
+        return {
+            path: str,
+            depth: this.path.length,
+            narrowingScore: this.computeTypeNarrowingScore(str),
+        };
     }
 
     private emit(node: Node, kind: BranchKind, armIndex: number): void {
@@ -261,7 +286,7 @@ export class BranchExtractor {
             endOffset: node.end,
             continuation: false,
             functionId: this.currentFunctionId(),
-            path: this.currentPath(),
+            ...this.currentPath(),
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);
@@ -292,7 +317,7 @@ export class BranchExtractor {
             endOffset: anchor.end,
             continuation: true,
             functionId: this.currentFunctionId(),
-            path: this.currentPath(),
+            ...this.currentPath(),
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);
