@@ -9,9 +9,13 @@
  * now I couldn't find decent documentation on how to do that with Babel.
  */
 
-import assert from "node:assert"
+import assert from "node:assert";
 import type { NodePath, PluginTarget } from "@babel/core";
-import type { Function as BabelFunction, Program, SourceLocation } from "@babel/types";
+import type {
+    Function as BabelFunction,
+    Program,
+    SourceLocation,
+} from "@babel/types";
 import { FunctionStackAnalysis } from "./function-stack-analysis";
 
 export class LinesOfCodeAnalysis extends FunctionStackAnalysis<number> {
@@ -20,24 +24,24 @@ export class LinesOfCodeAnalysis extends FunctionStackAnalysis<number> {
         return this.createStackPlugin({
             visitor: {
                 Program(path: NodePath<Program>) {
-                    self.record(path.node.loc)
+                    self.record(path.node.loc);
                 },
                 Function(path: NodePath<BabelFunction>) {
-                    self.record(path.node.loc)
-                }
-            }
-        })
+                    self.record(path.node.loc);
+                },
+            },
+        });
     }
 
     private record(loc: SourceLocation | null | undefined) {
-        assert(loc !== null)
-        assert(loc !== undefined)
-        const lines = loc.end.line - loc.start.line + 1
+        assert(loc !== null);
+        assert(loc !== undefined);
+        const lines = loc.end.line - loc.start.line + 1;
 
-        assert(this.stack.length > 0)
-        const top = this.stack[this.stack.length - 1]
+        assert(this.stack.length > 0);
+        const top = this.stack[this.stack.length - 1];
 
-        assert(!this.map.has(top))
-        this.map.set(top, lines)
+        assert(!this.map.has(top));
+        this.map.set(top, lines);
     }
 }

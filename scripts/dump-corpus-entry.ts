@@ -30,15 +30,17 @@ import fs from "node:fs";
 type CallConvention = "Free" | "Method" | "Constructor";
 
 type Type =
-    | "Number" | "String" | "Boolean" | "Undefined" | "Null" | "Function"
+    | "Number"
+    | "String"
+    | "Boolean"
+    | "Undefined"
+    | "Null"
+    | "Function"
     | { Object: Record<string, Type> }
     | { Class: string }
     | { Array: Type };
 
-type ApiCallArg =
-    | "Missing"
-    | { Output: string }
-    | { Constant: Type };
+type ApiCallArg = "Missing" | { Output: string } | { Constant: Type };
 
 interface ApiCall {
     id: string;
@@ -55,7 +57,9 @@ interface ApiSeq {
 function fmtType(t: Type): string {
     if (typeof t === "string") return t;
     if ("Object" in t) {
-        const entries = Object.entries(t.Object).map(([k, v]) => `${k}: ${fmtType(v)}`);
+        const entries = Object.entries(t.Object).map(
+            ([k, v]) => `${k}: ${fmtType(v)}`,
+        );
         return `{${entries.join(", ")}}`;
     }
     if ("Class" in t) return `Class(${t.Class})`;
@@ -88,7 +92,9 @@ function dumpFile(file: string) {
     }
 
     const idIndex = new Map<string, number>();
-    seq.seq.forEach((c, i) => idIndex.set(c.id, i));
+    seq.seq.forEach((c, i) => {
+        idIndex.set(c.id, i);
+    });
     const shortId = (id: string): string => {
         const i = idIndex.get(id);
         return i !== undefined ? String(i) : id.slice(0, 8);
@@ -102,18 +108,22 @@ function dumpFile(file: string) {
     seq.seq.forEach((call, i) => {
         const args = call.args.map((a) => fmtArg(a, shortId)).join(", ");
         const tag =
-            call.conv === "Constructor" ? "new "
-                : call.conv === "Method" ? "method "
-                    : "";
+            call.conv === "Constructor"
+                ? "new "
+                : call.conv === "Method"
+                  ? "method "
+                  : "";
         lines.push(`$${i} = ${tag}${call.name}(${args})`);
     });
-    process.stdout.write(lines.join("\n") + "\n\n");
+    process.stdout.write(`${lines.join("\n")}\n\n`);
 }
 
 function main() {
     const args = process.argv.slice(2);
     if (args.length === 0) {
-        console.error("usage: bun scripts/dump-corpus-entry.ts <file-or-dir> [more...]");
+        console.error(
+            "usage: bun scripts/dump-corpus-entry.ts <file-or-dir> [more...]",
+        );
         process.exit(1);
     }
 
