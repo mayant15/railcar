@@ -39,6 +39,9 @@ The `branches` table has the following main columns:
 | arm_index | Integer | Which arm is this, eg. a case for switch. |
 | continuation | Boolean | Whether this is a _continuation_ branch. |
 | function_id | Text | An ID for the function this branch belongs to. |
+| path | Text | Source text for all if-condition predicates that must be true to get to this branch. |
+| depth | Integer | Number of if-condition predicates in path. |
+| narrowing_score | Integer | Number of if-condition predicates on path that look like they refine types. |
 
 In addition, there's also columns for source location: file path, start and end line numbers, column
 numbers, and byte offsets.
@@ -54,6 +57,8 @@ The `functions` table has the following columns, in addition to source location 
 | generator | Boolean | Is this function a generator? |
 | params | Integer | Number of declared parameters, where rest/defaults each count as one. |
 | complexity | Integer | Cyclomatic complexity, computed the same way [eslint does](https://github.com/eslint/eslint/blob/main/lib/rules/complexity.js/). |
+| num_property_accesses | Integer | Number of member access AST nodes in this function. |
+| num_string_operations | Integer | Number of AST nodes in this function that look like string operations. |
 
 ### Dynamic Metrics
 
