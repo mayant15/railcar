@@ -27,6 +27,17 @@ impl Schema {
     }
 }
 
+/// NOTE: Be careful when changing the order of declaration here!
+///
+/// `Ord` for `TypeKind` uses declaration order (enum's int value), which is
+/// then used for deterministic iteration over `BTreeMap`s. If this declaration
+/// order ever changes, it *will* change the order of iteration over probability
+/// distributions, potentially sampling different values for the same RNG seed.
+/// For us, this would make old corpus behaviour unreproducible.
+///
+/// When adding new type kinds, it is best to just add them at the end.
+///
+/// https://ampcode.com/threads/T-019e6a7a-cb09-74ff-acac-08f91bf75abd
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, Hash, Eq, PartialEq)]
 pub enum TypeKind {
     Number,
@@ -51,21 +62,6 @@ impl Ord for TypeKind {
         let self_int = *self as isize;
         let other_int = *other as isize;
         self_int.cmp(&other_int)
-    }
-}
-
-impl TypeKind {
-    pub fn kinds() -> Vec<TypeKind> {
-        vec![
-            TypeKind::Number,
-            TypeKind::String,
-            TypeKind::Boolean,
-            TypeKind::Object,
-            TypeKind::Class,
-            TypeKind::Array,
-            TypeKind::Undefined,
-            TypeKind::Null,
-        ]
     }
 }
 
