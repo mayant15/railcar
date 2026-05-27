@@ -1,7 +1,7 @@
 use anyhow::{anyhow, bail, Result};
 use libafl_bolts::rands::Rand;
 
-use std::collections::{btree_map, BTreeMap, HashSet};
+use std::collections::{btree_map, BTreeMap};
 
 use serde::{Deserialize, Serialize};
 
@@ -136,64 +136,89 @@ impl TypeGuess {
         }
     }
 
-    /// Whether a value described by `self` is safe to use wherever a value
-    /// described by `other` is expected. This is an asymmetric "subtype-or-
-    /// equal" check: a producer's return guess (`self`) is `assignable_to`
-    /// a consumer's argument guess (`other`) iff every value the producer
-    /// could plausibly return is accepted by the consumer's slot.
+    /// The subtyping relation - whether a value described by `self` is safe
+    /// to use wherever a value described by `other` is expected.
     ///
     /// Concretely:
-    ///   * every kind `self` can yield must also be acceptable to `other`
-    ///     (otherwise `self` could return a value of a kind the consumer
-    ///     does not accept);
+    ///   * every kind `self` can yield must also be acceptable to `other`.
     ///   * for `Object`, every key required by `other`'s shape must be
-    ///     present in `self`'s shape with an assignable value type
-    ///     (otherwise the consumer would dereference a missing property);
+    ///     present in `self`'s shape with an assignable value type.
     ///   * for `Class`, every class `self` could return must be in the set
-    ///     of classes `other` accepts (otherwise the consumer could be
-    ///     handed a wrong class instance);
+    ///     of classes `other` accepts.
     ///   * for `Array`, `self`'s element type must be assignable to
-    ///     `other`'s element type;
-    ///   * `None` shape / class / element on `self` means we don't have a
-    ///     more precise constraint; we let it through and let the consumer's
-    ///     slot drive the soundness check. `None` on `other` means the
-    ///     consumer accepts any value of that kind.
+    ///     `other`'s element type.
     pub fn assignable_to(&self, other: &TypeGuess) -> bool {
-        if self.is_any || other.is_any {
+        // If other is any, self is trivially assignable. But if other is not any
+        // and self is any, self is bigger than other.
+        if other.is_any {
             return true;
         }
-
-        let mine: HashSet<&TypeKind> = self.kind.keys().collect();
-        let theirs: HashSet<&TypeKind> = other.kind.keys().collect();
-
-        // Every kind `self` could produce must be acceptable to `other`.
-        // (Equivalently: `self.kind`'s key set is a subset of `other.kind`'s
-        // key set.)
-        if !mine.is_subset(&theirs) {
+        if self.is_any {
             return false;
         }
 
-        // For each shared kind, the structural constraints must also be
-        // compatible in the asymmetric `self <: other` sense.
-        mine.iter().all(|kind| match kind {
-            TypeKind::Object => match (&self.object_shape, &other.object_shape) {
-                // Unconstrained slot accepts anything; unconstrained value
-                // is treated as "we don't know more" and let through.
-                (_, None) | (None, _) => true,
-                (Some(s), Some(o)) => o
-                    .iter()
-                    .all(|(k, vo)| s.get(k).is_some_and(|vs| vs.assignable_to(vo))),
-            },
-            TypeKind::Class => match (&self.class_type, &other.class_type) {
-                (_, None) | (None, _) => true,
-                (Some(s), Some(o)) => s.keys().all(|k| o.contains_key(k)),
-            },
-            TypeKind::Array => match (&self.array_value_type, &other.array_value_type) {
-                (_, None) | (None, _) => true,
-                (Some(s), Some(o)) => s.assignable_to(o),
-            },
-            _ => true,
-        })
+        // Every kind self could produce must be acceptable to other.
+        for kind in self.kind.keys() {
+            if !other.kind.contains_key(kind) {
+                return false;
+            }
+        }
+
+        // For each complex kind self could produce, structural constraints
+        // must also be compatible.
+
+        if self.kind.contains_key(&TypeKind::Object) {
+            assert!(other.kind.contains_key(&TypeKind::Object));
+            assert!(self.object_shape.is_some());
+            assert!(other.object_shape.is_some());
+
+            let self_shape = self.object_shape.as_ref().unwrap();
+            let other_shape = other.object_shape.as_ref().unwrap();
+
+            for (prop, other_guess) in other_shape {
+                // If prop is optional, it's fine if it doesn't exist on self. Otherwise, all
+                // required properties should exist on self and have compatible guesses.
+                if other_guess.kind.contains_key(&TypeKind::Undefined) {
+                    continue;
+                }
+                if let Some(self_guess) = self_shape.get(prop) {
+                    if !self_guess.assignable_to(other_guess) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        if self.kind.contains_key(&TypeKind::Class) {
+            assert!(other.kind.contains_key(&TypeKind::Class));
+            assert!(self.class_type.is_some());
+            assert!(other.class_type.is_some());
+
+            // Every class self might return must be in the set of classes other accepts.
+            for class in self.class_type.as_ref().unwrap().keys() {
+                if !other.class_type.as_ref().unwrap().contains_key(class) {
+                    return false;
+                }
+            }
+        }
+
+        if self.kind.contains_key(&TypeKind::Array) {
+            assert!(other.kind.contains_key(&TypeKind::Array));
+            assert!(self.array_value_type.is_some());
+            assert!(other.array_value_type.is_some());
+
+            let self_guess = self.array_value_type.as_ref().unwrap();
+            let other_guess = other.array_value_type.as_ref().unwrap();
+
+            // Array element type must be compatible.
+            if !self_guess.assignable_to(other_guess) {
+                return false;
+            }
+        }
+
+        true
     }
 
     fn sample_any_type<R: Rand>(rand: &mut R) -> Result<Type> {
@@ -270,23 +295,18 @@ impl TypeGuess {
         }
 
         if self.kind.contains_key(&TypeKind::Object) {
-            // Without a known shape we cannot synthesize an object literal
-            // (see `sample_const_type`), so this kind is not const-able.
-            let Some(shape) = &self.object_shape else {
-                return false;
-            };
+            assert!(self.object_shape.is_some());
+            let shape = self.object_shape.as_ref().unwrap();
+
             if shape.values().any(|g| !g.is_const_able()) {
                 return false;
             }
         }
 
         if self.kind.contains_key(&TypeKind::Array) {
-            // Without a known element type we cannot synthesize array
-            // elements (see `sample_const_type`), so this kind is not
-            // const-able.
-            let Some(elem) = &self.array_value_type else {
-                return false;
-            };
+            assert!(self.array_value_type.is_some());
+            let elem = self.array_value_type.as_ref().unwrap();
+
             if !elem.is_const_able() {
                 return false;
             }
@@ -380,10 +400,14 @@ mod tests {
 
     #[test]
     fn test_assignable_to_any() {
-        let a = TypeGuess::any();
-        let b = number_guess();
-        assert!(a.assignable_to(&b));
-        assert!(b.assignable_to(&a));
+        // A concrete value is always assignable into an `any` slot.
+        // Conversely, an `any` producer is NOT assignable into a narrower
+        // slot: at runtime it could be any type, and the consumer would
+        // only accept some of them.
+        let any = TypeGuess::any();
+        let num = number_guess();
+        assert!(num.assignable_to(&any));
+        assert!(!any.assignable_to(&num));
     }
 
     fn object_guess(shape: Option<BTreeMap<String, TypeGuess>>) -> TypeGuess {
@@ -405,7 +429,7 @@ mod tests {
         } else {
             let mut m = BTreeMap::new();
             for n in names {
-                m.insert((*n).to_string(), 1.0);
+                m.insert((*n).to_string(), 1.0 / (names.len() as f64));
             }
             Some(m)
         };
@@ -417,13 +441,13 @@ mod tests {
         }
     }
 
-    fn array_guess(elem: Option<TypeGuess>) -> TypeGuess {
+    fn array_guess(elem: TypeGuess) -> TypeGuess {
         let mut kind = BTreeMap::new();
         kind.insert(TypeKind::Array, 1.0);
         TypeGuess {
             is_any: false,
             kind,
-            array_value_type: elem.map(Box::new),
+            array_value_type: Some(Box::new(elem)),
             ..Default::default()
         }
     }
@@ -448,27 +472,6 @@ mod tests {
         // The reverse is NOT sound: the producer here is missing `count`,
         // so it cannot fill a slot that requires `count`.
         assert!(!consumer.assignable_to(&producer));
-    }
-
-    #[test]
-    fn test_assignable_to_object_missing_required_key() {
-        // Regression for a soundness bug: even when two object shapes
-        // share at least one key, the producer is NOT assignable to the
-        // consumer if the consumer requires additional keys the producer
-        // doesn't have.
-        let mut producer_shape = BTreeMap::new();
-        producer_shape.insert("name".to_string(), string_guess());
-
-        let mut consumer_shape = BTreeMap::new();
-        consumer_shape.insert("name".to_string(), string_guess());
-        consumer_shape.insert("age".to_string(), number_guess());
-
-        let producer = object_guess(Some(producer_shape));
-        let consumer = object_guess(Some(consumer_shape));
-
-        // Producer is missing `age` and would crash any consumer that
-        // dereferences `.age`.
-        assert!(!producer.assignable_to(&consumer));
     }
 
     #[test]
@@ -507,37 +510,24 @@ mod tests {
 
     #[test]
     fn test_assignable_to_object_unconstrained_shape() {
+        // An empty object consumer can receive any object shape.
         let mut shape = BTreeMap::new();
         shape.insert("name".to_string(), string_guess());
 
-        let constrained = object_guess(Some(shape));
-        let unconstrained = object_guess(None);
+        let non_empty = object_guess(Some(shape));
+        let empty = object_guess(Some(BTreeMap::new()));
 
-        assert!(constrained.assignable_to(&unconstrained));
-        assert!(unconstrained.assignable_to(&constrained));
+        assert!(non_empty.assignable_to(&empty));
+        assert!(!empty.assignable_to(&non_empty));
     }
 
     #[test]
-    fn test_assignable_to_object_empty_shapes() {
-        // Regression: two empty object shapes (e.g. inferred from the
-        // TypeScript `object` keyword) must still be considered assignable.
-        // The old "any shared key" check returned `false` here because there
-        // were no keys to iterate.
+    fn test_assignable_to_object_both_unconstrained() {
+        // Two empty shapes must also be assignable in both directions.
         let a = object_guess(Some(BTreeMap::new()));
         let b = object_guess(Some(BTreeMap::new()));
         assert!(a.assignable_to(&b));
         assert!(b.assignable_to(&a));
-    }
-
-    #[test]
-    fn test_assignable_to_object_empty_producer_into_constrained_slot() {
-        // An empty inferred shape cannot satisfy a consumer that demands a
-        // specific key. (The producer doesn't have the key.)
-        let producer = object_guess(Some(BTreeMap::new()));
-        let mut consumer_shape = BTreeMap::new();
-        consumer_shape.insert("name".to_string(), string_guess());
-        let consumer = object_guess(Some(consumer_shape));
-        assert!(!producer.assignable_to(&consumer));
     }
 
     #[test]
@@ -572,33 +562,40 @@ mod tests {
     }
 
     #[test]
-    fn test_assignable_to_class_unconstrained() {
-        let constrained = class_guess(&["ConstantPool"]);
-        let unconstrained = class_guess(&[]);
-        assert!(constrained.assignable_to(&unconstrained));
-        assert!(unconstrained.assignable_to(&constrained));
-    }
-
-    #[test]
     fn test_assignable_to_array_compatible_elements() {
-        let a = array_guess(Some(number_guess()));
-        let b = array_guess(Some(number_guess()));
+        let a = array_guess(number_guess());
+        let b = array_guess(number_guess());
         assert!(a.assignable_to(&b));
+        assert!(b.assignable_to(&a));
     }
 
     #[test]
     fn test_assignable_to_array_disjoint_elements() {
-        let a = array_guess(Some(number_guess()));
-        let b = array_guess(Some(string_guess()));
+        let a = array_guess(number_guess());
+        let b = array_guess(string_guess());
         assert!(!a.assignable_to(&b));
+        assert!(!b.assignable_to(&a));
     }
 
     #[test]
-    fn test_assignable_to_array_unconstrained_element() {
-        let constrained = array_guess(Some(number_guess()));
-        let unconstrained = array_guess(None);
-        assert!(constrained.assignable_to(&unconstrained));
-        assert!(unconstrained.assignable_to(&constrained));
+    fn test_assignable_to_array_of_unions() {
+        let mut kind = BTreeMap::new();
+        kind.insert(TypeKind::Array, 1.0);
+
+        let mut value_kind = BTreeMap::new();
+        value_kind.insert(TypeKind::Number, 0.5);
+        value_kind.insert(TypeKind::String, 0.5);
+
+        let a = array_guess(TypeGuess {
+            is_any: false,
+            kind: value_kind,
+            ..Default::default()
+        });
+
+        let b = array_guess(number_guess());
+
+        assert!(!a.assignable_to(&b));
+        assert!(b.assignable_to(&a));
     }
 
     #[test]
@@ -634,69 +631,5 @@ mod tests {
         };
 
         assert!(!a.assignable_to(&b));
-    }
-
-    #[test]
-    fn test_assignable_to_kind_union_producer_into_narrow_slot() {
-        // A producer returning Number | String is not assignable to a
-        // Number-only slot.
-        let mut a_kind = BTreeMap::new();
-        a_kind.insert(TypeKind::Number, 0.5);
-        a_kind.insert(TypeKind::String, 0.5);
-        let producer = TypeGuess {
-            is_any: false,
-            kind: a_kind,
-            ..Default::default()
-        };
-        let consumer = number_guess();
-        assert!(!producer.assignable_to(&consumer));
-    }
-
-    #[test]
-    fn test_is_const_able_object_without_shape() {
-        // Regression: a TypeGuess that says "Object" without a known shape
-        // cannot be turned into a constant literal because
-        // `sample_const_type` would `bail!`. `is_const_able` must therefore
-        // return false to keep the two in sync.
-        let mut kind = BTreeMap::new();
-        kind.insert(TypeKind::Object, 1.0);
-        let guess = TypeGuess {
-            is_any: false,
-            kind,
-            object_shape: None,
-            ..Default::default()
-        };
-        assert!(!guess.is_const_able());
-    }
-
-    #[test]
-    fn test_is_const_able_array_without_element_type() {
-        // Regression: same as above for unconstrained arrays.
-        let mut kind = BTreeMap::new();
-        kind.insert(TypeKind::Array, 1.0);
-        let guess = TypeGuess {
-            is_any: false,
-            kind,
-            array_value_type: None,
-            ..Default::default()
-        };
-        assert!(!guess.is_const_able());
-    }
-
-    #[test]
-    fn test_is_const_able_mixed_object_without_shape_is_unsafe() {
-        // Even when other kinds are present, if `Object` is in the union we
-        // can't safely call `sample_const_type` because `kind.sample` might
-        // pick `Object` and bail.
-        let mut kind = BTreeMap::new();
-        kind.insert(TypeKind::Number, 0.5);
-        kind.insert(TypeKind::Object, 0.5);
-        let guess = TypeGuess {
-            is_any: false,
-            kind,
-            object_shape: None,
-            ..Default::default()
-        };
-        assert!(!guess.is_const_able());
     }
 }

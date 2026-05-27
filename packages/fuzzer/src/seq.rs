@@ -372,7 +372,11 @@ impl ApiSeq {
         schema: &'a Schema,
         target: &TypeGuess,
     ) -> Option<(&'a EndpointName, &'a SignatureGuess)> {
-        rand.choose(schema.iter().filter(|(_, sig)| sig.ret.assignable_to(target)))
+        rand.choose(
+            schema
+                .iter()
+                .filter(|(_, sig)| sig.ret.assignable_to(target)),
+        )
     }
 
     pub fn is_valid(&self) {

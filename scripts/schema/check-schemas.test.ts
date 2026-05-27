@@ -9,6 +9,8 @@
  * 5. All schemas are idempotent. Running the schema through the fuzzer doesn't change it.
  * 6. All probability distributions must sum to 1.
  * 7. All endpoints should have the same calling convention.
+ * 8. All guesses should have structural constraints if kind allows Object, Class or Array. (expectCompleteGuess)
+ * 9. Class guesses should have a non-empty classType map. (expectCompleteGuess)
  */
 
 import { $ } from "bun";
