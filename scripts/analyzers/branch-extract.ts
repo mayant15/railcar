@@ -102,7 +102,7 @@ export type BranchPathStats = {
     path: string;
     depth: number;
     narrowingScore: number;
-}
+};
 
 export type CanonicalBranchKey = {
     file: string;
@@ -245,24 +245,25 @@ export class BranchExtractor {
     // https://www.typescriptlang.org/docs/handbook/2/narrowing.html
     private computeTypeNarrowingScore(str: string) {
         // TODO: this should take the expression and traverse the AST
-        return str.matchAll(/typeof|instanceof|Array\.isArray| in /g).toArray().length;
+        return str.matchAll(/typeof|instanceof|Array\.isArray| in /g).toArray()
+            .length;
     }
 
     private currentPath(): BranchPathStats {
-        if (this.path.length === 0) return {
-            path: "true",
-            depth: this.path.length,
-            narrowingScore: 0,
-        };
+        if (this.path.length === 0)
+            return {
+                path: "true",
+                depth: this.path.length,
+                narrowingScore: 0,
+            };
 
         const expr = this.path.reduce((acc, e) =>
             AST.logicalExpression("&&", acc, e),
-
         );
 
         const str = generate(expr, {
             comments: false,
-        }).code
+        }).code;
 
         return {
             path: str,
