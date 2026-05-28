@@ -51,6 +51,7 @@ import type {
     SwitchStatement,
     TryStatement,
     Expression,
+    
 } from "@babel/types";
 import * as AST from "@babel/types";
 import { generate } from "@babel/generator";
@@ -97,6 +98,7 @@ export type BranchArm = {
 
     functionId: string;
     path: string;
+    hasThrow: boolean;
 };
 
 export type CanonicalBranchKey = {
@@ -124,6 +126,15 @@ export function getCanonicalBranchId(key: CanonicalBranchKey): string {
 export class BranchExtractor {
     file: string;
     arms: BranchArm[] = [];
+    private hasThrowStmt(node: AST.BlockStatement) {
+        for (const stmt of node.body.reverse()) {
+            if (AST.isThrowStatement(stmt)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Stack of currently-enclosing functions. Top of stack is the
@@ -155,20 +166,32 @@ export class BranchExtractor {
             },
             IfStatement(path: NodePath<IfStatement>) {
                 const test = path.node.test;
-
                 // Visit the test expression first; the predicate it
                 // produces is not yet on the path stack while it runs.
-                path.get("test").traverse(visitor);
+                path.get("test").traverse(visitor); 
 
                 self.path.push(test);
-                self.emit(path.node.consequent, "If", 0);
-                path.get("consequent").traverse(visitor);
+
+                const consequentPath = path.get("consequent");
+                const consequentNode = consequentPath.node;
+                let consequentHasThrow = false;
+                if (AST.isBlockStatement(consequentNode)) {
+                    consequentHasThrow = self.hasThrowStmt(consequentNode);
+                }
+                self.emit(path.node.consequent, "If", 0, consequentHasThrow);
+                consequentPath.traverse(visitor);
                 self.path.pop();
 
                 if (path.node.alternate) {
                     self.path.push(AST.unaryExpression("!", test));
-                    self.emit(path.node.alternate, "If", 1);
-                    path.get("alternate").traverse(visitor);
+                    const alternatePath = path.get("consequent");
+                    const alternateNode = consequentPath.node;
+                    let alternateHasThrow = false;
+                    if (AST.isBlockStatement(alternateNode)) {
+                        alternateHasThrow = self.hasThrowStmt(alternateNode);
+                    }
+                    self.emit(path.node.alternate, "If", 1, alternateHasThrow);
+                    alternatePath.traverse(visitor);
                     self.path.pop();
                 }
 
@@ -193,16 +216,20 @@ export class BranchExtractor {
                 self.emit(path.node.right, "Logical", 1);
             },
             Loop(path: NodePath<Loop>) {
-                self.emit(path.node.body, "Loop", 0);
+                let hasThrow = false;
+                if (AST.isBlockStatement(path.node.body)) {
+                    hasThrow = self.hasThrowStmt(path.node.body)
+                }
+                self.emit(path.node.body, "Loop", 0, hasThrow);
                 self.emitContinuationAfter(path.node, "Loop", 1);
             },
             TryStatement(path: NodePath<TryStatement>) {
                 self.emit(path.node.block, "Try", 0);
                 if (path.node.handler) {
-                    self.emit(path.node.handler.body, "Try", 1);
+                    self.emit(path.node.handler.body, "Try", 1, self.hasThrowStmt(path.node.handler.body));
                 }
                 if (path.node.finalizer) {
-                    self.emit(path.node.finalizer, "Try", 2);
+                    self.emit(path.node.finalizer, "Try", 2, self.hasThrowStmt(path.node.finalizer));
                 }
                 self.emitContinuationAfter(path.node, "Try", 3);
             },
@@ -246,7 +273,7 @@ export class BranchExtractor {
         }).code;
     }
 
-    private emit(node: Node, kind: BranchKind, armIndex: number): void {
+    private emit(node: Node, kind: BranchKind, armIndex: number, hasThrow: boolean = false): void {
         if (node.start == null || node.end == null || !node.loc) return;
         const branch = {
             id: "",
@@ -262,6 +289,7 @@ export class BranchExtractor {
             continuation: false,
             functionId: this.currentFunctionId(),
             path: this.currentPath(),
+            hasThrow: hasThrow
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);
