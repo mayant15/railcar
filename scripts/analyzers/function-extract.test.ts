@@ -181,6 +181,19 @@ describe("extract: functions", () => {
             const f = pickFn(fns, (f) => f.type === "FunctionDeclaration");
             expect(f.params).toBe(3);
         });
+
+        test("higher-order function arguments are extracted", () => {
+            const fns = extract(
+                "[1, 2, 3].forEach(() => {}); [1, 2, 3].map((x) => x + 1);",
+                FILE,
+            );
+            const arrows = fns.filter(
+                (f) => f.type === "ArrowFunctionExpression",
+            );
+            expect(arrows).toHaveLength(2);
+            const paramCounts = arrows.map((a) => a.params).sort();
+            expect(paramCounts).toEqual([0, 1]);
+        });
     });
 
     // ----- nesting & uniqueness ------------------------------------------

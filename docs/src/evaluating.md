@@ -90,4 +90,4 @@ from their offsets back to our function and branch IDs, using our source locatio
 
 To make this easier, our branch taxonomy is as close as possible to [V8's](https://docs.google.com/document/d/1wCydi2HEZRF0skDeLb6CH0abZnTyVo5Vz5u-jhwi7es/). We have zero-width _continuation_
 branches after branching constructs to account for non-local effects. Every file also gets a single top-level
-"Script" branch corresponding with V8's whole-script, empty function name coverage object.
+"FnEntry" branch corresponding with V8's whole-script, empty function name coverage object.

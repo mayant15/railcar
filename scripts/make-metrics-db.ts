@@ -4,9 +4,11 @@
  */
 
 import assert from "node:assert";
+import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { registerHooks } from "node:module";
 import { unlinkSync, existsSync } from "node:fs";
+import { makeRailcarConfig } from "@railcar/support";
 import { type BranchArm, BranchExtractor } from "./analyzers/branch-extract.ts";
 import {
     type FunctionAttr,
@@ -38,7 +40,11 @@ type ExtractResult = {
  * `BranchArm.functionId` matches `FunctionAttr.id` of the enclosing
  * function (or the synthetic `TopLevel` row for script-scope branches).
  */
-function extract(code: string, file: string, library: string): ExtractResult {
+export function extract(
+    code: string,
+    file: string,
+    library: string,
+): ExtractResult {
     const fnExt = new FunctionExtractor(file, library);
     const brExt = new BranchExtractor(file);
     const complexity = new ComplexityAnalysis(file);
@@ -78,6 +84,37 @@ function extract(code: string, file: string, library: string): ExtractResult {
     };
 }
 
+async function loadConfig(project: string) {
+    const path = findConfigPath(project);
+    const mod = await import(path);
+    const config = "default" in mod ? mod.default : mod;
+    return makeRailcarConfig(config);
+}
+
+function findConfigPath(project: string) {
+    const example = (() => {
+        switch (project) {
+            case "@angular/compiler":
+                return "angular";
+            case "@turf/turf":
+                return "turf";
+            case "@xmldom/xmldom":
+                return "xmldom";
+            default:
+                return project;
+        }
+    })();
+
+    const conf = path.join(
+        import.meta.dirname,
+        "..",
+        "examples",
+        example,
+        "railcar.config.js",
+    );
+    return path.normalize(conf);
+}
+
 async function analyzeProject(
     project: string,
     entrypoint: string,
@@ -86,6 +123,9 @@ async function analyzeProject(
         branches: [],
         functions: [],
     };
+
+    const config = await loadConfig(project);
+
     const hooks = registerHooks({
         load(url, context, nextLoad) {
             const def = nextLoad(url, context);
@@ -97,7 +137,7 @@ async function analyzeProject(
             const shouldAnalyze =
                 (def.format.startsWith("commonjs") ||
                     def.format.startsWith("module")) &&
-                url.includes(`node_modules/${project}`);
+                config.shouldInstrument(url);
 
             if (!shouldAnalyze) {
                 console.warn("skipping", url);
@@ -135,6 +175,10 @@ async function analyzeProject(
     return extracted;
 }
 
+function findEntryPoint(project: string) {
+    return new URL(import.meta.resolve(project)).pathname;
+}
+
 async function main() {
     const projects = [
         "@angular/compiler",
@@ -159,30 +203,11 @@ async function main() {
     if (existsSync(dbPath)) unlinkSync(dbPath);
     const db = new DatabaseSync(dbPath);
     db.exec("PRAGMA journal_mode = WAL");
-
-    // NOTE: `id` is NOT a primary key on `branches`. The canonical id is a
-    // hash of (file, kind, location, armIndex), and zero-width "continuation"
-    // arms for different `If`/`Loop`/`Try` constructs that end at the same
-    // byte share the same id. (V8 would assign them the same count too.)
-    db.exec(`
-        CREATE TABLE branches (
-            id TEXT NOT NULL,
-            file TEXT NOT NULL,
-            kind TEXT NOT NULL,
-            arm_index INTEGER NOT NULL,
-            start_line INTEGER NOT NULL,
-            start_col INTEGER NOT NULL,
-            end_line INTEGER NOT NULL,
-            end_col INTEGER NOT NULL,
-            start_offset INTEGER NOT NULL,
-            end_offset INTEGER NOT NULL,
-            continuation INTEGER NOT NULL,
-            function_id TEXT NOT NULL,
-            path TEXT NOT NULL,
-            depth INTEGER NOT NULL,
-            narrowing_score INTEGER NOT NULL
-        )
-    `);
+    // Enforce referential integrity so a `branches.function_id` that has no
+    // matching row in `functions` is rejected at insert time rather than
+    // silently producing orphans that the natural `JOIN`/`IN (SELECT id ...)`
+    // queries drop.
+    db.exec("PRAGMA foreign_keys = ON");
 
     db.exec(`
         CREATE TABLE functions (
@@ -203,8 +228,39 @@ async function main() {
             complexity INTEGER NOT NULL,
             num_property_accesses INTEGER NOT NULL,
             num_string_operations INTEGER NOT NULL
-        )
+        ) STRICT
     `);
+
+    // NOTE: `id` is NOT a primary key on `branches`. The canonical id is a
+    // hash of (file, kind, location, armIndex), and zero-width "continuation"
+    // arms for different `If`/`Loop`/`Try` constructs that end at the same
+    // byte share the same id. (V8 would assign them the same count too.)
+    db.exec(`
+        CREATE TABLE branches (
+            id TEXT NOT NULL,
+            file TEXT NOT NULL,
+            kind TEXT NOT NULL,
+            arm_index INTEGER NOT NULL,
+            start_line INTEGER NOT NULL,
+            start_col INTEGER NOT NULL,
+            end_line INTEGER NOT NULL,
+            end_col INTEGER NOT NULL,
+            start_offset INTEGER NOT NULL,
+            end_offset INTEGER NOT NULL,
+            continuation INTEGER NOT NULL,
+            function_id TEXT NOT NULL REFERENCES functions(id),
+            path TEXT NOT NULL,
+            depth INTEGER NOT NULL,
+            narrowing_score INTEGER NOT NULL
+        ) STRICT
+    `);
+
+    // Speed up the common `branches`-to-`functions` join and library/file
+    // filters used by downstream queries.
+    db.exec("CREATE INDEX idx_branches_function_id ON branches(function_id)");
+    db.exec("CREATE INDEX idx_branches_file ON branches(file)");
+    db.exec("CREATE INDEX idx_functions_library ON functions(library)");
+    db.exec("CREATE INDEX idx_functions_file ON functions(file)");
 
     const insertBranch = db.prepare(`
         INSERT INTO branches (
@@ -227,32 +283,25 @@ async function main() {
     let totalFunctions = 0;
 
     for (const project of projects) {
-        const entrypoint = new URL(import.meta.resolve(project)).pathname;
+        const entrypoint = findEntryPoint(project);
         const { branches, functions } = await analyzeProject(
             project,
             entrypoint,
         );
 
-        db.exec("BEGIN");
-        for (const b of branches) {
-            insertBranch.run(
-                b.id,
-                b.file,
-                b.kind,
-                b.armIndex,
-                b.startLine,
-                b.startCol,
-                b.endLine,
-                b.endCol,
-                b.startOffset,
-                b.endOffset,
-                b.continuation ? 1 : 0,
-                b.functionId,
-                b.path,
-                b.depth,
-                b.narrowingScore,
-            );
+        {
+            const functionIds = new Set(functions.map((fn) => fn.id));
+            for (const branch of branches) {
+                if (!functionIds.has(branch.functionId)) {
+                    console.log(branch);
+                    throw Error();
+                }
+            }
         }
+
+        db.exec("BEGIN");
+        // Insert functions before branches so the `branches.function_id`
+        // foreign key is always satisfied.
         for (const f of functions) {
             insertFunction.run(
                 f.id,
@@ -272,6 +321,25 @@ async function main() {
                 f.complexity,
                 f.propertyAccesses,
                 f.stringOperations,
+            );
+        }
+        for (const b of branches) {
+            insertBranch.run(
+                b.id,
+                b.file,
+                b.kind,
+                b.armIndex,
+                b.startLine,
+                b.startCol,
+                b.endLine,
+                b.endCol,
+                b.startOffset,
+                b.endOffset,
+                b.continuation ? 1 : 0,
+                b.functionId,
+                b.path,
+                b.depth,
+                b.narrowingScore,
             );
         }
         db.exec("COMMIT");
@@ -311,4 +379,8 @@ async function main() {
     );
 }
 
-main();
+// Only run `main` when invoked as a script (e.g. via `node` or `bun run`),
+// not when imported from a test file.
+if (import.meta.main || process.argv[1] === import.meta.filename) {
+    main();
+}
