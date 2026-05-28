@@ -4,9 +4,11 @@
  */
 
 import assert from "node:assert";
+import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { registerHooks } from "node:module";
 import { unlinkSync, existsSync } from "node:fs";
+import { makeRailcarConfig } from "@railcar/support";
 import { type BranchArm, BranchExtractor } from "./analyzers/branch-extract.ts";
 import {
     type FunctionAttr,
@@ -82,6 +84,37 @@ export function extract(
     };
 }
 
+async function loadConfig(project: string) {
+    const path = findConfigPath(project);
+    const mod = await import(path);
+    const config = "default" in mod ? mod.default : mod;
+    return makeRailcarConfig(config);
+}
+
+function findConfigPath(project: string) {
+    const example = (() => {
+        switch (project) {
+            case "@angular/compiler":
+                return "angular";
+            case "@turf/turf":
+                return "turf";
+            case "@xmldom/xmldom":
+                return "xmldom";
+            default:
+                return project;
+        }
+    })();
+
+    const conf = path.join(
+        import.meta.dirname,
+        "..",
+        "examples",
+        example,
+        "railcar.config.js",
+    );
+    return path.normalize(conf);
+}
+
 async function analyzeProject(
     project: string,
     entrypoint: string,
@@ -90,6 +123,9 @@ async function analyzeProject(
         branches: [],
         functions: [],
     };
+
+    const config = await loadConfig(project);
+
     const hooks = registerHooks({
         load(url, context, nextLoad) {
             const def = nextLoad(url, context);
@@ -101,7 +137,7 @@ async function analyzeProject(
             const shouldAnalyze =
                 (def.format.startsWith("commonjs") ||
                     def.format.startsWith("module")) &&
-                url.includes(`node_modules/${project}`);
+                config.shouldInstrument(url);
 
             if (!shouldAnalyze) {
                 console.warn("skipping", url);
@@ -137,6 +173,10 @@ async function analyzeProject(
     hooks.deregister();
 
     return extracted;
+}
+
+function findEntryPoint(project: string) {
+    return new URL(import.meta.resolve(project)).pathname;
 }
 
 async function main() {
@@ -243,7 +283,7 @@ async function main() {
     let totalFunctions = 0;
 
     for (const project of projects) {
-        const entrypoint = new URL(import.meta.resolve(project)).pathname;
+        const entrypoint = findEntryPoint(project);
         const { branches, functions } = await analyzeProject(
             project,
             entrypoint,
