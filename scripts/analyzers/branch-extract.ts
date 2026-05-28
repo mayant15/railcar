@@ -62,15 +62,7 @@ export type BranchKind =
     | "Switch"
     | "Conditional"
     | "Logical"
-    | "FnEntry"
-    /**
-     * Single arm spanning the entire source file. V8 reports the
-     * top-level script as if it were a function (with empty name), so we
-     * mirror that here: every file gets exactly one `Script` arm whose
-     * `functionId` matches the top-level sentinel used by branches at
-     * script scope.
-     */
-    | "Script";
+    | "FnEntry";
 
 export type BranchArm = {
     /** 16-char SHA-1 prefix of (file, kind, location, armIndex). Stable. */
@@ -152,7 +144,7 @@ export class BranchExtractor {
                 //
                 // function-extract mirrors this with a 'TopLevel' function
                 // that should be the parent of all top-level branches.
-                self.emit(path, "Script", 0);
+                self.emit(path, "FnEntry", 0);
             },
             IfStatement: {
                 enter(path: NodePath<IfStatement>) {

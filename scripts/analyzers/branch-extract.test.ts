@@ -34,9 +34,10 @@ function extract(code: string, file: string): BranchArm[] {
 
 /**
  * Project arms down to just `(kind, armIndex, continuation)` for use in
- * exact-equality assertions. The whole-file `Script` arm is filtered out
- * here — it's covered by its own test block instead, so per-construct
- * tests don't have to repeat it.
+ * exact-equality assertions. `FnEntry` arms (both the whole-file one and
+ * any per-function entries) are filtered out here — they're covered by
+ * their own test blocks instead, so per-construct tests don't have to
+ * repeat them.
  */
 function summarize(arms: BranchArm[]): {
     kind: BranchKind;
@@ -44,7 +45,7 @@ function summarize(arms: BranchArm[]): {
     continuation: boolean;
 }[] {
     return arms
-        .filter((a) => a.kind !== "Script")
+        .filter((a) => a.kind !== "FnEntry")
         .map((a) => ({
             kind: a.kind,
             armIndex: a.armIndex,
@@ -64,72 +65,95 @@ function pick(
     return match[0];
 }
 
+/**
+ * The whole-file `FnEntry` is the one emitted from the `Program` visitor
+ * — its `functionId` resolves to the per-file top-level sentinel because
+ * there is no enclosing function. Per-function `FnEntry`s reference the
+ * function itself.
+ */
+function isFileFnEntry(a: BranchArm): boolean {
+    return (
+        a.kind === "FnEntry" &&
+        a.functionId === getCanonicalFunctionId({ file: a.file, loc: null })
+    );
+}
+
+function pickFileFnEntry(arms: BranchArm[]): BranchArm {
+    const m = arms.filter(isFileFnEntry);
+    expect(m).toHaveLength(1);
+    return m[0];
+}
+
+function functionFnEntries(arms: BranchArm[]): BranchArm[] {
+    return arms.filter((a) => a.kind === "FnEntry" && !isFileFnEntry(a));
+}
+
 describe("extract: branches", () => {
-    test("empty source still produces a single Script arm", () => {
+    test("empty source still produces a single FnEntry arm", () => {
         const arms = extract("", FILE);
         expect(arms).toHaveLength(1);
-        const script = arms[0];
-        expect(script.kind).toBe("Script");
-        expect(script.armIndex).toBe(0);
-        expect(script.continuation).toBe(false);
-        expect(script.startOffset).toBe(0);
-        expect(script.endOffset).toBe(0);
+        const fileFn = arms[0];
+        expect(fileFn.kind).toBe("FnEntry");
+        expect(fileFn.armIndex).toBe(0);
+        expect(fileFn.continuation).toBe(false);
+        expect(fileFn.startOffset).toBe(0);
+        expect(fileFn.endOffset).toBe(0);
     });
 
-    test("source with no branching constructs produces only a Script arm", () => {
+    test("source with no branching constructs produces only a FnEntry arm", () => {
         const arms = extract("const x = 1; const y = x + 2;", FILE);
         expect(arms).toHaveLength(1);
-        expect(arms[0].kind).toBe("Script");
+        expect(arms[0].kind).toBe("FnEntry");
     });
 
-    // ----- Script ---------------------------------------------------------
+    // ----- file-level FnEntry --------------------------------------------
 
-    describe("Script", () => {
-        test("Script arm spans the entire source", () => {
+    describe("file-level FnEntry", () => {
+        test("file-level FnEntry arm spans the entire source", () => {
             const code = "function f() { return 1; } const x = 2;";
             const arms = extract(code, FILE);
-            const scripts = arms.filter((a) => a.kind === "Script");
-            expect(scripts).toHaveLength(1);
-            const script = scripts[0];
-            expect(script.armIndex).toBe(0);
-            expect(script.continuation).toBe(false);
-            expect(script.startOffset).toBe(0);
-            expect(script.endOffset).toBe(code.length);
+            const fileFn = pickFileFnEntry(arms);
+            expect(fileFn.armIndex).toBe(0);
+            expect(fileFn.continuation).toBe(false);
+            expect(fileFn.startOffset).toBe(0);
+            expect(fileFn.endOffset).toBe(code.length);
         });
 
-        test("Script arm's functionId matches the top-level sentinel", () => {
+        test("file-level FnEntry's functionId matches the top-level sentinel", () => {
             const arms = extract("if (a) b;", FILE);
-            const script = pick(arms, "Script", 0);
-            expect(script.functionId).toBe(
+            const fileFn = pickFileFnEntry(arms);
+            expect(fileFn.functionId).toBe(
                 getCanonicalFunctionId({ file: FILE, loc: null }),
             );
         });
 
-        test("Script arm groups with top-level branches but not branches inside functions", () => {
+        test("file-level FnEntry groups with top-level branches but not branches inside functions", () => {
             const arms = extract(
                 "if (top) {} function f() { if (inner) {} }",
                 FILE,
             );
-            const script = pick(arms, "Script", 0);
-            const fnEntry = pick(arms, "FnEntry", 0);
+            const fileFn = pickFileFnEntry(arms);
+            const fnEntries = functionFnEntries(arms);
+            expect(fnEntries).toHaveLength(1);
+            const fnEntry = fnEntries[0];
             const ifs = arms.filter((a) => a.kind === "If");
             const topIfs = ifs.filter(
-                (a) => a.functionId === script.functionId,
+                (a) => a.functionId === fileFn.functionId,
             );
             const innerIfs = ifs.filter(
                 (a) => a.functionId === fnEntry.functionId,
             );
             expect(topIfs.length).toBe(2); // consequent and continuation
             expect(innerIfs.length).toBe(2);
-            expect(script.functionId).not.toBe(fnEntry.functionId);
+            expect(fileFn.functionId).not.toBe(fnEntry.functionId);
         });
 
-        test("only one Script arm regardless of file content", () => {
+        test("only one file-level FnEntry arm regardless of file content", () => {
             const arms = extract(
                 "function f() {} function g() {} if (x) y;",
                 FILE,
             );
-            expect(arms.filter((a) => a.kind === "Script")).toHaveLength(1);
+            expect(arms.filter(isFileFnEntry)).toHaveLength(1);
         });
     });
 
@@ -314,21 +338,21 @@ describe("extract: branches", () => {
     // ----- FnEntry --------------------------------------------------------
 
     describe("FnEntry", () => {
-        test("function declaration emits one FnEntry arm", () => {
+        test("function declaration emits one function-level FnEntry arm", () => {
             const arms = extract("function f() { return 1; }", FILE);
-            const fns = arms.filter((a) => a.kind === "FnEntry");
+            const fns = functionFnEntries(arms);
             expect(fns).toHaveLength(1);
             expect(fns[0].armIndex).toBe(0);
         });
 
         test("arrow function emits FnEntry", () => {
             const arms = extract("const f = () => 1;", FILE);
-            expect(arms.filter((a) => a.kind === "FnEntry")).toHaveLength(1);
+            expect(functionFnEntries(arms)).toHaveLength(1);
         });
 
         test("anonymous function expression emits FnEntry", () => {
             const arms = extract("const f = function () { };", FILE);
-            expect(arms.filter((a) => a.kind === "FnEntry")).toHaveLength(1);
+            expect(functionFnEntries(arms)).toHaveLength(1);
         });
 
         test("nested functions each emit their own FnEntry", () => {
@@ -336,7 +360,7 @@ describe("extract: branches", () => {
                 "function outer() { function inner() {} }",
                 FILE,
             );
-            expect(arms.filter((a) => a.kind === "FnEntry")).toHaveLength(2);
+            expect(functionFnEntries(arms)).toHaveLength(2);
         });
     });
 
@@ -355,7 +379,9 @@ describe("extract: branches", () => {
 
         test("branches inside a function share that function's id", () => {
             const arms = extract("function f() { if (x) y; if (z) w; }", FILE);
-            const fnEntry = pick(arms, "FnEntry", 0);
+            const fns = functionFnEntries(arms);
+            expect(fns).toHaveLength(1);
+            const fnEntry = fns[0];
             const inFn = arms.filter((a) => a.kind === "If");
             expect(inFn).not.toHaveLength(0);
             for (const a of inFn) {
@@ -365,7 +391,9 @@ describe("extract: branches", () => {
 
         test("FnEntry's functionId references the function itself", () => {
             const arms = extract("function f() { if (x) y; }", FILE);
-            const fnEntry = pick(arms, "FnEntry", 0);
+            const fns = functionFnEntries(arms);
+            expect(fns).toHaveLength(1);
+            const fnEntry = fns[0];
             expect(fnEntry.functionId).toBe(
                 getCanonicalFunctionId({
                     file: FILE,
@@ -391,7 +419,9 @@ describe("extract: branches", () => {
                 "if (top) {} function f() { if (inner) {} }",
                 FILE,
             );
-            const fnEntry = pick(arms, "FnEntry", 0);
+            const fns = functionFnEntries(arms);
+            expect(fns).toHaveLength(1);
+            const fnEntry = fns[0];
             const topIfs = arms.filter(
                 (a) => a.kind === "If" && a.functionId !== fnEntry.functionId,
             );
@@ -408,7 +438,7 @@ describe("extract: branches", () => {
                 "const a = () => { if(x) y; }; const b = () => { if(z) w; };",
                 FILE,
             );
-            const fns = arms.filter((a) => a.kind === "FnEntry");
+            const fns = functionFnEntries(arms);
             expect(fns).toHaveLength(2);
             expect(fns[0].functionId).not.toBe(fns[1].functionId);
         });
@@ -418,7 +448,7 @@ describe("extract: branches", () => {
                 "function outer() { if (o) {}; function inner() { if (i) {} } }",
                 FILE,
             );
-            const fns = arms.filter((a) => a.kind === "FnEntry");
+            const fns = functionFnEntries(arms);
             expect(fns).toHaveLength(2);
             // Determine which is which by source order.
             const [outerFn, innerFn] =
@@ -445,8 +475,8 @@ describe("extract: branches", () => {
     describe("path", () => {
         test("top-level arms have an empty path (true)", () => {
             const arms = extract("const x = 1;", FILE);
-            const script = pick(arms, "Script", 0);
-            expect(script.path).toBe("true");
+            const fileFn = pickFileFnEntry(arms);
+            expect(fileFn.path).toBe("true");
         });
 
         test("if consequent path is the test expression", () => {
