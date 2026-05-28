@@ -153,6 +153,7 @@ async function main() {
         "tslib",
         "typescript",
         "@xmldom/xmldom",
+        // "example"
     ];
 
     const dbPath = "metrics.db";
@@ -180,7 +181,8 @@ async function main() {
             function_id TEXT NOT NULL,
             path TEXT NOT NULL,
             depth INTEGER NOT NULL,
-            narrowing_score INTEGER NOT NULL
+            narrowing_score INTEGER NOT NULL,
+            has_throw INTEGER NOT NULL
         )
     `);
 
@@ -210,8 +212,8 @@ async function main() {
         INSERT INTO branches (
             id, file, kind, arm_index, start_line, start_col,
             end_line, end_col, start_offset, end_offset,
-            continuation, function_id, path, depth, narrowing_score
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            continuation, function_id, path, depth, narrowing_score, has_throw
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const insertFunction = db.prepare(`
@@ -227,6 +229,7 @@ async function main() {
     let totalFunctions = 0;
 
     for (const project of projects) {
+        console.log(`analyzing project ${project}..., current dir is: :${process.cwd()}`);
         const entrypoint = new URL(import.meta.resolve(project)).pathname;
         const { branches, functions } = await analyzeProject(
             project,
@@ -251,6 +254,7 @@ async function main() {
                 b.path,
                 b.depth,
                 b.narrowingScore,
+                b.hasThrow ? 1 : 0
             );
         }
         for (const f of functions) {
