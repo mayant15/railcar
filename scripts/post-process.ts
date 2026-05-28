@@ -472,8 +472,10 @@ async function shouldUnpack(dir: string, name: string): Promise<boolean> {
                 return false;
             }
         } catch {}
+        return true;
+    } else {
+        return false;
     }
-    return true;
 }
 
 async function unpack(archive: string) {
