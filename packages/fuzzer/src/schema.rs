@@ -1,4 +1,4 @@
-use anyhow::{anyhow, bail, Result};
+use anyhow::{anyhow, Result};
 use libafl_bolts::rands::Rand;
 
 use std::collections::{btree_map, BTreeMap};
@@ -217,8 +217,8 @@ impl TypeGuess {
         true
     }
 
-    fn sample_any_type<R: Rand>(rand: &mut R) -> Result<Type> {
-        let Some(typ) = rand.choose([
+    fn sample_any_type<R: Rand>(rand: &mut R) -> Option<Type> {
+        rand.choose([
             Type::Number,
             Type::String,
             Type::Boolean,
@@ -227,49 +227,48 @@ impl TypeGuess {
             Type::Object(BTreeMap::new()),
             Type::Array(Box::new(Type::Number)), // TODO: this allocation is sad but oh well...
             Type::Function,
-        ]) else {
-            bail!("failed to sample any type")
-        };
-        Ok(typ)
+        ])
     }
 
-    pub fn sample_const_type<R: Rand>(&self, rand: &mut R) -> Result<Type> {
+    pub fn sample_const_type<R: Rand>(&self, rand: &mut R) -> Option<Type> {
         if self.is_any {
             return Self::sample_any_type(rand);
         }
-
         if !self.is_const_able() {
-            bail!("cannot sample guess as const type")
+            return None;
         }
 
         let guess = self.strip_class(rand);
 
-        match guess.kind.sample(rand)? {
-            TypeKind::Undefined => Ok(Type::Undefined),
-            TypeKind::Number => Ok(Type::Number),
-            TypeKind::String => Ok(Type::String),
-            TypeKind::Boolean => Ok(Type::Boolean),
-            TypeKind::Null => Ok(Type::Null),
-            TypeKind::Function => Ok(Type::Function),
+        let Ok(kind) = guess.kind.sample(rand) else {
+            return None;
+        };
+
+        match kind {
+            TypeKind::Undefined => Some(Type::Undefined),
+            TypeKind::Number => Some(Type::Number),
+            TypeKind::String => Some(Type::String),
+            TypeKind::Boolean => Some(Type::Boolean),
+            TypeKind::Null => Some(Type::Null),
+            TypeKind::Function => Some(Type::Function),
 
             TypeKind::Object => {
-                if let Some(shape) = guess.object_shape {
-                    let mut props = BTreeMap::new();
-                    for (key, guess) in shape {
-                        props.insert(key.clone(), guess.sample_const_type(rand)?);
-                    }
-                    Ok(Type::Object(props))
-                } else {
-                    bail!("guess should have object shape if it can be an object")
+                assert!(guess.object_shape.is_some());
+                let shape = guess.object_shape.unwrap();
+
+                let mut props = BTreeMap::new();
+                for (key, guess) in shape {
+                    props.insert(key.clone(), guess.sample_const_type(rand)?);
                 }
+
+                Some(Type::Object(props))
             }
 
             TypeKind::Array => {
-                if let Some(guess) = guess.array_value_type {
-                    Ok(Type::Array(Box::new(guess.sample_const_type(rand)?)))
-                } else {
-                    bail!("guess should have array type if it can be an array")
-                }
+                assert!(guess.array_value_type.is_some());
+                let guess = guess.array_value_type.unwrap();
+
+                Some(Type::Array(Box::new(guess.sample_const_type(rand)?)))
             }
 
             TypeKind::Class => {

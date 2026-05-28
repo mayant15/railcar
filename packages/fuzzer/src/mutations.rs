@@ -15,7 +15,7 @@ use libafl_bolts::{
 };
 
 use crate::{
-    schema::Schema,
+    schema::{Schema, Type},
     seq::{ApiCallArg, ApiSeq},
 };
 
@@ -233,16 +233,22 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for ConstTypes<'a> {
             let guess = self.schema.get(&call.name).unwrap();
 
             for (index, out) in call.args.iter_mut().enumerate() {
-                if !matches!(out, ApiCallArg::Constant(_)) {
+                let ApiCallArg::Constant(current_const_type) = out else {
                     continue;
-                }
-                if state.rand_mut().coinflip(0.5) {
-                    // Resample this constant type
+                };
 
-                    let arg_guess = &guess.args[index];
-                    let typ = arg_guess.sample_const_type(state.rand_mut()).unwrap();
-                    *out = ApiCallArg::Constant(typ);
-                    resampled += 1;
+                // Resample this constant type but only if it is const-able. Non-const-able type
+                // guesses can end up with constant arguments (`undefined`, see unsoundness note
+                // in ApiSeq::complete_one).
+                let arg_guess = &guess.args[index];
+                if arg_guess.is_const_able() {
+                    if state.rand_mut().coinflip(0.5) {
+                        let typ = arg_guess.sample_const_type(state.rand_mut()).unwrap();
+                        *out = ApiCallArg::Constant(typ);
+                        resampled += 1;
+                    }
+                } else {
+                    assert!(matches!(current_const_type, Type::Undefined));
                 }
             }
         }
