@@ -103,15 +103,16 @@ db.exec(`
     branch_id TEXT NOT NULL,
     run_id INTEGER NOT NULL,
     schema TEXT NOT NULL,
-    hitcount INTEGER NOT NULL CHECK (hitcount >= 0)
+    hitcount INTEGER NOT NULL CHECK (hitcount >= 0),
+    exact INTEGER NOT NULL
   ) STRICT
 `);
 db.exec("CREATE INDEX idx_coverage_branch_id ON coverage(branch_id)");
 db.exec("CREATE INDEX idx_coverage_run_schema ON coverage(run_id, schema)");
 
 const insert = db.prepare(`
-  INSERT INTO coverage (branch_id, run_id, schema, hitcount)
-  VALUES (?, ?, ?, ?)
+  INSERT INTO coverage (branch_id, run_id, schema, hitcount, exact)
+  VALUES (?, ?, ?, ?, ?)
 `);
 
 const getRowsForFile = db.prepare(`
@@ -123,6 +124,7 @@ type PendingRow = {
     runId: number;
     schema: string;
     hitcount: number;
+    exact: boolean;
 };
 
 const pending: PendingRow[] = [];
@@ -225,6 +227,7 @@ for (const [runDir, files] of filesByRun) {
                 runId,
                 schema,
                 hitcount: row.hitcount,
+                exact: row.exact,
             });
         }
     }
@@ -232,7 +235,7 @@ for (const [runDir, files] of filesByRun) {
 
 db.exec("BEGIN");
 for (const r of pending) {
-    insert.run(r.branchId, r.runId, r.schema, r.hitcount);
+    insert.run(r.branchId, r.runId, r.schema, r.hitcount, r.exact ? 1 : 0);
 }
 db.exec("COMMIT");
 

@@ -30,6 +30,7 @@ export type CanonicalCoverageRow = {
     id: string;
     hitcount: number;
     matched: boolean;
+    exact: boolean;
 };
 
 /**
@@ -105,13 +106,29 @@ export function joinC8ToCanonical(
         return null;
     }
 
-    function findRange(start: number, end: number): V8Range | null {
-        const exact = exactByKey.get(`${start}:${end}`);
-        if (exact) return exact;
-        return smallestContainingBody(start, end);
+    function findRange(
+        start: number,
+        end: number,
+    ): { range: V8Range; exact: boolean } | null {
+        let range: V8Range | null | undefined = exactByKey.get(
+            `${start}:${end}`,
+        );
+        if (range) return { range, exact: true };
+
+        range = smallestContainingBody(start, end);
+        if (range) return { range, exact: false };
+
+        return null;
     }
 
-    function findContinuationRange(offset: number): V8Range | null {
+    function findContinuationRange(
+        offset: number,
+    ): { range: V8Range; exact: boolean } | null {
+        let range: V8Range | null | undefined = exactByKey.get(
+            `${offset}:${offset}`,
+        );
+        if (range) return { range, exact: true };
+
         const candidates = byStart.get(offset);
         if (candidates && candidates.length > 0) {
             // Innermost (smallest) range starting at this point.
@@ -124,9 +141,13 @@ export function joinC8ToCanonical(
                     best = r;
                 }
             }
-            return best;
+            return { range: best, exact: false };
         }
-        return smallestContainingPoint(offset);
+
+        range = smallestContainingPoint(offset);
+        if (range) return { range, exact: false };
+
+        return null;
     }
 
     const rows: CanonicalCoverageRow[] = [];
@@ -136,8 +157,9 @@ export function joinC8ToCanonical(
             : findRange(arm.startOffset, arm.endOffset);
         rows.push({
             id: arm.id,
-            hitcount: r?.count ?? 0,
+            hitcount: r?.range.count ?? 0,
             matched: r != null,
+            exact: r?.exact ?? false,
         });
     }
     return rows;
