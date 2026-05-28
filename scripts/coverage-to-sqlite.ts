@@ -20,7 +20,6 @@
  * https://ampcode.com/threads/T-019e381c-07b2-73d2-bd68-28efe38ead9e
  */
 
-import assert from "node:assert";
 import { DatabaseSync, type SQLOutputValue } from "node:sqlite";
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join, normalize, resolve } from "node:path";
@@ -66,7 +65,15 @@ const LIBRARY_ALIASES: Record<string, string> = {
 };
 
 function findConfigPath(project: string): string {
-    return normalize(join(import.meta.dirname, "..", "examples", project, "railcar.config.js"))
+    return normalize(
+        join(
+            import.meta.dirname,
+            "..",
+            "examples",
+            project,
+            "railcar.config.js",
+        ),
+    );
 }
 
 /**
@@ -90,7 +97,7 @@ function parseRunDir(name: string): RunMeta {
         throw new Error(`could not parse run id from '${name}'`);
     }
     const library = LIBRARY_ALIASES[rawLibrary] ?? rawLibrary;
-    const config = findConfigPath(rawLibrary)
+    const config = findConfigPath(rawLibrary);
     return { library, schema, runId, config };
 }
 
@@ -192,7 +199,7 @@ for (const [runDir, files] of filesByRun) {
     const { schema, runId, config: configPath } = parseRunDir(runDir);
     runCount++;
 
-    const config = makeRailcarConfig((await import(configPath)).default)
+    const config = makeRailcarConfig((await import(configPath)).default);
 
     const byUrl = new Map<string, V8ScriptCoverage[]>();
     for (const filePath of files) {
