@@ -20,9 +20,10 @@
  * https://ampcode.com/threads/T-019e381c-07b2-73d2-bd68-28efe38ead9e
  */
 
+import assert from "node:assert";
 import { DatabaseSync, type SQLOutputValue } from "node:sqlite";
 import { readFile, readdir } from "node:fs/promises";
-import { basename, dirname, join, resolve } from "node:path";
+import { basename, dirname, join, normalize, resolve } from "node:path";
 import {
     type BranchArmV8Data,
     type CanonicalCoverageRow,
@@ -31,6 +32,7 @@ import {
     type V8ScriptCoverage,
 } from "./v8-to-canonical.ts";
 import type { Dirent } from "node:fs";
+import { makeRailcarConfig } from "@railcar/support";
 
 const usage =
     "usage: node --experimental-strip-types scripts/coverage-to-sqlite.ts <metrics-db> <coverage-dir>";
@@ -49,6 +51,7 @@ type RunMeta = {
     library: string;
     schema: string;
     runId: number;
+    config: string;
 };
 
 /**
@@ -61,6 +64,10 @@ const LIBRARY_ALIASES: Record<string, string> = {
     turf: "@turf/turf",
     xmldom: "@xmldom/xmldom",
 };
+
+function findConfigPath(project: string): string {
+    return normalize(join(import.meta.dirname, "..", "examples", project, "railcar.config.js"))
+}
 
 /**
  * Run directory names follow the pattern:
@@ -83,7 +90,8 @@ function parseRunDir(name: string): RunMeta {
         throw new Error(`could not parse run id from '${name}'`);
     }
     const library = LIBRARY_ALIASES[rawLibrary] ?? rawLibrary;
-    return { library, schema, runId };
+    const config = findConfigPath(rawLibrary)
+    return { library, schema, runId, config };
 }
 
 const db = new DatabaseSync(dbPath);
@@ -181,13 +189,11 @@ function toBranchArm(row: Record<string, SQLOutputValue>): BranchArmV8Data {
 }
 
 for (const [runDir, files] of filesByRun) {
-    const { library, schema, runId } = parseRunDir(runDir);
+    const { schema, runId, config: configPath } = parseRunDir(runDir);
     runCount++;
 
-    // Aggregate ScriptCoverage records across every dump produced by this run.
-    // Restrict to files within this run's library, matching the filter that
-    // `make-metrics-db.ts` uses when populating the `branches` table.
-    const libraryMarker = `node_modules/${library}/`;
+    const config = makeRailcarConfig((await import(configPath)).default)
+
     const byUrl = new Map<string, V8ScriptCoverage[]>();
     for (const filePath of files) {
         const data = JSON.parse(await readFile(filePath, "utf-8")) as {
@@ -195,7 +201,12 @@ for (const [runDir, files] of filesByRun) {
         };
         for (const script of data.result) {
             if (!script.url.startsWith("file://")) continue;
-            if (!script.url.includes(libraryMarker)) continue;
+
+            // Aggregate ScriptCoverage records across every dump produced by this run.
+            // Restrict to files within this run's library, matching the filter that
+            // `make-metrics-db.ts` uses when populating the `branches` table.
+            if (!config.shouldInstrument(script.url)) continue;
+
             const arr = byUrl.get(script.url) ?? [];
             arr.push(script);
             byUrl.set(script.url, arr);
