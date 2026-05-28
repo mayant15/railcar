@@ -5,7 +5,7 @@
     "description": "Ad-hoc scripts for Railcar development and evaluation",
     "dependencies": {
         "@babel/core": "7.28.5",
-        "@babel/generator": "7.29.1",
+        "@babel/generator": "7.28.5",
         "@babel/types": "7.28.5",
         "yoctocolors": "2.1.2"
     },

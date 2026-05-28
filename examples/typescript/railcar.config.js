@@ -1,7 +1,7 @@
 const { makeInvalidErrorMessageOracle } = require("@railcar/support");
 
 module.exports = {
-    shouldInstrument: (f) => f.includes("typescript"),
+    shouldInstrument: (f) => f.includes("node_modules/typescript"),
     isBug: makeInvalidErrorMessageOracle([
         "maximum call stack size exceeded",
         "host.onunrecoverableconfigfilediagnostic is not a function",
