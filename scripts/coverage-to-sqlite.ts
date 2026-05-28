@@ -88,15 +88,26 @@ function parseRunDir(name: string): RunMeta {
 
 const db = new DatabaseSync(dbPath);
 db.exec("PRAGMA journal_mode = WAL");
+db.exec("PRAGMA foreign_keys = ON");
 
+// Recreate from scratch so successive runs of this script don't leave
+// stale rows around (the previous `IF NOT EXISTS` made this script
+// silently append duplicates).
+db.exec("DROP TABLE IF EXISTS coverage");
+// Note: SQLite foreign keys require the referenced column to be UNIQUE
+// or PRIMARY KEY. `branches.id` is intentionally non-unique (see
+// `make-metrics-db.ts`), so we can't use a real FK here. We enforce
+// integrity instead with a post-insert assertion below.
 db.exec(`
-  CREATE TABLE IF NOT EXISTS coverage (
+  CREATE TABLE coverage (
     branch_id TEXT NOT NULL,
     run_id INTEGER NOT NULL,
     schema TEXT NOT NULL,
-    hitcount INTEGER NOT NULL
-  )
+    hitcount INTEGER NOT NULL CHECK (hitcount >= 0)
+  ) STRICT
 `);
+db.exec("CREATE INDEX idx_coverage_branch_id ON coverage(branch_id)");
+db.exec("CREATE INDEX idx_coverage_run_schema ON coverage(run_id, schema)");
 
 const insert = db.prepare(`
   INSERT INTO coverage (branch_id, run_id, schema, hitcount)
@@ -233,6 +244,19 @@ console.assert(
     `expected at least ${pending.length} rows in coverage, got ${count}`,
 );
 console.assert(pending.length > 0, "no rows were inserted");
+
+// SQLite can't express a FK on `coverage.branch_id -> branches.id`
+// because `branches.id` isn't unique, so check for orphans explicitly.
+const { orphans } = db
+    .prepare(`
+        SELECT COUNT(*) as orphans FROM coverage
+        WHERE branch_id NOT IN (SELECT id FROM branches)
+    `)
+    .get() as { orphans: number };
+console.assert(
+    orphans === 0,
+    `found ${orphans} coverage rows whose branch_id has no matching row in branches`,
+);
 
 db.close();
 
