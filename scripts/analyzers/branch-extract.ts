@@ -151,7 +151,7 @@ export class BranchExtractor {
                 enter(path: NodePath<IfStatement>) {
                     self.emit(path.get("consequent"), "If", 0);
                     if (path.node.alternate) {
-                        self.emit(path.get("consequent") as NodePath, "If", 1);
+                        self.emit(path.get("alternate") as NodePath, "If", 1);
                     }
                 },
                 exit(path: NodePath<IfStatement>) {
@@ -187,7 +187,7 @@ export class BranchExtractor {
                         self.emit(
                             path.get("handler.body") as NodePath,
                             "Try",
-                            1
+                            1,
                         );
                     }
                     if (path.node.finalizer) {
