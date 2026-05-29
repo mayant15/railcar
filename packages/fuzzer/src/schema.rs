@@ -102,13 +102,20 @@ impl From<&Type> for TypeKind {
 type ObjectShape = BTreeMap<String, Type>;
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct ArrayType {
+    element: Box<Type>,
+    size_hint: Option<usize>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub enum Type {
     Number,
     String,
     Boolean,
     Object(ObjectShape),
     Class(EndpointName),
-    Array(Box<Type>),
+    Array(ArrayType),
     Undefined,
     Null,
     Function,
@@ -217,7 +224,7 @@ impl TypeGuess {
         true
     }
 
-    fn sample_any_type<R: Rand>(rand: &mut R) -> Option<Type> {
+    fn sample_any_type<R: Rand>(rand: &mut R) -> Type {
         rand.choose([
             Type::Number,
             Type::String,
@@ -225,32 +232,40 @@ impl TypeGuess {
             Type::Undefined,
             Type::Null,
             Type::Object(BTreeMap::new()),
-            Type::Array(Box::new(Type::Number)), // TODO: this allocation is sad but oh well...
+            Type::Array(ArrayType {
+                element: Box::new(Type::Number),
+                size_hint: None,
+            }), // TODO: this allocation is sad but oh well...
             Type::Function,
         ])
+        .unwrap() // This should never fail if choices are non-empty.
     }
 
-    pub fn sample_const_type<R: Rand>(&self, rand: &mut R) -> Option<Type> {
+    // NOTE(unsound): for the fuzzer to keep making progress, we keep this function a bit liberal.
+    //
+    // It never fails, creating a close approximation to the type if necessary. Currently, only
+    // classes cannot be const instantiated (since they need constructor calls). Instead, we return
+    // empty objects. For arrays of classes, we return empty arrays. These heuristics try to
+    // minimize the number of false positives due to wrong run-time types.
+    pub fn sample_const_type<R: Rand>(&self, rand: &mut R) -> Type {
         if self.is_any {
             return Self::sample_any_type(rand);
         }
-        if !self.is_const_able() {
-            return None;
+
+        if self.is_only_class() {
+            return Type::Object(BTreeMap::new());
         }
 
         let guess = self.strip_class(rand);
-
-        let Ok(kind) = guess.kind.sample(rand) else {
-            return None;
-        };
+        let kind = guess.kind.sample(rand).unwrap();
 
         match kind {
-            TypeKind::Undefined => Some(Type::Undefined),
-            TypeKind::Number => Some(Type::Number),
-            TypeKind::String => Some(Type::String),
-            TypeKind::Boolean => Some(Type::Boolean),
-            TypeKind::Null => Some(Type::Null),
-            TypeKind::Function => Some(Type::Function),
+            TypeKind::Undefined => Type::Undefined,
+            TypeKind::Number => Type::Number,
+            TypeKind::String => Type::String,
+            TypeKind::Boolean => Type::Boolean,
+            TypeKind::Null => Type::Null,
+            TypeKind::Function => Type::Function,
 
             TypeKind::Object => {
                 assert!(guess.object_shape.is_some());
@@ -258,17 +273,20 @@ impl TypeGuess {
 
                 let mut props = BTreeMap::new();
                 for (key, guess) in shape {
-                    props.insert(key.clone(), guess.sample_const_type(rand)?);
+                    props.insert(key.clone(), guess.sample_const_type(rand));
                 }
 
-                Some(Type::Object(props))
+                Type::Object(props)
             }
 
             TypeKind::Array => {
                 assert!(guess.array_value_type.is_some());
                 let guess = guess.array_value_type.unwrap();
 
-                Some(Type::Array(Box::new(guess.sample_const_type(rand)?)))
+                Type::Array(ArrayType {
+                    element: Box::new(guess.sample_const_type(rand)),
+                    size_hint: if guess.is_only_class() { Some(0) } else { None },
+                })
             }
 
             TypeKind::Class => {

@@ -340,14 +340,7 @@ impl ApiSeq {
 
             // At this point we either chose to add a constant or nothing else worked.
             // A class can only get to this point if there is no API in the schema to produce it.
-            //
-            // NOTE(unsound): If `guess.sample_const_type()` fails, i.e., the guess is not
-            // const-able (maybe object with class properties), then we pass in `undefined` instead.
-            let const_type = if let Some(const_type) = guess.sample_const_type(rand) {
-                const_type
-            } else {
-                Type::Undefined
-            };
+            let const_type = guess.sample_const_type(rand);
             *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(const_type);
         }
 

@@ -109,9 +109,12 @@ export const Types = {
         };
     },
 
-    array(value: Type): Type {
+    array(value: Type, sizeHint?: number): Type {
         return {
-            Array: value,
+            Array: {
+                element: value,
+                sizeHint: sizeHint ?? null,
+            },
         };
     },
 };
@@ -175,7 +178,7 @@ export const Guess = {
         }
 
         if ("Array" in x) {
-            return Guess.array(Guess.exact(x.Array));
+            return Guess.array(Guess.exact(x.Array.element));
         }
 
         throw Error("invalid type");
@@ -338,7 +341,7 @@ export const Guess = {
                 guess.kind.Array !== undefined
                 && guess.kind.Array > 0
                 && guess.arrayValueType !== undefined
-                && Guess.canBe(guess.arrayValueType, query.Array)
+                && Guess.canBe(guess.arrayValueType, query.Array.element)
             )
         }
 

@@ -28,7 +28,10 @@ type ObjectType = {
 };
 
 type ArrayType = {
-    Array: Type;
+    Array: {
+        element: Type,
+        sizeHint: number | null,
+    };
 };
 
 type ClassType = {
@@ -54,6 +57,8 @@ export type Signature = {
     callconv: CallConvention;
 };
 
+// NOTE: Guesses never flow from Rust to TypeScript. That serialization makes optional fields null.
+// We only handle `undefined`, or optional fields.
 export type TypeGuess = {
     isAny: boolean;
     kind: Distribution<TypeKind>;
