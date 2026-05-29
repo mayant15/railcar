@@ -121,14 +121,6 @@ export function getCanonicalBranchId(key: CanonicalBranchKey): string {
 export class BranchExtractor {
     file: string;
     arms: BranchArm[] = [];
-    private hasThrowStmt(node: AST.BlockStatement) {
-        for (const stmt of node.body.reverse()) {
-            if (AST.isThrowStatement(stmt)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     constructor(file: string) {
         this.file = file;
@@ -157,21 +149,9 @@ export class BranchExtractor {
             },
             IfStatement: {
                 enter(path: NodePath<IfStatement>) {
-                    const consequentPath = path.get("consequent");
-                    const consequentNode = consequentPath.node;
-                    let consequentHasThrow = false;
-                    if (AST.isBlockStatement(consequentNode)) {
-                        consequentHasThrow = self.hasThrowStmt(consequentNode);
-                    }
-                    self.emit(path.get("consequent"), "If", 0, consequentHasThrow);
+                    self.emit(path.get("consequent"), "If", 0);
                     if (path.node.alternate) {
-                        const alternatePath = path.get("consequent");
-                        const alternateNode = consequentPath.node;
-                        let alternateHasThrow = false;
-                        if (AST.isBlockStatement(alternateNode)) {
-                            alternateHasThrow = self.hasThrowStmt(alternateNode);
-                        }
-                        self.emit(alternatePath as NodePath, "If", 1, alternateHasThrow);
+                        self.emit(path.get("consequent") as NodePath, "If", 1);
                     }
                 },
                 exit(path: NodePath<IfStatement>) {
@@ -194,11 +174,7 @@ export class BranchExtractor {
             },
             Loop: {
                 enter(path: NodePath<Loop>) {
-                    let hasThrow = false;
-                    if (AST.isBlockStatement(path.node.body)) {
-                        hasThrow = self.hasThrowStmt(path.node.body)
-                    }
-                    self.emit(path.get("body") as NodePath, "Loop", 0, hasThrow);
+                    self.emit(path.get("body") as NodePath, "Loop", 0);
                 },
                 exit(path: NodePath<Loop>) {
                     self.emitContinuationAfter(path, "Loop", 1);
@@ -211,8 +187,7 @@ export class BranchExtractor {
                         self.emit(
                             path.get("handler.body") as NodePath,
                             "Try",
-                            1,
-                            self.hasThrowStmt(path.get("handler.body").node)
+                            1
                         );
                     }
                     if (path.node.finalizer) {
@@ -221,7 +196,7 @@ export class BranchExtractor {
                         if (blkStmtNode) {
                             hasThrow = self.hasThrowStmt(blkStmtNode);
                         }
-                        self.emit(path.get("finalizer") as NodePath, "Try", 2, hasThrow);
+                        self.emit(path.get("finalizer") as NodePath, "Try", 2);
                     }
                 },
                 exit(path: NodePath<TryStatement>) {
@@ -302,7 +277,22 @@ export class BranchExtractor {
         };
     }
 
-    private emit(path: NodePath, kind: BranchKind, armIndex: number, hasThrow: boolean = false): void {
+    private hasThrowPath(path: NodePath): boolean {
+        const node = path.node;
+        if (AST.isBlockStatement(node)) {
+            for (const stmt of node.body.reverse()) {
+                if (AST.isThrowStatement(stmt)) {
+                    return true;
+                }
+            }
+            return false;
+        } else if (AST.isStatement(node)) {
+            return AST.isThrowStatement(node);
+        }
+        return false;
+    }
+
+    private emit(path: NodePath, kind: BranchKind, armIndex: number): void {
         const node = path.node;
         if (node.start == null || node.end == null || !node.loc) return;
         const branch = {
@@ -319,7 +309,7 @@ export class BranchExtractor {
             continuation: false,
             functionId: this.computeFunctionId(path),
             ...this.computePath(path),
-            hasThrow: hasThrow
+            hasThrow: this.hasThrowPath(path)
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);
@@ -355,6 +345,7 @@ export class BranchExtractor {
             // come from the anchor's parent, not the anchor itself.
             functionId: this.computeFunctionId(anchor.parentPath ?? anchor),
             ...this.computePath(anchor.parentPath ?? anchor),
+            hasThrow: this.hasThrowPath(anchor)
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);

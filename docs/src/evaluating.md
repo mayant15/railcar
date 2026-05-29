@@ -42,6 +42,7 @@ The `branches` table has the following main columns:
 | path | Text | Source text for all if-condition predicates that must be true to get to this branch. |
 | depth | Integer | Number of if-condition predicates in path. |
 | narrowing_score | Integer | Number of if-condition predicates on path that look like they refine types. |
+| has_throw | Boolean | means a branch has a throw in its 1st-level statements list. |
 
 In addition, there's also columns for source location: file path, start and end line numbers, column
 numbers, and byte offsets.
