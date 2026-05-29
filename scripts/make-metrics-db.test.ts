@@ -16,6 +16,35 @@ import { extract } from "./make-metrics-db.ts";
 
 const FILE = "test.ts";
 
+describe("test has throw function", () => {
+    test("if throw no block", () => {
+        const code = `function foo() {
+            if (true) {
+                if (2 > 1) 
+                    throw new Error(" 2 > 1 "); 
+                if (3 > 2) {
+                    if (4 > 3) {
+                        throw new Error ("in block");
+                    }
+                    throw new Error ("in If");
+                }
+            }
+        }`
+        const { branches } = extract(code, FILE, "test-lib")
+        for (const b of branches) {
+            if (b.kind === "If") {
+                if (b.startLine == 2 && b.endLine == 11) {
+                    assert.equal(b.hasThrow, false);
+                } else if (b.continuation == false) {
+                    assert.equal(b.hasThrow, true);
+                } else {
+                    assert.equal(b.hasThrow, false);
+                }
+            }
+        }
+    })
+})
+
 describe("extract: branch.function_id integrity", () => {
     test("every branch's function_id resolves to a function row", () => {
         // Arrow function nested inside an `if` consequent. This used to

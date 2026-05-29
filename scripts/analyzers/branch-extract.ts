@@ -93,6 +93,7 @@ export type BranchPathStats = {
     path: string;
     depth: number;
     narrowingScore: number;
+    hasThrow: boolean;
 };
 
 export type CanonicalBranchKey = {
@@ -271,6 +272,21 @@ export class BranchExtractor {
         };
     }
 
+    private hasThrowPath(path: NodePath): boolean {
+        const node = path.node;
+        if (AST.isBlockStatement(node)) {
+            for (const stmt of node.body.reverse()) {
+                if (AST.isThrowStatement(stmt)) {
+                    return true;
+                }
+            }
+            return false;
+        } else if (AST.isStatement(node)) {
+            return AST.isThrowStatement(node);
+        }
+        return false;
+    }
+
     private emit(path: NodePath, kind: BranchKind, armIndex: number): void {
         const node = path.node;
         if (node.start == null || node.end == null || !node.loc) return;
@@ -288,6 +304,7 @@ export class BranchExtractor {
             continuation: false,
             functionId: this.computeFunctionId(path),
             ...this.computePath(path),
+            hasThrow: this.hasThrowPath(path)
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);
@@ -323,6 +340,7 @@ export class BranchExtractor {
             // come from the anchor's parent, not the anchor itself.
             functionId: this.computeFunctionId(anchor.parentPath ?? anchor),
             ...this.computePath(anchor.parentPath ?? anchor),
+            hasThrow: this.hasThrowPath(anchor)
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);
