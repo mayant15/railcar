@@ -197,7 +197,6 @@ async function main() {
         "tslib",
         "typescript",
         "@xmldom/xmldom",
-        // "example"
     ];
 
     const dbPath = "metrics.db";

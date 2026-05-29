@@ -50,7 +50,6 @@ import type {
     SwitchStatement,
     TryStatement,
     Expression,
-    
 } from "@babel/types";
 import * as AST from "@babel/types";
 import { generate } from "@babel/generator";
@@ -128,7 +127,6 @@ export class BranchExtractor {
                 return true;
             }
         }
-
         return false;
     }
 
