@@ -532,7 +532,10 @@ mod tests {
                             "Constant": {
                                 "Object": {
                                     "comments": {
-                                        "Array": "String"
+                                        "Array": {
+                                            "element": "String",
+                                            "sizeHint": null,
+                                        }
                                     },
                                     "data": {
                                         "Class": "Uint8Array"
