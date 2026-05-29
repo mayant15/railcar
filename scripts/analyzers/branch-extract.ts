@@ -191,11 +191,6 @@ export class BranchExtractor {
                         );
                     }
                     if (path.node.finalizer) {
-                        const blkStmtNode = path.get("finalizer").node;
-                        let hasThrow = false;
-                        if (blkStmtNode) {
-                            hasThrow = self.hasThrowStmt(blkStmtNode);
-                        }
                         self.emit(path.get("finalizer") as NodePath, "Try", 2);
                     }
                 },
