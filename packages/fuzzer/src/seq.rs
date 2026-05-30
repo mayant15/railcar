@@ -340,7 +340,8 @@ impl ApiSeq {
 
             // At this point we either chose to add a constant or nothing else worked.
             // A class can only get to this point if there is no API in the schema to produce it.
-            *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(guess.sample_const_type(rand)?);
+            let const_type = guess.sample_const_type(rand);
+            *self.arg_mut(call_idx, arg_idx) = ApiCallArg::Constant(const_type);
         }
 
         Ok(())
@@ -361,7 +362,7 @@ impl ApiSeq {
                     let sig = schema.get(&call.name).unwrap();
 
                     // TODO: probability scores will help here
-                    sig.ret.overlaps(guess)
+                    sig.ret.assignable_to(guess)
                 })
                 .map(|call| &call.id),
         )
@@ -372,7 +373,11 @@ impl ApiSeq {
         schema: &'a Schema,
         target: &TypeGuess,
     ) -> Option<(&'a EndpointName, &'a SignatureGuess)> {
-        rand.choose(schema.iter().filter(|(_, sig)| sig.ret.overlaps(target)))
+        rand.choose(
+            schema
+                .iter()
+                .filter(|(_, sig)| sig.ret.assignable_to(target)),
+        )
     }
 
     pub fn is_valid(&self) {
@@ -527,7 +532,10 @@ mod tests {
                             "Constant": {
                                 "Object": {
                                     "comments": {
-                                        "Array": "String"
+                                        "Array": {
+                                            "element": "String",
+                                            "sizeHint": null,
+                                        }
                                     },
                                     "data": {
                                         "Class": "Uint8Array"

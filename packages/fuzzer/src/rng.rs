@@ -69,7 +69,7 @@ pub trait TrySample<T, R: Rand> {
     fn sample(&self, rand: &mut R) -> Result<T>;
 }
 
-impl<K: Clone, R: Rand> TrySample<K, R> for Distribution<K> {
+impl<K: Clone + Ord, R: Rand> TrySample<K, R> for Distribution<K> {
     fn sample(&self, rand: &mut R) -> Result<K> {
         if self.is_empty() {
             bail!("distribution to sample is empty");
@@ -77,6 +77,7 @@ impl<K: Clone, R: Rand> TrySample<K, R> for Distribution<K> {
 
         if self.len() == 1 {
             let key = self.keys().next().unwrap();
+            assert!((1.0 - self[key]).abs() < 0.01);
             return Ok(key.clone());
         }
 

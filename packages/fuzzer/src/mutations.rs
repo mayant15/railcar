@@ -236,11 +236,10 @@ impl<'a, S: HasRand> Mutator<ApiSeq, S> for ConstTypes<'a> {
                 if !matches!(out, ApiCallArg::Constant(_)) {
                     continue;
                 }
-                if state.rand_mut().coinflip(0.5) {
-                    // Resample this constant type
 
-                    let arg_guess = &guess.args[index];
-                    let typ = arg_guess.sample_const_type(state.rand_mut()).unwrap();
+                let arg_guess = &guess.args[index];
+                if state.rand_mut().coinflip(0.5) {
+                    let typ = arg_guess.sample_const_type(state.rand_mut());
                     *out = ApiCallArg::Constant(typ);
                     resampled += 1;
                 }

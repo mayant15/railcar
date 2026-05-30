@@ -178,10 +178,12 @@ function constant(fdp: FuzzedDataProvider, type: Type): unknown {
     }
 
     if ("Array" in type) {
-        const length = fdp.consumeNumberInRange(0, MAX_ARRAY_LENGTH);
+        const length =
+            type.Array.sizeHint ??
+            fdp.consumeIntegralInRange(0, MAX_ARRAY_LENGTH);
         const array = new Array(length);
         for (let i = 0; i < length; ++i) {
-            array[i] = constant(fdp, type.Array);
+            array[i] = constant(fdp, type.Array.element);
         }
         return array;
     }
