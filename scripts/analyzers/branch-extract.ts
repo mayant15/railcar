@@ -42,6 +42,7 @@ import { createHash } from "node:crypto";
 import type { NodePath, PluginTarget } from "@babel/core";
 import type {
     ConditionalExpression,
+    ForStatement,
     Function as BabelFunction,
     IfStatement,
     LogicalExpression,
@@ -50,6 +51,7 @@ import type {
     SwitchStatement,
     TryStatement,
     Expression,
+    WhileStatement,
 } from "@babel/types";
 import * as AST from "@babel/types";
 import { generate } from "@babel/generator";
@@ -87,13 +89,13 @@ export type BranchArm = {
     continuation: boolean;
 
     functionId: string;
+    hasThrow: boolean;
 } & BranchPathStats;
 
 export type BranchPathStats = {
     path: string;
     depth: number;
     narrowingScore: number;
-    hasThrow: boolean;
 };
 
 export type CanonicalBranchKey = {
@@ -232,24 +234,101 @@ export class BranchExtractor {
 
     /**
      * Walk up the parent chain from `path` and collect the predicate
-     * implied by each enclosing `if (T) { consequent } else { alternate }`
-     * frame (i.e. `T` when inside a consequent, `!T` when inside an
-     * alternate). Predicates are returned in outer-to-inner order so the
-     * resulting `&&`-chain reads naturally.
+     * implied by each enclosing branching construct. Predicates are
+     * returned in outer-to-inner order so the resulting `&&`-chain reads
+     * naturally.
+     *
+     * Predicates per construct (mirrors the taxonomy at the top of this
+     * file):
+     *   - If/Conditional: `test` for consequent, `!test` for alternate.
+     *   - Logical: for the right operand, `left` (`&&`), `!left` (`||`),
+     *     or `left == null` (`??`). The left operand always runs, so no
+     *     predicate is added.
+     *   - While/For body: the loop `test` when present. DoWhile, ForIn,
+     *     and ForOf bodies have no statically expressible boolean
+     *     predicate and are skipped.
+     *   - Switch case body: `discriminant === case.test` for a labelled
+     *     case, or `discriminant !== c1.test && discriminant !== c2.test
+     *     && ...` for `default`.
+     *   - Try: no boolean predicate is implied by being inside a try /
+     *     catch / finally block, so nothing is added.
+     *
+     * Traversal stops at the nearest enclosing function (intra-procedural
+     * analysis): predicates from a caller's scope are not visible at the
+     * point a function is entered.
      */
     private computePath(path: NodePath): BranchPathStats {
         const predicates: Expression[] = [];
         let cur: NodePath = path;
         while (cur.parentPath) {
+            // Intra-procedural: don't cross function boundaries.
+            if (cur.isFunction()) break;
+
             const parent = cur.parentPath;
-            if (parent.isIfStatement()) {
-                const parentNode = parent.node as IfStatement;
+            if (parent.isIfStatement() || parent.isConditionalExpression()) {
+                const parentNode = parent.node as
+                    | IfStatement
+                    | ConditionalExpression;
                 if (cur.node === parentNode.consequent) {
                     predicates.unshift(parentNode.test);
                 } else if (cur.node === parentNode.alternate) {
                     predicates.unshift(
                         AST.unaryExpression("!", parentNode.test),
                     );
+                }
+            } else if (parent.isLogicalExpression()) {
+                const parentNode = parent.node as LogicalExpression;
+                if (cur.node === parentNode.right) {
+                    if (parentNode.operator === "&&") {
+                        predicates.unshift(parentNode.left);
+                    } else if (parentNode.operator === "||") {
+                        predicates.unshift(
+                            AST.unaryExpression("!", parentNode.left),
+                        );
+                    } else if (parentNode.operator === "??") {
+                        predicates.unshift(
+                            AST.binaryExpression(
+                                "==",
+                                parentNode.left,
+                                AST.nullLiteral(),
+                            ),
+                        );
+                    }
+                }
+            } else if (parent.isWhileStatement() || parent.isForStatement()) {
+                const parentNode = parent.node as WhileStatement | ForStatement;
+                if (cur.node === parentNode.body && parentNode.test) {
+                    predicates.unshift(parentNode.test);
+                }
+            } else if (parent.isSwitchStatement() && cur.isSwitchCase()) {
+                const switchStmt = parent.node as SwitchStatement;
+                const switchCase = cur.node;
+                if (switchCase.test) {
+                    predicates.unshift(
+                        AST.binaryExpression(
+                            "===",
+                            switchStmt.discriminant,
+                            switchCase.test,
+                        ),
+                    );
+                } else {
+                    // default: discriminant matched none of the labelled
+                    // cases.
+                    const others: AST.Expression[] = switchStmt.cases
+                        .filter((c) => c.test != null)
+                        .map((c) =>
+                            AST.binaryExpression(
+                                "!==",
+                                switchStmt.discriminant,
+                                c.test as Expression,
+                            ),
+                        );
+                    if (others.length > 0) {
+                        const combined = others.reduce((acc, e) =>
+                            AST.logicalExpression("&&", acc, e),
+                        );
+                        predicates.unshift(combined);
+                    }
                 }
             }
             cur = parent;
@@ -304,7 +383,7 @@ export class BranchExtractor {
             continuation: false,
             functionId: this.computeFunctionId(path),
             ...this.computePath(path),
-            hasThrow: this.hasThrowPath(path)
+            hasThrow: this.hasThrowPath(path),
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);
@@ -340,7 +419,7 @@ export class BranchExtractor {
             // come from the anchor's parent, not the anchor itself.
             functionId: this.computeFunctionId(anchor.parentPath ?? anchor),
             ...this.computePath(anchor.parentPath ?? anchor),
-            hasThrow: this.hasThrowPath(anchor)
+            hasThrow: this.hasThrowPath(anchor),
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);

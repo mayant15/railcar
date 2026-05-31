@@ -341,7 +341,7 @@ async function main() {
                 b.path,
                 b.depth,
                 b.narrowingScore,
-                b.hasThrow ? 1 : 0
+                b.hasThrow ? 1 : 0,
             );
         }
         db.exec("COMMIT");

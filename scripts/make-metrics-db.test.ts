@@ -29,21 +29,21 @@ describe("test has throw function", () => {
                     throw new Error ("in If");
                 }
             }
-        }`
-        const { branches } = extract(code, FILE, "test-lib")
+        }`;
+        const { branches } = extract(code, FILE, "test-lib");
         for (const b of branches) {
             if (b.kind === "If") {
-                if (b.startLine == 2 && b.endLine == 11) {
+                if (b.startLine === 2 && b.endLine === 11) {
                     assert.equal(b.hasThrow, false);
-                } else if (b.continuation == false) {
+                } else if (!b.continuation) {
                     assert.equal(b.hasThrow, true);
                 } else {
                     assert.equal(b.hasThrow, false);
                 }
             }
         }
-    })
-})
+    });
+});
 
 describe("extract: branch.function_id integrity", () => {
     test("every branch's function_id resolves to a function row", () => {

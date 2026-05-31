@@ -540,6 +540,145 @@ describe("extract: branches", () => {
             );
             expect(inner?.path).toBe("(a || b) && c");
         });
+
+        test("conditional consequent path is the test expression", () => {
+            const arms = extract("const x = a ? b : c;", FILE);
+            const consequent = pick(arms, "Conditional", 0);
+            expect(consequent.path).toBe("a");
+        });
+
+        test("conditional alternate path is the negated test expression", () => {
+            const arms = extract("const x = a ? b : c;", FILE);
+            const alternate = pick(arms, "Conditional", 1);
+            expect(alternate.path).toBe("!a");
+        });
+
+        test("logical && right path is the left operand", () => {
+            const arms = extract("const x = a && b;", FILE);
+            const right = pick(arms, "Logical", 1);
+            expect(right.path).toBe("a");
+        });
+
+        test("logical || right path is the negated left operand", () => {
+            const arms = extract("const x = a || b;", FILE);
+            const right = pick(arms, "Logical", 1);
+            expect(right.path).toBe("!a");
+        });
+
+        test("logical ?? right path is the nullish check on the left operand", () => {
+            const arms = extract("const x = a ?? b;", FILE);
+            const right = pick(arms, "Logical", 1);
+            expect(right.path).toBe("a == null");
+        });
+
+        test("logical left arm has no implied predicate", () => {
+            const arms = extract("const x = a && b;", FILE);
+            const left = pick(arms, "Logical", 0);
+            expect(left.path).toBe("true");
+        });
+
+        test("while body path is the loop test", () => {
+            const arms = extract("while (a) b;", FILE);
+            const body = pick(arms, "Loop", 0);
+            expect(body.path).toBe("a");
+        });
+
+        test("for body path is the loop test", () => {
+            const arms = extract("for (let i = 0; i < n; i++) sink(i);", FILE);
+            const body = pick(arms, "Loop", 0);
+            expect(body.path).toBe("i < n");
+        });
+
+        test("for loop with no test has no implied predicate", () => {
+            const arms = extract("for (;;) sink();", FILE);
+            const body = pick(arms, "Loop", 0);
+            expect(body.path).toBe("true");
+        });
+
+        test("do/while body has no implied predicate", () => {
+            const arms = extract("do { sink(); } while (a);", FILE);
+            const body = pick(arms, "Loop", 0);
+            expect(body.path).toBe("true");
+        });
+
+        test("for-in body has no implied predicate", () => {
+            const arms = extract("for (const k in o) sink(k);", FILE);
+            const body = pick(arms, "Loop", 0);
+            expect(body.path).toBe("true");
+        });
+
+        test("for-of body has no implied predicate", () => {
+            const arms = extract("for (const k of o) sink(k);", FILE);
+            const body = pick(arms, "Loop", 0);
+            expect(body.path).toBe("true");
+        });
+
+        test("switch case path equates discriminant with case test", () => {
+            const arms = extract(
+                "switch (x) { case 1: a(); break; case 2: b(); break; }",
+                FILE,
+            );
+            const case0 = pick(arms, "Switch", 0);
+            const case1 = pick(arms, "Switch", 1);
+            expect(case0.path).toBe("x === 1");
+            expect(case1.path).toBe("x === 2");
+        });
+
+        test("switch default path negates all labelled case tests", () => {
+            const arms = extract(
+                "switch (x) { case 1: a(); break; case 2: b(); break; default: c(); }",
+                FILE,
+            );
+            // The default case is the last one in source order.
+            const switchArms = arms.filter((a) => a.kind === "Switch");
+            const def = switchArms.reduce((a, b) =>
+                a.startOffset > b.startOffset ? a : b,
+            );
+            expect(def.path).toBe("x !== 1 && x !== 2");
+        });
+
+        test("switch default with no labelled cases has no implied predicate", () => {
+            const arms = extract("switch (x) { default: c(); }", FILE);
+            const def = pick(arms, "Switch", 0);
+            expect(def.path).toBe("true");
+        });
+
+        test("try / catch / finally arms have no implied predicate", () => {
+            const arms = extract(
+                "try { a(); } catch (e) { b(); } finally { c(); }",
+                FILE,
+            );
+            expect(pick(arms, "Try", 0).path).toBe("true");
+            expect(pick(arms, "Try", 1).path).toBe("true");
+            expect(pick(arms, "Try", 2).path).toBe("true");
+        });
+
+        test("branches inside a function do not see predicates from the enclosing scope", () => {
+            // Even though the function is defined inside `if (a)`, calling
+            // it can happen anywhere — predicates from the call-site are
+            // not statically known, so the inner `if (b)` consequent's
+            // path is just `b`, not `a && b`.
+            const arms = extract("if (a) { function f() { if (b) c; } }", FILE);
+            const ifArms = arms.filter(
+                (x) => x.kind === "If" && x.armIndex === 0 && !x.continuation,
+            );
+            const inner = ifArms.find((x) => x.path !== "a");
+            expect(inner?.path).toBe("b");
+        });
+
+        test("FnEntry arms have an empty path regardless of enclosing branches", () => {
+            const arms = extract("if (a) { function f() {} }", FILE);
+            const fnEntries = functionFnEntries(arms);
+            expect(fnEntries).toHaveLength(1);
+            expect(fnEntries[0].path).toBe("true");
+        });
+
+        test("predicates compose across nested branch kinds", () => {
+            // Outer if, inner ternary's consequent: should be `a && b`.
+            const arms = extract("if (a) { const x = b ? c : d; }", FILE);
+            const conseq = pick(arms, "Conditional", 0);
+            expect(conseq.path).toBe("a && b");
+        });
     });
 
     // ----- ID properties --------------------------------------------------
