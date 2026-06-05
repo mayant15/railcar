@@ -252,7 +252,10 @@ async function main() {
             path TEXT NOT NULL,
             depth INTEGER NOT NULL,
             narrowing_score INTEGER NOT NULL,
-            has_throw INTEGER NOT NULL
+            has_throw INTEGER NOT NULL,
+            num_conjuncts INTEGER NOT NULL,
+            num_vars INTEGER NOT NULL,
+            num_consts INTEGER NOT NULL
         ) STRICT
     `);
 
@@ -267,8 +270,9 @@ async function main() {
         INSERT INTO branches (
             id, file, kind, arm_index, start_line, start_col,
             end_line, end_col, start_offset, end_offset,
-            continuation, function_id, path, depth, narrowing_score, has_throw
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            continuation, function_id, path, depth, narrowing_score, has_throw,
+            num_conjuncts, num_vars, num_consts
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const insertFunction = db.prepare(`
@@ -342,6 +346,9 @@ async function main() {
                 b.depth,
                 b.narrowingScore,
                 b.hasThrow ? 1 : 0,
+                b.numConjuncts,
+                b.numVariables,
+                b.numConstants,
             );
         }
         db.exec("COMMIT");

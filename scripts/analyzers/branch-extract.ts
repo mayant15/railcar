@@ -35,9 +35,11 @@
  * https://ampcode.com/threads/T-019dfa11-4277-77f3-be17-4125ea8163e4
  * https://ampcode.com/threads/T-019e2cb3-9730-7581-92c2-ec126bcac3ef
  * https://ampcode.com/threads/T-019e2daf-7c8b-722d-80b6-a9e00dcbc115
+ * https://ampcode.com/threads/T-019e8b07-b75a-729f-aa93-e5b591fcbd05
  */
 
 import { createHash } from "node:crypto";
+import assert from "node:assert";
 
 import type { NodePath, PluginTarget } from "@babel/core";
 import type {
@@ -56,6 +58,17 @@ import type {
 import * as AST from "@babel/types";
 import { generate } from "@babel/generator";
 import { getCanonicalFunctionId } from "./function-extract.ts";
+
+/**
+ * Whether path constraints are converted to conjunctive normal form (CNF) before analysis.
+ */
+const USE_CNF_CONVERSION = false;
+
+/**
+ * Whether various path statistics (like narrowing score, number of conjuncts etc.)
+ * use AST traversal or simpler heuristics over the path string.
+ */
+const USE_AST_PATH_STATS = false;
 
 export type BranchKind =
     | "If"
@@ -96,6 +109,9 @@ export type BranchPathStats = {
     path: string;
     depth: number;
     narrowingScore: number;
+    numConjuncts: number;
+    numVariables: number;
+    numConstants: number;
 };
 
 export type CanonicalBranchKey = {
@@ -224,14 +240,6 @@ export class BranchExtractor {
         });
     }
 
-    // Roughly based on TypeScript's narrowing
-    // https://www.typescriptlang.org/docs/handbook/2/narrowing.html
-    private computeTypeNarrowingScore(str: string) {
-        // TODO: this should take the expression and traverse the AST
-        return str.matchAll(/typeof|instanceof|Array\.isArray| in /g).toArray()
-            .length;
-    }
-
     /**
      * Walk up the parent chain from `path` and collect the predicate
      * implied by each enclosing branching construct. Predicates are
@@ -257,97 +265,38 @@ export class BranchExtractor {
      * analysis): predicates from a caller's scope are not visible at the
      * point a function is entered.
      */
-    private computePath(path: NodePath): BranchPathStats {
-        const predicates: Expression[] = [];
-        let cur: NodePath = path;
-        while (cur.parentPath) {
-            // Intra-procedural: don't cross function boundaries.
-            if (cur.isFunction()) break;
+    private computeBranchPathStats(path: NodePath): BranchPathStats {
+        assert(!USE_AST_PATH_STATS);
+        assert(!USE_CNF_CONVERSION);
 
-            const parent = cur.parentPath;
-            if (parent.isIfStatement() || parent.isConditionalExpression()) {
-                const parentNode = parent.node as
-                    | IfStatement
-                    | ConditionalExpression;
-                if (cur.node === parentNode.consequent) {
-                    predicates.unshift(parentNode.test);
-                } else if (cur.node === parentNode.alternate) {
-                    predicates.unshift(
-                        AST.unaryExpression("!", parentNode.test),
-                    );
-                }
-            } else if (parent.isLogicalExpression()) {
-                const parentNode = parent.node as LogicalExpression;
-                if (cur.node === parentNode.right) {
-                    if (parentNode.operator === "&&") {
-                        predicates.unshift(parentNode.left);
-                    } else if (parentNode.operator === "||") {
-                        predicates.unshift(
-                            AST.unaryExpression("!", parentNode.left),
-                        );
-                    } else if (parentNode.operator === "??") {
-                        predicates.unshift(
-                            AST.binaryExpression(
-                                "==",
-                                parentNode.left,
-                                AST.nullLiteral(),
-                            ),
-                        );
-                    }
-                }
-            } else if (parent.isWhileStatement() || parent.isForStatement()) {
-                const parentNode = parent.node as WhileStatement | ForStatement;
-                if (cur.node === parentNode.body && parentNode.test) {
-                    predicates.unshift(parentNode.test);
-                }
-            } else if (parent.isSwitchStatement() && cur.isSwitchCase()) {
-                const switchStmt = parent.node as SwitchStatement;
-                const switchCase = cur.node;
-                if (switchCase.test) {
-                    predicates.unshift(
-                        AST.binaryExpression(
-                            "===",
-                            switchStmt.discriminant,
-                            switchCase.test,
-                        ),
-                    );
-                } else {
-                    // default: discriminant matched none of the labelled
-                    // cases.
-                    const others: AST.Expression[] = switchStmt.cases
-                        .filter((c) => c.test != null)
-                        .map((c) =>
-                            AST.binaryExpression(
-                                "!==",
-                                switchStmt.discriminant,
-                                c.test as Expression,
-                            ),
-                        );
-                    if (others.length > 0) {
-                        const combined = others.reduce((acc, e) =>
-                            AST.logicalExpression("&&", acc, e),
-                        );
-                        predicates.unshift(combined);
-                    }
-                }
-            }
-            cur = parent;
+        const predicates = computeBranchPredicates(path);
+        const cnf = USE_CNF_CONVERSION
+            ? computePathCNF(predicates)
+            : predicates;
+
+        if (cnf.length === 0) {
+            return {
+                path: "true",
+                depth: 0,
+                narrowingScore: 0,
+                numConjuncts: 0,
+                numConstants: 0,
+                numVariables: 0,
+            };
         }
 
-        if (predicates.length === 0) {
-            return { path: "true", depth: 0, narrowingScore: 0 };
-        }
-
-        const expr = predicates.reduce((acc, e) =>
+        const expr = cnf.reduce((acc, e) =>
             AST.logicalExpression("&&", acc, e),
         );
-
         const str = generate(expr, { comments: false }).code;
 
         return {
             path: str,
             depth: predicates.length,
-            narrowingScore: this.computeTypeNarrowingScore(str),
+            narrowingScore: computeTypeNarrowingScore(str),
+            numConjuncts: computeNumConjuncts(str),
+            numConstants: computeNumConstants(expr),
+            numVariables: computeNumVariables(expr),
         };
     }
 
@@ -382,7 +331,7 @@ export class BranchExtractor {
             endOffset: node.end,
             continuation: false,
             functionId: this.computeFunctionId(path),
-            ...this.computePath(path),
+            ...this.computeBranchPathStats(path),
             hasThrow: this.hasThrowPath(path),
         };
         branch.id = getCanonicalBranchId(branch);
@@ -418,10 +367,226 @@ export class BranchExtractor {
             // it follows — its enclosing function and predicate stack
             // come from the anchor's parent, not the anchor itself.
             functionId: this.computeFunctionId(anchor.parentPath ?? anchor),
-            ...this.computePath(anchor.parentPath ?? anchor),
+            ...this.computeBranchPathStats(anchor.parentPath ?? anchor),
             hasThrow: this.hasThrowPath(anchor),
         };
         branch.id = getCanonicalBranchId(branch);
         this.arms.push(branch);
     }
+}
+
+function computeBranchPredicates(path: NodePath): Expression[] {
+    const predicates: Expression[] = [];
+    let cur: NodePath = path;
+    while (cur.parentPath) {
+        // Intra-procedural: don't cross function boundaries.
+        if (cur.isFunction()) break;
+
+        const parent = cur.parentPath;
+        if (parent.isIfStatement() || parent.isConditionalExpression()) {
+            const parentNode = parent.node as
+                | IfStatement
+                | ConditionalExpression;
+            if (cur.node === parentNode.consequent) {
+                predicates.unshift(parentNode.test);
+            } else if (cur.node === parentNode.alternate) {
+                predicates.unshift(AST.unaryExpression("!", parentNode.test));
+            }
+        } else if (parent.isLogicalExpression()) {
+            const parentNode = parent.node as LogicalExpression;
+            if (cur.node === parentNode.right) {
+                if (parentNode.operator === "&&") {
+                    predicates.unshift(parentNode.left);
+                } else if (parentNode.operator === "||") {
+                    predicates.unshift(
+                        AST.unaryExpression("!", parentNode.left),
+                    );
+                } else if (parentNode.operator === "??") {
+                    predicates.unshift(
+                        AST.binaryExpression(
+                            "==",
+                            parentNode.left,
+                            AST.nullLiteral(),
+                        ),
+                    );
+                }
+            }
+        } else if (parent.isWhileStatement() || parent.isForStatement()) {
+            const parentNode = parent.node as WhileStatement | ForStatement;
+            if (cur.node === parentNode.body && parentNode.test) {
+                predicates.unshift(parentNode.test);
+            }
+        } else if (parent.isSwitchStatement() && cur.isSwitchCase()) {
+            const switchStmt = parent.node as SwitchStatement;
+            const switchCase = cur.node;
+            if (switchCase.test) {
+                predicates.unshift(
+                    AST.binaryExpression(
+                        "===",
+                        switchStmt.discriminant,
+                        switchCase.test,
+                    ),
+                );
+            } else {
+                // default: discriminant matched none of the labelled
+                // cases.
+                const others: AST.Expression[] = switchStmt.cases
+                    .filter((c) => c.test != null)
+                    .map((c) =>
+                        AST.binaryExpression(
+                            "!==",
+                            switchStmt.discriminant,
+                            c.test as Expression,
+                        ),
+                    );
+                if (others.length > 0) {
+                    const combined = others.reduce((acc, e) =>
+                        AST.logicalExpression("&&", acc, e),
+                    );
+                    predicates.unshift(combined);
+                }
+            }
+        }
+        cur = parent;
+    }
+    return predicates;
+}
+
+/**
+ * Flatten an `&&`-chain of predicates into its list of conjuncts.
+ * Before flattening, each predicate is rewritten by pushing `!`
+ * inward via De Morgan's laws so that any `!(a && b)` /
+ * `!(a || b)` inside it can also contribute separate conjuncts.
+ *
+ * What this is NOT:
+ *   - Not full CNF: `||` is never distributed over `&&`, so
+ *     `(a && b) || c` stays as a single opaque conjunct.
+ *   - Not a simplifier: duplicate, trivially-true, and trivially-
+ *     false conjuncts are kept as-is. `!!x` is left intact —
+ *     collapsing it would change JS semantics for non-boolean `x`.
+ *   - Only `&&` and `||` are rewritten. `??`, ternaries,
+ *     comparisons, calls, etc. are treated as opaque atoms.
+ */
+function computePathCNF(predicates: Expression[]): Expression[] {
+    const conjuncts: Expression[] = [];
+    for (const pred of predicates) {
+        const normalized = pushNegationsInward(pred);
+        flattenAnd(normalized, conjuncts);
+    }
+    return conjuncts;
+}
+
+function computeNumConjuncts(expr: string): number {
+    return expr.matchAll(/&&/g).toArray().length;
+}
+
+/**
+ * Rewrite `!(a && b)` → `!a || !b` and `!(a || b)` → `!a && !b`,
+ * recursing into nested `&&` / `||` / `!` nodes. `!!x` is
+ * intentionally preserved (boolean coercion). Non-logical
+ * expressions are returned unchanged.
+ */
+function pushNegationsInward(expr: Expression): Expression {
+    if (AST.isUnaryExpression(expr) && expr.operator === "!") {
+        const inner = expr.argument;
+        if (AST.isLogicalExpression(inner) && inner.operator === "&&") {
+            return AST.logicalExpression(
+                "||",
+                pushNegationsInward(AST.unaryExpression("!", inner.left)),
+                pushNegationsInward(AST.unaryExpression("!", inner.right)),
+            );
+        }
+        if (AST.isLogicalExpression(inner) && inner.operator === "||") {
+            return AST.logicalExpression(
+                "&&",
+                pushNegationsInward(AST.unaryExpression("!", inner.left)),
+                pushNegationsInward(AST.unaryExpression("!", inner.right)),
+            );
+        }
+        // Don't collapse `!!x` — it's JS's idiomatic boolean
+        // coercion and removing it would change semantics for
+        // non-boolean `x`. Still recurse so any nested `&&` / `||`
+        // inside the argument gets normalized.
+        return AST.unaryExpression("!", pushNegationsInward(inner));
+    }
+    if (
+        AST.isLogicalExpression(expr) &&
+        (expr.operator === "&&" || expr.operator === "||")
+    ) {
+        return AST.logicalExpression(
+            expr.operator,
+            pushNegationsInward(expr.left),
+            pushNegationsInward(expr.right),
+        );
+    }
+    return expr;
+}
+
+/**
+ * Append the top-level `&&` conjuncts of `expr` to `out`,
+ * flattening both left- and right-associative chains. Anything
+ * that isn't a top-level `&&` is appended as a single conjunct.
+ */
+function flattenAnd(expr: Expression, out: Expression[]): void {
+    if (AST.isLogicalExpression(expr) && expr.operator === "&&") {
+        flattenAnd(expr.left, out);
+        flattenAnd(expr.right, out);
+    } else {
+        out.push(expr);
+    }
+}
+
+function computeNumVariables(expr: Expression): number {
+    const variables = new Set<string>();
+    findVariableReferences(expr, variables);
+    return variables.size;
+}
+
+function findVariableReferences(expr: Expression, set: Set<string>) {
+    // Skip identifiers that appear as the key of a non-computed
+    // object property/method (`{ foo: x }` — `foo` is a name, not a
+    // binding). Member-expression properties (`obj.foo`) are *not*
+    // skipped: we count both `obj` and `foo`.
+    AST.traverse(expr, (node, ancestors) => {
+        if (!AST.isIdentifier(node)) return;
+
+        const parent = ancestors[ancestors.length - 1];
+        if (
+            parent &&
+            (AST.isObjectProperty(parent.node) ||
+                AST.isObjectMethod(parent.node)) &&
+            !parent.node.computed &&
+            parent.key === "key"
+        ) {
+            return;
+        }
+
+        set.add(node.name);
+    });
+}
+
+function computeNumConstants(expr: Expression): number {
+    let count = 0;
+    AST.traverseFast(expr, (node) => {
+        if (
+            AST.isNumericLiteral(node) ||
+            AST.isStringLiteral(node) ||
+            AST.isBooleanLiteral(node) ||
+            AST.isNullLiteral(node) ||
+            AST.isRegExpLiteral(node) ||
+            AST.isBigIntLiteral(node)
+        ) {
+            count++;
+        }
+    });
+    return count;
+}
+
+/**
+ * Roughly based on TypeScript's narrowing
+ * https://www.typescriptlang.org/docs/handbook/2/narrowing.html
+ */
+function computeTypeNarrowingScore(expr: string) {
+    return expr.matchAll(/typeof|instanceof|Array\.isArray| in /g).toArray()
+        .length;
 }

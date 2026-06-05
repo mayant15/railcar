@@ -4,6 +4,8 @@
  * Generated with Amp.
  * https://ampcode.com/threads/T-019e2cb3-9730-7581-92c2-ec126bcac3ef
  * https://ampcode.com/threads/T-019e389b-a1e9-778a-8ef2-b02cc3462c89
+ * https://ampcode.com/threads/T-019e8b12-64e2-728e-b664-7ad1cfff1ef3
+ * https://ampcode.com/threads/T-019e8b07-b75a-729f-aa93-e5b591fcbd05
  */
 
 import { describe, expect, test } from "bun:test";
@@ -678,6 +680,281 @@ describe("extract: branches", () => {
             const arms = extract("if (a) { const x = b ? c : d; }", FILE);
             const conseq = pick(arms, "Conditional", 0);
             expect(conseq.path).toBe("a && b");
+        });
+    });
+
+    // ----- CNF / conjunct normalization ----------------------------------
+    //
+    // The path string and `numConjuncts` are derived from
+    // `computePathCNF`, which (a) flattens top-level `&&`-chains across
+    // the stack of enclosing predicates and (b) pushes `!` inward via
+    // De Morgan but never collapses `!!x` (which would change JS
+    // semantics on non-boolean `x`). It does NOT distribute `||` over
+    // `&&` — `(a && b) || c` stays a single opaque conjunct.
+
+    describe.skip("CNF normalization", () => {
+        test("compound && test contributes one conjunct per operand", () => {
+            const arms = extract("if (a && b) c;", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("a && b");
+            expect(consequent.numConjuncts).toBe(2);
+        });
+
+        test("deeply nested && flattens into N conjuncts", () => {
+            const arms = extract("if (a && b && c && d) sink();", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("a && b && c && d");
+            expect(consequent.numConjuncts).toBe(4);
+        });
+
+        test("nested if predicates accumulate as separate conjuncts", () => {
+            const arms = extract("if (a) { if (b) { if (c) sink(); } }", FILE);
+            const inner = arms
+                .filter((x) => x.kind === "If" && !x.continuation)
+                .reduce((a, b) => (a.startOffset > b.startOffset ? a : b));
+            expect(inner.path).toBe("a && b && c");
+            expect(inner.numConjuncts).toBe(3);
+        });
+
+        test("|| stays as a single opaque conjunct (no distribution)", () => {
+            const arms = extract("if ((a && b) || c) sink();", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("a && b || c");
+            expect(consequent.numConjuncts).toBe(1);
+        });
+
+        test("!(a && b) becomes a single ||-disjunct", () => {
+            const arms = extract("if (!(a && b)) sink();", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("!a || !b");
+            expect(consequent.numConjuncts).toBe(1);
+        });
+
+        test("!(a || b) splits into two conjuncts", () => {
+            const arms = extract("if (!(a || b)) sink();", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("!a && !b");
+            expect(consequent.numConjuncts).toBe(2);
+        });
+
+        test("!(a || b || c) splits into three conjuncts", () => {
+            const arms = extract("if (!(a || b || c)) sink();", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("!a && !b && !c");
+            expect(consequent.numConjuncts).toBe(3);
+        });
+
+        test("De Morgan recurses through nested mixed && / ||", () => {
+            // !(a && (b || c)) → !a || (!b && !c)
+            // Generator prints && with tighter precedence than ||, so
+            // the inner parens are dropped.
+            const arms = extract("if (!(a && (b || c))) sink();", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("!a || !b && !c");
+            expect(consequent.numConjuncts).toBe(1);
+        });
+
+        test("!!x is preserved (boolean coercion, not simplified)", () => {
+            const arms = extract("if (!!a) sink();", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("!!a");
+            expect(consequent.numConjuncts).toBe(1);
+        });
+
+        test("!!(a || b) keeps the outer ! but rewrites the inner !(a || b)", () => {
+            // The outer `!` sees `!(a || b)` underneath it, which is a
+            // unary, not a `&&`/`||` — so the outer `!` can't be
+            // pushed through and stays put (no `!!`-collapsing). But
+            // we still recurse into the inner expression, and *that*
+            // recursive call sees `!(a || b)` and pushes the inner
+            // `!` through De Morgan. Net: `!(!a && !b)` — still one
+            // conjunct at the top level.
+            const arms = extract("if (!!(a || b)) sink();", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("!(!a && !b)");
+            expect(consequent.numConjuncts).toBe(1);
+        });
+
+        test("De Morgan from one predicate composes with conjuncts from another", () => {
+            // Outer: `a`. Inner: `!(b || c)` → `!b && !c`.
+            // Joined: `a && !b && !c`.
+            const arms = extract("if (a) { if (!(b || c)) sink(); }", FILE);
+            const inner = arms
+                .filter((x) => x.kind === "If" && !x.continuation)
+                .reduce((a, b) => (a.startOffset > b.startOffset ? a : b));
+            expect(inner.path).toBe("a && !b && !c");
+            expect(inner.numConjuncts).toBe(3);
+        });
+
+        test("switch default's &&-chain of `!==`s is flattened into conjuncts", () => {
+            const arms = extract(
+                "switch (x) { case 1: a(); break; case 2: b(); break; case 3: c(); break; default: d(); }",
+                FILE,
+            );
+            const switchArms = arms.filter((a) => a.kind === "Switch");
+            const def = switchArms.reduce((a, b) =>
+                a.startOffset > b.startOffset ? a : b,
+            );
+            expect(def.path).toBe("x !== 1 && x !== 2 && x !== 3");
+            expect(def.numConjuncts).toBe(3);
+        });
+
+        test("?? is treated as an opaque atom (no De Morgan)", () => {
+            // We only push `!` through `&&` / `||`, never through
+            // `??`. So the consequent predicate `!(a ?? b)` stays a
+            // single opaque conjunct rather than being rewritten.
+            const arms = extract("if (!(a ?? b)) sink();", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.path).toBe("!(a ?? b)");
+            expect(consequent.numConjuncts).toBe(1);
+        });
+
+        test("duplicate conjuncts are not deduplicated", () => {
+            const arms = extract("if (a) { if (a) sink(); }", FILE);
+            const inner = arms
+                .filter((x) => x.kind === "If" && !x.continuation)
+                .reduce((a, b) => (a.startOffset > b.startOffset ? a : b));
+            expect(inner.path).toBe("a && a");
+            expect(inner.numConjuncts).toBe(2);
+        });
+
+        test("empty predicate stack produces zero conjuncts", () => {
+            const arms = extract("if (a) b;", FILE);
+            const cont = pick(arms, "If", 2);
+            expect(cont.path).toBe("true");
+            expect(cont.numConjuncts).toBe(0);
+        });
+
+        test("numVariables and numConstants count atoms across all conjuncts", () => {
+            // Path: `a > 1 && b < 2`. Variables: a, b. Constants: 1, 2.
+            const arms = extract("if (a > 1 && b < 2) sink();", FILE);
+            const consequent = pick(arms, "If", 0);
+            expect(consequent.numConjuncts).toBe(2);
+            expect(consequent.numVariables).toBe(2);
+            expect(consequent.numConstants).toBe(2);
+        });
+    });
+
+    // ----- numConstants ---------------------------------------------------
+    //
+    // `numConstants` counts literal nodes anywhere in the (combined)
+    // path expression: numeric, string, boolean, null, regexp, bigint,
+    // and template literals. A template literal counts as one constant
+    // regardless of how many `${}` interpolations it has — its embedded
+    // expressions are counted as variables, not constants.
+
+    describe("numConstants", () => {
+        test("counts a single numeric literal", () => {
+            const arms = extract("if (x === 5) y;", FILE);
+            expect(pick(arms, "If", 0).numConstants).toBe(1);
+        });
+
+        test("counts string, boolean, and null literals", () => {
+            const arms = extract(
+                'if (a === "x" || b === true || c === null) y;',
+                FILE,
+            );
+            expect(pick(arms, "If", 0).numConstants).toBe(3);
+        });
+
+        test("counts a bigint literal", () => {
+            const arms = extract("if (x === 5n) y;", FILE);
+            expect(pick(arms, "If", 0).numConstants).toBe(1);
+        });
+
+        test("counts a regexp literal", () => {
+            const arms = extract("if (/re/.test(s)) y;", FILE);
+            expect(pick(arms, "If", 0).numConstants).toBe(1);
+        });
+
+        test("does not count template literals", () => {
+            const arms = extract("if (s === `foo`) y;", FILE);
+            expect(pick(arms, "If", 0).numConstants).toBe(0);
+        });
+
+        test("template interpolations don't add to the constant count", () => {
+            // biome-ignore lint/suspicious/noTemplateCurlyInString: template string is inside the code to be parsed.
+            const arms = extract("if (s === `foo${x}bar`) y;", FILE);
+            expect(pick(arms, "If", 0).numConstants).toBe(0);
+        });
+
+        test("counts literals used as member indices", () => {
+            const arms = extract("if (arr[0]) y;", FILE);
+            expect(pick(arms, "If", 0).numConstants).toBe(1);
+        });
+
+        test("is zero when the predicate has only identifiers", () => {
+            const arms = extract("if (a && b) c;", FILE);
+            expect(pick(arms, "If", 0).numConstants).toBe(0);
+        });
+
+        test("sums literals across all conjuncts", () => {
+            const arms = extract(
+                "if (a > 1 && b < 2 && c === 3) sink();",
+                FILE,
+            );
+            expect(pick(arms, "If", 0).numConstants).toBe(3);
+        });
+    });
+
+    // ----- numVariables ---------------------------------------------------
+    //
+    // `numVariables` counts the number of *unique* identifier names
+    // referenced in the path expression. Member-expression property
+    // names (`obj.foo` → `obj` and `foo`) are counted; object-literal
+    // keys (`{ foo: x }` → only `x`) are not.
+
+    describe("numVariables", () => {
+        test("counts a single identifier reference", () => {
+            const arms = extract("if (a) b;", FILE);
+            expect(pick(arms, "If", 0).numVariables).toBe(1);
+        });
+
+        test("counts distinct identifiers across conjuncts", () => {
+            const arms = extract("if (a && b && c) y;", FILE);
+            expect(pick(arms, "If", 0).numVariables).toBe(3);
+        });
+
+        test("deduplicates repeated identifier references", () => {
+            const arms = extract("if (a > 1 && a < 10) y;", FILE);
+            expect(pick(arms, "If", 0).numVariables).toBe(1);
+        });
+
+        test("counts member-expression property names", () => {
+            // Both `obj` and `foo` count.
+            const arms = extract("if (obj.foo) y;", FILE);
+            expect(pick(arms, "If", 0).numVariables).toBe(2);
+        });
+
+        test("counts identifiers inside computed member access", () => {
+            const arms = extract("if (obj[key]) y;", FILE);
+            expect(pick(arms, "If", 0).numVariables).toBe(2);
+        });
+
+        test("skips object-literal key identifiers", () => {
+            // `{foo: x}.foo` — `foo` is counted once (as the member
+            // property); its appearance as the object key is skipped.
+            // The value `x` is also counted. Net: {x, foo}.
+            const arms = extract("if (({foo: x}).foo) y;", FILE);
+            expect(pick(arms, "If", 0).numVariables).toBe(2);
+        });
+
+        test("counts identifiers inside computed object keys", () => {
+            // `{[k]: v}.foo` — computed key `k`, value `v`, and member
+            // property `foo` all count.
+            const arms = extract("if (({[k]: v}).foo) y;", FILE);
+            expect(pick(arms, "If", 0).numVariables).toBe(3);
+        });
+
+        test("counts the operand of typeof", () => {
+            const arms = extract('if (typeof x === "string") y;', FILE);
+            expect(pick(arms, "If", 0).numVariables).toBe(1);
+        });
+
+        test("counts every identifier in a method-call predicate", () => {
+            // `Array`, `isArray`, and `x`.
+            const arms = extract("if (Array.isArray(x)) y;", FILE);
+            expect(pick(arms, "If", 0).numVariables).toBe(3);
         });
     });
 
