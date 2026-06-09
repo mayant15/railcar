@@ -14,6 +14,7 @@ use anyhow::{bail, Result};
 use libafl::executors::ExitKind;
 use libafl_bolts::shmem::{ShMem, ShMemDescription, ShMemProvider, StdShMem, StdShMemProvider};
 use nix::{
+    fcntl::OFlag,
     sys::wait::WaitStatus,
     unistd::{ForkResult, Pid},
 };
@@ -133,8 +134,14 @@ impl Child {
 
         let worker_script = find_worker_script()?;
 
-        let (in_read, in_write) = unistd::pipe()?;
-        let (out_read, out_write) = unistd::pipe()?;
+        // Use O_CLOEXEC so that these pipe fds are not inherited by unrelated
+        // children. Without this, a freshly forked+exec'd node worker would
+        // inherit the parent-side pipe fds of previously-spawned workers, which
+        // both leaks descriptors and can keep pipe ends open longer than
+        // intended. The fds we actually want the child to keep are explicitly
+        // dup'd onto stdin/stdout below via `Stdio::from`, which clears CLOEXEC.
+        let (in_read, in_write) = unistd::pipe2(OFlag::O_CLOEXEC)?;
+        let (out_read, out_write) = unistd::pipe2(OFlag::O_CLOEXEC)?;
         let result = unsafe { unistd::fork() }?;
         match result {
             ForkResult::Parent { child } => {

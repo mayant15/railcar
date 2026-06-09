@@ -241,11 +241,22 @@ function setupHooks(filter: (_: string) => boolean) {
 // msgpack messages on stdout.
 global.console = new Console(process.stderr, process.stderr);
 
+// Serialize message handling. `handleMessage` is async (e.g. `Init` performs
+// dynamic imports), so without a queue a second "data" event could run a handler
+// that interleaves with an in-flight one and corrupt `_recvBuf` or executor
+// state. Chaining onto a promise guarantees handlers run one at a time, in order.
+let _handlerQueue: Promise<void> = Promise.resolve();
+
 process.stdin.on("data", (buf) => {
     const msg = recv(buf);
     if (msg === null) {
         // buffer is incomplete, wait for remaining bytes
         return;
     }
-    handleMessage(msg);
+    _handlerQueue = _handlerQueue.then(() => handleMessage(msg)).catch((err) => {
+        // Fail loudly and exit instead of leaving an unhandled rejection. The
+        // Rust parent treats a closed pipe as a crash and restarts the worker.
+        console.error("[RAILCAR_WORKER_FATAL]", err);
+        process.exit(1);
+    });
 });

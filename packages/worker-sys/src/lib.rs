@@ -18,8 +18,12 @@ impl SharedExecutionData {
     #[napi(constructor)]
     pub fn new(env: Env, desc: JsObject) -> napi::Result<Self> {
         let desc: ShMemDescription = env.from_js_value(desc)?;
-        let mut provider = StdShMemProvider::new().unwrap();
-        let shmem = provider.shmem_from_description(desc).unwrap();
+        let mut provider = StdShMemProvider::new().map_err(|e| {
+            napi::Error::from_reason(format!("failed to create shmem provider: {}", e))
+        })?;
+        let shmem = provider
+            .shmem_from_description(desc)
+            .map_err(|e| napi::Error::from_reason(format!("failed to attach to shmem: {}", e)))?;
         Ok(Self { shmem })
     }
 
