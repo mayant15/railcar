@@ -66,7 +66,10 @@ def main():
     ITER = args.iter
 
     base_port = PORT 
-    timeout = f"timeout --signal=SIGTERM --kill-after=3s {TIME}"
+    # SIGINT lets LibAFL's restarter clean up its shmem (IPC_RMID) on exit;
+    # SIGTERM/SIGKILL skip that path and leak the staterestorer + LLMP maps.
+    # --kill-after escalates to SIGKILL only if graceful shutdown hangs.
+    timeout = f"timeout --signal=SIGINT --kill-after=30s {TIME}"
     cargo_cmd_base = (
         "cargo run --release --bin railcar -- "
         f"--config railcar.config.js {f'--schema {SCHEMA}' if SCHEMA != "" else ''} "

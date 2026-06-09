@@ -106,7 +106,14 @@ class Railcar(Tool):
         cmd = []
 
         if args.timeout is not None:
-            cmd += ["timeout", "-s", "KILL", f"{args.timeout}s"]
+            # Use SIGINT (not SIGKILL/SIGTERM) so LibAFL's restarter can run its
+            # Drop-based cleanup and IPC_RMID its shmem segments. The restarter
+            # parent ignores SIGINT specifically so it survives the fuzzer child's
+            # exit and frees the staterestorer + LLMP maps; SIGKILL/SIGTERM skip
+            # that path and orphan ~256MB+ segments per run, which accumulate
+            # node-wide on shared clusters. --kill-after escalates to SIGKILL only
+            # if graceful shutdown hangs.
+            cmd += ["timeout", "-s", "INT", "--kill-after=30s", f"{args.timeout}s"]
 
         cmd += [
             "./target/release/railcar",
