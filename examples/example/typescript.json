@@ -1,0 +1,13 @@
+{
+    "test": {
+        "args": [{
+            "isAny": false,
+            "kind": {"String": 0.5, "Object": 0.5},
+            "objectShape": {
+                "prop": {"isAny": false, "kind": {"Number": 1.0}}
+            }
+        }],
+        "ret": {"kind": {"Undefined": 1.0}, "isAny": false},
+        "callconv": "Free"
+    }
+}

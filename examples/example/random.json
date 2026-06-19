@@ -1,0 +1,7 @@
+{
+    "test": {
+        "args": [{"kind": {}, "isAny": true}],
+        "ret": {"kind": {}, "isAny": true},
+        "callconv": "Free"
+    }
+}
