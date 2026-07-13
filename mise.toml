@@ -32,28 +32,11 @@ run = [
 
 [tasks.build]
 description = "Build the fuzzer and associated tools"
-run = """
-  bun i # install dependencies
-
-  # always build the workspace in release mode
-  cargo build --release
-
-  cd packages/worker-sys
-  bun run build
-  cd ../..
-
-  bunx tsc -b # build js parts
-  bun i # install built binaries to node_modules/.bin
-"""
+run = "bun run build"
 
 [tasks.fix]
 description = "Format and lint"
-run = [
-  "bunx biome format --write .",
-  "bunx biome lint --error-on-warnings --write .",
-  "cargo fmt",
-  "cargo clippy"
-]
+run = "bun run fix"
 
 [tasks.publish]
 description = "Prepare and publish npm packages"
