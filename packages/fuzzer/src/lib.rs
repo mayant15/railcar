@@ -32,6 +32,7 @@ pub mod scheduler;
 pub mod schema;
 pub mod seq;
 pub mod shmem;
+pub mod single;
 pub mod worker;
 
 pub use worker::Worker;
@@ -62,6 +63,7 @@ const MIN_INPUT_LENGTH: NonZero<usize> = NonZero::new(1024).unwrap();
 pub enum FuzzerMode {
     Bytes,
     Sequence,
+    Single,
 }
 
 #[derive(Serialize, Deserialize)]

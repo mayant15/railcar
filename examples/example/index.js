@@ -1,16 +1,16 @@
 export function test(x) {
-    console.log("---- test ----")
+    // console.log("---- test ----")
     if (typeof x === "object") {
         if (x === null) {
-            console.log("null")
+            // console.log("null")
         } else if (x.prop !== 0) {
-            console.log(typeof x, "x.prop =", x.prop)
+            // console.log(typeof x, "x.prop =", x.prop)
         } else {
-            console.log(typeof x, "keys", Object.keys(x))
+            // console.log(typeof x, "keys", Object.keys(x))
         }
     } else if (typeof x === "string") {
-        console.log("string")
+        // console.log("string")
     } else {
-        console.log("unknown", typeof x)
+        // console.log("unknown", typeof x)
     }
 }

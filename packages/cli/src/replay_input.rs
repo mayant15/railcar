@@ -74,6 +74,8 @@ where
 {
     match config.mode {
         FuzzerMode::Bytes => launch_impl::<BytesInput, _>(config, shmem_provider, monitor, cores),
-        FuzzerMode::Sequence => launch_impl::<ApiSeq, _>(config, shmem_provider, monitor, cores),
+        FuzzerMode::Sequence | FuzzerMode::Single => {
+            launch_impl::<ApiSeq, _>(config, shmem_provider, monitor, cores)
+        }
     }
 }

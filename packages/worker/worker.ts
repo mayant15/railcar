@@ -22,7 +22,7 @@ declare global {
     };
 }
 
-type Mode = "bytes" | "sequence";
+type Mode = "bytes" | "sequence" | "single";
 
 type ShMemDescription = {
     size: number;
@@ -79,7 +79,7 @@ async function init(args: InitArgs): Promise<Schema | null> {
         _executor = new BytesExecutor(_shmem);
         await _executor.init(args.entrypoint, config.isBug, args.replay);
         return null;
-    } else if (args.mode === "sequence") {
+    } else if (args.mode === "sequence" || args.mode === "single") {
         _executor = new SequenceExecutor(_shmem);
         const schema = await _executor.init(args.entrypoint, config.isBug, {
             schemaFile: args.schemaFile ?? undefined,

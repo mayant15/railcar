@@ -236,6 +236,7 @@ where
     match config.mode {
         FuzzerMode::Bytes => railcar::bytes::launch(config, shmem_provider, monitor, cores),
         FuzzerMode::Sequence => railcar::launch_seq_fuzzer(config, shmem_provider, monitor, cores),
+        FuzzerMode::Single => railcar::single::launch(config, shmem_provider, monitor, cores),
     }
 }
 

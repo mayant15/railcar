@@ -155,6 +155,43 @@ impl ApiSeq {
         }
     }
 
+    /// Create a new API sequence with a single call and constant inputs.
+    ///
+    /// Only calls free functions, with const-able arguments.
+    pub fn create_single<R: Rand>(rand: &mut R, schema: &Schema, fuzz: Vec<u8>) -> Result<Self> {
+        let endpoints = schema.iter().filter(|(_, guess)| {
+            if guess.builtin.unwrap_or(false) {
+                return false;
+            }
+            if !matches!(guess.callconv, CallConvention::Free) {
+                return false;
+            }
+            guess.args.iter().all(TypeGuess::is_const_able)
+        });
+
+        let Some((name, sig)) = rand.choose(endpoints) else {
+            bail!("no viable endpoints for singleton sequences")
+        };
+
+        let args: Vec<ApiCallArg> = sig
+            .args
+            .iter()
+            .map(|arg| ApiCallArg::Constant(arg.sample_const_type(rand)))
+            .collect();
+
+        let call = ApiCall {
+            id: Self::next_id(),
+            name: name.clone(),
+            conv: sig.callconv,
+            args,
+        };
+
+        Ok(ApiSeq {
+            fuzz,
+            seq: vec![call],
+        })
+    }
+
     /// Create a new API sequence from scratch, exercising at least one library API.
     pub fn create<R: Rand>(rand: &mut R, schema: &Schema, fuzz: Vec<u8>) -> Result<Self> {
         // Just a list of library APIs, excluding built-ins
