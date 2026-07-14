@@ -91,7 +91,7 @@ async function loadConfig(project: string) {
     return makeRailcarConfig(config);
 }
 
-function findConfigPath(project: string) {
+function getExampleDir(project: string): string {
     const example = (() => {
         switch (project) {
             case "@angular/compiler":
@@ -105,14 +105,26 @@ function findConfigPath(project: string) {
         }
     })();
 
-    const conf = path.join(
+    return path.normalize(path.join(
         import.meta.dirname,
         "..",
         "examples",
         example,
-        "railcar.config.js",
-    );
-    return path.normalize(conf);
+    ));
+}
+
+function findConfigPath(project: string) {
+    const dir = getExampleDir(project)
+    return path.join(dir, "railcar.config.js")
+}
+
+function findEntryPoint(project: string) {
+    const dir = getExampleDir(project)
+
+    const index = path.join(dir, "index.js")
+    if (existsSync(index)) return index
+
+    return new URL(import.meta.resolve(project)).pathname;
 }
 
 async function analyzeProject(
@@ -173,10 +185,6 @@ async function analyzeProject(
     hooks.deregister();
 
     return extracted;
-}
-
-function findEntryPoint(project: string) {
-    return new URL(import.meta.resolve(project)).pathname;
 }
 
 async function main() {
