@@ -72,7 +72,16 @@ def find_schema(project: str, kind: str) -> Optional[str]:
     return schema if path.exists(schema) else None
 
 
+def find_custom_library_index(project: str) -> str | None:
+    p = path.join(get_examples_dir(), project, "index.js")
+    return p if path.exists(p) else None
+
+
 def find_library_index(project: str) -> str:
+    custom = find_custom_library_index(project)
+    if custom is not None:
+        return custom
+
     if project == "turf":
         project = "@turf/turf"
     elif project == "angular":

@@ -87,9 +87,9 @@ function parseRunDir(name: string): RunMeta {
         throw new Error(`unexpected run directory name: ${name}`);
     }
     const [rawLibrary, mode, schema, , runIdStr] = tokens;
-    if (mode !== "sequence") {
+    if (mode !== "sequence" && mode !== "single" && mode !== "bytes") {
         throw new Error(
-            `expected mode 'sequence' in run directory name '${name}', got '${mode}'`,
+            `unexpected mode ${mode} in run directory name '${name}'`,
         );
     }
     const runId = Number(runIdStr);

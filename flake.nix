@@ -21,6 +21,7 @@
               rust-analyzer
               nodejs_24
               bun
+              python3
             ];
           };
         }
