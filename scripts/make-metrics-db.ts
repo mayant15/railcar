@@ -105,24 +105,21 @@ function getExampleDir(project: string): string {
         }
     })();
 
-    return path.normalize(path.join(
-        import.meta.dirname,
-        "..",
-        "examples",
-        example,
-    ));
+    return path.normalize(
+        path.join(import.meta.dirname, "..", "examples", example),
+    );
 }
 
 function findConfigPath(project: string) {
-    const dir = getExampleDir(project)
-    return path.join(dir, "railcar.config.js")
+    const dir = getExampleDir(project);
+    return path.join(dir, "railcar.config.js");
 }
 
 function findEntryPoint(project: string) {
-    const dir = getExampleDir(project)
+    const dir = getExampleDir(project);
 
-    const index = path.join(dir, "index.js")
-    if (existsSync(index)) return index
+    const index = path.join(dir, "index.js");
+    if (existsSync(index)) return index;
 
     return new URL(import.meta.resolve(project)).pathname;
 }

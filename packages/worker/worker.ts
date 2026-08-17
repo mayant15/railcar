@@ -239,6 +239,7 @@ function setupHooks(filter: (_: string) => boolean) {
 
 // Write all logs to stderr instead of stdout. The Rust parent process reads for
 // msgpack messages on stdout.
+// @ts-expect-error
 global.console = new Console(process.stderr, process.stderr);
 
 process.stdin.on("data", (buf) => {
