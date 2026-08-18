@@ -25,6 +25,17 @@ async function loadConfig(path: string) {
 }
 
 async function findEntryPoint(project: string) {
+    // Needs TypeScript 5, not TypeScript 7
+    if (project === "typescript") {
+        return path.normalize(
+            path.join(
+                import.meta.dirname,
+                "..", "examples", "node_modules", "typescript",
+                "lib", "typescript.js",
+            )
+        )
+    }
+
     let name = project
     switch (name) {
         case "turf": {

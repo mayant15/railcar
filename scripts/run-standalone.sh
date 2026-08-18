@@ -13,7 +13,6 @@ PROJECTS=(
   redux
   sharp
   tslib
-  typescript
   xml2js
   xmldom
 
@@ -24,6 +23,7 @@ PROJECTS=(
   # lodash
   # pako
   # turf
+  # typescript
 )
 
 run_project_schema() {

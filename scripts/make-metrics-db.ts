@@ -138,13 +138,9 @@ async function analyzeProject(
     const hooks = registerHooks({
         load(url, context, nextLoad) {
             const def = nextLoad(url, context);
-            if (!def.format) {
-                console.warn("missing format info for", url);
-                return def;
-            }
-
             const shouldAnalyze =
-                (def.format.startsWith("commonjs") ||
+                (def.format === undefined ||
+                    def.format.startsWith("commonjs") ||
                     def.format.startsWith("module")) &&
                 config.shouldInstrument(url);
 
