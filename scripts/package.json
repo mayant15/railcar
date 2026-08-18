@@ -7,10 +7,12 @@
         "@babel/core": "7.28.5",
         "@babel/generator": "7.28.5",
         "@babel/types": "7.28.5",
+        "chance": "1.1.13",
         "yoctocolors": "2.1.2"
     },
     "devDependencies": {
         "@types/babel__core": "7.20.5",
+        "@types/chance": "1.1.8",
         "@types/istanbul-lib-report": "3.0.3",
         "@types/istanbul-reports": "3.0.4"
     },
